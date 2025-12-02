@@ -3,14 +3,16 @@
     "variant": "Herbs",
     "slug": "skewers-herbs",
     "category": "skewers",
-    "description": "Perfect for grill or pan: Our planted.chicken skewers bring juicy, smoky flavor with a fresh twist. Marinated with herbs and lemon zest, made from just a few natural ingredients: peas, rapeseed oil, water, salt and vitamin B12.",
-    "price": "CHF 6.95",
+    "description": "Juicy, smoky skewers marinated with herbs and lemon zest. Perfect for grill or pan.",
+    "longDescription": "Fire up the grill with our planted.skewers Herbs. Marinated with fresh herbs and zesty lemon, they deliver juicy, smoky flavor with every bite. Made from just a few natural ingredients - peas, rapeseed oil, water, salt, and vitamin B12 - they're perfect for summer BBQs or quick weeknight dinners.",
     "weight": "200g",
     "color": "olive",
     "isNew": false,
-    "inStock": false,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/skewers-pdp.png?v=1743510071"
     },
+    "features": ["100% Plant-Based", "Perfect for Grilling", "High in Protein", "Made in Switzerland"],
+    "ingredients": "Water, pea protein, rapeseed oil, lemon zest, herbs, pea fiber, natural flavoring, salt, vitamin B12",
+    "preparation": "Grill or pan-fry for 8-10 minutes, turning occasionally. Serve with tzatziki, fresh salad, and warm pita bread.",
     "order": 16
 }

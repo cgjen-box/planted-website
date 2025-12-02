@@ -3,14 +3,16 @@
     "variant": "Classic",
     "slug": "nuggets",
     "category": "nuggets",
-    "description": "Golden-brown and crispy on the outside, juicy and flavorful on the inside - our planted.nuggets in the perfect two-bite size are the better choice for your next snack.",
-    "price": "CHF 7.95",
+    "description": "Golden-brown and crispy outside, juicy and flavorful inside. The perfect two-bite snack.",
+    "longDescription": "Our planted.nuggets are everything you want in a nugget. Golden-brown and perfectly crispy on the outside, juicy and full of flavor on the inside. Sized for the perfect two-bite experience, they're the better choice for snacking, dipping, or adding to your favorite meals. Quality ingredients, clear conscience.",
     "weight": "8 pieces",
     "color": "yellow",
     "isNew": true,
-    "inStock": true,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/nuggets-pack.png?v=1758813102"
     },
+    "features": ["100% Plant-Based", "Crispy Coating", "Perfect for Snacking", "Made in Switzerland"],
+    "ingredients": "Water, pea protein, wheat flour, breadcrumbs, rapeseed oil, pea fiber, natural flavoring, salt, vitamin B12",
+    "preparation": "Pan-fry for 3-4 minutes until crispy, or bake at 200°C for 10-12 minutes. Serve with your favorite dipping sauces.",
     "order": 21
 }

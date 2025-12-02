@@ -3,14 +3,16 @@
     "variant": "Crispy Strips",
     "slug": "chicken-crispy-strips",
     "category": "chicken",
-    "description": "Juicy, fibrous, and extra crispy chicken-style strips made from natural ingredients including peas, rapeseed oil, and seasonings. Perfect as a topping for fresh salads.",
-    "price": "CHF 7.95",
+    "description": "Juicy, fibrous, and extra crispy strips made from natural ingredients. Perfect as a topping or snack.",
+    "longDescription": "Crispy on the outside, tender on the inside. Our planted.chicken Crispy Strips deliver that satisfying crunch you've been craving. Made from peas and rapeseed oil with a golden coating, they're perfect for salads, wraps, or straight from the pan as a delicious snack.",
     "weight": "8 pieces",
     "color": "coral",
     "isNew": true,
-    "inStock": true,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/tenders-new.png?v=1747136517"
     },
+    "features": ["100% Plant-Based", "Extra Crispy", "High in Protein", "Made in Switzerland"],
+    "ingredients": "Water, pea protein, rapeseed oil, wheat flour, breadcrumbs, pea fiber, natural flavoring, salt, vitamin B12",
+    "preparation": "Pan-fry or bake at 200°C for 8-10 minutes until golden and crispy. Serve with your favorite dipping sauce.",
     "order": 4
 }

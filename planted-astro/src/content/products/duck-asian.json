@@ -3,14 +3,16 @@
     "variant": "Asian Style",
     "slug": "duck-asian",
     "category": "duck",
-    "description": "Combines sweet-savory Hoisin notes, subtle five-spice aromas, caramel roasting flavors, and juicy tenderness. Perfect for wok dishes, bao buns, or bowls.",
-    "price": "CHF 13.50",
+    "description": "Sweet-savory Hoisin notes with five-spice aromas and caramel roasting flavors.",
+    "longDescription": "Experience the flavors of Asia with our planted.duck Asian Style. Featuring sweet-savory Hoisin notes, subtle five-spice aromas, and delicious caramel roasting flavors, it's incredibly juicy and tender. Perfect for wok dishes, bao buns, or Asian-inspired bowls.",
     "weight": "400g",
     "color": "burgundy",
     "isNew": true,
-    "inStock": false,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/duck-pdp.png?v=1743509753"
     },
+    "features": ["100% Plant-Based", "Asian-Inspired", "High in Protein", "Made in Switzerland"],
+    "ingredients": "Water, pea protein, rapeseed oil, Hoisin sauce, five-spice blend, soy sauce, natural flavoring, salt, vitamin B12",
+    "preparation": "Stir-fry in a hot wok for 4-5 minutes. Serve in bao buns, over noodles, or in an Asian-style bowl with fresh vegetables.",
     "order": 15
 }

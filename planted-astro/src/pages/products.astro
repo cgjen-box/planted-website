@@ -38,7 +38,6 @@ const categories = ['all', ...new Set(sortedProducts.map(p => p.data.category))]
                     <div class="product-info">
                         <div class="product-name">{product.data.name}</div>
                         <div class="product-variant">{product.data.variant}</div>
-                        {product.data.price && <span class="product-price">{product.data.price}</span>}
                     </div>
                 </a>
             ))}

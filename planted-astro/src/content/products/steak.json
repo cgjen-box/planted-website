@@ -3,14 +3,16 @@
     "variant": "Classic",
     "slug": "steak",
     "category": "steak",
-    "description": "A plant-based steak crafted through fermentation using natural ingredients including soy protein and rapeseed oil. High protein and fiber content, low in saturated fats, and a good source of iron and vitamin B12. Endorsed by top European chefs.",
-    "price": "CHF 7.95",
+    "description": "A plant-based steak crafted through fermentation. Juicy, tender, and full of flavor.",
+    "longDescription": "Our planted.steak is a game-changer. Created through our innovative fermentation process using natural ingredients like soy protein and rapeseed oil, it delivers the juicy, tender experience you expect from a premium steak. Rich in protein and fiber, low in saturated fats, and packed with iron and vitamin B12. Approved by meat lovers and top European chefs alike.",
     "weight": "140g",
     "color": "burgundy",
     "isNew": false,
-    "inStock": false,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/festive-packshot.png?v=1762765654"
     },
+    "features": ["100% Plant-Based", "High in Protein", "Rich in Iron", "Source of Vitamin B12"],
+    "ingredients": "Water, soy protein, rapeseed oil, natural flavoring, salt, iron, vitamin B12",
+    "preparation": "Sear in a hot pan with a little oil for 2-3 minutes on each side for medium-rare. Let rest for 2 minutes before serving. Season with salt and pepper to taste.",
     "order": 6
 }

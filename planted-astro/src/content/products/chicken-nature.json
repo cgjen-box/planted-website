@@ -3,14 +3,16 @@
     "variant": "Nature",
     "slug": "chicken-nature",
     "category": "chicken",
-    "description": "Our first love and a true classic. Perfect for those who enjoy experimenting with seasonings and being creative in the kitchen. Works great pan-fried with vegetables or as a salad topping.",
-    "price": "CHF 7.95",
-    "weight": "220g",
+    "description": "Our first love and a true classic. Perfect for those who enjoy experimenting with seasonings and being creative in the kitchen.",
+    "longDescription": "The planted.chicken Nature is where it all began - our original plant-based chicken that started a revolution. Made from peas and crafted to perfection, it delivers the texture and satisfaction you crave. Season it your way, cook it how you like, and discover endless possibilities in your kitchen.",
+    "weight": "220g / 400g",
     "color": "yellow",
     "isNew": false,
-    "inStock": false,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/chicken-nature-new.png?v=1747135663"
     },
+    "features": ["100% Plant-Based", "High in Protein", "Source of Fiber", "Made in Switzerland"],
+    "ingredients": "Water, pea protein, rapeseed oil, pea fiber, natural flavoring, salt, vitamin B12",
+    "preparation": "Pan-fry in a little oil for 3-4 minutes on each side until golden brown. Perfect with vegetables, in salads, or as the star of your favorite dish.",
     "order": 1
 }

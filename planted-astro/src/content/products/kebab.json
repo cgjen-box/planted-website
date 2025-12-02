@@ -3,14 +3,16 @@
     "variant": "Original",
     "slug": "kebab",
     "category": "kebab",
-    "description": "Crispy, juicy, and made from peas and rapeseed oil with an honest spice blend. Perfect in wraps or as a salad topping.",
-    "price": "CHF 7.95",
-    "weight": "220g",
+    "description": "The ultimate late-night food: crispy, juicy, and made from peas and rapeseed oil.",
+    "longDescription": "Craving a kebab? Our planted.kebab delivers all the crispy, juicy goodness you love - made entirely from plants. Crafted from peas and rapeseed oil with an honest spice blend, it's perfect in wraps, on salads, or loaded into a pita with all your favorite toppings. The after-party food reimagined.",
+    "weight": "220g / 400g",
     "color": "terracotta",
     "isNew": false,
-    "inStock": false,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/kebab-new.png?v=1747135550"
     },
+    "features": ["100% Plant-Based", "Crispy Texture", "High in Protein", "Made in Switzerland"],
+    "ingredients": "Water, pea protein, rapeseed oil, spices (cumin, coriander, paprika), pea fiber, natural flavoring, salt, vitamin B12",
+    "preparation": "Pan-fry for 4-5 minutes until crispy and heated through. Serve in wraps, pitas, or over salad with your favorite sauces.",
     "order": 8
 }

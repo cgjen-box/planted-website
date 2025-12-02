@@ -3,14 +3,16 @@
     "variant": "Tandoori",
     "slug": "skewers-tandoori",
     "category": "skewers",
-    "description": "Spiced, smoky flavors inspired by Indian tandoori seasoning. Made from clean ingredients including peas and rapeseed oil, enriched with vitamin B12. Perfect plant-based grilling skewers for summer meals.",
-    "price": "CHF 6.95",
+    "description": "Spiced, smoky flavors inspired by Indian tandoori seasoning. Perfect for grilling.",
+    "longDescription": "Take your taste buds on a journey to India with our planted.skewers Tandoori. Infused with aromatic tandoori spices that deliver that characteristic smoky, spiced flavor. Made from clean ingredients including peas and rapeseed oil, enriched with vitamin B12. A perfect plant-based addition to any BBQ or dinner spread.",
     "weight": "2 x 100g",
     "color": "orange",
     "isNew": false,
-    "inStock": false,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/tandoori-new.png?v=1747136243"
     },
+    "features": ["100% Plant-Based", "Tandoori Spiced", "High in Protein", "Made in Switzerland"],
+    "ingredients": "Water, pea protein, rapeseed oil, tandoori spice blend (cumin, coriander, paprika, garam masala), pea fiber, natural flavoring, salt, vitamin B12",
+    "preparation": "Grill or pan-fry for 8-10 minutes, turning occasionally. Serve with raita, naan bread, and fresh vegetables.",
     "order": 17
 }

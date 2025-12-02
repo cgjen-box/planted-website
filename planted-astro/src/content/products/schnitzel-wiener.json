@@ -3,14 +3,16 @@
     "variant": "Wiener Art",
     "slug": "schnitzel-wiener",
     "category": "schnitzel",
-    "description": "With its crispy golden-brown breading and tender, chicken-like texture inside, our planted.schnitzel brings back the beloved schnitzel experience.",
-    "price": "CHF 6.95",
+    "description": "Crispy golden-brown breading with tender, chicken-like texture. The classic schnitzel experience.",
+    "longDescription": "Bring back Sunday dinners with our planted.schnitzel Wiener Art. With its perfectly crispy golden-brown coating and tender, juicy interior, it delivers everything you love about a traditional schnitzel. Serve with a squeeze of lemon and your favorite sides for a meal that satisfies.",
     "weight": "2 x 110g",
     "color": "yellow",
     "isNew": false,
-    "inStock": false,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/schnitzel-new.png?v=1747136641"
     },
+    "features": ["100% Plant-Based", "Crispy Coating", "High in Protein", "Made in Switzerland"],
+    "ingredients": "Water, pea protein, wheat flour, breadcrumbs, rapeseed oil, pea fiber, natural flavoring, salt, vitamin B12",
+    "preparation": "Pan-fry in oil for 3-4 minutes on each side until golden and crispy. Serve with lemon wedges, potato salad, and lingonberry jam.",
     "order": 11
 }

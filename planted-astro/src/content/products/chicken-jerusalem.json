@@ -3,14 +3,16 @@
     "variant": "Jerusalem Style",
     "slug": "chicken-jerusalem",
     "category": "chicken",
-    "description": "A spicy match: Our popular planted.chicken meets the original NENI spice blend - known from the legendary Jerusalem Plate, the signature dish of NENI.",
-    "price": "CHF 13.50",
+    "description": "A spicy collaboration with NENI, featuring their legendary Jerusalem Plate seasoning blend.",
+    "longDescription": "A match made in culinary heaven: Our beloved planted.chicken meets the iconic NENI spice blend from their legendary Jerusalem Plate. This collaboration brings Middle Eastern flavors to your kitchen with aromatic spices that transport you straight to the streets of Jerusalem.",
     "weight": "400g",
     "color": "terracotta",
     "isNew": false,
-    "inStock": false,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/neni-pdp.png?v=1743510040"
     },
+    "features": ["100% Plant-Based", "NENI Collaboration", "Aromatic Spices", "Made in Switzerland"],
+    "ingredients": "Water, pea protein, rapeseed oil, NENI spice blend (cumin, coriander, paprika, turmeric), pea fiber, natural flavoring, salt, vitamin B12",
+    "preparation": "Pan-fry for 3-4 minutes on each side. Perfect in bowls, wraps, or served with hummus and fresh vegetables.",
     "order": 3
 }

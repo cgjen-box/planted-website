@@ -3,14 +3,16 @@
     "variant": "BBQ",
     "slug": "pulled-bbq",
     "category": "pulled",
-    "description": "This planted.pulled variant comes in a bold BBQ marinade with smoky notes - perfect for tacos, burgers, or with fresh toppings like lime or a spicy lemon sauce.",
-    "price": "CHF 7.95",
-    "weight": "220g",
+    "description": "Bold BBQ marinade with smoky notes - perfect for tacos, burgers, or with fresh toppings.",
+    "longDescription": "Get ready for a flavor explosion. Our planted.pulled BBQ comes drenched in a bold, smoky BBQ marinade that'll have you reaching for seconds. Made from sunflower protein and peas, it's perfect for building epic tacos, topping burgers, or serving with fresh lime and a spicy sauce.",
+    "weight": "220g / 400g",
     "color": "coral",
     "isNew": false,
-    "inStock": false,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/pulled-bbq-new.png?v=1747135991"
     },
+    "features": ["100% Plant-Based", "Smoky BBQ Flavor", "High in Protein", "Made in Switzerland"],
+    "ingredients": "Water, sunflower protein, pea protein, rapeseed oil, BBQ sauce (tomatoes, smoked paprika, molasses), natural flavoring, salt, vitamin B12",
+    "preparation": "Heat in a pan for 3-4 minutes until warmed through. Perfect for tacos, burgers, sandwiches, or served over rice.",
     "order": 9
 }

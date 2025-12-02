@@ -3,14 +3,16 @@
     "variant": "Lemon Herbs",
     "slug": "chicken-lemon-herbs",
     "category": "chicken",
-    "description": "Our first marinated planted.chicken variant. Traditionally marinated with fresh herbs and lemon zest. Perfect served alone, in salads, or pasta dishes.",
-    "price": "CHF 7.95",
-    "weight": "220g",
+    "description": "Our first marinated variant. Traditionally marinated with fresh herbs and lemon zest for a Mediterranean touch.",
+    "longDescription": "The planted.chicken Lemon Herbs brings the taste of the Mediterranean to your plate. Pre-marinated with fresh herbs and zesty lemon, it's ready to elevate any meal. Simply heat and serve - the perfect shortcut to a delicious, flavorful dinner.",
+    "weight": "220g / 400g",
     "color": "olive",
     "isNew": false,
-    "inStock": false,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/chicken-lh-new.png?v=1747135794"
     },
+    "features": ["100% Plant-Based", "Pre-Marinated", "High in Protein", "Made in Switzerland"],
+    "ingredients": "Water, pea protein, rapeseed oil, lemon zest, herbs (parsley, thyme, rosemary), pea fiber, natural flavoring, salt, vitamin B12",
+    "preparation": "Pan-fry for 3-4 minutes on each side. Serve with pasta, in salads, or alongside roasted vegetables.",
     "order": 2
 }

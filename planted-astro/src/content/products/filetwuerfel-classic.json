@@ -3,14 +3,16 @@
     "variant": "Classic",
     "slug": "filetwuerfel-classic",
     "category": "filetwuerfel",
-    "description": "Premium plant-based steak pieces featuring intense umami flavor, juicy texture, and tender bite. Versatile bits that work well stir-fried with vegetables and noodles or braised in hearty stews.",
-    "price": "CHF 7.95",
+    "description": "Premium plant-based steak pieces with intense umami flavor, juicy texture, and tender bite.",
+    "longDescription": "Our planted.filetwürfel Classic are bite-sized pieces of pure satisfaction. With their intense umami flavor, juicy texture, and tender bite, they're incredibly versatile. Stir-fry them with vegetables and noodles, braise them in hearty stews, or add them to your favorite recipes for an instant protein boost.",
     "weight": "140g",
     "color": "burgundy",
     "isNew": true,
-    "inStock": false,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/filetwurfel-classic-pack.png?v=1761044986"
     },
+    "features": ["100% Plant-Based", "Intense Umami", "High in Protein", "Made in Switzerland"],
+    "ingredients": "Water, soy protein, rapeseed oil, natural flavoring, salt, vitamin B12",
+    "preparation": "Stir-fry for 3-4 minutes or add to stews and let simmer. Perfect for Asian-style dishes, stroganoff, or grain bowls.",
     "order": 18
 }

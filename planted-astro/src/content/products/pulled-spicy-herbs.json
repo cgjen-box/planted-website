@@ -3,14 +3,16 @@
     "variant": "Spicy Herbs",
     "slug": "pulled-spicy-herbs",
     "category": "pulled",
-    "description": "Our planted.pulled is packed with protein and sustainably made from sunflower protein and peas. In the Spicy Herbs variant, it's marinated with fresh herbs, a touch of chili, and smoky chipotle. Ideal for tacos, burgers, or simply with rice.",
-    "price": "CHF 7.95",
-    "weight": "220g",
+    "description": "Fresh herbs, chili, and smoky chipotle create a spicy, flavorful pulled experience.",
+    "longDescription": "Our planted.pulled Spicy Herbs brings the heat with fresh herbs, a touch of chili, and smoky chipotle. Made sustainably from sunflower protein and peas, it's packed with protein and bursting with flavor. Ideal for spicing up your tacos, burgers, or simply served over rice for a quick, satisfying meal.",
+    "weight": "220g / 400g",
     "color": "green",
     "isNew": false,
-    "inStock": false,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/pulled-spicyherbs-new.png?v=1747135888"
     },
+    "features": ["100% Plant-Based", "Spicy & Flavorful", "High in Protein", "Made in Switzerland"],
+    "ingredients": "Water, sunflower protein, pea protein, rapeseed oil, herbs, chili, chipotle, natural flavoring, salt, vitamin B12",
+    "preparation": "Heat in a pan for 3-4 minutes. Great for tacos, burritos, or served over rice with fresh toppings.",
     "order": 10
 }

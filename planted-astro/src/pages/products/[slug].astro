@@ -18,6 +18,10 @@ const allProducts = await getCollection('products');
 const relatedProducts = allProducts
     .filter(p => p.data.category === product.data.category && p.data.slug !== product.data.slug)
     .slice(0, 3);
+
+// Get all recipes for the recipe section
+const recipes = await getCollection('recipes');
+const featuredRecipes = recipes.slice(0, 4);
 ---
 
 <Layout title={`${product.data.name} ${product.data.variant} – Planted`} currentPage="products">
@@ -32,7 +36,6 @@ const relatedProducts = allProducts
             <div class="product-image-section" data-color={product.data.color}>
                 <div class="product-image-container">
                     {product.data.isNew && <span class="product-badge-new">New</span>}
-                    {!product.data.inStock && <span class="product-badge-oos">Out of Stock</span>}
                     <img src={product.data.images.main} alt={`${product.data.name} ${product.data.variant}`} class="product-main-image">
                 </div>
             </div>
@@ -43,50 +46,73 @@ const relatedProducts = allProducts
                 <p class="product-variant-name">{product.data.variant}</p>
 
                 {product.data.description && (
-                    <p class="product-description">{product.data.description}</p>
+                    <p class="product-tagline">{product.data.description}</p>
                 )}
 
-                <div class="product-meta">
-                    {product.data.weight && (
-                        <div class="meta-item">
-                            <span class="meta-label">Weight</span>
-                            <span class="meta-value">{product.data.weight}</span>
-                        </div>
-                    )}
-                    {product.data.price && (
-                        <div class="meta-item">
-                            <span class="meta-label">Price</span>
-                            <span class="meta-value price">{product.data.price}</span>
-                        </div>
-                    )}
-                </div>
+                {product.data.longDescription && (
+                    <p class="product-description">{product.data.longDescription}</p>
+                )}
 
-                <div class="product-actions">
-                    <a href={`${base}/#locator`} class="btn btn-primary">
-                        <span>📍</span> Find in Store
-                    </a>
-                </div>
+                {product.data.weight && (
+                    <div class="product-weight">
+                        <span class="weight-label">Size:</span>
+                        <span class="weight-value">{product.data.weight}</span>
+                    </div>
+                )}
 
-                <div class="product-features">
-                    <div class="feature">
-                        <span class="feature-icon">🌱</span>
-                        <span>100% Plant-Based</span>
+                {product.data.features && product.data.features.length > 0 && (
+                    <div class="product-features">
+                        {product.data.features.map((feature) => (
+                            <span class="feature-tag">{feature}</span>
+                        ))}
                     </div>
-                    <div class="feature">
-                        <span class="feature-icon">💪</span>
-                        <span>High Protein</span>
-                    </div>
-                    <div class="feature">
-                        <span class="feature-icon">🇨🇭</span>
-                        <span>Made in Switzerland</span>
-                    </div>
-                </div>
+                )}
             </div>
         </div>
 
+        <!-- Product Details Sections -->
+        <div class="product-details-grid">
+            {product.data.preparation && (
+                <div class="detail-card">
+                    <div class="detail-icon">👨‍🍳</div>
+                    <h3>How to Prepare</h3>
+                    <p>{product.data.preparation}</p>
+                </div>
+            )}
+
+            {product.data.ingredients && (
+                <div class="detail-card">
+                    <div class="detail-icon">🌱</div>
+                    <h3>Ingredients</h3>
+                    <p>{product.data.ingredients}</p>
+                </div>
+            )}
+
+            <div class="detail-card">
+                <div class="detail-icon">🇨🇭</div>
+                <h3>Made in Switzerland</h3>
+                <p>Crafted with care in our Swiss facility using innovative fermentation technology and natural ingredients.</p>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-icon">🌍</div>
+                <h3>Better for the Planet</h3>
+                <p>Up to 97% less CO₂, 95% less water, and zero animals. Every bite makes a difference.</p>
+            </div>
+        </div>
+
+        <!-- Where to Find Section -->
+        <section class="find-section">
+            <h2>Where to find {product.data.name}</h2>
+            <p>Available at leading retailers across Switzerland and Europe.</p>
+            <a href={`${base}/#locator`} class="btn btn-primary">
+                <span>📍</span> Find a Store
+            </a>
+        </section>
+
         {relatedProducts.length > 0 && (
             <section class="related-products">
-                <h2>More {product.data.category}</h2>
+                <h2>More from {product.data.category}</h2>
                 <div class="related-grid">
                     {relatedProducts.map((related) => (
                         <a href={`${base}/products/${related.data.slug}`} class="related-card" data-color={related.data.color}>
@@ -103,10 +129,30 @@ const relatedProducts = allProducts
             </section>
         )}
 
-        <section class="cta-section">
-            <h2>Ready to try?</h2>
-            <p>Find planted at your favourite store.</p>
-            <a href={`${base}/#locator`} class="btn btn-green">📍 Find Near You</a>
+        <!-- Recipe Section -->
+        <section class="recipe-section">
+            <div class="recipe-section-header">
+                <h2>Get inspired</h2>
+                <p>Discover delicious recipes featuring our plant-based products</p>
+            </div>
+            <div class="recipe-grid">
+                {featuredRecipes.map((recipe) => (
+                    <div class="recipe-card">
+                        <div class="recipe-image">
+                            <img src={recipe.data.image} alt={recipe.data.title}>
+                        </div>
+                        <div class="recipe-info">
+                            <div class="recipe-title">{recipe.data.title}</div>
+                            <div class="recipe-meta">{recipe.data.cookTime} min • {recipe.data.difficulty}</div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <div class="recipe-cta">
+                <a href={`${base}/recipes`} class="btn btn-secondary">
+                    Explore All Recipes →
+                </a>
+            </div>
         </section>
     </div>
 </Layout>
@@ -150,13 +196,12 @@ const relatedProducts = allProducts
         .product-detail {
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
-            padding: 2rem 3rem 6rem;
+            padding: 2rem 3rem 4rem;
             align-items: start;
         }
     }
 
     .product-image-section {
-        background: var(--planted-cream);
         border-radius: 2rem;
         padding: 2rem;
         position: relative;
@@ -184,20 +229,6 @@ const relatedProducts = allProducts
         right: 0;
         background: var(--planted-green);
         color: var(--planted-black);
-        font-size: 0.7rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        padding: 0.4rem 0.8rem;
-        border-radius: 100px;
-        z-index: 10;
-    }
-
-    .product-badge-oos {
-        position: absolute;
-        top: 0;
-        left: 0;
-        background: rgba(0,0,0,0.6);
-        color: white;
         font-size: 0.7rem;
         font-weight: 700;
         text-transform: uppercase;
@@ -234,81 +265,135 @@ const relatedProducts = allProducts
     }
 
     .product-variant-name {
-        font-size: 1.25rem;
+        font-size: 1.5rem;
         color: var(--planted-black);
         opacity: 0.7;
         margin-bottom: 1.5rem;
+    }
+
+    .product-tagline {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: var(--planted-black);
+        margin-bottom: 1rem;
+        line-height: 1.5;
     }
 
     .product-description {
         font-size: 1rem;
         line-height: 1.7;
         color: var(--planted-black);
-        margin-bottom: 2rem;
+        opacity: 0.8;
+        margin-bottom: 1.5rem;
     }
 
-    .product-meta {
-        display: flex;
-        gap: 2rem;
-        margin-bottom: 2rem;
-        padding: 1.5rem;
+    .product-weight {
+        display: inline-flex;
+        gap: 0.5rem;
         background: var(--planted-cream);
-        border-radius: 1rem;
+        padding: 0.75rem 1.25rem;
+        border-radius: 100px;
+        margin-bottom: 1.5rem;
     }
 
-    .meta-item {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-    }
-
-    .meta-label {
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
+    .weight-label {
+        font-size: 0.85rem;
         color: var(--planted-black);
         opacity: 0.6;
     }
 
-    .meta-value {
-        font-size: 1.25rem;
+    .weight-value {
+        font-size: 0.85rem;
         font-weight: 700;
         color: var(--planted-black);
-    }
-
-    .meta-value.price {
-        color: var(--planted-purple);
-    }
-
-    .product-actions {
-        margin-bottom: 2rem;
-    }
-
-    .product-actions .btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
     }
 
     .product-features {
         display: flex;
         flex-wrap: wrap;
-        gap: 1rem;
+        gap: 0.75rem;
     }
 
-    .feature {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
+    .feature-tag {
         background: rgba(97, 38, 158, 0.1);
+        color: var(--planted-purple);
         padding: 0.5rem 1rem;
         border-radius: 100px;
         font-size: 0.85rem;
         font-weight: 500;
     }
 
-    .feature-icon {
+    /* Product Details Grid */
+    .product-details-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 0 1.5rem 4rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    @media (min-width: 768px) {
+        .product-details-grid {
+            grid-template-columns: repeat(2, 1fr);
+            padding: 0 3rem 4rem;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .product-details-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    .detail-card {
+        background: var(--planted-cream);
+        border-radius: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    .detail-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .detail-card h3 {
         font-size: 1rem;
+        font-weight: 700;
+        color: var(--planted-black);
+        margin-bottom: 0.5rem;
+    }
+
+    .detail-card p {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: var(--planted-black);
+        opacity: 0.7;
+    }
+
+    /* Find Section */
+    .find-section {
+        background: var(--planted-purple);
+        padding: 4rem 1.5rem;
+        text-align: center;
+        color: white;
+    }
+
+    .find-section h2 {
+        font-family: 'VC Henrietta', serif;
+        font-size: clamp(1.5rem, 4vw, 2rem);
+        margin-bottom: 0.5rem;
+    }
+
+    .find-section p {
+        opacity: 0.8;
+        margin-bottom: 1.5rem;
+    }
+
+    .find-section .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
     }
 
     /* Related Products */
@@ -316,7 +401,6 @@ const relatedProducts = allProducts
         padding: 4rem 1.5rem;
         max-width: 1400px;
         margin: 0 auto;
-        border-top: 1px solid rgba(0,0,0,0.1);
     }
 
     .related-products h2 {
@@ -382,9 +466,88 @@ const relatedProducts = allProducts
         font-size: 0.85rem;
     }
 
+    /* Recipe Section */
+    .recipe-section {
+        background: var(--planted-cream);
+        padding: 4rem 1.5rem;
+    }
+
+    .recipe-section-header {
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto 2rem;
+    }
+
+    .recipe-section-header h2 {
+        font-family: 'VC Henrietta', serif;
+        font-size: clamp(1.8rem, 5vw, 2.5rem);
+        color: var(--planted-purple);
+        margin-bottom: 0.5rem;
+    }
+
+    .recipe-section-header p {
+        color: var(--planted-black);
+        opacity: 0.7;
+    }
+
+    .recipe-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto 2rem;
+    }
+
+    .recipe-card {
+        background: white;
+        border-radius: 1rem;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .recipe-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+    }
+
+    .recipe-image {
+        aspect-ratio: 16/10;
+        overflow: hidden;
+    }
+
+    .recipe-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .recipe-info {
+        padding: 1rem;
+    }
+
+    .recipe-title {
+        font-weight: 700;
+        color: var(--planted-black);
+        margin-bottom: 0.25rem;
+    }
+
+    .recipe-meta {
+        font-size: 0.85rem;
+        color: var(--planted-black);
+        opacity: 0.6;
+    }
+
+    .recipe-cta {
+        text-align: center;
+    }
+
     @media (min-width: 768px) {
         .related-products {
             padding: 4rem 3rem;
+        }
+
+        .recipe-section {
+            padding: 5rem 3rem;
         }
     }
 

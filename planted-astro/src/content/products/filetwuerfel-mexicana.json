@@ -3,14 +3,16 @@
     "variant": "A La Mexicana",
     "slug": "filetwuerfel-mexicana",
     "category": "filetwuerfel",
-    "description": "Our delicious planted.filetwürfel from our steak muscle are now even more convenient and pre-marinated with an aromatic blend of herbs and spices. Simply pan-fry with fresh vegetables for fajitas or enhance your salad bowls.",
-    "price": "CHF 7.95",
+    "description": "Pre-marinated steak cubes with aromatic herbs and spices. Perfect for fajitas.",
+    "longDescription": "Bring Mexican flavors to your kitchen with our planted.filetwürfel A La Mexicana. These delicious steak cubes come pre-marinated with an aromatic blend of herbs and spices, making meal prep a breeze. Simply pan-fry with fresh vegetables for fajitas, or add them to salad bowls for a protein-packed meal.",
     "weight": "140g",
     "color": "red",
     "isNew": true,
-    "inStock": false,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/filetwurfel-mexicana---pack.png?v=1760958539"
     },
+    "features": ["100% Plant-Based", "Pre-Marinated", "Mexican-Inspired", "Made in Switzerland"],
+    "ingredients": "Water, soy protein, rapeseed oil, Mexican spice blend (cumin, chili, oregano, garlic), natural flavoring, salt, vitamin B12",
+    "preparation": "Pan-fry for 3-4 minutes with sliced peppers and onions. Serve in warm tortillas with salsa, guacamole, and sour cream.",
     "order": 19
 }

@@ -3,14 +3,16 @@
     "variant": "Crispy",
     "slug": "burger-crispy",
     "category": "burger",
-    "description": "The ultimate comfort food experience with a golden, extra-crispy coating and juicy, chicken-like texture. Delivers a satisfying bite with plant-based ingredients.",
-    "price": "CHF 7.95",
+    "description": "The ultimate comfort food with a golden, extra-crispy coating and juicy texture.",
+    "longDescription": "Experience the ultimate comfort food with our planted.burger Crispy. Featuring a golden, extra-crispy coating and incredibly juicy, chicken-like texture inside, it delivers that satisfying crunch and flavor in every bite. Build your dream burger with all your favorite toppings.",
     "weight": "3 pieces",
     "color": "coral",
     "isNew": true,
-    "inStock": true,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/crispy-burger-pack.png?v=1758792139"
     },
+    "features": ["100% Plant-Based", "Extra Crispy", "High in Protein", "Made in Switzerland"],
+    "ingredients": "Water, pea protein, wheat flour, breadcrumbs, rapeseed oil, pea fiber, natural flavoring, spices, salt, vitamin B12",
+    "preparation": "Pan-fry for 4-5 minutes on each side until golden and crispy. Also works great in the oven at 200°C for 15-18 minutes.",
     "order": 20
 }

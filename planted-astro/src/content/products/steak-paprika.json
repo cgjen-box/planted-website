@@ -3,14 +3,16 @@
     "variant": "Paprika",
     "slug": "steak-paprika",
     "category": "steak",
-    "description": "A refined steak variant featuring a spicy paprika marinade, sliced thinner than the standard version. Maintains the characteristic juicy and tender texture while providing protein, fiber, vitamin B12, and iron.",
-    "price": "CHF 7.95",
+    "description": "A refined steak variant with a spicy paprika marinade, sliced thinner for quick cooking.",
+    "longDescription": "Our planted.steak Paprika takes the steak experience to new heights with a bold, spicy marinade. Sliced thinner than our classic version for faster cooking, it maintains that juicy, tender texture while delivering a kick of paprika flavor. Perfect for those who like a little heat with their protein.",
     "weight": "140g",
     "color": "red",
     "isNew": false,
-    "inStock": false,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/steak-paprika-new.png?v=1747135415"
     },
+    "features": ["100% Plant-Based", "Pre-Marinated", "Quick to Cook", "Source of Vitamin B12"],
+    "ingredients": "Water, soy protein, rapeseed oil, paprika, natural flavoring, spices, salt, vitamin B12",
+    "preparation": "Pan-fry for 2 minutes on each side until heated through. The thinner cut means faster cooking - perfect for busy weeknights.",
     "order": 7
 }

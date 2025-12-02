@@ -4,13 +4,15 @@
     "slug": "chicken-burger",
     "category": "burger",
     "description": "Plant-based chicken burger patties perfect for your favorite burger recipes.",
-    "price": "CHF 7.95",
+    "longDescription": "Build the ultimate burger with our planted.chicken Burger patties. Juicy, flavorful, and perfectly seasoned, they're designed to be the star of your burger creations. Add your favorite toppings and sauces for a burger experience that rivals any classic.",
     "weight": "3 pieces",
     "color": "yellow",
     "isNew": false,
-    "inStock": true,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/burger-new.png?v=1747136419"
     },
+    "features": ["100% Plant-Based", "High in Protein", "Perfect for Grilling", "Made in Switzerland"],
+    "ingredients": "Water, pea protein, rapeseed oil, pea fiber, natural flavoring, spices, salt, vitamin B12",
+    "preparation": "Pan-fry or grill for 3-4 minutes on each side. Serve in a bun with your favorite toppings.",
     "order": 5
 }
