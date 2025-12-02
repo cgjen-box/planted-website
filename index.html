@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#61269E">
+    <title>Planted – Approved by Meat Lovers</title>
+    
+    <style>
+        /* ============================================
+           CUSTOM FONTS - Brand Typography
+           ============================================ */
+        @font-face {
+            font-family: 'VC Henrietta';
+            src: url('VCHenriettaCondensed-Bold.woff2') format('woff2'),
+                 url('VCHenriettaCondensed-Bold.woff') format('woff');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+        
+        @font-face {
+            font-family: 'VC Henrietta';
+            src: url('VCHenriettaCondensed-SemiBold.woff2') format('woff2'),
+                 url('VCHenriettaCondensed-SemiBold.woff') format('woff');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+        
+        @font-face {
+            font-family: 'Galano Grotesque';
+            src: url('GalanoGrotesque-Regular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        
+        @font-face {
+            font-family: 'Galano Grotesque';
+            src: url('GalanoGrotesque-Medium.otf') format('opentype');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        
+        @font-face {
+            font-family: 'Galano Grotesque';
+            src: url('GalanoGrotesque-Bold.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+        
+        :root {
+            --planted-purple: #61269E;
+            --planted-purple-dark: #4A1D7A;
+            --planted-purple-light: #8B4FCF;
+            --planted-green: #6BBF59;
+            --planted-cream: #FDF8F3;
+            --planted-white: #FFFFFF;
+            --planted-black: #1A1A1A;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Galano Grotesque', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--planted-cream);
+            color: var(--planted-black);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        ::selection {
+            background: var(--planted-purple-light);
+            color: white;
+        }
+        
+        h1, h2, h3, .display {
+            font-family: 'VC Henrietta', Georgia, serif;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            line-height: 0.95;
+        }
+        
+        /* ============================================
+           NAVIGATION
+           ============================================ */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            transition: background 0.3s ease;
+        }
+        
+        .nav.scrolled {
+            background: rgba(253, 248, 243, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        
+        .logo {
+            position: relative;
+            z-index: 1001;
+        }
+        
+        .logo svg {
+            height: 52px;
+            width: auto;
+            display: block;
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding-top: 0.25rem;
+        }
+        
+        .nav-links {
+            display: none;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--planted-purple);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.7;
+        }
+        
+        .nav-toggle {
+            width: 44px;
+            height: 44px;
+            background: var(--planted-purple);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+        
+        .nav-toggle span {
+            width: 18px;
+            height: 2px;
+            background: white;
+            border-radius: 2px;
+        }
+        
+        /* Mobile Menu */
+        .nav-menu {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--planted-purple);
+            z-index: 999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .nav-menu.open {
+            display: flex;
+        }
+        
+        .nav-menu a {
+            font-family: 'VC Henrietta', serif;
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: menuFadeIn 0.4s ease forwards;
+        }
+        
+        .nav-menu a:nth-child(2) { animation-delay: 0.1s; }
+        .nav-menu a:nth-child(3) { animation-delay: 0.15s; }
+        .nav-menu a:nth-child(4) { animation-delay: 0.2s; }
+        .nav-menu a:nth-child(5) { animation-delay: 0.25s; }
+        
+        @keyframes menuFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .close-menu {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* ============================================
+           HERO SECTION - Apple-style scroll effects
+           ============================================ */
+        .hero {
+            min-height: 100vh;
+            min-height: 100dvh;
+            background: var(--planted-cream);
+            padding: 5rem 1.5rem 3rem;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-video-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            /* This wrapper helps with scroll calculations */
+        }
+        
+        .hero-video-container {
+            position: relative;
+            width: 100%;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 25px 80px rgba(97, 38, 158, 0.15);
+            /* Initial transform - will be animated on scroll */
+            transform: rotate(-3deg) scale(0.95);
+            transition: box-shadow 0.3s ease;
+            will-change: transform;
+        }
+        
+        .hero-video-container::before {
+            content: '';
+            display: block;
+            padding-top: 70%;
+        }
+        
+        .hero-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 3rem auto 0;
+            text-align: center;
+            /* Initial state for animation */
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        
+        .hero-content.animate-in {
+            animation: fadeSlideUp 0.8s ease forwards;
+            animation-delay: 0.3s;
+        }
+        
+        @keyframes fadeSlideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero h1 {
+            font-size: clamp(2.5rem, 11vw, 5.5rem);
+            color: var(--planted-purple);
+            margin-bottom: 1rem;
+            line-height: 0.95;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            color: var(--planted-black);
+            opacity: 0.7;
+            max-width: 480px;
+            margin: 0 auto 2rem;
+            line-height: 1.5;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Galano Grotesque', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 1rem 1.75rem;
+            border-radius: 100px;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: var(--planted-purple);
+            color: white;
+            box-shadow: 0 8px 24px rgba(97, 38, 158, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(97, 38, 158, 0.4);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--planted-purple);
+            border: 2px solid var(--planted-purple);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--planted-purple);
+            color: white;
+        }
+        
+        /* ============================================
+           SCROLL REVEAL ANIMATIONS
+           ============================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        
+        /* Scale reveal for cards */
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .reveal-scale.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        /* ============================================
+           STATEMENT SECTION
+           ============================================ */
+        .statement {
+            background: var(--planted-purple);
+            padding: 6rem 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .statement-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .statement h2 {
+            font-size: clamp(1.8rem, 6vw, 3.2rem);
+            color: white;
+            margin-bottom: 1.25rem;
+            line-height: 1.1;
+        }
+        
+        .statement-highlight {
+            color: var(--planted-green);
+        }
+        
+        .statement p {
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            color: rgba(255,255,255,0.8);
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        /* Floating background shapes */
+        .statement::before,
+        .statement::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.03);
+            pointer-events: none;
+        }
+        
+        .statement::before {
+            width: 400px;
+            height: 400px;
+            top: -200px;
+            right: -100px;
+        }
+        
+        .statement::after {
+            width: 300px;
+            height: 300px;
+            bottom: -150px;
+            left: -50px;
+        }
+        
+        /* ============================================
+           PRODUCTS SECTION
+           ============================================ */
+        .products {
+            background: var(--planted-cream);
+            padding: 6rem 1.5rem;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-header h2 {
+            font-size: clamp(2.2rem, 10vw, 4.5rem);
+            color: var(--planted-purple);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        
+        .section-header p {
+            color: var(--planted-black);
+            opacity: 0.6;
+            font-size: 1.05rem;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        .product-card {
+            position: relative;
+            aspect-ratio: 4/3;
+            border-radius: 1.25rem;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.4s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(97, 38, 158, 0.15);
+        }
+        
+        .product-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .product-card:hover img {
+            transform: scale(1.08);
+        }
+        
+        .product-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(97, 38, 158, 0.95) 0%,
+                rgba(97, 38, 158, 0.3) 50%,
+                transparent 100%
+            );
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.25rem;
+        }
+        
+        .product-name {
+            font-family: 'VC Henrietta', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.2rem;
+        }
+        
+        .product-tagline {
+            color: rgba(255,255,255,0.85);
+            font-size: 0.9rem;
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--planted-green);
+            color: var(--planted-black);
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 0.4rem 0.9rem;
+            border-radius: 100px;
+        }
+        
+        /* ============================================
+           IMPACT SECTION - Parallax counter effect
+           ============================================ */
+        .impact {
+            background: var(--planted-green);
+            padding: 5rem 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .impact h2 {
+            font-size: clamp(1.4rem, 5vw, 2.2rem);
+            color: var(--planted-black);
+            margin-bottom: 2.5rem;
+            text-transform: uppercase;
+        }
+        
+        .impact-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+        
+        .stat {
+            padding: 0.75rem 0.5rem;
+        }
+        
+        .stat-value {
+            font-family: 'VC Henrietta', serif;
+            font-size: clamp(2.5rem, 10vw, 4rem);
+            font-weight: 700;
+            color: var(--planted-black);
+            line-height: 1;
+            /* Counter animation will be applied via JS */
+        }
+        
+        .stat-label {
+            color: var(--planted-black);
+            opacity: 0.7;
+            font-size: 0.8rem;
+            margin-top: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        
+        .impact-note {
+            margin-top: 2rem;
+            font-size: 0.85rem;
+            opacity: 0.6;
+            color: var(--planted-black);
+        }
+        
+        /* ============================================
+           RECIPES SECTION
+           ============================================ */
+        .recipes {
+            background: var(--planted-cream);
+            padding: 6rem 0;
+        }
+        
+        .recipes-header {
+            padding: 0 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        .recipes-header h2 {
+            font-size: clamp(1.8rem, 7vw, 3rem);
+            color: var(--planted-purple);
+            text-transform: uppercase;
+        }
+        
+        .recipes-header a {
+            color: var(--planted-purple);
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: opacity 0.3s;
+        }
+        
+        .recipes-header a:hover {
+            opacity: 0.7;
+        }
+        
+        .recipes-scroll {
+            display: flex;
+            gap: 1.25rem;
+            overflow-x: auto;
+            padding: 0 1.5rem 2rem;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        
+        .recipes-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .recipe-card {
+            flex: 0 0 280px;
+            scroll-snap-align: start;
+            border-radius: 1.25rem;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.4s ease;
+        }
+        
+        .recipe-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 32px rgba(0,0,0,0.1);
+        }
+        
+        .recipe-image {
+            aspect-ratio: 4/3;
+            overflow: hidden;
+        }
+        
+        .recipe-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .recipe-card:hover .recipe-image img {
+            transform: scale(1.08);
+        }
+        
+        .recipe-info {
+            padding: 1.25rem;
+        }
+        
+        .recipe-title {
+            font-family: 'VC Henrietta', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--planted-purple);
+            margin-bottom: 0.25rem;
+        }
+        
+        .recipe-meta {
+            color: var(--planted-black);
+            opacity: 0.6;
+            font-size: 0.85rem;
+        }
+        
+        /* ============================================
+           STORE LOCATOR - Animated entrance
+           ============================================ */
+        .locator {
+            background: var(--planted-purple);
+            padding: 6rem 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .locator h2 {
+            font-size: clamp(3rem, 15vw, 7rem);
+            color: white;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+        
+        .locator > p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 2.5rem;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .locator-search {
+            display: flex;
+            max-width: 420px;
+            margin: 0 auto 2.5rem;
+            background: white;
+            border-radius: 100px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .locator-search:focus-within {
+            transform: scale(1.02);
+            box-shadow: 0 16px 50px rgba(0,0,0,0.25);
+        }
+        
+        .locator-search input {
+            flex: 1;
+            border: none;
+            padding: 1.1rem 1.5rem;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            min-width: 0;
+        }
+        
+        .locator-search button {
+            background: var(--planted-green);
+            color: var(--planted-black);
+            border: none;
+            padding: 1.1rem 1.75rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            font-family: inherit;
+            white-space: nowrap;
+            transition: background 0.3s;
+        }
+        
+        .locator-search button:hover {
+            background: #5aa94d;
+        }
+        
+        .retailers {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+        
+        .retailer {
+            background: rgba(255,255,255,0.15);
+            padding: 0.55rem 1.1rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: white;
+            transition: background 0.3s, transform 0.3s;
+        }
+        
+        .retailer:hover {
+            background: rgba(255,255,255,0.25);
+            transform: scale(1.05);
+        }
+        
+        /* ============================================
+           BUSINESS SECTION
+           ============================================ */
+        .business {
+            background: var(--planted-black);
+            padding: 6rem 1.5rem;
+            color: white;
+        }
+        
+        .business-inner {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+        
+        .business-badge {
+            display: inline-block;
+            background: var(--planted-purple);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            margin-bottom: 1.25rem;
+        }
+        
+        .business h2 {
+            font-size: clamp(1.6rem, 5vw, 2.5rem);
+            margin-bottom: 1rem;
+            max-width: 550px;
+        }
+        
+        .business > .business-inner > p {
+            font-size: 1rem;
+            opacity: 0.7;
+            line-height: 1.6;
+            margin-bottom: 1.75rem;
+            max-width: 450px;
+        }
+        
+        .business-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1.75rem;
+            max-width: 360px;
+        }
+        
+        .business-stat {
+            padding: 1.25rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 1rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: background 0.3s, transform 0.3s;
+        }
+        
+        .business-stat:hover {
+            background: rgba(255,255,255,0.08);
+            transform: translateY(-4px);
+        }
+        
+        .business-stat-value {
+            font-family: 'VC Henrietta', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--planted-green);
+        }
+        
+        .business-stat-label {
+            font-size: 0.8rem;
+            opacity: 0.6;
+            margin-top: 0.15rem;
+        }
+        
+        .business-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--planted-purple);
+            color: white;
+            font-weight: 700;
+            padding: 1rem 1.75rem;
+            border-radius: 100px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .business-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(97, 38, 158, 0.4);
+        }
+        
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            background: var(--planted-purple);
+            color: white;
+            padding: 3.5rem 1.5rem 1.5rem;
+        }
+        
+        .footer-inner {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+        
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-brand {
+            max-width: 260px;
+        }
+        
+        .footer-brand .logo svg {
+            height: 42px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-brand p {
+            opacity: 0.7;
+            line-height: 1.6;
+            font-size: 0.85rem;
+        }
+        
+        .footer-links h4 {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.5;
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-links a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+        }
+        
+        .footer-bottom {
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .footer-bottom span {
+            font-size: 0.75rem;
+            opacity: 0.5;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .social-link {
+            width: 38px;
+            height: 38px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        
+        .social-link:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.3);
+        }
+        
+        .social-link svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        /* ============================================
+           MOBILE STICKY CTA
+           ============================================ */
+        .mobile-cta {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 1.5rem 1.25rem;
+            background: linear-gradient(to top, var(--planted-cream) 80%, transparent);
+            z-index: 100;
+            transition: opacity 0.4s, transform 0.4s;
+        }
+        
+        .mobile-cta a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: var(--planted-purple);
+            color: white;
+            font-weight: 700;
+            padding: 1rem;
+            border-radius: 100px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            box-shadow: 0 8px 24px rgba(97, 38, 158, 0.35);
+        }
+        
+        .mobile-cta.hidden {
+            opacity: 0;
+            transform: translateY(100%);
+            pointer-events: none;
+        }
+        
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (min-width: 640px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-top {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero-video-wrapper {
+                max-width: 700px;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .hero-video-wrapper {
+                max-width: 780px;
+            }
+            
+            .hero-video-container {
+                border-radius: 2rem;
+            }
+            
+            .hero-video-container::before {
+                padding-top: 60%;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .nav {
+                padding: 1rem 3rem;
+            }
+            
+            .nav-toggle {
+                display: none;
+            }
+            
+            .nav-links {
+                display: flex;
+            }
+            
+            .hero {
+                padding: 6rem 3rem 4rem;
+            }
+            
+            .hero-video-wrapper {
+                max-width: 850px;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .product-card {
+                aspect-ratio: 1;
+            }
+            
+            .recipe-card {
+                flex: 0 0 320px;
+            }
+            
+            .footer-top {
+                grid-template-columns: 2fr 1fr 1fr 1fr;
+            }
+            
+            .mobile-cta {
+                display: none;
+            }
+            
+            .business-inner {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 3rem;
+                align-items: center;
+            }
+            
+            .business-stats {
+                grid-column: 2;
+                grid-row: 1 / 3;
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ============================================
+         NAVIGATION
+         ============================================ -->
+    <nav class="nav" id="nav">
+        <a href="#" class="logo">
+            <!-- Master Logo Top - wavy part at top -->
+            <svg viewBox="0 0 193.58 66.22" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#61269e" d="m193.54,34.47l-2.66-34.47H0l3.78,46.08c1.65,22.09,20.09,20.09,20.09,20.09,0,0,126.37-9.87,148.05-11.64,23.55-2.11,21.62-20.06,21.62-20.06Z"/>
+                <path fill="#fff" d="m166.22,32.32h0c1.12-1.28,2.97-1.43,4.25-.34,1.31,1.09,1.46,2.93.34,4.21-1.09,1.28-2.93,1.42-4.25.34-1.28-1.09-1.42-2.93-.34-4.21Z"/>
+                <path fill="#fff" d="m147.2,36.47h0c2.18,1.76,4.68,2.38,7.53,2.15s5.24-1.39,7.12-3.47c1.96-2.18,2.59-5.22,2.29-9.04l-1.16-14.54-5.5.44.67,8.42c-1.59-1.26-3.77-1.42-5.21-1.3-2.84.23-4.97,1.29-6.85,3.34-1.88,2.08-2.69,4.49-2.47,7.26.22,2.77,1.4,5.02,3.58,6.74Zm3.05-10.76h0c.85-1,1.96-1.57,3.32-1.68s2.55.28,3.55,1.13c1,.85,1.57,1.99,1.68,3.36s-.28,2.55-1.13,3.55c-.85,1.03-1.95,1.61-3.32,1.71s-2.55-.28-3.55-1.17c-1-.85-1.57-1.96-1.68-3.32s.28-2.55,1.13-3.58Z"/>
+                <path fill="#fff" d="m166.19,32.32h0c1.12-1.28,2.97-1.43,4.25-.34,1.31,1.09,1.46,2.93.34,4.21-1.09,1.28-2.93,1.42-4.25.34-1.28-1.09-1.42-2.93-.34-4.21Z"/>
+                <path fill="#fff" d="m51.71,20.33l5.5-.44,1.5,18.83c.13,1.66.82,2.35,2.33,2.23.52-.04.96-.11,1.32-.25l.39,4.87c-.61.23-1.49.38-2.6.47-4.25.34-6.52-1.67-6.87-6.03l-1.57-19.68Z"/>
+                <path fill="#fff" d="m65.32,28.91h0c1.62-2.03,3.76-3.12,6.39-3.33,2.81-.22,5.08.75,5.76,2.33l-.19-2.44,5.5-.44.96,12.07c.12,1.48.53,2.04,1.53,1.96.26-.02.59-.08.92-.15l.36,4.58c-.58.23-1.38.41-2.45.49-1.22.1-2.27-.04-3.08-.42-.89-.49-1.5-1.11-1.82-1.86-1.07,1.91-3.03,2.95-5.95,3.19-2.62.21-4.91-.54-6.83-2.24-1.88-1.75-2.95-3.96-3.17-6.7s.49-5.06,2.08-7.04Zm11.85,9.27h0c.89-1,1.28-2.14,1.18-3.44s-.67-2.36-1.7-3.17c-1-.85-2.18-1.2-3.54-1.09s-2.4.64-3.25,1.63c-.85.96-1.21,2.1-1.11,3.4s.64,2.36,1.63,3.21c.99.81,2.14,1.17,3.47,1.06s2.47-.64,3.33-1.6Z"/>
+                <path fill="#fff" d="m88.98,43.26l-1.48-18.61,5.5-.44.19,2.32c.65-1.69,2.63-2.96,5.14-3.16,4.47-.36,7.28,2.32,7.67,7.15l.37,4.69c.11,1.44.45,1.93,1.37,1.86l.37-.03.22-.06.37,4.65c-.43.22-1.23.36-2.38.45-3.29.26-5.05-1.38-5.34-4.93l-.44-5.54c-.17-2.18-1.42-3.42-3.6-3.24-2.07.16-3.46,1.8-3.29,3.98l.83,10.45-5.5.44Z"/>
+                <path fill="#fff" d="m110.79,27.81l-2.44.19-.4-4.98,2.44-.19-.57-7.13,5.35-.43.57,7.13,4.14-.33.4,4.98-4.14.33.53,6.65c.14,1.77.9,2.42,2.56,2.29.3-.02.77-.1,1.39-.26l.39,4.87c-.72.24-1.61.39-2.67.47-4.28.34-6.6-1.71-6.95-6.13l-.59-7.46Z"/>
+                <path fill="#fff" d="m122.2,31.22h0c-.23-2.92.54-5.35,2.28-7.28,1.74-1.96,4.1-3.04,7.02-3.27s5.21.52,7.12,2.18c1.92,1.67,2.98,3.81,3.19,6.51.05.63.06,1.22.07,1.78l-14.07,1.12c.29,2.21,2.32,3.49,5.24,3.26,1.73-.14,3.2-.85,4.4-2.17l3.46,2.81c-2,2.42-4.6,3.78-7.74,4.03s-5.57-.45-7.59-2.03c-2.02-1.62-3.13-3.87-3.36-6.79v-.15Zm13.94-3.23h0c-.14-1.74-2.06-2.96-4.27-2.78-2.4.19-4.25,1.71-4.26,3.46l8.53-.68Z"/>
+                <path fill="#fff" d="m47.07,30.13h0c-2.18-1.76-4.68-2.38-7.53-2.15s-5.24,1.39-7.12,3.47c-1.96,2.18-2.59,5.22-2.29,9.04l1.16,14.54,5.5-.44-.67-8.42c1.59,1.26,3.77,1.41,5.21,1.3,2.84-.23,4.97-1.29,6.85-3.34,1.88-2.08,2.69-4.49,2.47-7.26-.22-2.77-1.4-5.02-3.58-6.74Zm-3.05,10.76h0c-.85,1-1.96,1.57-3.32,1.68s-2.55-.28-3.55-1.13c-1-.85-1.57-1.99-1.68-3.36s.28-2.55,1.13-3.54c.85-1.03,1.95-1.61,3.32-1.71s2.55.28,3.55,1.17c1,.85,1.57,1.96,1.68,3.32s-.28,2.55-1.13,3.58Z"/>
+            </svg>
+        </a>
+        
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="#products">Products</a>
+                <a href="#recipes">Recipes</a>
+                <a href="#locator">Find Us</a>
+                <a href="#about">Our Story</a>
+            </div>
+            
+            <button class="nav-toggle" onclick="toggleMenu()" aria-label="Open menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Mobile Menu -->
+    <div class="nav-menu" id="navMenu">
+        <button class="close-menu" onclick="toggleMenu()" aria-label="Close menu">✕</button>
+        <a href="#products" onclick="toggleMenu()">Products</a>
+        <a href="#recipes" onclick="toggleMenu()">Recipes</a>
+        <a href="#locator" onclick="toggleMenu()">Find Us</a>
+        <a href="#about" onclick="toggleMenu()">Our Story</a>
+    </div>
+
+    <!-- ============================================
+         HERO SECTION
+         Video with scroll-based transform
+         ============================================ -->
+    <section class="hero">
+        <div class="hero-video-wrapper">
+            <div class="hero-video-container" id="heroVideo">
+                <video class="hero-video" autoplay muted loop playsinline>
+                    <source src="7af5f390f8744a7cb200448a1f8f69fc_HD-1080p-3_3Mbps-61049342.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+        
+        <div class="hero-content" id="heroContent">
+            <h1>Meat from plants. Approved by meat lovers.</h1>
+            <p class="hero-subtitle">No animals. No weird stuff. Just really good food that happens to be plant-based.</p>
+            <div class="hero-buttons">
+                <a href="#locator" class="btn btn-primary">
+                    <span>📍</span> Find Near You
+                </a>
+                <a href="#products" class="btn btn-secondary">
+                    See Our Products
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         STATEMENT SECTION
+         ============================================ -->
+    <section class="statement">
+        <div class="statement-inner">
+            <h2 class="reveal">
+                We believe meat doesn't have to come from animals.
+                <span class="statement-highlight">It just has to taste incredible.</span>
+            </h2>
+            <p class="reveal reveal-delay-1">Made in Switzerland. B Corp certified. And honestly? It's really, really good.</p>
+        </div>
+    </section>
+
+    <!-- ============================================
+         PRODUCTS SECTION
+         ============================================ -->
+    <section class="products" id="products">
+        <div class="section-header">
+            <h2 class="reveal">What we make</h2>
+            <p class="reveal reveal-delay-1">Six ways to eat better without missing out</p>
+        </div>
+        
+        <div class="products-grid">
+            <div class="product-card reveal-scale">
+                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80" alt="planted.steak">
+                <div class="product-overlay">
+                    <span class="product-name">planted.steak</span>
+                    <span class="product-tagline">The world's first fermented whole-cut</span>
+                </div>
+                <span class="product-badge">24g protein</span>
+            </div>
+            
+            <div class="product-card reveal-scale">
+                <img src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=800&q=80" alt="planted.chicken">
+                <div class="product-overlay">
+                    <span class="product-name">planted.chicken</span>
+                    <span class="product-tagline">Crispy outside, tender inside</span>
+                </div>
+                <span class="product-badge">22g protein</span>
+            </div>
+            
+            <div class="product-card reveal-scale">
+                <img src="https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=800&q=80" alt="planted.kebab">
+                <div class="product-overlay">
+                    <span class="product-name">planted.kebab</span>
+                    <span class="product-tagline">Late-night cravings, sorted</span>
+                </div>
+                <span class="product-badge">20g protein</span>
+            </div>
+            
+            <div class="product-card reveal-scale">
+                <img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=800&q=80" alt="planted.pulled">
+                <div class="product-overlay">
+                    <span class="product-name">planted.pulled</span>
+                    <span class="product-tagline">Shreds like the real thing</span>
+                </div>
+                <span class="product-badge">21g protein</span>
+            </div>
+            
+            <div class="product-card reveal-scale">
+                <img src="https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=800&q=80" alt="planted.schnitzel">
+                <div class="product-overlay">
+                    <span class="product-name">planted.schnitzel</span>
+                    <span class="product-tagline">Golden and crispy</span>
+                </div>
+                <span class="product-badge">19g protein</span>
+            </div>
+            
+            <div class="product-card reveal-scale">
+                <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80" alt="planted.bratwurst">
+                <div class="product-overlay">
+                    <span class="product-name">planted.bratwurst</span>
+                    <span class="product-tagline">BBQ ready</span>
+                </div>
+                <span class="product-badge">18g protein</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         IMPACT SECTION
+         ============================================ -->
+    <section class="impact" id="impact">
+        <h2 class="reveal">Every bite makes a difference</h2>
+        <div class="impact-stats">
+            <div class="stat reveal reveal-delay-1">
+                <div class="stat-value" data-count="77">0%</div>
+                <div class="stat-label">Less CO₂</div>
+            </div>
+            <div class="stat reveal reveal-delay-2">
+                <div class="stat-value" data-count="85">0%</div>
+                <div class="stat-label">Less Water</div>
+            </div>
+            <div class="stat reveal reveal-delay-3">
+                <div class="stat-value" data-count="0">0</div>
+                <div class="stat-label">Animals</div>
+            </div>
+        </div>
+        <p class="impact-note reveal">Compared to conventional chicken. Verified by independent LCA.</p>
+    </section>
+
+    <!-- ============================================
+         RECIPES SECTION
+         ============================================ -->
+    <section class="recipes" id="recipes">
+        <div class="recipes-header">
+            <h2 class="reveal">Get cooking</h2>
+            <a href="#" class="reveal">All 50+ recipes →</a>
+        </div>
+        
+        <div class="recipes-scroll">
+            <div class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80" alt="Steak Béarnaise">
+                </div>
+                <div class="recipe-info">
+                    <div class="recipe-title">Steak Béarnaise</div>
+                    <div class="recipe-meta">25 min • Medium</div>
+                </div>
+            </div>
+            
+            <div class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80" alt="Crispy Chicken Bowl">
+                </div>
+                <div class="recipe-info">
+                    <div class="recipe-title">Crispy Chicken Bowl</div>
+                    <div class="recipe-meta">15 min • Easy</div>
+                </div>
+            </div>
+            
+            <div class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80" alt="Döner Wrap">
+                </div>
+                <div class="recipe-info">
+                    <div class="recipe-title">Late Night Döner</div>
+                    <div class="recipe-meta">10 min • Easy</div>
+                </div>
+            </div>
+            
+            <div class="recipe-card">
+                <div class="recipe-image">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80" alt="BBQ Burger">
+                </div>
+                <div class="recipe-info">
+                    <div class="recipe-title">BBQ Pulled Burger</div>
+                    <div class="recipe-meta">20 min • Medium</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         STORE LOCATOR
+         ============================================ -->
+    <section class="locator" id="locator">
+        <h2 class="reveal">Hungry?</h2>
+        <p class="reveal reveal-delay-1">Find planted at your favourite store. We're basically everywhere now.</p>
+        
+        <div class="locator-search reveal reveal-delay-2">
+            <input type="text" placeholder="Enter city or postcode">
+            <button>Search</button>
+        </div>
+        
+        <div class="retailers">
+            <span class="retailer reveal-scale">Coop</span>
+            <span class="retailer reveal-scale">Migros</span>
+            <span class="retailer reveal-scale">EDEKA</span>
+            <span class="retailer reveal-scale">REWE</span>
+            <span class="retailer reveal-scale">SPAR</span>
+            <span class="retailer reveal-scale">Tesco</span>
+        </div>
+    </section>
+
+    <!-- ============================================
+         BUSINESS SECTION
+         ============================================ -->
+    <section class="business" id="business">
+        <div class="business-inner">
+            <div>
+                <span class="business-badge reveal">For Foodservice</span>
+                <h2 class="reveal">Join 8,000+ restaurants serving planted</h2>
+                <p class="reveal reveal-delay-1">From Michelin stars to street food. We've got products, support, and free samples waiting.</p>
+                <a href="#" class="business-cta reveal reveal-delay-2">
+                    Get Samples →
+                </a>
+            </div>
+            
+            <div class="business-stats">
+                <div class="business-stat reveal-scale">
+                    <div class="business-stat-value">8,000+</div>
+                    <div class="business-stat-label">Restaurants</div>
+                </div>
+                <div class="business-stat reveal-scale">
+                    <div class="business-stat-value">6</div>
+                    <div class="business-stat-label">Countries</div>
+                </div>
+                <div class="business-stat reveal-scale">
+                    <div class="business-stat-value">24/7</div>
+                    <div class="business-stat-label">Support</div>
+                </div>
+                <div class="business-stat reveal-scale">
+                    <div class="business-stat-value">Free</div>
+                    <div class="business-stat-label">Samples</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <!-- Green logo for purple background -->
+                        <svg viewBox="0 0 193.58 66.22" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#6BBF59" d="m193.54,34.47l-2.66-34.47H0l3.78,46.08c1.65,22.09,20.09,20.09,20.09,20.09,0,0,126.37-9.87,148.05-11.64,23.55-2.11,21.62-20.06,21.62-20.06Z"/>
+                            <path fill="#61269e" d="m166.22,32.32h0c1.12-1.28,2.97-1.43,4.25-.34,1.31,1.09,1.46,2.93.34,4.21-1.09,1.28-2.93,1.42-4.25.34-1.28-1.09-1.42-2.93-.34-4.21Z"/>
+                            <path fill="#61269e" d="m147.2,36.47h0c2.18,1.76,4.68,2.38,7.53,2.15s5.24-1.39,7.12-3.47c1.96-2.18,2.59-5.22,2.29-9.04l-1.16-14.54-5.5.44.67,8.42c-1.59-1.26-3.77-1.42-5.21-1.3-2.84.23-4.97,1.29-6.85,3.34-1.88,2.08-2.69,4.49-2.47,7.26.22,2.77,1.4,5.02,3.58,6.74Zm3.05-10.76h0c.85-1,1.96-1.57,3.32-1.68s2.55.28,3.55,1.13c1,.85,1.57,1.99,1.68,3.36s-.28,2.55-1.13,3.55c-.85,1.03-1.95,1.61-3.32,1.71s-2.55-.28-3.55-1.17c-1-.85-1.57-1.96-1.68-3.32s.28-2.55,1.13-3.58Z"/>
+                            <path fill="#61269e" d="m166.19,32.32h0c1.12-1.28,2.97-1.43,4.25-.34,1.31,1.09,1.46,2.93.34,4.21-1.09,1.28-2.93,1.42-4.25.34-1.28-1.09-1.42-2.93-.34-4.21Z"/>
+                            <path fill="#61269e" d="m51.71,20.33l5.5-.44,1.5,18.83c.13,1.66.82,2.35,2.33,2.23.52-.04.96-.11,1.32-.25l.39,4.87c-.61.23-1.49.38-2.6.47-4.25.34-6.52-1.67-6.87-6.03l-1.57-19.68Z"/>
+                            <path fill="#61269e" d="m65.32,28.91h0c1.62-2.03,3.76-3.12,6.39-3.33,2.81-.22,5.08.75,5.76,2.33l-.19-2.44,5.5-.44.96,12.07c.12,1.48.53,2.04,1.53,1.96.26-.02.59-.08.92-.15l.36,4.58c-.58.23-1.38.41-2.45.49-1.22.1-2.27-.04-3.08-.42-.89-.49-1.5-1.11-1.82-1.86-1.07,1.91-3.03,2.95-5.95,3.19-2.62.21-4.91-.54-6.83-2.24-1.88-1.75-2.95-3.96-3.17-6.7s.49-5.06,2.08-7.04Zm11.85,9.27h0c.89-1,1.28-2.14,1.18-3.44s-.67-2.36-1.7-3.17c-1-.85-2.18-1.2-3.54-1.09s-2.4.64-3.25,1.63c-.85.96-1.21,2.1-1.11,3.4s.64,2.36,1.63,3.21c.99.81,2.14,1.17,3.47,1.06s2.47-.64,3.33-1.6Z"/>
+                            <path fill="#61269e" d="m88.98,43.26l-1.48-18.61,5.5-.44.19,2.32c.65-1.69,2.63-2.96,5.14-3.16,4.47-.36,7.28,2.32,7.67,7.15l.37,4.69c.11,1.44.45,1.93,1.37,1.86l.37-.03.22-.06.37,4.65c-.43.22-1.23.36-2.38.45-3.29.26-5.05-1.38-5.34-4.93l-.44-5.54c-.17-2.18-1.42-3.42-3.6-3.24-2.07.16-3.46,1.8-3.29,3.98l.83,10.45-5.5.44Z"/>
+                            <path fill="#61269e" d="m110.79,27.81l-2.44.19-.4-4.98,2.44-.19-.57-7.13,5.35-.43.57,7.13,4.14-.33.4,4.98-4.14.33.53,6.65c.14,1.77.9,2.42,2.56,2.29.3-.02.77-.1,1.39-.26l.39,4.87c-.72.24-1.61.39-2.67.47-4.28.34-6.6-1.71-6.95-6.13l-.59-7.46Z"/>
+                            <path fill="#61269e" d="m122.2,31.22h0c-.23-2.92.54-5.35,2.28-7.28,1.74-1.96,4.1-3.04,7.02-3.27s5.21.52,7.12,2.18c1.92,1.67,2.98,3.81,3.19,6.51.05.63.06,1.22.07,1.78l-14.07,1.12c.29,2.21,2.32,3.49,5.24,3.26,1.73-.14,3.2-.85,4.4-2.17l3.46,2.81c-2,2.42-4.6,3.78-7.74,4.03s-5.57-.45-7.59-2.03c-2.02-1.62-3.13-3.87-3.36-6.79v-.15Zm13.94-3.23h0c-.14-1.74-2.06-2.96-4.27-2.78-2.4.19-4.25,1.71-4.26,3.46l8.53-.68Z"/>
+                            <path fill="#61269e" d="m47.07,30.13h0c-2.18-1.76-4.68-2.38-7.53-2.15s-5.24,1.39-7.12,3.47c-1.96,2.18-2.59,5.22-2.29,9.04l1.16,14.54,5.5-.44-.67-8.42c1.59,1.26,3.77,1.41,5.21,1.3,2.84-.23,4.97-1.29,6.85-3.34,1.88-2.08,2.69-4.49,2.47-7.26-.22-2.77-1.4-5.02-3.58-6.74Zm-3.05,10.76h0c-.85,1-1.96,1.57-3.32,1.68s-2.55-.28-3.55-1.13c-1-.85-1.57-1.99-1.68-3.36s.28-2.55,1.13-3.54c.85-1.03,1.95-1.61,3.32-1.71s2.55.28,3.55,1.17c1,.85,1.57,1.96,1.68,3.32s-.28,2.55-1.13,3.58Z"/>
+                        </svg>
+                    </a>
+                    <p>Changing the world bite by bite. Made with love in Switzerland.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Products</h4>
+                    <a href="#">planted.steak</a>
+                    <a href="#">planted.chicken</a>
+                    <a href="#">planted.kebab</a>
+                    <a href="#">All Products</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <a href="#">Our Story</a>
+                    <a href="#">Science</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Press</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Help</h4>
+                    <a href="#">FAQ</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Store Locator</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <span>© 2025 Planted Foods AG. B Corp Certified.</span>
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="2" width="20" height="20" rx="5"/>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                            <rect x="2" y="9" width="4" height="12"/>
+                            <circle cx="4" cy="4" r="2"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="YouTube">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/>
+                            <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile CTA -->
+    <div class="mobile-cta" id="mobileCta">
+        <a href="#locator">
+            <span>📍</span> Find Planted Near You
+        </a>
+    </div>
+
+    <script>
+        // ============================================
+        // APPLE-STYLE SCROLL ANIMATIONS
+        // ============================================
+        
+        // Hero video scroll transform
+        const heroVideo = document.getElementById('heroVideo');
+        const heroContent = document.getElementById('heroContent');
+        const nav = document.getElementById('nav');
+        
+        // Trigger hero content animation on load
+        window.addEventListener('load', () => {
+            heroContent.classList.add('animate-in');
+        });
+        
+        // Scroll-based video transform (Apple-style)
+        let ticking = false;
+        
+        function updateVideoTransform() {
+            const scrollY = window.scrollY;
+            const windowHeight = window.innerHeight;
+            
+            // Calculate scroll progress (0 to 1 for first viewport)
+            const progress = Math.min(scrollY / (windowHeight * 0.6), 1);
+            
+            // Video: rotate from -3deg to 0deg, scale from 0.95 to 1
+            const rotation = -3 + (progress * 3);
+            const scale = 0.95 + (progress * 0.05);
+            const translateY = progress * -20;
+            
+            heroVideo.style.transform = `rotate(${rotation}deg) scale(${scale}) translateY(${translateY}px)`;
+            
+            // Add shadow depth as it straightens
+            const shadowOpacity = 0.15 + (progress * 0.1);
+            const shadowBlur = 25 + (progress * 30);
+            heroVideo.style.boxShadow = `0 ${25 + progress * 15}px ${shadowBlur}px rgba(97, 38, 158, ${shadowOpacity})`;
+            
+            // Nav background on scroll
+            if (scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+            
+            ticking = false;
+        }
+        
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(updateVideoTransform);
+                ticking = true;
+            }
+        });
+        
+        // Initial call
+        updateVideoTransform();
+        
+        // ============================================
+        // SCROLL REVEAL ANIMATIONS
+        // ============================================
+        const revealElements = document.querySelectorAll('.reveal, .reveal-scale');
+        
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        });
+        
+        revealElements.forEach(el => revealObserver.observe(el));
+        
+        // ============================================
+        // COUNTER ANIMATION FOR STATS
+        // ============================================
+        const statValues = document.querySelectorAll('.stat-value[data-count]');
+        let statsAnimated = false;
+        
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !statsAnimated) {
+                    statsAnimated = true;
+                    animateCounters();
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        const impactSection = document.getElementById('impact');
+        if (impactSection) {
+            statsObserver.observe(impactSection);
+        }
+        
+        function animateCounters() {
+            statValues.forEach(stat => {
+                const target = parseInt(stat.dataset.count);
+                const duration = 1500;
+                const start = performance.now();
+                
+                function updateCounter(currentTime) {
+                    const elapsed = currentTime - start;
+                    const progress = Math.min(elapsed / duration, 1);
+                    
+                    // Easing function (ease-out)
+                    const easeOut = 1 - Math.pow(1 - progress, 3);
+                    const current = Math.round(easeOut * target);
+                    
+                    if (target === 0) {
+                        stat.textContent = '0';
+                    } else {
+                        stat.textContent = current + '%';
+                    }
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCounter);
+                    }
+                }
+                
+                requestAnimationFrame(updateCounter);
+            });
+        }
+        
+        // ============================================
+        // MOBILE MENU
+        // ============================================
+        function toggleMenu() {
+            const menu = document.getElementById('navMenu');
+            menu.classList.toggle('open');
+            document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+        }
+        
+        // ============================================
+        // SMOOTH SCROLL
+        // ============================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+        
+        // ============================================
+        // MOBILE CTA VISIBILITY
+        // ============================================
+        const mobileCta = document.getElementById('mobileCta');
+        const footer = document.querySelector('.footer');
+        
+        window.addEventListener('scroll', () => {
+            const footerTop = footer.getBoundingClientRect().top;
+            if (footerTop < window.innerHeight + 100) {
+                mobileCta.classList.add('hidden');
+            } else {
+                mobileCta.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
