@@ -80,6 +80,23 @@
             -webkit-font-smoothing: antialiased;
         }
         
+        /* Center all full-width sections on ultra-wide */
+        .statement,
+        .impact,
+        .locator,
+        .business,
+        .footer {
+            width: 100%;
+        }
+        
+        .statement-inner,
+        .locator > *,
+        .business-inner,
+        .footer-inner {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
         ::selection {
             background: var(--planted-purple-light);
             color: white;
@@ -239,6 +256,7 @@
             padding: 4rem 1.5rem 3rem;
             display: flex;
             flex-direction: column;
+            align-items: center;
             position: relative;
             overflow: hidden;
         }
@@ -852,6 +870,11 @@
             overflow: hidden;
         }
         
+        .locator-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
         .locator h2 {
             font-size: clamp(3rem, 15vw, 7rem);
             color: white;
@@ -859,7 +882,7 @@
             text-transform: uppercase;
         }
         
-        .locator > p {
+        .locator-content > p {
             font-size: 1.1rem;
             color: rgba(255,255,255,0.8);
             margin-bottom: 2.5rem;
@@ -1753,21 +1776,23 @@
          STORE LOCATOR
          ============================================ -->
     <section class="locator" id="locator">
-        <h2 class="reveal">Hungry?</h2>
-        <p class="reveal reveal-delay-1">Find planted at your favourite store. We're basically everywhere now.</p>
-        
-        <div class="locator-search reveal reveal-delay-2">
-            <input type="text" placeholder="Enter city or postcode">
-            <button>Search</button>
-        </div>
-        
-        <div class="retailers">
-            <span class="retailer reveal-scale">Coop</span>
-            <span class="retailer reveal-scale">Migros</span>
-            <span class="retailer reveal-scale">EDEKA</span>
-            <span class="retailer reveal-scale">REWE</span>
-            <span class="retailer reveal-scale">SPAR</span>
-            <span class="retailer reveal-scale">Tesco</span>
+        <div class="locator-content">
+            <h2 class="reveal">Hungry?</h2>
+            <p class="reveal reveal-delay-1">Find planted at your favourite store. We're basically everywhere now.</p>
+            
+            <div class="locator-search reveal reveal-delay-2">
+                <input type="text" placeholder="Enter city or postcode">
+                <button>Search</button>
+            </div>
+            
+            <div class="retailers">
+                <span class="retailer reveal-scale">Coop</span>
+                <span class="retailer reveal-scale">Migros</span>
+                <span class="retailer reveal-scale">EDEKA</span>
+                <span class="retailer reveal-scale">REWE</span>
+                <span class="retailer reveal-scale">SPAR</span>
+                <span class="retailer reveal-scale">Tesco</span>
+            </div>
         </div>
     </section>
 
