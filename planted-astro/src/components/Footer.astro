@@ -1,12 +1,13 @@
 ---
 // Footer component with green logo for purple background
+const base = import.meta.env.BASE_URL;
 ---
 
 <footer class="footer">
     <div class="footer-inner">
         <div class="footer-top">
             <div class="footer-brand">
-                <a href="/" class="logo">
+                <a href={base} class="logo">
                     <!-- Green logo for purple background -->
                     <svg viewBox="0 0 193.58 66.22" xmlns="http://www.w3.org/2000/svg">
                         <path fill="#6BBF59" d="m193.54,34.47l-2.66-34.47H0l3.78,46.08c1.65,22.09,20.09,20.09,20.09,20.09,0,0,126.37-9.87,148.05-11.64,23.55-2.11,21.62-20.06,21.62-20.06Z"/>
@@ -26,16 +27,16 @@
 
             <div class="footer-links">
                 <h4>Products</h4>
-                <a href="/products">planted.steak</a>
-                <a href="/products">planted.chicken</a>
-                <a href="/products">planted.kebab</a>
-                <a href="/products">All Products</a>
+                <a href={`${base}/products`}>planted.steak</a>
+                <a href={`${base}/products`}>planted.chicken</a>
+                <a href={`${base}/products`}>planted.kebab</a>
+                <a href={`${base}/products`}>All Products</a>
             </div>
 
             <div class="footer-links">
                 <h4>Company</h4>
-                <a href="/our-story">Our Story</a>
-                <a href="/our-story">Science</a>
+                <a href={`${base}/our-story`}>Our Story</a>
+                <a href={`${base}/our-story`}>Science</a>
                 <a href="#">Careers</a>
                 <a href="#">Press</a>
             </div>
@@ -44,7 +45,7 @@
                 <h4>Help</h4>
                 <a href="#">FAQ</a>
                 <a href="#">Contact</a>
-                <a href="/#locator">Store Locator</a>
+                <a href={`${base}/#locator`}>Store Locator</a>
             </div>
         </div>
 

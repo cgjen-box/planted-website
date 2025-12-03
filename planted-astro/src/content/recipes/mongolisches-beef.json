@@ -1,0 +1,23 @@
+{
+    "title": "Mongolisches Beef",
+    "slug": "mongolisches-beef",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/Mongolian_Beef_de24c6df-de94-4790-9db5-9f01644707b1.jpg?v=1753967118",
+    "cookTime": 43,
+    "servings": 4,
+    "difficulty": "Easy",
+    "category": "main",
+    "order": 85,
+    "ingredients": [
+        "1 pack planted",
+        "2 tbsp olive oil",
+        "Salt and pepper to taste",
+        "Fresh herbs for garnish"
+    ],
+    "instructions": [
+        "Prepare the planted according to package instructions.",
+        "Season with salt, pepper, and your favorite spices.",
+        "Cook in a pan with olive oil until golden brown.",
+        "Serve hot with your choice of sides.",
+        "Garnish with fresh herbs and enjoy!"
+    ]
+}

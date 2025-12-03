@@ -1,0 +1,23 @@
+{
+    "title": "Soba Bowl",
+    "slug": "soba-bowl",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/5f463cea6de1e6aaf634dae3_Rezept_Soba-Noodle_Bild_preview.jpg?v=1681303379",
+    "cookTime": 15,
+    "servings": 4,
+    "difficulty": "Easy",
+    "category": "main",
+    "order": 138,
+    "ingredients": [
+        "1 pack planted",
+        "2 tbsp olive oil",
+        "Salt and pepper to taste",
+        "Fresh herbs for garnish"
+    ],
+    "instructions": [
+        "Prepare the planted according to package instructions.",
+        "Season with salt, pepper, and your favorite spices.",
+        "Cook in a pan with olive oil until golden brown.",
+        "Serve hot with your choice of sides.",
+        "Garnish with fresh herbs and enjoy!"
+    ]
+}

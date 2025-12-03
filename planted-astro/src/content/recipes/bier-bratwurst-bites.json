@@ -1,0 +1,23 @@
+{
+    "title": "Bier Bratwurst Bites",
+    "slug": "bier-bratwurst-bites",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/Beer_Brat_Bites.jpg?v=1750342958",
+    "cookTime": 24,
+    "servings": 4,
+    "difficulty": "Easy",
+    "category": "main",
+    "order": 11,
+    "ingredients": [
+        "1 pack planted.bratwurst",
+        "2 tbsp olive oil",
+        "Salt and pepper to taste",
+        "Fresh herbs for garnish"
+    ],
+    "instructions": [
+        "Prepare the planted.bratwurst according to package instructions.",
+        "Season with salt, pepper, and your favorite spices.",
+        "Cook in a pan with olive oil until golden brown.",
+        "Serve hot with your choice of sides.",
+        "Garnish with fresh herbs and enjoy!"
+    ]
+}

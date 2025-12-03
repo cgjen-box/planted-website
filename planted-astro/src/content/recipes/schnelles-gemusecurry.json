@@ -1,0 +1,23 @@
+{
+    "title": "Schnelles Gemüsecurry",
+    "slug": "schnelles-gemusecurry",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/62825bc9d65fb7ea21af0870_20C6B340-C387-409C-93CB-2082F8719321_1_105_c_1.jpg?v=1681303276",
+    "cookTime": 27,
+    "servings": 4,
+    "difficulty": "Easy",
+    "category": "main",
+    "order": 133,
+    "ingredients": [
+        "1 pack planted",
+        "2 tbsp olive oil",
+        "Salt and pepper to taste",
+        "Fresh herbs for garnish"
+    ],
+    "instructions": [
+        "Prepare the planted according to package instructions.",
+        "Season with salt, pepper, and your favorite spices.",
+        "Cook in a pan with olive oil until golden brown.",
+        "Serve hot with your choice of sides.",
+        "Garnish with fresh herbs and enjoy!"
+    ]
+}

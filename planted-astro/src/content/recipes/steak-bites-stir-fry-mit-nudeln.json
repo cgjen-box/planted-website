@@ -1,0 +1,23 @@
+{
+    "title": "Steak Bites Stir Fry mit Nudeln",
+    "slug": "steak-bites-stir-fry-mit-nudeln",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/Recipe-SteakBites-FriedNoodles-A7406591-Edit_548d09cc-521f-476a-bd30-d16c7872f09e.jpg?v=1752127673",
+    "cookTime": 33,
+    "servings": 4,
+    "difficulty": "Easy",
+    "category": "main",
+    "order": 145,
+    "ingredients": [
+        "1 pack planted.steak",
+        "2 tbsp olive oil",
+        "Salt and pepper to taste",
+        "Fresh herbs for garnish"
+    ],
+    "instructions": [
+        "Prepare the planted.steak according to package instructions.",
+        "Season with salt, pepper, and your favorite spices.",
+        "Cook in a pan with olive oil until golden brown.",
+        "Serve hot with your choice of sides.",
+        "Garnish with fresh herbs and enjoy!"
+    ]
+}

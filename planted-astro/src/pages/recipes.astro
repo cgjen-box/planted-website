@@ -6,12 +6,13 @@ const recipes = await getCollection('recipes');
 const sortedRecipes = recipes.sort((a, b) => a.data.order - b.data.order);
 const featuredRecipe = sortedRecipes.find(r => r.data.isFeatured);
 const otherRecipes = sortedRecipes.filter(r => !r.data.isFeatured);
+const base = import.meta.env.BASE_URL;
 ---
 
 <Layout title="Recipes – Planted" currentPage="recipes">
     <header class="page-header">
         <h1>Get cooking</h1>
-        <p>50+ recipes to inspire your next meal. From quick weeknight dinners to impressive feasts.</p>
+        <p>150+ recipes to inspire your next meal. From quick weeknight dinners to impressive feasts.</p>
     </header>
 
     <div class="filter-tabs">
@@ -24,7 +25,7 @@ const otherRecipes = sortedRecipes.filter(r => !r.data.isFeatured);
 
     <section class="recipes-section">
         {featuredRecipe && (
-            <div class="featured-recipe">
+            <a href={`${base}/recipes/${featuredRecipe.data.slug}`} class="featured-recipe">
                 <div class="featured-image">
                     <img src={featuredRecipe.data.image} alt={featuredRecipe.data.title}>
                 </div>
@@ -32,27 +33,29 @@ const otherRecipes = sortedRecipes.filter(r => !r.data.isFeatured);
                     <span class="featured-label">Featured Recipe</span>
                     <h2 class="featured-title">{featuredRecipe.data.title}</h2>
                     <p class="featured-description">{featuredRecipe.data.description}</p>
-                    <a href="#" class="btn btn-white">View Recipe →</a>
+                    <span class="btn btn-white">View Recipe →</span>
                 </div>
-            </div>
+            </a>
         )}
 
         <div class="recipes-grid">
             {otherRecipes.map((recipe) => (
-                <div class="recipe-card" data-category={recipe.data.categories.join(' ')}>
+                <a href={`${base}/recipes/${recipe.data.slug}`} class="recipe-card" data-category={recipe.data.category || ''}>
                     <div class="recipe-image">
                         <img src={recipe.data.image} alt={recipe.data.title}>
                     </div>
                     <div class="recipe-content">
-                        <div class="recipe-tags">
-                            {recipe.data.tags.map((tag) => (
-                                <span class="recipe-tag">{tag}</span>
-                            ))}
-                        </div>
+                        {recipe.data.tags && recipe.data.tags.length > 0 && (
+                            <div class="recipe-tags">
+                                {recipe.data.tags.map((tag) => (
+                                    <span class="recipe-tag">{tag}</span>
+                                ))}
+                            </div>
+                        )}
                         <h3 class="recipe-title">{recipe.data.title}</h3>
-                        <div class="recipe-meta">⏱ {recipe.data.cookTime} min • {recipe.data.difficulty}</div>
+                        <div class="recipe-meta">{recipe.data.cookTime} min • {recipe.data.difficulty}</div>
                     </div>
-                </div>
+                </a>
             ))}
         </div>
     </section>
@@ -71,6 +74,13 @@ const otherRecipes = sortedRecipes.filter(r => !r.data.isFeatured);
         overflow: hidden;
         margin-bottom: 3rem;
         display: grid;
+        text-decoration: none;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .featured-recipe:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(97, 38, 158, 0.3);
     }
 
     .featured-image {
@@ -143,7 +153,13 @@ const otherRecipes = sortedRecipes.filter(r => !r.data.isFeatured);
     }
 
     .recipe-card {
+        display: block;
+        text-decoration: none;
         transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .recipe-card:hover {
+        transform: translateY(-6px);
     }
 
     .recipe-card.hidden {

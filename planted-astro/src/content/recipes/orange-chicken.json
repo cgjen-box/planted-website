@@ -1,0 +1,23 @@
+{
+    "title": "Orange Chicken",
+    "slug": "orange-chicken",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/MicrosoftTeams-image_46_9cb92afd-c0e3-440e-b373-634528b2c9a4.jpg?v=1737534461",
+    "cookTime": 19,
+    "servings": 4,
+    "difficulty": "Easy",
+    "category": "main",
+    "order": 90,
+    "ingredients": [
+        "1 pack planted.chicken",
+        "2 tbsp olive oil",
+        "Salt and pepper to taste",
+        "Fresh herbs for garnish"
+    ],
+    "instructions": [
+        "Prepare the planted.chicken according to package instructions.",
+        "Season with salt, pepper, and your favorite spices.",
+        "Cook in a pan with olive oil until golden brown.",
+        "Serve hot with your choice of sides.",
+        "Garnish with fresh herbs and enjoy!"
+    ]
+}

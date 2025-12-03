@@ -19,214 +19,442 @@ const relatedProducts = allProducts
     .filter(p => p.data.category === product.data.category && p.data.slug !== product.data.slug)
     .slice(0, 3);
 
-// Get all recipes for the recipe section
+// Get recipes that might feature this product
 const recipes = await getCollection('recipes');
-const featuredRecipes = recipes.slice(0, 4);
+const productRecipes = recipes
+    .filter(r => {
+        const titleLower = r.data.title.toLowerCase();
+        const categoryLower = product.data.category.toLowerCase();
+        return titleLower.includes(categoryLower) ||
+               titleLower.includes(product.data.name.toLowerCase().replace('planted.', ''));
+    })
+    .slice(0, 4);
+
+// Fallback to featured recipes if no product-specific ones
+const featuredRecipes = productRecipes.length > 0 ? productRecipes : recipes.slice(0, 4);
+
+// Parse ingredients from string to array
+const ingredientsList = product.data.ingredients
+    ? product.data.ingredients.split(',').map(i => i.trim())
+    : ['Pea Protein', 'Water', 'Rapeseed Oil', 'Pea Fiber', 'Salt', 'Vitamin B12'];
+
+// Color mappings for gradients
+const colorGradients: Record<string, { main: string; light: string; dark: string }> = {
+    yellow: { main: '#E8D494', light: '#F5E6B8', dark: '#D4C074' },
+    terracotta: { main: '#D4A894', light: '#E8C4B8', dark: '#C08870' },
+    purple: { main: '#61269E', light: '#9B6BC7', dark: '#4A1D7A' },
+    olive: { main: '#B4C494', light: '#C8D4B8', dark: '#94A870' },
+    burgundy: { main: '#C494A8', light: '#D4B8C4', dark: '#A87088' },
+    teal: { main: '#94C4C4', light: '#B8D4D4', dark: '#70A8A8' },
+    coral: { main: '#E8B8A4', light: '#F5D4C8', dark: '#D49880' },
+    navy: { main: '#94A8C4', light: '#B8C4D4', dark: '#7088A8' },
+    green: { main: '#6BBF59', light: '#94D494', dark: '#4A9F40' },
+    orange: { main: '#E8B894', light: '#F5D4B8', dark: '#D49870' },
+    red: { main: '#E8A4A4', light: '#F5C4C4', dark: '#D48080' },
+};
+
+const colors = colorGradients[product.data.color] || colorGradients.purple;
 ---
 
 <Layout title={`${product.data.name} ${product.data.variant} – Planted`} currentPage="products">
-    <div class="product-page">
-        <nav class="breadcrumb">
-            <a href={`${base}/products`}>Products</a>
-            <span>/</span>
-            <span>{product.data.name} {product.data.variant}</span>
-        </nav>
+    <!-- Hero Section - Pack to Plate Animation -->
+    <section class="hero" id="hero">
+        <div class="hero-sticky" style={`background: linear-gradient(165deg, ${colors.light} 0%, ${colors.main} 40%, ${colors.dark} 100%);`}>
+            <!-- Dish image (hidden initially, fades in on scroll) -->
+            {product.data.images.dish && (
+                <div class="hero-dish" id="heroDish">
+                    <img src={product.data.images.dish} alt={`Delicious ${product.data.name} dish`} loading="eager">
+                </div>
+            )}
 
-        <div class="product-detail">
-            <div class="product-image-section" data-color={product.data.color}>
-                <div class="product-image-container">
-                    {product.data.isNew && <span class="product-badge-new">New</span>}
-                    <img src={product.data.images.main} alt={`${product.data.name} ${product.data.variant}`} class="product-main-image">
+            <!-- Pack shot (visible initially, animates out on scroll) -->
+            <div class="hero-pack" id="heroPack">
+                {product.data.isNew && <span class="product-badge-new">New</span>}
+                <img src={product.data.images.main} alt={`${product.data.name} ${product.data.variant} packaging`} loading="eager">
+            </div>
+
+            <!-- Product info (appears after scroll) -->
+            <div class="hero-info" id="heroInfo">
+                <div class="hero-text">
+                    <h1>{product.data.name}</h1>
+                    <p>{product.data.variant} — {product.data.description?.split('.')[0] || 'Plant-based perfection'}</p>
+                </div>
+
+                <div class="hero-protein">
+                    <span class="hero-protein-value">
+                        <span class="num">17</span><span class="unit">g</span>
+                    </span>
+                    <span class="hero-protein-label">Protein per 100g</span>
                 </div>
             </div>
 
-            <div class="product-info-section">
-                <div class="product-category">{product.data.category}</div>
-                <h1 class="product-title">{product.data.name}</h1>
-                <p class="product-variant-name">{product.data.variant}</p>
+            <!-- Scroll hint -->
+            <div class="scroll-hint" id="scrollHint">
+                <span>Scroll</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M19 12l-7 7-7-7"/>
+                </svg>
+            </div>
+        </div>
+    </section>
 
-                {product.data.description && (
-                    <p class="product-tagline">{product.data.description}</p>
-                )}
+    <!-- Quick Stats Bar -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat">
+                <span class="stat-value">17g</span>
+                <span class="stat-label">Protein</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">{ingredientsList.length}</span>
+                <span class="stat-label">Ingredients</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">77%</span>
+                <span class="stat-label">Less CO₂</span>
+            </div>
+            <div class="stat zero">
+                <span class="stat-value">0</span>
+                <span class="stat-label">Animals</span>
+            </div>
+        </div>
+    </section>
 
-                {product.data.longDescription && (
-                    <p class="product-description">{product.data.longDescription}</p>
-                )}
+    <!-- Trust Badges -->
+    <section class="trust">
+        <div class="trust-badge">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm-1.06 13.54L7.4 12l1.41-1.41 2.12 2.12 4.24-4.24 1.41 1.41-5.64 5.66z"/></svg>
+            B Corp Certified
+        </div>
+        <div class="trust-badge">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            Made in Switzerland
+        </div>
+        <div class="trust-badge">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z"/></svg>
+            100% Plant-Based
+        </div>
+    </section>
 
+    <!-- Ingredients Section -->
+    <section class="ingredients">
+        <h2>What's inside</h2>
+
+        <div class="ingredient-pills">
+            {ingredientsList.map((ingredient, index) => (
+                <div class="pill">
+                    {ingredient}
+                    {index === 0 && <span>33%</span>}
+                </div>
+            ))}
+        </div>
+
+        <div class="ingredient-note">That's it. {ingredientsList.length} ingredients. No weird stuff.</div>
+    </section>
+
+    <!-- Nutrition Section -->
+    <section class="nutrition">
+        <div class="nutrition-layout">
+            <!-- Food image on left -->
+            <div class="nutrition-image">
+                <img src={product.data.images.dish || product.data.images.main} alt={`${product.data.name} prepared dish`}>
+            </div>
+
+            <!-- Nutrition content on right -->
+            <div class="nutrition-content">
+                <div class="nutrition-header" id="nutritionHeader">
+                    <h2>Nutritional values</h2>
+                    <button class="nutrition-toggle" id="nutritionToggle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 9l6 6 6-6"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Key nutrients with icons -->
+                <div class="nutrition-highlights">
+                    <div class="nutrient-highlight">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6.5 12c0-3.5 2.5-6 5.5-6s5.5 2.5 5.5 6-2.5 6-5.5 6"/>
+                            <path d="M12 6V2M9 18l-1.5 4M15 18l1.5 4M7 10h10"/>
+                        </svg>
+                        <span class="value">17g</span>
+                        <span class="label">Protein</span>
+                    </div>
+                    <div class="nutrient-highlight">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6v6l4 2"/>
+                        </svg>
+                        <span class="value">5.7g</span>
+                        <span class="label">Fiber</span>
+                    </div>
+                    <div class="nutrient-highlight">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        </svg>
+                        <span class="value">72%*</span>
+                        <span class="label">B12</span>
+                    </div>
+                    <div class="nutrient-highlight">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        <span class="value">27%*</span>
+                        <span class="label">Iron</span>
+                    </div>
+                </div>
+
+                <div class="nutrition-table" id="nutritionTable">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Average values</th>
+                                <th>per 100g</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Energy</td>
+                                <td>718 kJ / 172 kcal</td>
+                            </tr>
+                            <tr>
+                                <td>Fat</td>
+                                <td>8.1 g</td>
+                            </tr>
+                            <tr class="indent">
+                                <td>of which saturates</td>
+                                <td>0.7 g</td>
+                            </tr>
+                            <tr>
+                                <td>Carbohydrates</td>
+                                <td>4.9 g</td>
+                            </tr>
+                            <tr class="indent">
+                                <td>of which sugars</td>
+                                <td>2.1 g</td>
+                            </tr>
+                            <tr>
+                                <td>Fiber</td>
+                                <td>5.7 g</td>
+                            </tr>
+                            <tr class="highlight">
+                                <td>Protein</td>
+                                <td>17 g</td>
+                            </tr>
+                            <tr>
+                                <td>Salt</td>
+                                <td>0.8 g</td>
+                            </tr>
+                            <tr>
+                                <td>Vitamin B12</td>
+                                <td>1.8 µg (72%*)</td>
+                            </tr>
+                            <tr>
+                                <td>Iron</td>
+                                <td>3.8 mg (27%*)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="nutrition-note">*Percent of the reference amount for daily intake.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cooking Section -->
+    <section class="cooking">
+        <div class="cooking-inner">
+            <h2>Cook it your way</h2>
+
+            <div class="cooking-grid">
+                <div class="cook-step">
+                    <div class="cook-step-num">1</div>
+                    <h3>Season</h3>
+                    <p>Your blank canvas. Go wild or keep it simple.</p>
+                </div>
+
+                <div class="cook-step">
+                    <div class="cook-step-num">2</div>
+                    <h3>Heat</h3>
+                    <p>Oil in pan. Get it hot. Don't be shy.</p>
+                </div>
+
+                <div class="cook-step">
+                    <div class="cook-step-num">3</div>
+                    <h3>Sear</h3>
+                    <p>High heat. Golden edges. Done.</p>
+                </div>
+            </div>
+
+            <div class="cook-meta">
+                <div class="cook-meta-item">
+                    <strong>3-5 min</strong>
+                    <span>Cook time</span>
+                </div>
+                <div class="cook-meta-item">
+                    <strong>High heat</strong>
+                    <span>Temperature</span>
+                </div>
                 {product.data.weight && (
-                    <div class="product-weight">
-                        <span class="weight-label">Size:</span>
-                        <span class="weight-value">{product.data.weight}</span>
-                    </div>
-                )}
-
-                {product.data.features && product.data.features.length > 0 && (
-                    <div class="product-features">
-                        {product.data.features.map((feature) => (
-                            <span class="feature-tag">{feature}</span>
-                        ))}
+                    <div class="cook-meta-item">
+                        <strong>{product.data.weight}</strong>
+                        <span>Pack size</span>
                     </div>
                 )}
             </div>
         </div>
+    </section>
 
-        <!-- Product Details Sections -->
-        <div class="product-details-grid">
-            {product.data.preparation && (
-                <div class="detail-card">
-                    <div class="detail-icon">👨‍🍳</div>
-                    <h3>How to Prepare</h3>
-                    <p>{product.data.preparation}</p>
-                </div>
-            )}
-
-            {product.data.ingredients && (
-                <div class="detail-card">
-                    <div class="detail-icon">🌱</div>
-                    <h3>Ingredients</h3>
-                    <p>{product.data.ingredients}</p>
-                </div>
-            )}
-
-            <div class="detail-card">
-                <div class="detail-icon">🇨🇭</div>
-                <h3>Made in Switzerland</h3>
-                <p>Crafted with care in our Swiss facility using innovative fermentation technology and natural ingredients.</p>
-            </div>
-
-            <div class="detail-card">
-                <div class="detail-icon">🌍</div>
-                <h3>Better for the Planet</h3>
-                <p>Up to 97% less CO₂, 95% less water, and zero animals. Every bite makes a difference.</p>
-            </div>
+    <!-- Related Recipes Section -->
+    <section class="recipes">
+        <div class="recipes-header">
+            <h2>Make something</h2>
+            <a href={`${base}/recipes`}>All recipes →</a>
         </div>
 
-        <!-- Where to Find Section -->
-        <section class="find-section">
-            <h2>Where to find {product.data.name}</h2>
-            <p>Available at leading retailers across Switzerland and Europe.</p>
-            <a href={`${base}/#locator`} class="btn btn-primary">
-                <span>📍</span> Find a Store
-            </a>
-        </section>
-
-        {relatedProducts.length > 0 && (
-            <section class="related-products">
-                <h2>More from {product.data.category}</h2>
-                <div class="related-grid">
-                    {relatedProducts.map((related) => (
-                        <a href={`${base}/products/${related.data.slug}`} class="related-card" data-color={related.data.color}>
-                            <div class="related-image">
-                                <img src={related.data.images.main} alt={related.data.name}>
-                            </div>
-                            <div class="related-info">
-                                <div class="related-name">{related.data.name}</div>
-                                <div class="related-variant">{related.data.variant}</div>
-                            </div>
-                        </a>
-                    ))}
-                </div>
-            </section>
-        )}
-
-        <!-- Recipe Section -->
-        <section class="recipe-section">
-            <div class="recipe-section-header">
-                <h2>Get inspired</h2>
-                <p>Discover delicious recipes featuring our plant-based products</p>
-            </div>
-            <div class="recipe-grid">
-                {featuredRecipes.map((recipe) => (
-                    <div class="recipe-card">
-                        <div class="recipe-image">
-                            <img src={recipe.data.image} alt={recipe.data.title}>
-                        </div>
-                        <div class="recipe-info">
-                            <div class="recipe-title">{recipe.data.title}</div>
-                            <div class="recipe-meta">{recipe.data.cookTime} min • {recipe.data.difficulty}</div>
-                        </div>
+        <div class="recipes-scroll">
+            {featuredRecipes.map((recipe) => (
+                <a href={`${base}/recipes/${recipe.data.slug}`} class="recipe-card">
+                    <div class="recipe-img">
+                        <img src={recipe.data.image} alt={recipe.data.title} loading="lazy">
                     </div>
+                    <div class="recipe-info">
+                        <h3>{recipe.data.title}</h3>
+                        <span>{recipe.data.cookTime} min · {recipe.data.difficulty}</span>
+                    </div>
+                </a>
+            ))}
+        </div>
+    </section>
+
+    <!-- More Products Section -->
+    {relatedProducts.length > 0 && (
+        <section class="more-products">
+            <div class="more-header">
+                <h2>More {product.data.category}</h2>
+                <a href={`${base}/products`}>All products →</a>
+            </div>
+            <div class="more-grid">
+                {relatedProducts.map((related) => (
+                    <a href={`${base}/products/${related.data.slug}`} class="more-card" data-color={related.data.color}>
+                        <div class="more-image">
+                            <img src={related.data.images.main} alt={`${related.data.name} ${related.data.variant}`}>
+                        </div>
+                        <div class="more-info">
+                            <div class="more-name">{related.data.name}</div>
+                            <div class="more-variant">{related.data.variant}</div>
+                        </div>
+                    </a>
                 ))}
             </div>
-            <div class="recipe-cta">
-                <a href={`${base}/recipes`} class="btn btn-secondary">
-                    Explore All Recipes →
-                </a>
-            </div>
         </section>
-    </div>
+    )}
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <h2>Try it.</h2>
+        <div class="cta-buttons">
+            <a href={`${base}/#locator`} class="btn btn-primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                </svg>
+                Find a Store
+            </a>
+            <a href={`${base}/products`} class="btn btn-secondary">See All Products</a>
+        </div>
+    </section>
 </Layout>
 
 <style>
-    .product-page {
-        padding-top: 80px;
-    }
-
-    .breadcrumb {
-        padding: 1rem 1.5rem;
-        max-width: 1400px;
-        margin: 0 auto;
-        font-size: 0.9rem;
-        color: var(--planted-black);
-        opacity: 0.6;
-    }
-
-    .breadcrumb a {
-        color: var(--planted-purple);
-        text-decoration: none;
-    }
-
-    .breadcrumb a:hover {
-        text-decoration: underline;
-    }
-
-    .breadcrumb span {
-        margin: 0 0.5rem;
-    }
-
-    .product-detail {
-        display: grid;
-        gap: 2rem;
-        padding: 1rem 1.5rem 4rem;
-        max-width: 1400px;
-        margin: 0 auto;
-    }
-
-    @media (min-width: 768px) {
-        .product-detail {
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            padding: 2rem 3rem 4rem;
-            align-items: start;
-        }
-    }
-
-    .product-image-section {
-        border-radius: 2rem;
-        padding: 2rem;
+    /* ==================== HERO - Pack to Plate ==================== */
+    .hero {
+        min-height: 200vh;
         position: relative;
     }
 
-    .product-image-section[data-color="yellow"] { background: linear-gradient(135deg, #F5E6B8 0%, #E8D494 100%); }
-    .product-image-section[data-color="terracotta"] { background: linear-gradient(135deg, #E8C4B8 0%, #D4A894 100%); }
-    .product-image-section[data-color="purple"] { background: linear-gradient(135deg, #C4B8E8 0%, #A894D4 100%); }
-    .product-image-section[data-color="olive"] { background: linear-gradient(135deg, #C8D4B8 0%, #B4C494 100%); }
-    .product-image-section[data-color="burgundy"] { background: linear-gradient(135deg, #D4B8C4 0%, #C494A8 100%); }
-    .product-image-section[data-color="teal"] { background: linear-gradient(135deg, #B8D4D4 0%, #94C4C4 100%); }
-    .product-image-section[data-color="coral"] { background: linear-gradient(135deg, #F5D4C8 0%, #E8B8A4 100%); }
-    .product-image-section[data-color="navy"] { background: linear-gradient(135deg, #B8C4D4 0%, #94A8C4 100%); }
-    .product-image-section[data-color="green"] { background: linear-gradient(135deg, #C4E8C4 0%, #94D494 100%); }
-    .product-image-section[data-color="orange"] { background: linear-gradient(135deg, #F5D4B8 0%, #E8B894 100%); }
-    .product-image-section[data-color="red"] { background: linear-gradient(135deg, #F5C4C4 0%, #E8A4A4 100%); }
+    .hero-sticky {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
 
-    .product-image-container {
+    /* Dish image - starts hidden, fades in - CONTAINED SIZE */
+    .hero-dish {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: clamp(300px, 50vw, 550px);
+        height: clamp(300px, 50vw, 550px);
+        border-radius: 50%;
+        opacity: 0;
+        transition: opacity 0.6s ease, transform 0.6s ease;
+        overflow: hidden;
+        box-shadow: 0 40px 100px rgba(0,0,0,0.3);
+    }
+
+    .hero-dish img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+        transform: scale(1.1);
+    }
+
+    .hero-dish::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: radial-gradient(
+            circle,
+            transparent 40%,
+            rgba(0,0,0,0.15) 100%
+        );
+        pointer-events: none;
+    }
+
+    .hero-dish.visible {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    /* Pack shot - BIG and SPINS on scroll */
+    .hero-pack {
         position: relative;
+        z-index: 10;
+        width: clamp(300px, 55vw, 520px);
+        transition: opacity 0.4s ease;
+        filter: drop-shadow(0 40px 80px rgba(0,0,0,0.35));
+        will-change: transform;
+    }
+
+    .hero-pack img {
+        width: 100%;
+        height: auto;
+        animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-12px); }
+    }
+
+    .hero-pack.shrink {
+        opacity: 0;
     }
 
     .product-badge-new {
         position: absolute;
-        top: 0;
-        right: 0;
+        top: -10px;
+        right: -10px;
         background: var(--planted-green);
         color: var(--planted-black);
         font-size: 0.7rem;
@@ -234,326 +462,843 @@ const featuredRecipes = recipes.slice(0, 4);
         text-transform: uppercase;
         padding: 0.4rem 0.8rem;
         border-radius: 100px;
-        z-index: 10;
+        z-index: 20;
     }
 
-    .product-main-image {
-        width: 100%;
-        height: auto;
-        display: block;
+    /* Product info - bottom of hero */
+    .hero-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 2.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 2rem;
+        z-index: 20;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
     }
 
-    .product-info-section {
-        padding: 1rem 0;
+    .hero-info.visible {
+        opacity: 1;
+        transform: translateY(0);
     }
 
-    .product-category {
-        text-transform: uppercase;
-        font-size: 0.75rem;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        color: var(--planted-purple);
-        margin-bottom: 0.5rem;
-    }
-
-    .product-title {
+    .hero-text h1 {
         font-family: 'VC Henrietta', serif;
-        font-size: clamp(2rem, 5vw, 3rem);
-        color: var(--planted-purple);
-        margin-bottom: 0.25rem;
-        line-height: 1.1;
+        font-size: clamp(2.5rem, 9vw, 5rem);
+        color: white;
+        margin-bottom: 0.35rem;
+        letter-spacing: -0.02em;
+        line-height: 0.95;
     }
 
-    .product-variant-name {
-        font-size: 1.5rem;
-        color: var(--planted-black);
-        opacity: 0.7;
-        margin-bottom: 1.5rem;
+    .hero-text p {
+        color: rgba(255,255,255,0.85);
+        font-size: clamp(1rem, 2.5vw, 1.3rem);
     }
 
-    .product-tagline {
-        font-size: 1.1rem;
-        font-weight: 500;
-        color: var(--planted-black);
-        margin-bottom: 1rem;
-        line-height: 1.5;
+    /* The big protein stat */
+    .hero-protein {
+        text-align: right;
+        flex-shrink: 0;
     }
 
-    .product-description {
-        font-size: 1rem;
-        line-height: 1.7;
-        color: var(--planted-black);
-        opacity: 0.8;
-        margin-bottom: 1.5rem;
+    .hero-protein-value {
+        font-family: 'VC Henrietta', serif;
+        font-size: clamp(5rem, 20vw, 14rem);
+        line-height: 0.75;
+        display: block;
+        letter-spacing: -0.03em;
     }
 
-    .product-weight {
-        display: inline-flex;
-        gap: 0.5rem;
-        background: var(--planted-cream);
-        padding: 0.75rem 1.25rem;
-        border-radius: 100px;
-        margin-bottom: 1.5rem;
+    .hero-protein-value .num {
+        color: white;
     }
 
-    .weight-label {
-        font-size: 0.85rem;
-        color: var(--planted-black);
-        opacity: 0.6;
+    .hero-protein-value .unit {
+        color: var(--planted-green);
     }
 
-    .weight-value {
-        font-size: 0.85rem;
+    .hero-protein-label {
+        color: rgba(255,255,255,0.9);
+        font-size: clamp(0.65rem, 1.5vw, 0.9rem);
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
         font-weight: 700;
-        color: var(--planted-black);
+        margin-top: 0.5rem;
     }
 
-    .product-features {
+    @media (max-width: 640px) {
+        .hero-info {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 2rem;
+        }
+        .hero-protein { text-align: left; }
+    }
+
+    /* Scroll hint */
+    .scroll-hint {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 30;
+        color: white;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        opacity: 0.6;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        animation: bounce 2s infinite;
+        transition: opacity 0.3s ease;
+    }
+
+    .scroll-hint.hidden { opacity: 0; pointer-events: none; }
+
+    @keyframes bounce {
+        0%, 100% { transform: translateX(-50%) translateY(0); }
+        50% { transform: translateX(-50%) translateY(-8px); }
+    }
+
+    /* ==================== STATS BAR ==================== */
+    .stats {
+        background: var(--planted-purple);
+        padding: 1.5rem;
+    }
+
+    .stats-grid {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .stat {
+        text-align: center;
+        color: white;
+        min-width: 80px;
+    }
+
+    .stat-value {
+        font-family: 'VC Henrietta', serif;
+        font-size: clamp(1.5rem, 5vw, 2.25rem);
+        color: var(--planted-green);
+        display: block;
+        line-height: 1;
+    }
+
+    .stat-label {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        opacity: 0.7;
+        margin-top: 0.3rem;
+    }
+
+    .stat.zero .stat-value {
+        color: white;
+    }
+
+    /* ==================== TRUST BADGES ==================== */
+    .trust {
+        background: var(--planted-cream);
+        padding: 2rem 1.5rem;
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .trust-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--planted-purple);
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .trust-badge svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    /* ==================== INGREDIENTS ==================== */
+    .ingredients {
+        padding: 4rem 1.5rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .ingredients h2 {
+        font-family: 'VC Henrietta', serif;
+        font-size: clamp(2rem, 6vw, 3rem);
+        color: var(--planted-purple);
+        margin-bottom: 1.5rem;
+        line-height: 0.95;
+    }
+
+    .ingredient-pills {
         display: flex;
         flex-wrap: wrap;
         gap: 0.75rem;
     }
 
-    .feature-tag {
-        background: rgba(97, 38, 158, 0.1);
-        color: var(--planted-purple);
-        padding: 0.5rem 1rem;
+    .pill {
+        background: white;
+        padding: 0.85rem 1.5rem;
         border-radius: 100px;
-        font-size: 0.85rem;
-        font-weight: 500;
+        font-weight: 600;
+        color: var(--planted-purple);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        transition: transform 0.2s, box-shadow 0.2s;
     }
 
-    /* Product Details Grid */
-    .product-details-grid {
+    .pill:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    }
+
+    .pill span {
+        opacity: 0.5;
+        font-weight: 400;
+        margin-left: 0.25rem;
+    }
+
+    .ingredient-note {
+        margin-top: 1.5rem;
+        display: inline-block;
+        background: var(--planted-green);
+        color: var(--planted-black);
+        padding: 0.75rem 1.25rem;
+        border-radius: 0.75rem;
+        font-weight: 700;
+        transform: rotate(-1deg);
+    }
+
+    /* ==================== NUTRITION TABLE ==================== */
+    .nutrition {
+        background: white;
+    }
+
+    .nutrition-layout {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 1.5rem;
-        padding: 0 1.5rem 4rem;
-        max-width: 1400px;
-        margin: 0 auto;
+        min-height: 500px;
     }
 
     @media (min-width: 768px) {
-        .product-details-grid {
-            grid-template-columns: repeat(2, 1fr);
-            padding: 0 3rem 4rem;
+        .nutrition-layout {
+            grid-template-columns: 1fr 1fr;
         }
     }
 
-    @media (min-width: 1024px) {
-        .product-details-grid {
-            grid-template-columns: repeat(4, 1fr);
+    .nutrition-image {
+        position: relative;
+        min-height: 300px;
+        overflow: hidden;
+    }
+
+    .nutrition-image img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .nutrition-image::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 10%;
+        bottom: 10%;
+        width: 1px;
+        background: linear-gradient(180deg, transparent, rgba(97,38,158,0.2), transparent);
+    }
+
+    .nutrition-content {
+        padding: 2.5rem 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    @media (min-width: 768px) {
+        .nutrition-content {
+            padding: 3rem;
+            max-width: 480px;
         }
     }
 
-    .detail-card {
-        background: var(--planted-cream);
-        border-radius: 1.5rem;
-        padding: 1.5rem;
-    }
-
-    .detail-icon {
-        font-size: 2rem;
+    .nutrition-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         margin-bottom: 1rem;
+        cursor: pointer;
     }
 
-    .detail-card h3 {
-        font-size: 1rem;
-        font-weight: 700;
-        color: var(--planted-black);
-        margin-bottom: 0.5rem;
+    .nutrition-header h2 {
+        font-family: 'VC Henrietta', serif;
+        font-size: clamp(1.3rem, 4vw, 1.6rem);
+        color: var(--planted-purple);
+        line-height: 1;
     }
 
-    .detail-card p {
-        font-size: 0.9rem;
-        line-height: 1.6;
-        color: var(--planted-black);
-        opacity: 0.7;
+    .nutrition-toggle {
+        width: 36px;
+        height: 36px;
+        background: var(--planted-cream);
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: transform 0.3s, background 0.2s;
     }
 
-    /* Find Section */
-    .find-section {
+    .nutrition-toggle:hover {
         background: var(--planted-purple);
-        padding: 4rem 1.5rem;
-        text-align: center;
         color: white;
     }
 
-    .find-section h2 {
-        font-family: 'VC Henrietta', serif;
-        font-size: clamp(1.5rem, 4vw, 2rem);
-        margin-bottom: 0.5rem;
+    .nutrition-toggle svg {
+        width: 18px;
+        height: 18px;
+        transition: transform 0.3s;
     }
 
-    .find-section p {
-        opacity: 0.8;
-        margin-bottom: 1.5rem;
+    .nutrition-toggle.open svg {
+        transform: rotate(180deg);
     }
 
-    .find-section .btn {
-        display: inline-flex;
-        align-items: center;
+    /* Key nutrients with icons */
+    .nutrition-highlights {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
         gap: 0.5rem;
+        margin-bottom: 1.25rem;
+        padding: 1rem 0.75rem;
+        background: linear-gradient(135deg, rgba(107,191,89,0.08) 0%, rgba(97,38,158,0.05) 100%);
+        border-radius: 0.75rem;
+        border: 1px solid rgba(97,38,158,0.08);
     }
 
-    /* Related Products */
-    .related-products {
+    .nutrient-highlight {
+        text-align: center;
+        padding: 0.35rem 0.15rem;
+    }
+
+    .nutrient-highlight svg {
+        width: 20px;
+        height: 20px;
+        color: var(--planted-purple);
+        margin-bottom: 0.25rem;
+        opacity: 0.6;
+    }
+
+    .nutrient-highlight .value {
+        font-family: 'VC Henrietta', serif;
+        font-size: 1rem;
+        color: var(--planted-green);
+        display: block;
+        line-height: 1.1;
+    }
+
+    .nutrient-highlight .label {
+        font-size: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        color: var(--planted-black);
+        opacity: 0.5;
+        line-height: 1.2;
+    }
+
+    @media (max-width: 400px) {
+        .nutrition-highlights {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    .nutrition-table {
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.4s ease;
+    }
+
+    .nutrition-table.open {
+        max-height: 600px;
+    }
+
+    .nutrition-table table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.8rem;
+    }
+
+    .nutrition-table th {
+        text-align: left;
+        padding: 0.4rem 0;
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--planted-purple);
+        opacity: 0.6;
+        border-bottom: 2px solid var(--planted-purple);
+    }
+
+    .nutrition-table th:last-child {
+        text-align: right;
+    }
+
+    .nutrition-table td {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        color: var(--planted-black);
+    }
+
+    .nutrition-table td:last-child {
+        text-align: right;
+        font-weight: 600;
+        color: var(--planted-purple);
+    }
+
+    .nutrition-table tr.indent td:first-child {
+        padding-left: 0.75rem;
+        font-size: 0.75rem;
+        opacity: 0.6;
+    }
+
+    .nutrition-table tr.highlight td {
+        background: rgba(107, 191, 89, 0.1);
+        font-weight: 600;
+    }
+
+    .nutrition-table tr.highlight td:last-child {
+        color: var(--planted-green);
+    }
+
+    .nutrition-note {
+        margin-top: 0.6rem;
+        font-size: 0.6rem;
+        color: var(--planted-black);
+        opacity: 0.4;
+    }
+
+    /* ==================== COOKING ==================== */
+    .cooking {
+        background: var(--planted-cream);
         padding: 4rem 1.5rem;
-        max-width: 1400px;
+    }
+
+    .cooking-inner {
+        max-width: 800px;
         margin: 0 auto;
     }
 
-    .related-products h2 {
+    .cooking h2 {
         font-family: 'VC Henrietta', serif;
-        font-size: 1.5rem;
+        font-size: clamp(2rem, 6vw, 3rem);
         color: var(--planted-purple);
         margin-bottom: 2rem;
-        text-transform: capitalize;
+        line-height: 0.95;
     }
 
-    .related-grid {
+    .cooking-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 1.5rem;
     }
 
-    .related-card {
+    .cook-step {
+        background: white;
+        padding: 1.75rem;
+        border-radius: 1.25rem;
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .cook-step:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    }
+
+    .cook-step-num {
+        width: 44px;
+        height: 44px;
+        background: var(--planted-purple);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'VC Henrietta', serif;
+        font-size: 1.25rem;
+        margin: 0 auto 0.75rem;
+    }
+
+    .cook-step h3 {
+        font-family: 'VC Henrietta', serif;
+        color: var(--planted-purple);
+        font-size: 1.15rem;
+        margin-bottom: 0.35rem;
+    }
+
+    .cook-step p {
+        color: var(--planted-black);
+        opacity: 0.7;
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+
+    .cook-meta {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        flex-wrap: wrap;
+    }
+
+    .cook-meta-item {
+        text-align: center;
+    }
+
+    .cook-meta-item strong {
+        display: block;
+        font-family: 'VC Henrietta', serif;
+        font-size: 1.5rem;
+        color: var(--planted-purple);
+    }
+
+    .cook-meta-item span {
+        font-size: 0.75rem;
+        color: var(--planted-black);
+        opacity: 0.6;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    /* ==================== RECIPES ==================== */
+    .recipes {
+        padding: 4rem 0;
+        background: white;
+    }
+
+    .recipes-header {
+        padding: 0 1.5rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .recipes-header h2 {
+        font-family: 'VC Henrietta', serif;
+        font-size: clamp(2rem, 6vw, 3rem);
+        color: var(--planted-purple);
+        line-height: 0.95;
+    }
+
+    .recipes-header a {
+        color: var(--planted-purple);
+        font-weight: 700;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: opacity 0.2s;
+    }
+
+    .recipes-header a:hover {
+        opacity: 0.7;
+    }
+
+    .recipes-scroll {
+        display: flex;
+        gap: 1.25rem;
+        overflow-x: auto;
+        padding: 0 1.5rem 1rem;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+    }
+
+    .recipes-scroll::-webkit-scrollbar { display: none; }
+
+    .recipe-card {
+        flex: 0 0 280px;
+        scroll-snap-align: start;
+        background: var(--planted-cream);
+        border-radius: 1.25rem;
+        overflow: hidden;
+        text-decoration: none;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .recipe-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+    }
+
+    .recipe-img {
+        aspect-ratio: 4/3;
+        overflow: hidden;
+    }
+
+    .recipe-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s;
+    }
+
+    .recipe-card:hover .recipe-img img {
+        transform: scale(1.05);
+    }
+
+    .recipe-info {
+        padding: 1rem 1.25rem;
+    }
+
+    .recipe-info h3 {
+        font-family: 'VC Henrietta', serif;
+        font-size: 1.1rem;
+        color: var(--planted-purple);
+        margin-bottom: 0.2rem;
+        line-height: 1.2;
+    }
+
+    .recipe-info span {
+        font-size: 0.8rem;
+        color: var(--planted-black);
+        opacity: 0.6;
+    }
+
+    /* ==================== MORE PRODUCTS ==================== */
+    .more-products {
+        padding: 4rem 1.5rem;
+        background: var(--planted-cream);
+    }
+
+    .more-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 900px;
+        margin: 0 auto 2rem;
+    }
+
+    .more-header h2 {
+        font-family: 'VC Henrietta', serif;
+        font-size: clamp(1.5rem, 4vw, 2rem);
+        color: var(--planted-purple);
+        text-transform: capitalize;
+        line-height: 1;
+    }
+
+    .more-header a {
+        color: var(--planted-purple);
+        font-weight: 700;
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
+
+    .more-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1.5rem;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .more-card {
         text-decoration: none;
         border-radius: 1rem;
         overflow: hidden;
         transition: transform 0.3s ease;
     }
 
-    .related-card:hover {
+    .more-card:hover {
         transform: translateY(-4px);
     }
 
-    .related-image {
+    .more-image {
         aspect-ratio: 1;
         padding: 1rem;
         border-radius: 1rem;
+        transition: box-shadow 0.3s ease;
     }
 
-    .related-card[data-color="yellow"] .related-image { background: linear-gradient(135deg, #F5E6B8 0%, #E8D494 100%); }
-    .related-card[data-color="terracotta"] .related-image { background: linear-gradient(135deg, #E8C4B8 0%, #D4A894 100%); }
-    .related-card[data-color="purple"] .related-image { background: linear-gradient(135deg, #C4B8E8 0%, #A894D4 100%); }
-    .related-card[data-color="olive"] .related-image { background: linear-gradient(135deg, #C8D4B8 0%, #B4C494 100%); }
-    .related-card[data-color="burgundy"] .related-image { background: linear-gradient(135deg, #D4B8C4 0%, #C494A8 100%); }
-    .related-card[data-color="coral"] .related-image { background: linear-gradient(135deg, #F5D4C8 0%, #E8B8A4 100%); }
-    .related-card[data-color="green"] .related-image { background: linear-gradient(135deg, #C4E8C4 0%, #94D494 100%); }
-    .related-card[data-color="orange"] .related-image { background: linear-gradient(135deg, #F5D4B8 0%, #E8B894 100%); }
-    .related-card[data-color="red"] .related-image { background: linear-gradient(135deg, #F5C4C4 0%, #E8A4A4 100%); }
+    .more-card:hover .more-image {
+        box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+    }
 
-    .related-image img {
+    .more-card[data-color="yellow"] .more-image { background: linear-gradient(135deg, #F5E6B8 0%, #E8D494 100%); }
+    .more-card[data-color="terracotta"] .more-image { background: linear-gradient(135deg, #E8C4B8 0%, #D4A894 100%); }
+    .more-card[data-color="purple"] .more-image { background: linear-gradient(135deg, #C4B8E8 0%, #A894D4 100%); }
+    .more-card[data-color="olive"] .more-image { background: linear-gradient(135deg, #C8D4B8 0%, #B4C494 100%); }
+    .more-card[data-color="burgundy"] .more-image { background: linear-gradient(135deg, #D4B8C4 0%, #C494A8 100%); }
+    .more-card[data-color="coral"] .more-image { background: linear-gradient(135deg, #F5D4C8 0%, #E8B8A4 100%); }
+    .more-card[data-color="green"] .more-image { background: linear-gradient(135deg, #C4E8C4 0%, #94D494 100%); }
+    .more-card[data-color="orange"] .more-image { background: linear-gradient(135deg, #F5D4B8 0%, #E8B894 100%); }
+    .more-card[data-color="red"] .more-image { background: linear-gradient(135deg, #F5C4C4 0%, #E8A4A4 100%); }
+    .more-card[data-color="teal"] .more-image { background: linear-gradient(135deg, #B8D4D4 0%, #94C4C4 100%); }
+    .more-card[data-color="navy"] .more-image { background: linear-gradient(135deg, #B8C4D4 0%, #94A8C4 100%); }
+
+    .more-image img {
         width: 100%;
         height: 100%;
         object-fit: contain;
     }
 
-    .related-info {
+    .more-info {
         padding: 1rem 0.5rem;
     }
 
-    .related-name {
+    .more-name {
         font-weight: 700;
         color: var(--planted-black);
         font-size: 0.9rem;
     }
 
-    .related-variant {
+    .more-variant {
         color: var(--planted-black);
         opacity: 0.6;
         font-size: 0.85rem;
     }
 
-    /* Recipe Section */
-    .recipe-section {
-        background: var(--planted-cream);
-        padding: 4rem 1.5rem;
-    }
-
-    .recipe-section-header {
+    /* ==================== CTA ==================== */
+    .cta {
+        background: var(--planted-green);
+        padding: 5rem 1.5rem;
         text-align: center;
-        max-width: 600px;
-        margin: 0 auto 2rem;
     }
 
-    .recipe-section-header h2 {
+    .cta h2 {
         font-family: 'VC Henrietta', serif;
-        font-size: clamp(1.8rem, 5vw, 2.5rem);
-        color: var(--planted-purple);
-        margin-bottom: 0.5rem;
-    }
-
-    .recipe-section-header p {
+        font-size: clamp(3rem, 12vw, 6rem);
         color: var(--planted-black);
-        opacity: 0.7;
+        margin-bottom: 1.5rem;
+        line-height: 0.9;
     }
 
-    .recipe-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 1.5rem;
-        max-width: 1200px;
-        margin: 0 auto 2rem;
+    .cta-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
     }
 
-    .recipe-card {
-        background: white;
-        border-radius: 1rem;
-        overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .recipe-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 30px rgba(0,0,0,0.1);
-    }
-
-    .recipe-image {
-        aspect-ratio: 16/10;
-        overflow: hidden;
-    }
-
-    .recipe-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .recipe-info {
-        padding: 1rem;
-    }
-
-    .recipe-title {
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem 2rem;
+        border-radius: 100px;
         font-weight: 700;
-        color: var(--planted-black);
-        margin-bottom: 0.25rem;
+        text-decoration: none;
+        transition: transform 0.2s, box-shadow 0.2s;
     }
 
-    .recipe-meta {
-        font-size: 0.85rem;
-        color: var(--planted-black);
-        opacity: 0.6;
+    .btn:hover {
+        transform: translateY(-3px);
     }
 
-    .recipe-cta {
-        text-align: center;
+    .btn-primary {
+        background: var(--planted-purple);
+        color: white;
+        box-shadow: 0 8px 24px rgba(97,38,158,0.3);
     }
 
-    @media (min-width: 768px) {
-        .related-products {
-            padding: 4rem 3rem;
-        }
-
-        .recipe-section {
-            padding: 5rem 3rem;
-        }
-    }
-
-    @media (min-width: 1024px) {
-        .breadcrumb {
-            padding: 1rem 3rem;
-        }
+    .btn-secondary {
+        background: white;
+        color: var(--planted-purple);
     }
 </style>
+
+<script>
+    // ==================== SCROLL ANIMATION ====================
+    const hero = document.getElementById('hero');
+    const heroPack = document.getElementById('heroPack');
+    const heroDish = document.getElementById('heroDish');
+    const heroInfo = document.getElementById('heroInfo');
+    const scrollHint = document.getElementById('scrollHint');
+
+    function updateHeroAnimation() {
+        if (!hero || !heroPack) return;
+
+        const heroRect = hero.getBoundingClientRect();
+        const scrollProgress = Math.min(Math.max(-heroRect.top / (hero.offsetHeight - window.innerHeight), 0), 1);
+
+        // Pack animation: SPIN 720° (2 full rotations), scale down, and fly up
+        const packScale = 1 - (scrollProgress * 0.7);
+        const packRotate = scrollProgress * 720; // Full spin!
+        const packY = scrollProgress * -80;
+        const packOpacity = 1 - (scrollProgress * 2.5);
+
+        // Apply transform with easing via CSS custom property
+        heroPack.style.transform = `translateY(${packY}vh) rotate(${packRotate}deg) scale(${packScale})`;
+        heroPack.style.opacity = String(Math.max(packOpacity, 0));
+
+        // Dish fade in (earlier and smoother)
+        if (heroDish) {
+            if (scrollProgress > 0.25) {
+                heroDish.classList.add('visible');
+            } else {
+                heroDish.classList.remove('visible');
+            }
+        }
+
+        // Info slide up (a bit later)
+        if (heroInfo) {
+            if (scrollProgress > 0.55) {
+                heroInfo.classList.add('visible');
+            } else {
+                heroInfo.classList.remove('visible');
+            }
+        }
+
+        // Hide scroll hint quickly
+        if (scrollHint) {
+            if (scrollProgress > 0.05) {
+                scrollHint.classList.add('hidden');
+            } else {
+                scrollHint.classList.remove('hidden');
+            }
+        }
+    }
+
+    window.addEventListener('scroll', updateHeroAnimation);
+    updateHeroAnimation();
+
+    // ==================== NUTRITION TOGGLE ====================
+    const nutritionHeader = document.getElementById('nutritionHeader');
+    const nutritionTable = document.getElementById('nutritionTable');
+    const nutritionToggle = document.getElementById('nutritionToggle');
+
+    function toggleNutrition() {
+        if (nutritionTable && nutritionToggle) {
+            nutritionTable.classList.toggle('open');
+            nutritionToggle.classList.toggle('open');
+        }
+    }
+
+    if (nutritionHeader) {
+        nutritionHeader.addEventListener('click', toggleNutrition);
+    }
+
+    // Open nutrition by default
+    document.addEventListener('DOMContentLoaded', () => {
+        toggleNutrition();
+    });
+</script>

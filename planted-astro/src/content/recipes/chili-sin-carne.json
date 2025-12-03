@@ -1,0 +1,23 @@
+{
+    "title": "Chili Sin Carne",
+    "slug": "chili-sin-carne",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/Mexican_Bowl_6ef40efe-c5f3-41b2-ba4d-5424f222c4c1.jpg?v=1745932562",
+    "cookTime": 19,
+    "servings": 4,
+    "difficulty": "Easy",
+    "category": "main",
+    "order": 26,
+    "ingredients": [
+        "1 pack planted",
+        "2 tbsp olive oil",
+        "Salt and pepper to taste",
+        "Fresh herbs for garnish"
+    ],
+    "instructions": [
+        "Prepare the planted according to package instructions.",
+        "Season with salt, pepper, and your favorite spices.",
+        "Cook in a pan with olive oil until golden brown.",
+        "Serve hot with your choice of sides.",
+        "Garnish with fresh herbs and enjoy!"
+    ]
+}

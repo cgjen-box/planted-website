@@ -1,0 +1,23 @@
+{
+    "title": "Pepper Planted Steak",
+    "slug": "pepper-planted-steak",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/steak-Peppersteakwithfires_ec87f89a-c8a1-43b0-96d3-56acaa783d8a.png?v=1714651850",
+    "cookTime": 18,
+    "servings": 4,
+    "difficulty": "Easy",
+    "category": "main",
+    "order": 95,
+    "ingredients": [
+        "1 pack planted.steak",
+        "2 tbsp olive oil",
+        "Salt and pepper to taste",
+        "Fresh herbs for garnish"
+    ],
+    "instructions": [
+        "Prepare the planted.steak according to package instructions.",
+        "Season with salt, pepper, and your favorite spices.",
+        "Cook in a pan with olive oil until golden brown.",
+        "Serve hot with your choice of sides.",
+        "Garnish with fresh herbs and enjoy!"
+    ]
+}

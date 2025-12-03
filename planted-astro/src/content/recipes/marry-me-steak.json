@@ -1,0 +1,23 @@
+{
+    "title": "Marry Me Steak",
+    "slug": "marry-me-steak",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/Image_2_16a238ba-4a23-4fc4-bb6a-e4dac7800ff8.jpg?v=1747308692",
+    "cookTime": 38,
+    "servings": 4,
+    "difficulty": "Easy",
+    "category": "main",
+    "order": 79,
+    "ingredients": [
+        "1 pack planted.steak",
+        "2 tbsp olive oil",
+        "Salt and pepper to taste",
+        "Fresh herbs for garnish"
+    ],
+    "instructions": [
+        "Prepare the planted.steak according to package instructions.",
+        "Season with salt, pepper, and your favorite spices.",
+        "Cook in a pan with olive oil until golden brown.",
+        "Serve hot with your choice of sides.",
+        "Garnish with fresh herbs and enjoy!"
+    ]
+}

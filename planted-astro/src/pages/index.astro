@@ -67,10 +67,19 @@ const settings = await getEntry('settings', 'global');
                     <a href={`${base}/products/${product.data.slug}`} class="product-card reveal-scale" data-color={product.data.color}>
                         <div class="product-card-inner">
                             {product.data.isNew && <span class="product-badge-new">New</span>}
-                            <div class="product-wave" style={product.data.color === 'purple' ? 'background: rgba(255,255,255,0.15);' : ''}></div>
-                            <div class="product-image">
+                            {product.data.images.background && (
+                                <div class="product-grid-overlay">
+                                    <img src={product.data.images.background} alt="">
+                                </div>
+                            )}
+                            <div class="product-image product-image-pack">
                                 <img src={product.data.images.main} alt={`${product.data.name} ${product.data.variant}`}>
                             </div>
+                            {product.data.images.dish && (
+                                <div class="product-image product-image-dish">
+                                    <img src={product.data.images.dish} alt={`${product.data.name} ${product.data.variant} dish`}>
+                                </div>
+                            )}
                         </div>
                         <div class="product-info">
                             <div class="product-name">{product.data.name}</div>
@@ -120,12 +129,12 @@ const settings = await getEntry('settings', 'global');
     <section class="recipes-section" id="recipes">
         <div class="recipes-header">
             <h2 class="reveal">Get cooking</h2>
-            <a href={`${base}/recipes`} class="reveal">All 50+ recipes →</a>
+            <a href={`${base}/recipes`} class="reveal">All 150+ recipes →</a>
         </div>
 
         <div class="recipes-scroll">
             {featuredRecipes.map((recipe) => (
-                <div class="recipe-card">
+                <a href={`${base}/recipes/${recipe.data.slug}`} class="recipe-card">
                     <div class="recipe-image">
                         <img src={recipe.data.image} alt={recipe.data.title}>
                     </div>
@@ -133,7 +142,7 @@ const settings = await getEntry('settings', 'global');
                         <div class="recipe-title">{recipe.data.title}</div>
                         <div class="recipe-meta">{recipe.data.cookTime} min • {recipe.data.difficulty}</div>
                     </div>
-                </div>
+                </a>
             ))}
         </div>
     </section>
@@ -397,8 +406,135 @@ const settings = await getEntry('settings', 'global');
     }
 
     .products-scroll .product-card {
-        flex: 0 0 280px;
+        flex: 0 0 260px;
         scroll-snap-align: start;
+        text-decoration: none;
+    }
+
+    .products-scroll .product-card-inner {
+        position: relative;
+        border-radius: 1.25rem;
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        margin-bottom: 0.75rem;
+    }
+
+    .products-scroll .product-card[data-color="yellow"] .product-card-inner { background: linear-gradient(135deg, #F5E6B8 0%, #E8D494 100%); }
+    .products-scroll .product-card[data-color="terracotta"] .product-card-inner { background: linear-gradient(135deg, #E8C4B8 0%, #D4A894 100%); }
+    .products-scroll .product-card[data-color="purple"] .product-card-inner { background: linear-gradient(135deg, #C4B8E8 0%, #A894D4 100%); }
+    .products-scroll .product-card[data-color="olive"] .product-card-inner { background: linear-gradient(135deg, #C8D4B8 0%, #B4C494 100%); }
+    .products-scroll .product-card[data-color="burgundy"] .product-card-inner { background: linear-gradient(135deg, #D4B8C4 0%, #C494A8 100%); }
+    .products-scroll .product-card[data-color="teal"] .product-card-inner { background: linear-gradient(135deg, #B8D4D4 0%, #94C4C4 100%); }
+    .products-scroll .product-card[data-color="coral"] .product-card-inner { background: linear-gradient(135deg, #F5D4C8 0%, #E8B8A4 100%); }
+    .products-scroll .product-card[data-color="navy"] .product-card-inner { background: linear-gradient(135deg, #B8C4D4 0%, #94A8C4 100%); }
+    .products-scroll .product-card[data-color="green"] .product-card-inner { background: linear-gradient(135deg, #C4E8C4 0%, #94D494 100%); }
+    .products-scroll .product-card[data-color="orange"] .product-card-inner { background: linear-gradient(135deg, #F5D4B8 0%, #E8B894 100%); }
+    .products-scroll .product-card[data-color="red"] .product-card-inner { background: linear-gradient(135deg, #F5C4C4 0%, #E8A4A4 100%); }
+
+    .products-scroll .product-badge-new {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        background: var(--planted-green);
+        color: var(--planted-black);
+        font-size: 0.6rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 0.3rem 0.6rem;
+        border-radius: 100px;
+        z-index: 10;
+    }
+
+    .products-scroll .product-grid-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .products-scroll .product-grid-overlay img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .products-scroll .product-card:hover .product-grid-overlay {
+        opacity: 1;
+    }
+
+    .products-scroll .product-image {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 1.25rem;
+        transition: opacity 0.4s ease, transform 0.4s ease;
+        z-index: 2;
+    }
+
+    .products-scroll .product-image-pack {
+        opacity: 1;
+    }
+
+    .products-scroll .product-image-dish {
+        opacity: 0;
+    }
+
+    .products-scroll .product-card:hover .product-image-pack {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    .products-scroll .product-card:hover .product-image-dish {
+        opacity: 1;
+    }
+
+    .products-scroll .product-image img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    .products-scroll .product-info {
+        text-align: center;
+        padding: 0 0.25rem;
+    }
+
+    .products-scroll .product-name {
+        font-family: 'VC Henrietta', serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--planted-purple);
+        margin-bottom: 0.1rem;
+    }
+
+    .products-scroll .product-variant {
+        color: var(--planted-purple);
+        font-size: 0.85rem;
+        opacity: 0.7;
+    }
+
+    .products-scroll .product-card {
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .products-scroll .product-card:hover {
+        transform: translateY(-6px);
     }
 
     .carousel-pagination {
@@ -751,7 +887,7 @@ const settings = await getEntry('settings', 'global');
         }
 
         .products-scroll .product-card {
-            flex: 0 0 300px;
+            flex: 0 0 280px;
         }
 
         .hero-video-wrapper {
@@ -795,7 +931,7 @@ const settings = await getEntry('settings', 'global');
         }
 
         .products-scroll .product-card {
-            flex: 0 0 320px;
+            flex: 0 0 300px;
         }
 
         .recipes-scroll .recipe-card {
@@ -846,7 +982,7 @@ const settings = await getEntry('settings', 'global');
         }
 
         .products-scroll .product-card {
-            flex: 0 0 340px;
+            flex: 0 0 300px;
         }
 
         .statement {
@@ -933,7 +1069,7 @@ const settings = await getEntry('settings', 'global');
         }
 
         .products-scroll .product-card {
-            flex: 0 0 380px;
+            flex: 0 0 320px;
         }
 
         .impact-stats {
@@ -975,123 +1111,147 @@ const settings = await getEntry('settings', 'global');
 </style>
 
 <script>
-    // Hero video scroll transform (Apple-style)
-    const heroVideo = document.getElementById('heroVideo');
-    const heroContent = document.getElementById('heroContent');
+    function initHomePage() {
+        // Hero video scroll transform (Apple-style)
+        const heroVideo = document.getElementById('heroVideo');
+        const heroContent = document.getElementById('heroContent');
 
-    // Trigger hero content animation on load
-    heroContent?.classList.add('animate-in');
+        // Trigger hero content animation on load
+        heroContent?.classList.add('animate-in');
 
-    let ticking = false;
+        let ticking = false;
 
-    function updateVideoTransform() {
-        const scrollY = window.scrollY;
-        const windowHeight = window.innerHeight;
+        function updateVideoTransform() {
+            const scrollY = window.scrollY;
+            const windowHeight = window.innerHeight;
 
-        // Calculate scroll progress (0 to 1 for first viewport)
-        const progress = Math.min(scrollY / (windowHeight * 0.6), 1);
+            // Calculate scroll progress (0 to 1 for first viewport)
+            const progress = Math.min(scrollY / (windowHeight * 0.6), 1);
 
-        // Video: rotate from -3deg to 0deg, scale from 0.95 to 1
-        const rotation = -3 + (progress * 3);
-        const scale = 0.95 + (progress * 0.05);
-        const translateY = progress * -20;
+            // Video: rotate from -3deg to 0deg, scale from 0.95 to 1
+            const rotation = -3 + (progress * 3);
+            const scale = 0.95 + (progress * 0.05);
+            const translateY = progress * -20;
 
-        if (heroVideo) {
-            heroVideo.style.transform = `rotate(${rotation}deg) scale(${scale}) translateY(${translateY}px)`;
+            if (heroVideo) {
+                heroVideo.style.transform = `rotate(${rotation}deg) scale(${scale}) translateY(${translateY}px)`;
 
-            // Add shadow depth as it straightens
-            const shadowOpacity = 0.15 + (progress * 0.1);
-            const shadowBlur = 25 + (progress * 30);
-            heroVideo.style.boxShadow = `0 ${25 + progress * 15}px ${shadowBlur}px rgba(97, 38, 158, ${shadowOpacity})`;
-        }
-
-        ticking = false;
-    }
-
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            requestAnimationFrame(updateVideoTransform);
-            ticking = true;
-        }
-    });
-
-    updateVideoTransform();
-
-    // Counter animation for stats
-    const statValues = document.querySelectorAll('.stat-value[data-count]');
-    let statsAnimated = false;
-
-    const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !statsAnimated) {
-                statsAnimated = true;
-                animateCounters();
-            }
-        });
-    }, { threshold: 0.5 });
-
-    const impactSection = document.getElementById('impact');
-    if (impactSection) {
-        statsObserver.observe(impactSection);
-    }
-
-    function animateCounters() {
-        statValues.forEach(stat => {
-            const target = parseInt(stat.dataset.count || '0');
-            const duration = 1500;
-            const start = performance.now();
-
-            function updateCounter(currentTime: number) {
-                const elapsed = currentTime - start;
-                const progress = Math.min(elapsed / duration, 1);
-
-                // Easing function (ease-out)
-                const easeOut = 1 - Math.pow(1 - progress, 3);
-                const current = Math.round(easeOut * target);
-
-                if (target === 0) {
-                    stat.textContent = '0';
-                } else {
-                    stat.textContent = current + '%';
-                }
-
-                if (progress < 1) {
-                    requestAnimationFrame(updateCounter);
-                }
+                // Add shadow depth as it straightens
+                const shadowOpacity = 0.15 + (progress * 0.1);
+                const shadowBlur = 25 + (progress * 30);
+                heroVideo.style.boxShadow = `0 ${25 + progress * 15}px ${shadowBlur}px rgba(97, 38, 158, ${shadowOpacity})`;
             }
 
-            requestAnimationFrame(updateCounter);
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(updateVideoTransform);
+                ticking = true;
+            }
         });
-    }
 
-    // Products carousel
-    const productsScroll = document.getElementById('productsScroll');
-    const carouselDots = document.querySelectorAll('.carousel-dot');
+        updateVideoTransform();
 
-    function scrollProducts(direction: number) {
-        const card = productsScroll?.querySelector('.product-card');
-        if (card && productsScroll) {
-            const cardWidth = (card as HTMLElement).offsetWidth + 24;
-            productsScroll.scrollBy({
-                left: direction * cardWidth,
-                behavior: 'smooth'
+        // Counter animation for stats
+        const statValues = document.querySelectorAll('.stat-value[data-count]');
+        let statsAnimated = false;
+
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !statsAnimated) {
+                    statsAnimated = true;
+                    animateCounters();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const impactSection = document.getElementById('impact');
+        if (impactSection) {
+            statsObserver.observe(impactSection);
+        }
+
+        function animateCounters() {
+            statValues.forEach(stat => {
+                const target = parseInt((stat as HTMLElement).dataset.count || '0');
+                const duration = 1500;
+                const start = performance.now();
+
+                function updateCounter(currentTime: number) {
+                    const elapsed = currentTime - start;
+                    const progress = Math.min(elapsed / duration, 1);
+
+                    // Easing function (ease-out)
+                    const easeOut = 1 - Math.pow(1 - progress, 3);
+                    const current = Math.round(easeOut * target);
+
+                    if (target === 0) {
+                        stat.textContent = '0';
+                    } else {
+                        stat.textContent = current + '%';
+                    }
+
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCounter);
+                    }
+                }
+
+                requestAnimationFrame(updateCounter);
             });
         }
+
+        // Products carousel
+        const productsScroll = document.getElementById('productsScroll');
+        const carouselDots = document.querySelectorAll('.carousel-dot');
+
+        function scrollProducts(direction: number) {
+            const card = productsScroll?.querySelector('.product-card');
+            if (card && productsScroll) {
+                const cardWidth = (card as HTMLElement).offsetWidth + 24;
+                productsScroll.scrollBy({
+                    left: direction * cardWidth,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        document.getElementById('carouselPrev')?.addEventListener('click', () => scrollProducts(-1));
+        document.getElementById('carouselNext')?.addEventListener('click', () => scrollProducts(1));
+
+        // Update dots on scroll
+        productsScroll?.addEventListener('scroll', () => {
+            const card = productsScroll.querySelector('.product-card');
+            if (card) {
+                const cardWidth = (card as HTMLElement).offsetWidth + 24;
+                const activeIndex = Math.round(productsScroll.scrollLeft / cardWidth);
+
+                carouselDots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === activeIndex);
+                });
+            }
+        });
+
+        // Touch swipe support for carousel
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        productsScroll?.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        productsScroll?.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 50) {
+                scrollProducts(diff > 0 ? 1 : -1);
+            }
+        }, { passive: true });
     }
 
-    document.getElementById('carouselPrev')?.addEventListener('click', () => scrollProducts(-1));
-    document.getElementById('carouselNext')?.addEventListener('click', () => scrollProducts(1));
+    // Initialize on page load
+    initHomePage();
 
-    // Update dots on scroll
-    productsScroll?.addEventListener('scroll', () => {
-        const card = productsScroll.querySelector('.product-card');
-        if (card) {
-            const cardWidth = (card as HTMLElement).offsetWidth + 24;
-            const activeIndex = Math.round(productsScroll.scrollLeft / cardWidth);
-
-            carouselDots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === activeIndex);
-            });
-        }
-    });
+    // Re-initialize after View Transitions navigation
+    document.addEventListener('astro:page-load', initHomePage);
 </script>

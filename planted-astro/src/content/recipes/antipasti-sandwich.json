@@ -1,0 +1,31 @@
+{
+    "title": "Antipasti Sandwich",
+    "slug": "antipasti-sandwich",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/DSC0281_2.jpg?v=1681301165",
+    "cookTime": 34,
+    "servings": 2,
+    "difficulty": "Easy",
+    "category": "main",
+    "sourceUrl": "https://eatplanted.com/blogs/recipes/antipasti-sandwich",
+    "order": 2,
+    "ingredients": [
+        "2 kleine Baguettes",
+        "1 Aubergine",
+        "1 Zucchini",
+        "1 Paprika",
+        "4 Tomaten",
+        "3 Knoblauchzehen",
+        "5 EL Olivenöl",
+        "2 EL veganes Basilikumpesto",
+        "1/2 TL Chiliflocken",
+        "200 g planted.pulled Spicy Herbs",
+        "1 TL neutrales Öl"
+    ],
+    "instructions": [
+        "Die Tomaten vierteln, dann gemeinsam mit den geschälten Knoblauchzehen und 2 EL Olivenöl in eine ofenfeste Schüssel geben, salzen und für 25 Minuten bei 180°C backen. Optional gerne die Grillfunktion des Ofens benutzen.",
+        "Die Paprika in Ringe, die Zucchini und die Aubergine in dünne Scheiben schneiden. Die Aubergine für einige Minuten in Salzwasser einlegen und im Anschluss trocken tupfen.",
+        "Eine Marinade aus dem restlichen Olivenöl, Chiliflocken, Salz und Pfeffer zusammenrühren und über das Gemüse geben. Alles gut miteinander vermengen und im Anschluss auf einem Backblech verteilen. Bei 180°C für 30 Minuten backen.",
+        "Das planted.pulled in einer Pfanne mit dem Öl bei mittlerer Hitze für 4 Minuten goldbraun anbraten. Die Baguettes halbieren und beide Innenseiten mit dem Pesto bestreichen.",
+        "Die Knoblauchzehen mit Hilfe einer Gabel auf der Innenseite der Baguettes flachdrücken. Die gegrillten Tomaten, Auberginen- und Zucchinischeiben, die Paprika und das planted.pulled auf den Baguettes verteilen und am besten warm servieren."
+    ]
+}

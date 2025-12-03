@@ -1,0 +1,23 @@
+{
+    "title": "Turkish Pasta",
+    "slug": "turkish-pasta",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/DSC08053_1.jpg?v=1738670157",
+    "cookTime": 15,
+    "servings": 4,
+    "difficulty": "Easy",
+    "category": "main",
+    "order": 149,
+    "ingredients": [
+        "1 pack planted",
+        "2 tbsp olive oil",
+        "Salt and pepper to taste",
+        "Fresh herbs for garnish"
+    ],
+    "instructions": [
+        "Prepare the planted according to package instructions.",
+        "Season with salt, pepper, and your favorite spices.",
+        "Cook in a pan with olive oil until golden brown.",
+        "Serve hot with your choice of sides.",
+        "Garnish with fresh herbs and enjoy!"
+    ]
+}

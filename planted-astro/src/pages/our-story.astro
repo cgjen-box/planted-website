@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 
 const team = await getCollection('team');
 const sortedTeam = team.sort((a, b) => a.data.order - b.data.order);
+const base = import.meta.env.BASE_URL;
 ---
 
 <Layout title="Our Story – Planted" currentPage="our-story">
@@ -139,7 +140,7 @@ const sortedTeam = team.sort((a, b) => a.data.order - b.data.order);
     <section class="cta-section">
         <h2>Ready to try?</h2>
         <p>Find planted at your favourite store. We're basically everywhere now.</p>
-        <a href="/#locator" class="btn btn-green">📍 Find Near You</a>
+        <a href={`${base}/#locator`} class="btn btn-green">📍 Find Near You</a>
     </section>
 </Layout>
 

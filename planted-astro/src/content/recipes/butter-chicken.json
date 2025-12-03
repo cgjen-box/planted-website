@@ -1,0 +1,39 @@
+{
+    "title": "Butter Chicken",
+    "slug": "butter-chicken",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/Rezept_Butter_Chicken_Bild_4.jpg?v=1681292447",
+    "cookTime": 35,
+    "servings": 4,
+    "difficulty": "Easy",
+    "category": "main",
+    "order": 17,
+    "ingredients": [
+        "2 TL Pflanzenöl",
+        "1 Zwiebel, gehackt",
+        "1 TL Knoblauch, gehackt",
+        "1 TL Ingwer, gehackt",
+        "1.5 TL garam masala",
+        "1.5 TL gemahlener Kreuzkümmel",
+        "1 TL gemahlener Koriander",
+        "1 Tomate, gehackt",
+        "1 TL Chilipulver",
+        "1 TL Salz",
+        "250 ml Kokosmilch",
+        "1 TL Zucker",
+        "350 g planted.chicken",
+        "1⁄2 EL Naturjoghurt oder pflanzliches Joghurt (optional)",
+        "1 EL fein gehackter Knoblauch",
+        "1 EL fein gehackter Ingwer",
+        "1 TL gemahlener Kreuzkümmel",
+        "1 TL Kurkuma"
+    ],
+    "instructions": [
+        "Zutaten für die Marinade gut mit dem planted.chicken vermischen und mindestens 1 Stunde marinieren.",
+        "Pflanzenöl in einem grossen Topf erhitzen und Zwiebeln sautieren bis sie weich sind, dann Knoblauch und Ingwer beimengen und 1 weitere Minute aromatisch sautieren.",
+        "Garam Masala, Kreuzkümmel und Koriander dazu geben und 20 Sekunden unter regelmäßigen Umrühren aromatisch kochen.",
+        "Tomaten, Chili und Salz zufügen und 15 Minuten lang köcheln bis die Sauce verdickt.",
+        "Sauce in einen Mixer geben und mixen, bis sie eine sämige Konsistenz annimmt, dann zurück in den Topf geben. Kokosmilch und Zucker zur Sauce geben und zum Köcheln bringen.",
+        "Mariniertes planted.in einer Pfanne goldbraun braten (ca. 5 Minuten), dann zur Sauce geben und gut vermengen.",
+        "Mit gekochtem Reis servieren."
+    ]
+}

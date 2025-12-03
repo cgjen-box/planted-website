@@ -1,0 +1,23 @@
+{
+    "title": "Cremige Chili Pasta",
+    "slug": "cremige-chili-pasta",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/Image_-_2025-09-18T150555.136_9eabfeb1-5e2c-417d-a075-2a8a9935c057.jpg?v=1758791024",
+    "cookTime": 23,
+    "servings": 4,
+    "difficulty": "Easy",
+    "category": "main",
+    "order": 35,
+    "ingredients": [
+        "1 pack planted",
+        "2 tbsp olive oil",
+        "Salt and pepper to taste",
+        "Fresh herbs for garnish"
+    ],
+    "instructions": [
+        "Prepare the planted according to package instructions.",
+        "Season with salt, pepper, and your favorite spices.",
+        "Cook in a pan with olive oil until golden brown.",
+        "Serve hot with your choice of sides.",
+        "Garnish with fresh herbs and enjoy!"
+    ]
+}

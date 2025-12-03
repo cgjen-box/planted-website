@@ -1,0 +1,23 @@
+{
+    "title": "Bbq Steak",
+    "slug": "bbq-steak",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/liquid-marinade_e715cd40-c789-478c-b28c-242d8d116025.jpg?v=1750321104",
+    "cookTime": 44,
+    "servings": 4,
+    "difficulty": "Easy",
+    "category": "main",
+    "order": 8,
+    "ingredients": [
+        "1 pack planted.steak",
+        "2 tbsp olive oil",
+        "Salt and pepper to taste",
+        "Fresh herbs for garnish"
+    ],
+    "instructions": [
+        "Prepare the planted.steak according to package instructions.",
+        "Season with salt, pepper, and your favorite spices.",
+        "Cook in a pan with olive oil until golden brown.",
+        "Serve hot with your choice of sides.",
+        "Garnish with fresh herbs and enjoy!"
+    ]
+}

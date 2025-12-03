@@ -1,0 +1,23 @@
+{
+    "title": "Brunch Burritos",
+    "slug": "brunch-burritos",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/Brunch_Burrito.jpg?v=1681292013",
+    "cookTime": 24,
+    "servings": 4,
+    "difficulty": "Easy",
+    "category": "main",
+    "order": 15,
+    "ingredients": [
+        "1 pack planted",
+        "2 tbsp olive oil",
+        "Salt and pepper to taste",
+        "Fresh herbs for garnish"
+    ],
+    "instructions": [
+        "Prepare the planted according to package instructions.",
+        "Season with salt, pepper, and your favorite spices.",
+        "Cook in a pan with olive oil until golden brown.",
+        "Serve hot with your choice of sides.",
+        "Garnish with fresh herbs and enjoy!"
+    ]
+}

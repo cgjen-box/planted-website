@@ -1,0 +1,23 @@
+{
+    "title": "Kürbis Curry",
+    "slug": "kurbis-curry",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/DSC07405_2_1_cd411254-c9e9-4e61-a72f-9a239e4daebd.jpg?v=1738668995",
+    "cookTime": 37,
+    "servings": 4,
+    "difficulty": "Easy",
+    "category": "main",
+    "order": 76,
+    "ingredients": [
+        "1 pack planted",
+        "2 tbsp olive oil",
+        "Salt and pepper to taste",
+        "Fresh herbs for garnish"
+    ],
+    "instructions": [
+        "Prepare the planted according to package instructions.",
+        "Season with salt, pepper, and your favorite spices.",
+        "Cook in a pan with olive oil until golden brown.",
+        "Serve hot with your choice of sides.",
+        "Garnish with fresh herbs and enjoy!"
+    ]
+}

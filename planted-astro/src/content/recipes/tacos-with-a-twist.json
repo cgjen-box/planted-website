@@ -1,0 +1,23 @@
+{
+    "title": "Tacos With A Twist",
+    "slug": "tacos-with-a-twist",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/60f924900d74606aa774847a_planted.pulled_BerlinerSpeisemeisterei_jpegs_58_von_72_-min.jpg?v=1681303485",
+    "cookTime": 39,
+    "servings": 4,
+    "difficulty": "Easy",
+    "category": "main",
+    "order": 148,
+    "ingredients": [
+        "1 pack planted",
+        "2 tbsp olive oil",
+        "Salt and pepper to taste",
+        "Fresh herbs for garnish"
+    ],
+    "instructions": [
+        "Prepare the planted according to package instructions.",
+        "Season with salt, pepper, and your favorite spices.",
+        "Cook in a pan with olive oil until golden brown.",
+        "Serve hot with your choice of sides.",
+        "Garnish with fresh herbs and enjoy!"
+    ]
+}

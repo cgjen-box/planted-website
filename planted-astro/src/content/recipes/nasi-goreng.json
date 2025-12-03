@@ -1,0 +1,23 @@
+{
+    "title": "Nasi Goreng",
+    "slug": "nasi-goreng",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/Nasi_Goreng_Oswald.png?v=1681300533",
+    "cookTime": 43,
+    "servings": 4,
+    "difficulty": "Easy",
+    "category": "main",
+    "order": 87,
+    "ingredients": [
+        "1 pack planted",
+        "2 tbsp olive oil",
+        "Salt and pepper to taste",
+        "Fresh herbs for garnish"
+    ],
+    "instructions": [
+        "Prepare the planted according to package instructions.",
+        "Season with salt, pepper, and your favorite spices.",
+        "Cook in a pan with olive oil until golden brown.",
+        "Serve hot with your choice of sides.",
+        "Garnish with fresh herbs and enjoy!"
+    ]
+}

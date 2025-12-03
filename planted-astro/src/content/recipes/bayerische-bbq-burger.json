@@ -1,0 +1,36 @@
+{
+    "title": "Bayerische Bbq Burger",
+    "slug": "bayerische-bbq-burger",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/DSC0113_7.jpg?v=1681291427",
+    "cookTime": 44,
+    "servings": 4,
+    "difficulty": "Easy",
+    "category": "main",
+    "sourceUrl": "https://eatplanted.com/blogs/recipes/bayerische-bbq-burger",
+    "order": 5,
+    "ingredients": [
+        "4 Laugenbuns",
+        "320 g planted.pulled BBQ",
+        "1 EL Rapsöl",
+        "150 g Sauerkraut",
+        "8 Gewürzgurken",
+        "4 Zwiebeln",
+        "1 EL brauner Zucker",
+        "1 TL Tomatenmark",
+        "2 EL vegane Butter",
+        "4 Salatblätter",
+        "60 g süßer Senf",
+        "60 g BBQ Soße",
+        "1 TL Apfelessig",
+        "1 TL Ahornsirup"
+    ],
+    "instructions": [
+        "Die Laugenbuns halbieren und die Innenseiten antoasten.",
+        "Die Gewürzgurken in Scheiben schneiden.",
+        "Die Zwiebeln schälen und in Ringe schneiden.",
+        "Anschließend die vegane Butter bei mittlerer Hitze in einer Pfanne zum Schmelzen bringen, Tomatenmark darin kurz anrösten und im Anschluss die Zwiebeln und den Zucker hinzugeben und für 15 Minuten bei gelegentlichem Umrühren bräunen lassen. Bei Bedarf Salz und Pfeffer hinzufügen.",
+        "Den süßen Senf, die BBQ Soße, den Apfelessig und den Ahornsirup zu einer Soße vermengen. Mit Salz und Pfeffer abschmecken.",
+        "Das Rapsöl in einer Pfanne erhitzen und das planted.pulled BBQ darin für 3 Minuten scharf anbraten.",
+        "Die Innenseiten der Buns mit der Soße bestreichen, die Burger mit Sauerkraut, planted.pulled BBQ, Salatblättern, Gewürzgurken und den karamellisierten Zwiebeln belegen."
+    ]
+}

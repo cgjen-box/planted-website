@@ -1,0 +1,23 @@
+{
+    "title": "Pasta Contadina",
+    "slug": "pasta-contadina",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/Bindella_Dish.png?v=1674463108",
+    "cookTime": 31,
+    "servings": 4,
+    "difficulty": "Easy",
+    "category": "main",
+    "order": 94,
+    "ingredients": [
+        "600 g Penne oder Spaghetti",
+        "1 Knoblauchzehe, gehackt",
+        "400 g planted.pulled Natur",
+        "2 Frühlingszwiebeln, gehackt",
+        "8 Datteltomaten",
+        "4 EL Leccino Oliven"
+    ],
+    "instructions": [
+        "Pasta in siedendem Salzwasser al dente kochen (für Kochzeit siehe Verpackung).",
+        "Knoblauch im Olivenöl andünsten, bis er goldgelb ist. Planted Pulled und die Frühlingszwiebeln zugeben und einige Minuten mitdünsten.",
+        "Datteltomaten, Oliven und Petersilie dazugeben, alles gut vermischen und unter die Pasta geben. Anrichten."
+    ]
+}

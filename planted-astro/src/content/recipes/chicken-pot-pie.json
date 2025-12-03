@@ -1,0 +1,23 @@
+{
+    "title": "Chicken Pot Pie",
+    "slug": "chicken-pot-pie",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/619fa7d848429f0c1908cc4c_soulfood_pie.jpg?v=1681293261",
+    "cookTime": 38,
+    "servings": 4,
+    "difficulty": "Easy",
+    "category": "main",
+    "order": 25,
+    "ingredients": [
+        "1 pack planted.chicken",
+        "2 tbsp olive oil",
+        "Salt and pepper to taste",
+        "Fresh herbs for garnish"
+    ],
+    "instructions": [
+        "Prepare the planted.chicken according to package instructions.",
+        "Season with salt, pepper, and your favorite spices.",
+        "Cook in a pan with olive oil until golden brown.",
+        "Serve hot with your choice of sides.",
+        "Garnish with fresh herbs and enjoy!"
+    ]
+}

@@ -1,0 +1,30 @@
+{
+    "title": "Ajvar Auflauf",
+    "slug": "ajvar-auflauf",
+    "image": "https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/Rezept_Ajvar_Bake_Bild_3.jpg?v=1681301125",
+    "cookTime": 21,
+    "servings": 6,
+    "difficulty": "Easy",
+    "category": "main",
+    "sourceUrl": "https://eatplanted.com/blogs/recipes/ajvar-auflauf",
+    "order": 1,
+    "ingredients": [
+        "350g planted.chicken Güggeli",
+        "1 Kopf Blumenkohl oder Brokkoli",
+        "2 EL Olivenöl",
+        "3 Knoblauchzehen",
+        "1 Tasse Crème fraîche",
+        "1⁄2 Tasse Sahne",
+        "2 Tassen Ajvar",
+        "100g Kirschtomaten, halbiert",
+        "150g geriebener Käse"
+    ],
+    "instructions": [
+        "Ofen auf 225 °C vorheizen. Blumenkohl oder Brokkoli zerteilen.",
+        "planted.chicken bei mittlerer Hitze goldbraun braten (ca. 5 Minuten) und mit dem Blumenkohl/Brokkoli in eine grosse Auflaufform geben.",
+        "Knoblauch in Olivenöl braten bis weich. Crème fraîche, Sahne und Ajvar hinzufügen und aufkochen lassen.",
+        "Die Ajvarsauce über das planted.chicken und den Blumenkohl/Brokkoli giessen.",
+        "Kirschtomaten und Spinat darüber schichten und mit Käse bestreuen.",
+        "Mit Folie abdecken und 25 Minuten im Ofen backen. Dann Folie abnehmen und weitere 5 Minuten backen, bis die Käseschicht angebräunt ist."
+    ]
+}
