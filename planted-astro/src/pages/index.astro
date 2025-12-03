@@ -5,8 +5,7 @@ const base = import.meta.env.BASE_URL;
 
 const products = await getCollection('products');
 const featuredProducts = products
-    .sort((a, b) => a.data.order - b.data.order)
-    .slice(0, 6);
+    .sort((a, b) => a.data.order - b.data.order);
 
 const recipes = await getCollection('recipes');
 const featuredRecipes = recipes
@@ -93,15 +92,15 @@ const settings = await getEntry('settings', 'global');
         <!-- Carousel Pagination -->
         <div class="carousel-pagination">
             <button class="carousel-arrow" id="carouselPrev" aria-label="Previous">←</button>
-            <div class="carousel-dots">
-                <div class="carousel-dot active"></div>
-                <div class="carousel-dot"></div>
-                <div class="carousel-dot"></div>
-                <div class="carousel-dot"></div>
-                <div class="carousel-dot"></div>
-                <div class="carousel-dot"></div>
+            <div class="carousel-dots" id="carouselDots">
+                {featuredProducts.map((_, index) => (
+                    <div class={`carousel-dot ${index === 0 ? 'active' : ''}`} data-index={index}></div>
+                ))}
             </div>
             <button class="carousel-arrow" id="carouselNext" aria-label="Next">→</button>
+        </div>
+        <div class="carousel-count">
+            <span id="carouselCurrent">1</span> / <span>{featuredProducts.length}</span>
         </div>
     </section>
 
@@ -579,6 +578,30 @@ const settings = await getEntry('settings', 'global');
         background: var(--planted-green);
         opacity: 1;
         width: 20px;
+    }
+
+    .carousel-count {
+        text-align: center;
+        margin-top: 0.75rem;
+        font-size: 0.85rem;
+        color: var(--planted-purple);
+        opacity: 0.6;
+        font-weight: 600;
+    }
+
+    /* Hide dots on mobile when many products, show count instead */
+    @media (max-width: 640px) {
+        .carousel-dots {
+            max-width: 200px;
+            overflow: hidden;
+        }
+        .carousel-dot {
+            width: 8px;
+            height: 3px;
+        }
+        .carousel-dot.active {
+            width: 16px;
+        }
     }
 
     /* Impact Section */
@@ -1219,7 +1242,9 @@ const settings = await getEntry('settings', 'global');
         document.getElementById('carouselPrev')?.addEventListener('click', () => scrollProducts(-1));
         document.getElementById('carouselNext')?.addEventListener('click', () => scrollProducts(1));
 
-        // Update dots on scroll
+        // Update dots and counter on scroll
+        const carouselCurrent = document.getElementById('carouselCurrent');
+
         productsScroll?.addEventListener('scroll', () => {
             const card = productsScroll.querySelector('.product-card');
             if (card) {
@@ -1229,6 +1254,11 @@ const settings = await getEntry('settings', 'global');
                 carouselDots.forEach((dot, index) => {
                     dot.classList.toggle('active', index === activeIndex);
                 });
+
+                // Update counter
+                if (carouselCurrent) {
+                    carouselCurrent.textContent = String(activeIndex + 1);
+                }
             }
         });
 
