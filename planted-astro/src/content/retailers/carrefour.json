@@ -3,5 +3,7 @@
   "logo": "/images/retailers/carrefour.svg",
   "url": "https://www.carrefour.fr",
   "countries": ["fr", "es", "it"],
-  "order": 5
+  "order": 5,
+  "type": "retail",
+  "products": ["chicken-nature", "steak", "pulled-bbq", "nuggets", "kebab"]
 }

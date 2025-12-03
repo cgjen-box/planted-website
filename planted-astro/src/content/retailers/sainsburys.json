@@ -3,5 +3,7 @@
   "logo": "/images/retailers/sainsburys.svg",
   "url": "https://www.sainsburys.co.uk",
   "countries": ["uk"],
-  "order": 7
+  "order": 7,
+  "type": "retail",
+  "products": ["chicken-nature", "steak", "pulled-bbq", "nuggets"]
 }

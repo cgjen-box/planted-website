@@ -1,0 +1,10 @@
+{
+  "name": "Deutsche Bahn",
+  "logo": "/images/partners/deutsche-bahn.svg",
+  "url": "https://www.bahn.de",
+  "countries": ["de"],
+  "order": 12,
+  "type": "foodservice",
+  "products": ["chicken-nature"],
+  "description": "Planted on the rails. Enjoy planted.chicken dishes on ICE trains across Germany. Sustainable travel meets sustainable eating."
+}

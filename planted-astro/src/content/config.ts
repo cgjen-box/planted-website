@@ -107,6 +107,9 @@ const retailers = defineCollection({
         url: z.string().optional(),
         countries: z.array(z.string()),
         order: z.number().default(0),
+        type: z.enum(['retail', 'foodservice']).default('retail'),
+        products: z.array(z.string()).optional(), // Product slugs available at this location
+        description: z.string().optional(), // Brief description for foodservice partners
     }),
 });
 

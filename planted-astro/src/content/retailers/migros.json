@@ -3,5 +3,7 @@
   "logo": "/images/retailers/migros.svg",
   "url": "https://www.migros.ch",
   "countries": ["ch-de", "ch-fr", "ch-it"],
-  "order": 2
+  "order": 2,
+  "type": "retail",
+  "products": ["chicken-nature", "steak", "pulled-bbq", "schnitzel", "kebab", "chicken-burger"]
 }

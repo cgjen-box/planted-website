@@ -7,12 +7,14 @@
    CSS VARIABLES
    ============================================ */
 :root {
-    /* Brand Colors */
-    --planted-purple: #61269E;
-    --planted-purple-dark: #4A1D7A;
-    --planted-purple-light: #8B4FCF;
-    --planted-green: #6BBF59;
-    --planted-cream: #FDF8F3;
+    /* Brand Colors - John Schoolcraft specifications */
+    --planted-purple: #6B2D8B;
+    --planted-purple-dark: #5A2576;
+    --planted-green: #8BC53F;
+    --planted-pink: #FF69B4;
+    --planted-orange: #FF8C42;
+    --planted-cream: #FFF8F0;
+    --planted-charcoal: #2D2D2D;
     --planted-white: #FFFFFF;
     --planted-black: #1A1A1A;
 

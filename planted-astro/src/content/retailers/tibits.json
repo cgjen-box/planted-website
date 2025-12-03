@@ -1,0 +1,10 @@
+{
+  "name": "Tibits",
+  "logo": "/images/partners/tibits.svg",
+  "url": "https://www.tibits.ch",
+  "countries": ["ch-de", "ch-fr", "uk"],
+  "order": 14,
+  "type": "foodservice",
+  "products": ["chicken-nature", "pulled-bbq", "kebab"],
+  "description": "Vegetarian restaurant chain with locations across Switzerland and London. Fresh buffet featuring planted proteins."
+}

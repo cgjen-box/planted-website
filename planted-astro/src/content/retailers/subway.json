@@ -1,0 +1,10 @@
+{
+  "name": "Subway",
+  "logo": "/images/partners/subway.svg",
+  "url": "https://www.subway.com/de-ch",
+  "countries": ["ch-de", "ch-fr", "ch-it"],
+  "order": 11,
+  "type": "foodservice",
+  "products": ["chicken-nature"],
+  "description": "Planted Teriyaki Sandwich. Our signature planted.chicken glazed in teriyaki sauce, at Subway locations across Switzerland."
+}

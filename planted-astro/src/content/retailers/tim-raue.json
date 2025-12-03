@@ -1,0 +1,10 @@
+{
+  "name": "Restaurant Tim Raue",
+  "logo": "/images/partners/tim-raue.svg",
+  "url": "https://www.tim-raue.com",
+  "countries": ["de"],
+  "order": 10,
+  "type": "foodservice",
+  "products": ["pulled-bbq", "chicken-nature"],
+  "description": "Two Michelin stars. Berlin's most celebrated chef serving planted.pulled Peking duck salad and planted.chicken with Jerusalem artichoke."
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Hiltl",
+  "logo": "/images/partners/hiltl.svg",
+  "url": "https://hiltl.ch",
+  "countries": ["ch-de"],
+  "order": 13,
+  "type": "foodservice",
+  "products": ["chicken-nature", "steak", "kebab"],
+  "description": "World's oldest vegetarian restaurant, since 1898. Serving planted dishes in Zurich since our early days."
+}

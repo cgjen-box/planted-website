@@ -7,128 +7,261 @@ interface Props {
 }
 
 const {
-    title = "Hungry?",
-    subtitle = "Find planted at your favourite store."
+    title = "Find Us",
+    subtitle = "Discover where to get your planted fix."
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL;
 
-// Get retailer data
+// Get retailer and product data
 const retailers = await getCollection('retailers');
+const products = await getCollection('products');
 
-// Map locale codes to display country names
-const localeToCountry: Record<string, string> = {
-    'ch-de': 'Switzerland',
-    'ch-fr': 'Switzerland',
-    'ch-it': 'Switzerland',
-    'de': 'Germany',
-    'at': 'Austria',
-    'it': 'Italy',
-    'fr': 'France',
-    'nl': 'Netherlands',
-    'uk': 'United Kingdom',
-    'es': 'Spain'
+// Create product lookup map
+const productMap = new Map(products.map(p => [p.id, p.data]));
+
+// Map locale codes to country info
+const localeToCountry: Record<string, { name: string; code: string; flag: string }> = {
+    'ch-de': { name: 'Switzerland', code: 'CH', flag: '🇨🇭' },
+    'ch-fr': { name: 'Switzerland', code: 'CH', flag: '🇨🇭' },
+    'ch-it': { name: 'Switzerland', code: 'CH', flag: '🇨🇭' },
+    'de': { name: 'Germany', code: 'DE', flag: '🇩🇪' },
+    'at': { name: 'Austria', code: 'AT', flag: '🇦🇹' },
+    'it': { name: 'Italy', code: 'IT', flag: '🇮🇹' },
+    'fr': { name: 'France', code: 'FR', flag: '🇫🇷' },
+    'nl': { name: 'Netherlands', code: 'NL', flag: '🇳🇱' },
+    'uk': { name: 'United Kingdom', code: 'GB', flag: '🇬🇧' },
+    'es': { name: 'Spain', code: 'ES', flag: '🇪🇸' }
 };
 
-// Group retailers by actual country (not locale)
-const retailersByCountry: Record<string, typeof retailers> = {};
-const retailerCountries: Map<typeof retailers[0], Set<string>> = new Map();
+// Country code to name mapping for IP detection
+const countryCodeToName: Record<string, string> = {
+    'CH': 'Switzerland',
+    'DE': 'Germany',
+    'AT': 'Austria',
+    'IT': 'Italy',
+    'FR': 'France',
+    'NL': 'Netherlands',
+    'GB': 'United Kingdom',
+    'ES': 'Spain'
+};
 
-for (const retailer of retailers) {
-    const countries = new Set<string>();
-    for (const locale of retailer.data.countries) {
-        const country = localeToCountry[locale] || locale;
-        countries.add(country);
-        if (!retailersByCountry[country]) {
-            retailersByCountry[country] = [];
-        }
-        // Avoid duplicates
-        if (!retailersByCountry[country].includes(retailer)) {
-            retailersByCountry[country].push(retailer);
-        }
-    }
-    retailerCountries.set(retailer, countries);
+// Group retailers by type
+const retailPartners = retailers.filter(r => r.data.type !== 'foodservice').sort((a, b) => (a.data.order || 99) - (b.data.order || 99));
+const foodservicePartners = retailers.filter(r => r.data.type === 'foodservice').sort((a, b) => (a.data.order || 99) - (b.data.order || 99));
+
+// Get unique countries from all retailers
+const allCountries = new Set<string>();
+retailers.forEach(r => {
+    r.data.countries.forEach(locale => {
+        const country = localeToCountry[locale];
+        if (country) allCountries.add(country.name);
+    });
+});
+const countries = Array.from(allCountries).sort();
+
+// Helper to get country name from locale
+function getCountryName(locale: string): string {
+    return localeToCountry[locale]?.name || locale;
 }
 
-// Sort retailers by order
-const sortedRetailers = retailers.sort((a, b) => (a.data.order || 99) - (b.data.order || 99));
-
-// Get unique country names, sorted
-const countries = Object.keys(retailersByCountry).sort();
+// Helper to get countries for retailer
+function getRetailerCountries(retailer: typeof retailers[0]): string[] {
+    const countrySet = new Set<string>();
+    retailer.data.countries.forEach(locale => {
+        const country = localeToCountry[locale];
+        if (country) countrySet.add(country.name);
+    });
+    return Array.from(countrySet);
+}
 ---
 
 <section class="store-locator" id="locator">
     <div class="locator-inner">
-        <!-- Big bold headline -->
+        <!-- Header with country detection -->
         <div class="locator-header reveal">
             <h2>{title}</h2>
-            <p>{subtitle}</p>
+            <p class="subtitle">{subtitle}</p>
+
+            <!-- Detected country display -->
+            <div class="country-detected" id="countryDetected">
+                <div class="detecting">
+                    <span class="spinner"></span>
+                    <span>Finding your location...</span>
+                </div>
+                <div class="detected" style="display: none;">
+                    <span class="flag" id="countryFlag"></span>
+                    <span>Showing results for <strong id="countryName"></strong></span>
+                    <button class="change-country" id="changeCountry">Change</button>
+                </div>
+            </div>
+
+            <!-- Country selector (hidden by default, shown when changing) -->
+            <div class="country-selector" id="countrySelector" style="display: none;">
+                <div class="selector-inner">
+                    {countries.map((country) => {
+                        const countryInfo = Object.values(localeToCountry).find(c => c.name === country);
+                        return (
+                            <button class="country-option" data-country={country}>
+                                <span class="flag">{countryInfo?.flag}</span>
+                                <span>{country}</span>
+                            </button>
+                        );
+                    })}
+                </div>
+            </div>
         </div>
 
-        <!-- Country filter pills -->
-        <div class="country-pills reveal" id="countryPills">
-            <button class="country-pill active" data-country="all">
-                All Countries
+        <!-- Tab navigation -->
+        <div class="tab-nav reveal">
+            <button class="tab-btn active" data-tab="retail">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                Stores
             </button>
-            {countries.map((country) => (
-                <button class="country-pill" data-country={country}>
-                    {country}
-                </button>
-            ))}
+            <button class="tab-btn" data-tab="foodservice">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+                    <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                    <line x1="6" y1="1" x2="6" y2="4"/>
+                    <line x1="10" y1="1" x2="10" y2="4"/>
+                    <line x1="14" y1="1" x2="14" y2="4"/>
+                </svg>
+                Restaurants
+            </button>
         </div>
 
-        <!-- Retailer grid -->
-        <div class="retailers-grid" id="retailersGrid">
-            {sortedRetailers.map((retailer) => {
-                const countriesForRetailer = retailerCountries.get(retailer);
-                const countryList = countriesForRetailer ? Array.from(countriesForRetailer) : [];
-                return (
-                    <a
-                        href={retailer.data.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="retailer-card reveal-scale"
-                        data-countries={countryList.join(',')}
-                    >
-                        <div class="retailer-logo">
-                            {retailer.data.logo ? (
-                                <img
-                                    src={`${base}${retailer.data.logo}`}
-                                    alt={retailer.data.name}
-                                    loading="lazy"
-                                />
-                            ) : (
-                                <span class="retailer-initial">{retailer.data.name.charAt(0)}</span>
+        <!-- Retail partners tab -->
+        <div class="tab-content active" id="retail-tab">
+            <div class="partners-grid" id="retailGrid">
+                {retailPartners.map((retailer) => {
+                    const retailerCountries = getRetailerCountries(retailer);
+                    const retailerProducts = (retailer.data.products || [])
+                        .map(slug => productMap.get(slug))
+                        .filter(Boolean)
+                        .slice(0, 4);
+
+                    return (
+                        <a
+                            href={retailer.data.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="partner-card reveal-scale"
+                            data-countries={retailerCountries.join(',')}
+                        >
+                            <div class="card-header">
+                                <div class="partner-logo">
+                                    {retailer.data.logo ? (
+                                        <img
+                                            src={`${base}${retailer.data.logo}`}
+                                            alt={retailer.data.name}
+                                            loading="lazy"
+                                        />
+                                    ) : (
+                                        <span class="partner-initial">{retailer.data.name.charAt(0)}</span>
+                                    )}
+                                </div>
+                                <div class="partner-info">
+                                    <h3 class="partner-name">{retailer.data.name}</h3>
+                                    <div class="partner-countries">
+                                        {retailerCountries.map((c: string) => (
+                                            <span class="country-badge">{c}</span>
+                                        ))}
+                                    </div>
+                                </div>
+                                <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                                </svg>
+                            </div>
+
+                            {retailerProducts.length > 0 && (
+                                <div class="products-preview">
+                                    <span class="products-label">Available products:</span>
+                                    <div class="product-pills">
+                                        {retailerProducts.map((product: any) => (
+                                            <span class="product-pill">{product.name}</span>
+                                        ))}
+                                        {(retailer.data.products?.length || 0) > 4 && (
+                                            <span class="product-pill more">+{(retailer.data.products?.length || 0) - 4}</span>
+                                        )}
+                                    </div>
+                                </div>
                             )}
-                        </div>
-                        <div class="retailer-name">{retailer.data.name}</div>
-                        <div class="retailer-countries">
-                            {countryList.slice(0, 2).map((country: string) => (
-                                <span class="country-tag">{country}</span>
-                            ))}
-                            {countryList.length > 2 && (
-                                <span class="country-tag more">+{countryList.length - 2}</span>
-                            )}
-                        </div>
-                        <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                            <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                        </svg>
-                    </a>
-                );
-            })}
+                        </a>
+                    );
+                })}
+            </div>
+
+            {retailPartners.length === 0 && (
+                <p class="no-results">No retail partners found in your area.</p>
+            )}
         </div>
 
-        {sortedRetailers.length === 0 && (
-            <p class="no-retailers reveal">Retailer information coming soon!</p>
-        )}
+        <!-- Foodservice partners tab -->
+        <div class="tab-content" id="foodservice-tab">
+            <div class="foodservice-intro reveal">
+                <p>We're proud to partner with restaurants and foodservice providers who share our passion for delicious, sustainable food.</p>
+            </div>
+
+            <div class="partners-grid foodservice-grid" id="foodserviceGrid">
+                {foodservicePartners.map((partner) => {
+                    const partnerCountries = getRetailerCountries(partner);
+
+                    return (
+                        <a
+                            href={partner.data.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="partner-card foodservice-card reveal-scale"
+                            data-countries={partnerCountries.join(',')}
+                        >
+                            <div class="card-header">
+                                <div class="partner-logo">
+                                    {partner.data.logo ? (
+                                        <img
+                                            src={`${base}${partner.data.logo}`}
+                                            alt={partner.data.name}
+                                            loading="lazy"
+                                        />
+                                    ) : (
+                                        <span class="partner-initial">{partner.data.name.charAt(0)}</span>
+                                    )}
+                                </div>
+                                <div class="partner-info">
+                                    <h3 class="partner-name">{partner.data.name}</h3>
+                                    <div class="partner-countries">
+                                        {partnerCountries.map((c: string) => (
+                                            <span class="country-badge">{c}</span>
+                                        ))}
+                                    </div>
+                                </div>
+                                <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                                </svg>
+                            </div>
+
+                            {partner.data.description && (
+                                <p class="partner-description">{partner.data.description}</p>
+                            )}
+                        </a>
+                    );
+                })}
+            </div>
+
+            {foodservicePartners.length === 0 && (
+                <p class="no-results">No foodservice partners found in your area.</p>
+            )}
+        </div>
 
         <!-- Online shop CTA -->
         <div class="online-cta reveal">
             <div class="cta-content">
-                <span class="cta-label">Can't find a store?</span>
-                <span class="cta-text">Shop online and get it delivered to your door.</span>
+                <span class="cta-badge">Can't find a store?</span>
+                <span class="cta-text">Order directly from our online shop and get planted delivered to your door.</span>
             </div>
-            <a href="https://shop.eatplanted.com" class="btn btn-green" target="_blank" rel="noopener">
+            <a href="https://shop.eatplanted.com" class="btn btn-cta" target="_blank" rel="noopener">
                 Shop Online
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -137,50 +270,179 @@ const countries = Object.keys(retailersByCountry).sort();
         </div>
     </div>
 
-    <!-- Decorative elements -->
-    <div class="locator-decor decor-1"></div>
-    <div class="locator-decor decor-2"></div>
+    <!-- Background decoration -->
+    <div class="bg-pattern"></div>
 </section>
 
-<script>
+<script define:vars={{ countryCodeToName }}>
     function initStoreLocator() {
-        const pills = document.querySelectorAll('.country-pill');
-        const cards = document.querySelectorAll('.retailer-card') as NodeListOf<HTMLElement>;
+        const countryDetected = document.getElementById('countryDetected');
+        const detectingEl = countryDetected?.querySelector('.detecting');
+        const detectedEl = countryDetected?.querySelector('.detected');
+        const countryFlag = document.getElementById('countryFlag');
+        const countryName = document.getElementById('countryName');
+        const changeCountryBtn = document.getElementById('changeCountry');
+        const countrySelector = document.getElementById('countrySelector');
+        const countryOptions = document.querySelectorAll('.country-option');
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
 
-        pills.forEach(pill => {
-            pill.addEventListener('click', () => {
-                // Update active state
-                pills.forEach(p => p.classList.remove('active'));
-                pill.classList.add('active');
+        let currentCountry = null;
 
-                const selectedCountry = (pill as HTMLElement).dataset.country || 'all';
+        // Country flag mapping
+        const countryFlags = {
+            'Switzerland': '🇨🇭',
+            'Germany': '🇩🇪',
+            'Austria': '🇦🇹',
+            'Italy': '🇮🇹',
+            'France': '🇫🇷',
+            'Netherlands': '🇳🇱',
+            'United Kingdom': '🇬🇧',
+            'Spain': '🇪🇸'
+        };
 
-                // Filter cards with animation
-                cards.forEach((card) => {
-                    const cardCountries = card.dataset.countries?.split(',') || [];
+        // Auto-detect country
+        async function detectCountry() {
+            try {
+                // Use ipapi.co for country detection (free, no API key needed)
+                const response = await fetch('https://ipapi.co/json/', {
+                    timeout: 5000,
+                    headers: { 'Accept': 'application/json' }
+                });
+                const data = await response.json();
+                const detectedCountryCode = data.country_code;
+                const detectedCountryName = countryCodeToName[detectedCountryCode];
 
-                    if (selectedCountry === 'all' || cardCountries.includes(selectedCountry)) {
-                        card.style.display = '';
-                        card.classList.remove('hidden');
-                        // Re-trigger animation
-                        card.style.animation = 'none';
-                        card.offsetHeight; // Trigger reflow
-                        card.style.animation = '';
-                    } else {
-                        card.classList.add('hidden');
-                        setTimeout(() => {
-                            if (card.classList.contains('hidden')) {
-                                card.style.display = 'none';
-                            }
-                        }, 300);
+                if (detectedCountryName) {
+                    setCountry(detectedCountryName);
+                } else {
+                    // Default to Switzerland if country not in our list
+                    setCountry('Switzerland');
+                }
+            } catch (error) {
+                console.log('Could not detect country, defaulting to Switzerland');
+                setCountry('Switzerland');
+            }
+        }
+
+        // Set country and filter results
+        function setCountry(country) {
+            currentCountry = country;
+
+            // Update UI
+            if (detectingEl) detectingEl.style.display = 'none';
+            if (detectedEl) detectedEl.style.display = 'flex';
+            if (countryFlag) countryFlag.textContent = countryFlags[country] || '🌍';
+            if (countryName) countryName.textContent = country;
+            if (countrySelector) countrySelector.style.display = 'none';
+
+            // Filter partner cards
+            filterCards(country);
+        }
+
+        // Filter cards by country
+        function filterCards(country) {
+            const allCards = document.querySelectorAll('.partner-card');
+
+            allCards.forEach((card) => {
+                const cardCountries = card.dataset.countries?.split(',') || [];
+                const matches = cardCountries.includes(country);
+
+                if (matches) {
+                    card.classList.remove('filtered-out');
+                    card.style.display = '';
+                } else {
+                    card.classList.add('filtered-out');
+                }
+            });
+
+            // Check if any cards are visible in each tab
+            checkEmptyTabs();
+        }
+
+        // Check for empty tabs
+        function checkEmptyTabs() {
+            const retailCards = document.querySelectorAll('#retail-tab .partner-card:not(.filtered-out)');
+            const foodserviceCards = document.querySelectorAll('#foodservice-tab .partner-card:not(.filtered-out)');
+
+            // Update no results messages
+            const retailTab = document.getElementById('retail-tab');
+            const foodserviceTab = document.getElementById('foodservice-tab');
+
+            let retailNoResults = retailTab?.querySelector('.no-results');
+            let foodserviceNoResults = foodserviceTab?.querySelector('.no-results');
+
+            if (retailCards.length === 0 && retailTab) {
+                if (!retailNoResults) {
+                    retailNoResults = document.createElement('p');
+                    retailNoResults.className = 'no-results';
+                    retailNoResults.textContent = 'No retail partners found in ' + currentCountry + '. Check out our online shop!';
+                    retailTab.appendChild(retailNoResults);
+                } else {
+                    retailNoResults.style.display = '';
+                }
+            } else if (retailNoResults) {
+                retailNoResults.style.display = 'none';
+            }
+
+            if (foodserviceCards.length === 0 && foodserviceTab) {
+                if (!foodserviceNoResults) {
+                    foodserviceNoResults = document.createElement('p');
+                    foodserviceNoResults.className = 'no-results';
+                    foodserviceNoResults.textContent = 'No restaurant partners in ' + currentCountry + ' yet. Stay tuned!';
+                    foodserviceTab.appendChild(foodserviceNoResults);
+                } else {
+                    foodserviceNoResults.style.display = '';
+                }
+            } else if (foodserviceNoResults) {
+                foodserviceNoResults.style.display = 'none';
+            }
+        }
+
+        // Change country button
+        changeCountryBtn?.addEventListener('click', () => {
+            if (countrySelector) {
+                countrySelector.style.display = countrySelector.style.display === 'none' ? 'block' : 'none';
+            }
+        });
+
+        // Country option buttons
+        countryOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const country = option.dataset.country;
+                if (country) setCountry(country);
+            });
+        });
+
+        // Tab switching
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.dataset.tab;
+
+                // Update button states
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Update tab content visibility
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === `${tabId}-tab`) {
+                        content.classList.add('active');
                     }
                 });
             });
         });
+
+        // Start detection
+        detectCountry();
     }
 
     // Initialize
-    initStoreLocator();
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initStoreLocator);
+    } else {
+        initStoreLocator();
+    }
 
     // Re-init after View Transitions
     document.addEventListener('astro:page-load', initStoreLocator);
@@ -195,7 +457,7 @@ const countries = Object.keys(retailersByCountry).sort();
     }
 
     .locator-inner {
-        max-width: 1200px;
+        max-width: 1100px;
         margin: 0 auto;
         position: relative;
         z-index: 1;
@@ -204,240 +466,397 @@ const countries = Object.keys(retailersByCountry).sort();
     /* Header */
     .locator-header {
         text-align: center;
-        margin-bottom: 2.5rem;
+        margin-bottom: 2rem;
     }
 
     .locator-header h2 {
-        font-size: clamp(3rem, 12vw, 6rem);
+        font-size: clamp(2.5rem, 10vw, 4.5rem);
         color: white;
         margin-bottom: 0.5rem;
-        line-height: 0.9;
+        line-height: 1;
     }
 
-    .locator-header p {
-        font-size: clamp(1rem, 3vw, 1.25rem);
+    .subtitle {
+        font-size: 1.1rem;
         color: rgba(255, 255, 255, 0.8);
-        max-width: 400px;
-        margin: 0 auto;
+        margin-bottom: 1.5rem;
     }
 
-    /* Country pills */
-    .country-pills {
+    /* Country detection */
+    .country-detected {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 100px;
+        padding: 0.75rem 1.25rem;
+        color: white;
+        font-size: 0.95rem;
+    }
+
+    .detecting {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .spinner {
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    .detected {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .flag {
+        font-size: 1.25rem;
+    }
+
+    .change-country {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: white;
+        padding: 0.35rem 0.75rem;
+        border-radius: 100px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+        margin-left: 0.5rem;
+    }
+
+    .change-country:hover {
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Country selector */
+    .country-selector {
+        margin-top: 1rem;
+    }
+
+    .selector-inner {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         gap: 0.5rem;
+    }
+
+    .country-option {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid transparent;
+        color: white;
+        padding: 0.6rem 1rem;
+        border-radius: 100px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .country-option:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Tab navigation */
+    .tab-nav {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .tab-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid transparent;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 100px;
+        font-family: inherit;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .tab-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .tab-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .tab-btn.active {
+        background: var(--planted-green);
+        border-color: var(--planted-green);
+        color: var(--planted-purple);
+    }
+
+    /* Tab content */
+    .tab-content {
+        display: none;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+
+    .foodservice-intro {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.8);
+        max-width: 600px;
+        margin: 0 auto 2rem;
+    }
+
+    /* Partners grid */
+    .partners-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1rem;
         margin-bottom: 2.5rem;
     }
 
-    .country-pill {
-        background: rgba(255, 255, 255, 0.1);
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        color: white;
-        padding: 0.6rem 1.25rem;
-        border-radius: 100px;
-        font-family: inherit;
-        font-size: 0.9rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .country-pill:hover {
-        background: rgba(255, 255, 255, 0.2);
-        border-color: rgba(255, 255, 255, 0.4);
-    }
-
-    .country-pill.active {
-        background: var(--planted-green);
-        border-color: var(--planted-green);
-        color: var(--planted-black);
-    }
-
-    /* Retailers grid */
-    .retailers-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 1rem;
-        margin-bottom: 3rem;
-    }
-
-    .retailer-card {
+    .partner-card {
         background: white;
         border-radius: 1.25rem;
-        padding: 1.5rem;
+        padding: 1.25rem;
         text-decoration: none;
-        color: var(--planted-black);
+        color: var(--planted-charcoal);
         display: flex;
         flex-direction: column;
+        transition: transform 0.3s var(--ease-out-expo), box-shadow 0.3s;
+    }
+
+    .partner-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .partner-card.filtered-out {
+        display: none;
+    }
+
+    .card-header {
+        display: flex;
         align-items: center;
-        text-align: center;
-        position: relative;
-        transition: transform 0.3s var(--ease-out-expo), box-shadow 0.3s ease;
+        gap: 1rem;
     }
 
-    .retailer-card:hover {
-        transform: translateY(-6px) scale(1.02);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    }
-
-    .retailer-card.hidden {
-        opacity: 0;
-        transform: scale(0.9);
-        pointer-events: none;
-    }
-
-    .retailer-logo {
-        width: 80px;
-        height: 80px;
+    .partner-logo {
+        width: 60px;
+        height: 60px;
         background: var(--planted-cream);
-        border-radius: 1rem;
+        border-radius: 0.75rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 1rem;
+        flex-shrink: 0;
         overflow: hidden;
     }
 
-    .retailer-logo img {
-        max-width: 70%;
-        max-height: 70%;
+    .partner-logo img {
+        max-width: 80%;
+        max-height: 80%;
         object-fit: contain;
     }
 
-    .retailer-initial {
+    .partner-initial {
         font-family: 'VC Henrietta', serif;
-        font-size: 2rem;
+        font-size: 1.5rem;
         font-weight: 700;
         color: var(--planted-purple);
     }
 
-    .retailer-name {
-        font-weight: 700;
-        font-size: 1.1rem;
-        margin-bottom: 0.5rem;
+    .partner-info {
+        flex: 1;
+        min-width: 0;
     }
 
-    .retailer-countries {
+    .partner-name {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 0.35rem;
+        color: var(--planted-charcoal);
+    }
+
+    .partner-countries {
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
         gap: 0.25rem;
-        margin-bottom: 0.5rem;
     }
 
-    .country-tag {
+    .country-badge {
         background: var(--planted-cream);
         color: var(--planted-purple);
         font-size: 0.7rem;
         font-weight: 600;
-        padding: 0.2rem 0.5rem;
+        padding: 0.15rem 0.5rem;
         border-radius: 100px;
     }
 
-    .country-tag.more {
-        background: var(--planted-purple);
-        color: white;
-    }
-
     .arrow-icon {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
         color: var(--planted-purple);
         opacity: 0;
         transform: translate(-4px, 4px);
-        transition: opacity 0.3s ease, transform 0.3s ease;
+        transition: all 0.3s;
+        flex-shrink: 0;
     }
 
-    .retailer-card:hover .arrow-icon {
-        opacity: 0.5;
+    .partner-card:hover .arrow-icon {
+        opacity: 0.6;
         transform: translate(0, 0);
     }
 
-    .no-retailers {
+    /* Products preview */
+    .products-preview {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .products-label {
+        display: block;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: rgba(0, 0, 0, 0.4);
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+
+    .product-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+    }
+
+    .product-pill {
+        background: linear-gradient(135deg, var(--planted-purple), #8B3DB5);
+        color: white;
+        font-size: 0.7rem;
+        font-weight: 600;
+        padding: 0.25rem 0.6rem;
+        border-radius: 100px;
+    }
+
+    .product-pill.more {
+        background: var(--planted-green);
+        color: var(--planted-purple);
+    }
+
+    /* Foodservice card specific */
+    .foodservice-card .partner-description {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+        font-size: 0.85rem;
+        line-height: 1.5;
+        color: rgba(0, 0, 0, 0.6);
+    }
+
+    /* No results */
+    .no-results {
         text-align: center;
-        font-size: 1.2rem;
         color: rgba(255, 255, 255, 0.7);
-        padding: 3rem;
+        font-size: 1rem;
+        padding: 2rem;
     }
 
     /* Online CTA */
     .online-cta {
         background: rgba(255, 255, 255, 0.1);
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        border-radius: 1.5rem;
-        padding: 2rem;
+        border: 2px solid rgba(255, 255, 255, 0.15);
+        border-radius: 1.25rem;
+        padding: 1.75rem;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 1.5rem;
+        gap: 1.25rem;
         text-align: center;
     }
 
     .cta-content {
         display: flex;
         flex-direction: column;
-        gap: 0.25rem;
+        gap: 0.35rem;
     }
 
-    .cta-label {
-        font-size: 0.85rem;
+    .cta-badge {
+        font-size: 0.75rem;
         text-transform: uppercase;
         letter-spacing: 0.1em;
-        color: rgba(255, 255, 255, 0.6);
-        font-weight: 600;
+        color: var(--planted-green);
+        font-weight: 700;
     }
 
     .cta-text {
         color: white;
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 
-    .online-cta .btn {
+    .btn-cta {
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
+        background: var(--planted-green);
+        color: var(--planted-purple);
+        padding: 0.85rem 1.75rem;
+        border-radius: 100px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: transform 0.3s, box-shadow 0.3s;
     }
 
-    .online-cta .btn svg {
+    .btn-cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(139, 197, 63, 0.4);
+    }
+
+    .btn-cta svg {
         width: 18px;
         height: 18px;
-        transition: transform 0.3s ease;
+        transition: transform 0.3s;
     }
 
-    .online-cta .btn:hover svg {
+    .btn-cta:hover svg {
         transform: translateX(4px);
     }
 
-    /* Decorative elements */
-    .locator-decor {
+    /* Background decoration */
+    .bg-pattern {
         position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.03);
+        inset: 0;
+        background-image:
+            radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(139, 197, 63, 0.05) 0%, transparent 40%);
         pointer-events: none;
-    }
-
-    .decor-1 {
-        width: 400px;
-        height: 400px;
-        top: -150px;
-        right: -100px;
-    }
-
-    .decor-2 {
-        width: 300px;
-        height: 300px;
-        bottom: -100px;
-        left: -50px;
     }
 
     /* Responsive */
     @media (min-width: 640px) {
-        .retailers-grid {
-            grid-template-columns: repeat(3, 1fr);
+        .partners-grid {
+            grid-template-columns: repeat(2, 1fr);
         }
 
         .online-cta {
@@ -448,8 +867,8 @@ const countries = Object.keys(retailersByCountry).sort();
     }
 
     @media (min-width: 768px) {
-        .retailers-grid {
-            grid-template-columns: repeat(4, 1fr);
+        .partners-grid {
+            grid-template-columns: repeat(2, 1fr);
             gap: 1.25rem;
         }
     }
@@ -459,41 +878,18 @@ const countries = Object.keys(retailersByCountry).sort();
             padding: 6rem 3rem;
         }
 
-        .retailers-grid {
-            grid-template-columns: repeat(4, 1fr);
-        }
-
-        .retailer-card {
-            padding: 1.75rem;
-        }
-
-        .retailer-logo {
-            width: 90px;
-            height: 90px;
+        .partners-grid {
+            grid-template-columns: repeat(3, 1fr);
         }
     }
 
     @media (min-width: 1440px) {
         .store-locator {
-            padding: 8rem 5rem;
+            padding: 7rem 5rem;
         }
 
         .locator-inner {
-            max-width: 1400px;
-        }
-
-        .retailers-grid {
-            grid-template-columns: repeat(5, 1fr);
-        }
-    }
-
-    @media (min-width: 1920px) {
-        .locator-inner {
-            max-width: 1600px;
-        }
-
-        .retailers-grid {
-            grid-template-columns: repeat(6, 1fr);
+            max-width: 1300px;
         }
     }
 </style>

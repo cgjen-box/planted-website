@@ -3,5 +3,7 @@
   "logo": "/images/retailers/albert-heijn.svg",
   "url": "https://www.ah.nl",
   "countries": ["nl"],
-  "order": 6
+  "order": 6,
+  "type": "retail",
+  "products": ["chicken-nature", "steak", "pulled-bbq", "schnitzel", "nuggets"]
 }

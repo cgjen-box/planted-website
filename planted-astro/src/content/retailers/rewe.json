@@ -3,5 +3,7 @@
   "logo": "/images/retailers/rewe.svg",
   "url": "https://www.rewe.de",
   "countries": ["de", "at"],
-  "order": 3
+  "order": 3,
+  "type": "retail",
+  "products": ["chicken-nature", "steak", "pulled-bbq", "schnitzel", "bratwurst-original"]
 }

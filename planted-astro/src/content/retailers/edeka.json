@@ -3,5 +3,7 @@
   "logo": "/images/retailers/edeka.svg",
   "url": "https://www.edeka.de",
   "countries": ["de"],
-  "order": 4
+  "order": 4,
+  "type": "retail",
+  "products": ["chicken-nature", "steak", "kebab", "nuggets", "schnitzel"]
 }
