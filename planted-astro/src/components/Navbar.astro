@@ -475,17 +475,24 @@ const localePath = locale === defaultLocale ? '' : `/${locale}`;
             }
         }
 
-        // Event listeners
-        navToggle?.addEventListener('click', openMenu);
-        closeMenuBtn?.addEventListener('click', closeMenu);
+        // Event listeners - remove old ones first to prevent duplicates
+        const newNavToggle = navToggle?.cloneNode(true) as HTMLElement;
+        navToggle?.parentNode?.replaceChild(newNavToggle, navToggle);
+        newNavToggle?.addEventListener('click', openMenu);
+
+        const newCloseBtn = closeMenuBtn?.cloneNode(true) as HTMLElement;
+        closeMenuBtn?.parentNode?.replaceChild(newCloseBtn, closeMenuBtn);
+        newCloseBtn?.addEventListener('click', closeMenu);
 
         // Close menu when clicking nav links
         menu?.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', closeMenu);
         });
 
-        // Country selector toggle
-        countryBtn?.addEventListener('click', (e) => {
+        // Country selector toggle - clone to remove old listeners
+        const newCountryBtn = countryBtn?.cloneNode(true) as HTMLElement;
+        countryBtn?.parentNode?.replaceChild(newCountryBtn, countryBtn);
+        newCountryBtn?.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
             countrySelector?.classList.toggle('open');
@@ -532,8 +539,8 @@ const localePath = locale === defaultLocale ? '' : `/${locale}`;
         updateNav();
     }
 
-    // Initialize on DOMContentLoaded for initial page load
-    document.addEventListener('DOMContentLoaded', initNavbar);
+    // Run immediately - script is in body so DOM elements exist
+    initNavbar();
 
     // Re-initialize after Astro page transitions
     document.addEventListener('astro:page-load', initNavbar);
