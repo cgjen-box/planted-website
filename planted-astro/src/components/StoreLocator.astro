@@ -1,0 +1,499 @@
+---
+import { getCollection } from 'astro:content';
+
+interface Props {
+    title?: string;
+    subtitle?: string;
+}
+
+const {
+    title = "Hungry?",
+    subtitle = "Find planted at your favourite store."
+} = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+
+// Get retailer data
+const retailers = await getCollection('retailers');
+
+// Map locale codes to display country names
+const localeToCountry: Record<string, string> = {
+    'ch-de': 'Switzerland',
+    'ch-fr': 'Switzerland',
+    'ch-it': 'Switzerland',
+    'de': 'Germany',
+    'at': 'Austria',
+    'it': 'Italy',
+    'fr': 'France',
+    'nl': 'Netherlands',
+    'uk': 'United Kingdom',
+    'es': 'Spain'
+};
+
+// Group retailers by actual country (not locale)
+const retailersByCountry: Record<string, typeof retailers> = {};
+const retailerCountries: Map<typeof retailers[0], Set<string>> = new Map();
+
+for (const retailer of retailers) {
+    const countries = new Set<string>();
+    for (const locale of retailer.data.countries) {
+        const country = localeToCountry[locale] || locale;
+        countries.add(country);
+        if (!retailersByCountry[country]) {
+            retailersByCountry[country] = [];
+        }
+        // Avoid duplicates
+        if (!retailersByCountry[country].includes(retailer)) {
+            retailersByCountry[country].push(retailer);
+        }
+    }
+    retailerCountries.set(retailer, countries);
+}
+
+// Sort retailers by order
+const sortedRetailers = retailers.sort((a, b) => (a.data.order || 99) - (b.data.order || 99));
+
+// Get unique country names, sorted
+const countries = Object.keys(retailersByCountry).sort();
+---
+
+<section class="store-locator" id="locator">
+    <div class="locator-inner">
+        <!-- Big bold headline -->
+        <div class="locator-header reveal">
+            <h2>{title}</h2>
+            <p>{subtitle}</p>
+        </div>
+
+        <!-- Country filter pills -->
+        <div class="country-pills reveal" id="countryPills">
+            <button class="country-pill active" data-country="all">
+                All Countries
+            </button>
+            {countries.map((country) => (
+                <button class="country-pill" data-country={country}>
+                    {country}
+                </button>
+            ))}
+        </div>
+
+        <!-- Retailer grid -->
+        <div class="retailers-grid" id="retailersGrid">
+            {sortedRetailers.map((retailer) => {
+                const countriesForRetailer = retailerCountries.get(retailer);
+                const countryList = countriesForRetailer ? Array.from(countriesForRetailer) : [];
+                return (
+                    <a
+                        href={retailer.data.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="retailer-card reveal-scale"
+                        data-countries={countryList.join(',')}
+                    >
+                        <div class="retailer-logo">
+                            {retailer.data.logo ? (
+                                <img
+                                    src={`${base}${retailer.data.logo}`}
+                                    alt={retailer.data.name}
+                                    loading="lazy"
+                                />
+                            ) : (
+                                <span class="retailer-initial">{retailer.data.name.charAt(0)}</span>
+                            )}
+                        </div>
+                        <div class="retailer-name">{retailer.data.name}</div>
+                        <div class="retailer-countries">
+                            {countryList.slice(0, 2).map((country: string) => (
+                                <span class="country-tag">{country}</span>
+                            ))}
+                            {countryList.length > 2 && (
+                                <span class="country-tag more">+{countryList.length - 2}</span>
+                            )}
+                        </div>
+                        <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                        </svg>
+                    </a>
+                );
+            })}
+        </div>
+
+        {sortedRetailers.length === 0 && (
+            <p class="no-retailers reveal">Retailer information coming soon!</p>
+        )}
+
+        <!-- Online shop CTA -->
+        <div class="online-cta reveal">
+            <div class="cta-content">
+                <span class="cta-label">Can't find a store?</span>
+                <span class="cta-text">Shop online and get it delivered to your door.</span>
+            </div>
+            <a href="https://shop.eatplanted.com" class="btn btn-green" target="_blank" rel="noopener">
+                Shop Online
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+
+    <!-- Decorative elements -->
+    <div class="locator-decor decor-1"></div>
+    <div class="locator-decor decor-2"></div>
+</section>
+
+<script>
+    function initStoreLocator() {
+        const pills = document.querySelectorAll('.country-pill');
+        const cards = document.querySelectorAll('.retailer-card') as NodeListOf<HTMLElement>;
+
+        pills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                // Update active state
+                pills.forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+
+                const selectedCountry = (pill as HTMLElement).dataset.country || 'all';
+
+                // Filter cards with animation
+                cards.forEach((card) => {
+                    const cardCountries = card.dataset.countries?.split(',') || [];
+
+                    if (selectedCountry === 'all' || cardCountries.includes(selectedCountry)) {
+                        card.style.display = '';
+                        card.classList.remove('hidden');
+                        // Re-trigger animation
+                        card.style.animation = 'none';
+                        card.offsetHeight; // Trigger reflow
+                        card.style.animation = '';
+                    } else {
+                        card.classList.add('hidden');
+                        setTimeout(() => {
+                            if (card.classList.contains('hidden')) {
+                                card.style.display = 'none';
+                            }
+                        }, 300);
+                    }
+                });
+            });
+        });
+    }
+
+    // Initialize
+    initStoreLocator();
+
+    // Re-init after View Transitions
+    document.addEventListener('astro:page-load', initStoreLocator);
+</script>
+
+<style>
+    .store-locator {
+        background: var(--planted-purple);
+        padding: 5rem 1.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .locator-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Header */
+    .locator-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+
+    .locator-header h2 {
+        font-size: clamp(3rem, 12vw, 6rem);
+        color: white;
+        margin-bottom: 0.5rem;
+        line-height: 0.9;
+    }
+
+    .locator-header p {
+        font-size: clamp(1rem, 3vw, 1.25rem);
+        color: rgba(255, 255, 255, 0.8);
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    /* Country pills */
+    .country-pills {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .country-pill {
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 0.6rem 1.25rem;
+        border-radius: 100px;
+        font-family: inherit;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .country-pill:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .country-pill.active {
+        background: var(--planted-green);
+        border-color: var(--planted-green);
+        color: var(--planted-black);
+    }
+
+    /* Retailers grid */
+    .retailers-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 3rem;
+    }
+
+    .retailer-card {
+        background: white;
+        border-radius: 1.25rem;
+        padding: 1.5rem;
+        text-decoration: none;
+        color: var(--planted-black);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        transition: transform 0.3s var(--ease-out-expo), box-shadow 0.3s ease;
+    }
+
+    .retailer-card:hover {
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .retailer-card.hidden {
+        opacity: 0;
+        transform: scale(0.9);
+        pointer-events: none;
+    }
+
+    .retailer-logo {
+        width: 80px;
+        height: 80px;
+        background: var(--planted-cream);
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        overflow: hidden;
+    }
+
+    .retailer-logo img {
+        max-width: 70%;
+        max-height: 70%;
+        object-fit: contain;
+    }
+
+    .retailer-initial {
+        font-family: 'VC Henrietta', serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--planted-purple);
+    }
+
+    .retailer-name {
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .retailer-countries {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.25rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .country-tag {
+        background: var(--planted-cream);
+        color: var(--planted-purple);
+        font-size: 0.7rem;
+        font-weight: 600;
+        padding: 0.2rem 0.5rem;
+        border-radius: 100px;
+    }
+
+    .country-tag.more {
+        background: var(--planted-purple);
+        color: white;
+    }
+
+    .arrow-icon {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        width: 16px;
+        height: 16px;
+        color: var(--planted-purple);
+        opacity: 0;
+        transform: translate(-4px, 4px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .retailer-card:hover .arrow-icon {
+        opacity: 0.5;
+        transform: translate(0, 0);
+    }
+
+    .no-retailers {
+        text-align: center;
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.7);
+        padding: 3rem;
+    }
+
+    /* Online CTA */
+    .online-cta {
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 1.5rem;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        text-align: center;
+    }
+
+    .cta-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .cta-label {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: rgba(255, 255, 255, 0.6);
+        font-weight: 600;
+    }
+
+    .cta-text {
+        color: white;
+        font-size: 1.1rem;
+    }
+
+    .online-cta .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .online-cta .btn svg {
+        width: 18px;
+        height: 18px;
+        transition: transform 0.3s ease;
+    }
+
+    .online-cta .btn:hover svg {
+        transform: translateX(4px);
+    }
+
+    /* Decorative elements */
+    .locator-decor {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.03);
+        pointer-events: none;
+    }
+
+    .decor-1 {
+        width: 400px;
+        height: 400px;
+        top: -150px;
+        right: -100px;
+    }
+
+    .decor-2 {
+        width: 300px;
+        height: 300px;
+        bottom: -100px;
+        left: -50px;
+    }
+
+    /* Responsive */
+    @media (min-width: 640px) {
+        .retailers-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .online-cta {
+            flex-direction: row;
+            justify-content: space-between;
+            text-align: left;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .retailers-grid {
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .store-locator {
+            padding: 6rem 3rem;
+        }
+
+        .retailers-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .retailer-card {
+            padding: 1.75rem;
+        }
+
+        .retailer-logo {
+            width: 90px;
+            height: 90px;
+        }
+    }
+
+    @media (min-width: 1440px) {
+        .store-locator {
+            padding: 8rem 5rem;
+        }
+
+        .locator-inner {
+            max-width: 1400px;
+        }
+
+        .retailers-grid {
+            grid-template-columns: repeat(5, 1fr);
+        }
+    }
+
+    @media (min-width: 1920px) {
+        .locator-inner {
+            max-width: 1600px;
+        }
+
+        .retailers-grid {
+            grid-template-columns: repeat(6, 1fr);
+        }
+    }
+</style>
