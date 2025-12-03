@@ -1,0 +1,7 @@
+{
+  "name": "Migros",
+  "logo": "/images/retailers/migros.svg",
+  "url": "https://www.migros.ch",
+  "countries": ["ch-de", "ch-fr", "ch-it"],
+  "order": 2
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Albert Heijn",
+  "logo": "/images/retailers/albert-heijn.svg",
+  "url": "https://www.ah.nl",
+  "countries": ["nl"],
+  "order": 6
+}

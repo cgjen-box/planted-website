@@ -8,16 +8,24 @@
     "category": "main",
     "order": 82,
     "ingredients": [
-        "1 pack planted",
-        "2 tbsp olive oil",
-        "Salt and pepper to taste",
-        "Fresh herbs for garnish"
+        "1 Packung planted.steak oder planted.pulled",
+        "200 g Reis",
+        "1 Dose schwarze Bohnen, abgetropft",
+        "1 Dose Mais, abgetropft",
+        "1 Avocado, in Scheiben",
+        "100 g Sauerrahm oder vegane Alternative",
+        "1 Limette",
+        "1 TL Kreuzkümmel",
+        "1 TL Paprikapulver",
+        "Frischer Koriander",
+        "Salz und Pfeffer nach Geschmack"
     ],
     "instructions": [
-        "Prepare the planted according to package instructions.",
-        "Season with salt, pepper, and your favorite spices.",
-        "Cook in a pan with olive oil until golden brown.",
-        "Serve hot with your choice of sides.",
-        "Garnish with fresh herbs and enjoy!"
+        "Reis nach Packungsanweisung kochen und warm halten.",
+        "planted.steak in Streifen schneiden und mit Kreuzkümmel und Paprika würzen.",
+        "In einer heißen Pfanne mit Olivenöl 4-5 Minuten scharf anbraten.",
+        "Schwarze Bohnen und Mais in einer separaten Pfanne kurz erwärmen.",
+        "Reis in Schüsseln verteilen, mit Bohnen, Mais, Avocado und planted anrichten.",
+        "Mit Sauerrahm, Limettensaft und frischem Koriander toppen und servieren."
     ]
 }

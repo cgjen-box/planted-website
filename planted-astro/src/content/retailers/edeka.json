@@ -1,0 +1,7 @@
+{
+  "name": "EDEKA",
+  "logo": "/images/retailers/edeka.svg",
+  "url": "https://www.edeka.de",
+  "countries": ["de"],
+  "order": 4
+}

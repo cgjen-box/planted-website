@@ -8,16 +8,23 @@
     "category": "main",
     "order": 93,
     "ingredients": [
-        "1 pack planted",
-        "2 tbsp olive oil",
-        "Salt and pepper to taste",
-        "Fresh herbs for garnish"
+        "1 confezione planted.steak",
+        "300 g polenta",
+        "200 g funghi misti",
+        "100 g cavolo nero",
+        "2 cucchiai olio d'oliva",
+        "2 spicchi d'aglio",
+        "100 ml vino bianco",
+        "50 g burro o alternativa vegana",
+        "Rosmarino fresco",
+        "Sale e pepe q.b."
     ],
     "instructions": [
-        "Prepare the planted according to package instructions.",
-        "Season with salt, pepper, and your favorite spices.",
-        "Cook in a pan with olive oil until golden brown.",
-        "Serve hot with your choice of sides.",
-        "Garnish with fresh herbs and enjoy!"
+        "Preparare la polenta secondo le istruzioni sulla confezione e mantenerla calda.",
+        "Saltare i funghi in olio d'oliva con aglio per 5-6 minuti fino a doratura.",
+        "Aggiungere il cavolo nero e il vino bianco, cuocere per altri 3 minuti.",
+        "In una padella separata, cuocere il planted.steak per 3-4 minuti per lato fino a doratura.",
+        "Disporre la polenta cremosa nei piatti, adagiare lo steak sopra.",
+        "Guarnire con i funghi, il cavolo nero, rosmarino fresco e un filo d'olio d'oliva."
     ]
 }

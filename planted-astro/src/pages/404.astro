@@ -1,0 +1,144 @@
+---
+import Layout from '../layouts/Layout.astro';
+const base = import.meta.env.BASE_URL;
+---
+
+<Layout title="Page Not Found – Planted" description="Oops! This page doesn't exist. Let's get you back on track.">
+    <section class="error-section">
+        <div class="error-content">
+            <div class="error-number">404</div>
+            <h1>This page went plant-based</h1>
+            <p>It doesn't exist anymore. But don't worry — there's plenty of delicious content waiting for you.</p>
+            <div class="error-actions">
+                <a href={base || '/'} class="btn btn-green">
+                    🏠 Back to Home
+                </a>
+                <a href={`${base}/products`} class="btn btn-secondary">
+                    🍗 Browse Products
+                </a>
+            </div>
+        </div>
+        <div class="error-visual">
+            <div class="floating-emoji" style="--delay: 0s; --x: -20px;">🌱</div>
+            <div class="floating-emoji" style="--delay: 0.5s; --x: 30px;">🥗</div>
+            <div class="floating-emoji" style="--delay: 1s; --x: -10px;">🍔</div>
+            <div class="floating-emoji" style="--delay: 1.5s; --x: 20px;">🌿</div>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    .error-section {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-2xl) var(--space-md);
+        background: var(--planted-cream);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .error-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .error-number {
+        font-family: 'VC Henrietta', Georgia, serif;
+        font-size: clamp(8rem, 25vw, 16rem);
+        font-weight: 700;
+        line-height: 0.85;
+        color: var(--planted-purple);
+        opacity: 0.15;
+        margin-bottom: -2rem;
+    }
+
+    .error-content h1 {
+        font-size: clamp(2rem, 6vw, 3.5rem);
+        margin-bottom: var(--space-md);
+        color: var(--planted-black);
+    }
+
+    .error-content p {
+        font-size: 1.2rem;
+        max-width: 500px;
+        margin: 0 auto var(--space-xl);
+        opacity: 0.7;
+    }
+
+    .error-actions {
+        display: flex;
+        gap: var(--space-sm);
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .error-visual {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+    }
+
+    .floating-emoji {
+        position: absolute;
+        font-size: 3rem;
+        animation: float 6s ease-in-out infinite;
+        animation-delay: var(--delay);
+        opacity: 0.4;
+    }
+
+    .floating-emoji:nth-child(1) {
+        top: 15%;
+        left: 10%;
+    }
+
+    .floating-emoji:nth-child(2) {
+        top: 25%;
+        right: 15%;
+    }
+
+    .floating-emoji:nth-child(3) {
+        bottom: 30%;
+        left: 20%;
+    }
+
+    .floating-emoji:nth-child(4) {
+        bottom: 20%;
+        right: 10%;
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0) translateX(0) rotate(0deg);
+        }
+        25% {
+            transform: translateY(-20px) translateX(var(--x)) rotate(5deg);
+        }
+        50% {
+            transform: translateY(-10px) translateX(calc(var(--x) * -0.5)) rotate(-3deg);
+        }
+        75% {
+            transform: translateY(-25px) translateX(var(--x)) rotate(2deg);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .error-actions {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .error-actions .btn {
+            width: 100%;
+            max-width: 280px;
+            justify-content: center;
+        }
+
+        .floating-emoji {
+            font-size: 2rem;
+        }
+    }
+</style>

@@ -12,6 +12,47 @@ export async function getStaticPaths() {
 
 const { product } = Astro.props;
 const base = import.meta.env.BASE_URL;
+const canonicalUrl = `https://eatplanted.com${base}/products/${product.data.slug}`;
+
+// Generate JSON-LD structured data for product
+const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": product.data.name + (product.data.variant ? ` ${product.data.variant}` : ''),
+    "description": product.data.description || `Premium plant-based ${product.data.category} made from pea protein. High in protein, low environmental impact.`,
+    "image": product.data.images.main,
+    "brand": {
+        "@type": "Brand",
+        "name": "Planted"
+    },
+    "manufacturer": {
+        "@type": "Organization",
+        "name": "Planted Foods AG",
+        "url": "https://eatplanted.com"
+    },
+    "category": `Plant-based ${product.data.category}`,
+    "nutrition": product.data.nutrition ? {
+        "@type": "NutritionInformation",
+        "servingSize": "100g",
+        "calories": product.data.nutrition.energy,
+        "fatContent": product.data.nutrition.fat,
+        "saturatedFatContent": product.data.nutrition.saturates,
+        "carbohydrateContent": product.data.nutrition.carbs,
+        "sugarContent": product.data.nutrition.sugars,
+        "fiberContent": product.data.nutrition.fiber,
+        "proteinContent": `${product.data.nutrition.protein}g`,
+        "sodiumContent": product.data.nutrition.salt
+    } : undefined,
+    "offers": {
+        "@type": "Offer",
+        "availability": "https://schema.org/InStock",
+        "priceCurrency": "CHF",
+        "seller": {
+            "@type": "Organization",
+            "name": "Planted Foods AG"
+        }
+    }
+};
 
 // Get recipes that might feature this product
 const recipes = await getCollection('recipes');
@@ -84,6 +125,9 @@ const fiberValue = typeof nutrition.fiber === 'string'
 ---
 
 <Layout title={`${product.data.name} ${product.data.variant} – Planted`} currentPage="products">
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(productJsonLd)} />
+    
     <!-- Hero Section -->
     <section class="hero" id="hero">
         <div class="hero-sticky">

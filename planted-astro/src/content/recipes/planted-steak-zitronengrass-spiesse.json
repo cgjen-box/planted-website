@@ -8,16 +8,23 @@
     "category": "main",
     "order": 127,
     "ingredients": [
-        "1 pack planted.steak",
-        "2 tbsp olive oil",
-        "Salt and pepper to taste",
-        "Fresh herbs for garnish"
+        "1 Packung planted.steak",
+        "4 Stangen Zitronengras",
+        "2 EL Sojasauce",
+        "1 EL Sesamöl",
+        "1 EL frischer Ingwer, gerieben",
+        "2 Knoblauchzehen, gepresst",
+        "1 EL Limettensaft",
+        "1 TL brauner Zucker",
+        "Sesamsamen zum Garnieren",
+        "Frischer Koriander"
     ],
     "instructions": [
-        "Prepare the planted.steak according to package instructions.",
-        "Season with salt, pepper, and your favorite spices.",
-        "Cook in a pan with olive oil until golden brown.",
-        "Serve hot with your choice of sides.",
-        "Garnish with fresh herbs and enjoy!"
+        "Marinade aus Sojasauce, Sesamöl, Ingwer, Knoblauch, Limettensaft und Zucker verrühren.",
+        "planted.steak in große Würfel schneiden und 30 Minuten in der Marinade ziehen lassen.",
+        "Zitronengras-Stangen am unteren Ende leicht platt klopfen und als Spieße verwenden.",
+        "Marinierte Steakwürfel auf die Zitronengras-Spieße stecken.",
+        "Auf einem heißen Grill oder in einer Grillpfanne 3-4 Minuten pro Seite grillen.",
+        "Mit Sesamsamen und frischem Koriander bestreuen und sofort servieren."
     ]
 }

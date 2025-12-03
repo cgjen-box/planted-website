@@ -2,6 +2,7 @@
 import { ViewTransitions } from 'astro:transitions';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 import '../styles/global.css';
 import { locales, defaultLocale, type LocaleCode } from '../i18n/config';
 
@@ -52,8 +53,49 @@ const base = import.meta.env.BASE_URL;
     <meta name="twitter:image" content={image}>
 
     <!-- Preload critical fonts -->
-    <link rel="preload" href={`${base}/fonts/VCHenriettaCondensed-Bold.woff2`} as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href={`${base}/fonts/GalanoGrotesque-Medium.otf`} as="font" type="font/otf" crossorigin>
+    <link rel="preload" href={`${base}fonts/VCHenriettaCondensed-Bold.woff2`} as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href={`${base}fonts/GalanoGrotesque-Medium.otf`} as="font" type="font/otf" crossorigin>
+
+    <!-- Font Face Declarations with dynamic base URL -->
+    <style set:html={`
+        @font-face {
+            font-family: 'VC Henrietta';
+            src: url('${base}fonts/VCHenriettaCondensed-Bold.woff2') format('woff2'),
+                 url('${base}fonts/VCHenriettaCondensed-Bold.woff') format('woff');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'VC Henrietta';
+            src: url('${base}fonts/VCHenriettaCondensed-SemiBold.woff2') format('woff2'),
+                 url('${base}fonts/VCHenriettaCondensed-SemiBold.woff') format('woff');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Galano Grotesque';
+            src: url('${base}fonts/GalanoGrotesque-Regular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Galano Grotesque';
+            src: url('${base}fonts/GalanoGrotesque-Medium.otf') format('opentype');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Galano Grotesque';
+            src: url('${base}fonts/GalanoGrotesque-Bold.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+    `} />
 
     <!-- DNS prefetch for external resources -->
     <link rel="dns-prefetch" href="https://cdn.shopify.com">
@@ -65,6 +107,7 @@ const base = import.meta.env.BASE_URL;
     <Navbar currentPage={currentPage} locale={locale} />
     <slot />
     <Footer locale={locale} />
+    <CookieConsent />
 
     <script>
         function initAnimations() {

@@ -8,16 +8,23 @@
     "category": "main",
     "order": 126,
     "ingredients": [
-        "1 pack planted.steak",
-        "2 tbsp olive oil",
-        "Salt and pepper to taste",
-        "Fresh herbs for garnish"
+        "1 Packung planted.steak",
+        "400 g Rotkohl",
+        "2 Äpfel, gewürfelt",
+        "300 g Kartoffelknödel",
+        "3 EL Olivenöl",
+        "2 EL Preiselbeeren",
+        "100 ml Rotwein",
+        "2 Nelken, 1 Lorbeerblatt",
+        "Salz und Pfeffer nach Geschmack",
+        "Frische Kräuter zum Garnieren"
     ],
     "instructions": [
-        "Prepare the planted.steak according to package instructions.",
-        "Season with salt, pepper, and your favorite spices.",
-        "Cook in a pan with olive oil until golden brown.",
-        "Serve hot with your choice of sides.",
-        "Garnish with fresh herbs and enjoy!"
+        "Rotkohl fein hobeln und mit Äpfeln, Nelken und Lorbeerblatt in einem Topf anbraten.",
+        "Mit Rotwein ablöschen und 30-40 Minuten bei niedriger Hitze schmoren.",
+        "Kartoffelknödel nach Packungsanweisung zubereiten.",
+        "planted.steak in einer heißen Pfanne mit Olivenöl 3-4 Minuten pro Seite braten.",
+        "Rotkohl, Knödel und Steak auf Tellern anrichten.",
+        "Mit Preiselbeeren und frischen Kräutern garnieren und warm servieren."
     ]
 }

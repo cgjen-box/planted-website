@@ -1,0 +1,272 @@
+---
+interface Props {
+    variant?: 'default' | 'footer' | 'inline';
+}
+
+const { variant = 'default' } = Astro.props;
+---
+
+<div class={`newsletter-signup ${variant}`}>
+    <div class="newsletter-content">
+        {variant === 'default' && (
+            <>
+                <h3>Stay hungry</h3>
+                <p>Get recipes, product news, and exclusive offers. No spam, just good stuff.</p>
+            </>
+        )}
+        {variant === 'footer' && (
+            <p>Subscribe for recipes & news</p>
+        )}
+    </div>
+    <form class="newsletter-form" data-newsletter-form>
+        <div class="form-row">
+            <input 
+                type="email" 
+                name="email" 
+                placeholder="Your email address" 
+                required 
+                class="newsletter-input"
+            />
+            <select name="country" class="newsletter-country" aria-label="Select your country">
+                <option value="ch">🇨🇭 Switzerland</option>
+                <option value="de">🇩🇪 Germany</option>
+                <option value="at">🇦🇹 Austria</option>
+                <option value="fr">🇫🇷 France</option>
+                <option value="it">🇮🇹 Italy</option>
+                <option value="nl">🇳🇱 Netherlands</option>
+                <option value="uk">🇬🇧 United Kingdom</option>
+                <option value="es">🇪🇸 Spain</option>
+            </select>
+            <button type="submit" class="newsletter-button">
+                <span class="button-text">Subscribe</span>
+                <span class="button-loading" hidden>...</span>
+            </button>
+        </div>
+        <div class="newsletter-consent">
+            <label>
+                <input type="checkbox" name="consent" required />
+                <span>I agree to receive marketing emails. <a href="/privacy">Privacy Policy</a></span>
+            </label>
+        </div>
+        <div class="newsletter-message" hidden></div>
+    </form>
+</div>
+
+<script>
+    document.querySelectorAll('[data-newsletter-form]').forEach(form => {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formEl = e.target as HTMLFormElement;
+            const button = formEl.querySelector('.newsletter-button') as HTMLButtonElement;
+            const buttonText = formEl.querySelector('.button-text') as HTMLElement;
+            const buttonLoading = formEl.querySelector('.button-loading') as HTMLElement;
+            const message = formEl.querySelector('.newsletter-message') as HTMLElement;
+
+            // Show loading state
+            button.disabled = true;
+            buttonText.hidden = true;
+            buttonLoading.hidden = false;
+
+            // Simulate API call (replace with actual endpoint)
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            // Show success
+            message.textContent = '✓ Thanks for subscribing!';
+            message.className = 'newsletter-message success';
+            message.hidden = false;
+            formEl.reset();
+
+            // Reset button
+            button.disabled = false;
+            buttonText.hidden = false;
+            buttonLoading.hidden = true;
+
+            // Hide message after delay
+            setTimeout(() => {
+                message.hidden = true;
+            }, 5000);
+        });
+    });
+</script>
+
+<style>
+    .newsletter-signup {
+        --input-bg: white;
+        --input-border: rgba(0,0,0,0.1);
+    }
+
+    .newsletter-signup.default {
+        background: var(--planted-purple);
+        color: white;
+        padding: var(--space-2xl) var(--space-md);
+        border-radius: 1.5rem;
+        text-align: center;
+    }
+
+    .newsletter-signup.footer {
+        padding: var(--space-md) 0;
+    }
+
+    .newsletter-signup.inline {
+        padding: var(--space-lg);
+        background: var(--planted-cream);
+        border-radius: 1rem;
+    }
+
+    .newsletter-content h3 {
+        font-size: 1.75rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .newsletter-content p {
+        opacity: 0.9;
+        margin-bottom: var(--space-lg);
+    }
+
+    .newsletter-form {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .form-row {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .newsletter-input {
+        flex: 1;
+        min-width: 200px;
+        padding: 1rem 1.25rem;
+        border: 2px solid var(--input-border);
+        border-radius: 100px;
+        font-family: inherit;
+        font-size: 1rem;
+        background: var(--input-bg);
+        transition: border-color 0.2s;
+    }
+
+    .newsletter-input:focus {
+        outline: none;
+        border-color: var(--planted-green);
+    }
+
+    .newsletter-country {
+        padding: 1rem 1.25rem;
+        border: 2px solid var(--input-border);
+        border-radius: 100px;
+        font-family: inherit;
+        font-size: 1rem;
+        background: var(--input-bg);
+        cursor: pointer;
+        min-width: 160px;
+    }
+
+    .newsletter-button {
+        padding: 1rem 2rem;
+        background: var(--planted-green);
+        color: var(--planted-black);
+        border: none;
+        border-radius: 100px;
+        font-family: inherit;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        min-width: 140px;
+    }
+
+    .newsletter-button:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(107, 191, 89, 0.3);
+    }
+
+    .newsletter-button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+
+    .newsletter-consent {
+        margin-top: var(--space-sm);
+        font-size: 0.85rem;
+        opacity: 0.8;
+    }
+
+    .newsletter-consent label {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .newsletter-consent input[type="checkbox"] {
+        margin-top: 0.2rem;
+        accent-color: var(--planted-green);
+    }
+
+    .newsletter-consent a {
+        color: inherit;
+        text-decoration: underline;
+    }
+
+    .newsletter-message {
+        margin-top: var(--space-sm);
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .newsletter-message.success {
+        background: rgba(107, 191, 89, 0.2);
+        color: var(--planted-green);
+    }
+
+    .newsletter-message.error {
+        background: rgba(220, 53, 69, 0.2);
+        color: #dc3545;
+    }
+
+    /* Footer variant styling */
+    .newsletter-signup.footer .newsletter-content p {
+        margin-bottom: var(--space-sm);
+        opacity: 0.7;
+    }
+
+    .newsletter-signup.footer .form-row {
+        justify-content: flex-start;
+    }
+
+    .newsletter-signup.footer .newsletter-input {
+        max-width: 250px;
+    }
+
+    .newsletter-signup.footer .newsletter-country {
+        display: none;
+    }
+
+    .newsletter-signup.footer .newsletter-consent {
+        justify-content: flex-start;
+    }
+
+    .newsletter-signup.footer .newsletter-consent label {
+        justify-content: flex-start;
+    }
+
+    @media (max-width: 768px) {
+        .form-row {
+            flex-direction: column;
+        }
+
+        .newsletter-input,
+        .newsletter-country,
+        .newsletter-button {
+            width: 100%;
+            min-width: auto;
+        }
+
+        .newsletter-signup.footer .newsletter-input {
+            max-width: none;
+        }
+    }
+</style>

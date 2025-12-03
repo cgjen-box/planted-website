@@ -1,47 +1,7 @@
 /* ============================================
    CUSTOM FONTS - Brand Typography
+   Font-face declarations are in Layout.astro with dynamic base URL
    ============================================ */
-@font-face {
-    font-family: 'VC Henrietta';
-    src: url('/planted-website/fonts/VCHenriettaCondensed-Bold.woff2') format('woff2'),
-         url('/planted-website/fonts/VCHenriettaCondensed-Bold.woff') format('woff');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'VC Henrietta';
-    src: url('/planted-website/fonts/VCHenriettaCondensed-SemiBold.woff2') format('woff2'),
-         url('/planted-website/fonts/VCHenriettaCondensed-SemiBold.woff') format('woff');
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Galano Grotesque';
-    src: url('/planted-website/fonts/GalanoGrotesque-Regular.otf') format('opentype');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Galano Grotesque';
-    src: url('/planted-website/fonts/GalanoGrotesque-Medium.otf') format('opentype');
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Galano Grotesque';
-    src: url('/planted-website/fonts/GalanoGrotesque-Bold.otf') format('opentype');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-}
 
 /* ============================================
    CSS VARIABLES
@@ -56,9 +16,32 @@
     --planted-white: #FFFFFF;
     --planted-black: #1A1A1A;
 
+    /* Semantic Color Tokens */
+    --planted-action: var(--planted-green);
+    --planted-trust: var(--planted-purple);
+    --planted-warmth: var(--planted-cream);
+
+    /* Spacing Scale (8-point grid) */
+    --space-xs: 0.5rem;   /* 8px */
+    --space-sm: 1rem;     /* 16px */
+    --space-md: 1.5rem;   /* 24px */
+    --space-lg: 2rem;     /* 32px */
+    --space-xl: 3rem;     /* 48px */
+    --space-2xl: 4rem;    /* 64px */
+    --space-3xl: 6rem;    /* 96px */
+    --space-4xl: 8rem;    /* 128px */
+    --space-5xl: 10rem;   /* 160px */
+
     /* Animation Easing */
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
     --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --duration-fast: 0.2s;
+    --duration-normal: 0.3s;
+    --duration-slow: 0.5s;
+
+    /* Touch Target Minimum (accessibility) */
+    --touch-target: 44px;
 }
 
 /* ============================================
@@ -80,18 +63,26 @@ body {
     color: var(--planted-black);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
 }
 
 ::selection {
-    background: var(--planted-purple-light);
+    background: var(--planted-purple);
     color: white;
 }
 
 h1, h2, h3, .display {
     font-family: 'VC Henrietta', Georgia, serif;
     font-weight: 700;
-    letter-spacing: -0.01em;
-    line-height: 0.95;
+    letter-spacing: -0.02em;
+    line-height: 0.92;
+}
+
+/* Display text for hero/impact sections */
+.display-xl {
+    font-size: clamp(3rem, 12vw, 8rem);
+    line-height: 0.88;
+    letter-spacing: -0.03em;
 }
 
 /* ============================================
@@ -158,7 +149,7 @@ h1, h2, h3, .display {
    ============================================ */
 .reveal {
     opacity: 0;
-    transform: translateY(40px);
+    transform: translateY(24px);
     transition: opacity 0.8s var(--ease-out-expo),
                 transform 0.8s var(--ease-out-expo);
 }
@@ -175,7 +166,7 @@ h1, h2, h3, .display {
 
 .reveal-scale {
     opacity: 0;
-    transform: scale(0.92);
+    transform: scale(0.95);
     transition: opacity 0.7s var(--ease-out-expo),
                 transform 0.7s var(--ease-out-expo);
 }
@@ -188,7 +179,7 @@ h1, h2, h3, .display {
 /* Slide from left/right */
 .reveal-left {
     opacity: 0;
-    transform: translateX(-40px);
+    transform: translateX(-24px);
     transition: opacity 0.8s var(--ease-out-expo),
                 transform 0.8s var(--ease-out-expo);
 }
@@ -200,7 +191,7 @@ h1, h2, h3, .display {
 
 .reveal-right {
     opacity: 0;
-    transform: translateX(40px);
+    transform: translateX(24px);
     transition: opacity 0.8s var(--ease-out-expo),
                 transform 0.8s var(--ease-out-expo);
 }
@@ -213,7 +204,7 @@ h1, h2, h3, .display {
 /* Stagger animation for grid items */
 .stagger-item {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
     transition: opacity 0.6s var(--ease-out-expo),
                 transform 0.6s var(--ease-out-expo);
 }
@@ -280,7 +271,7 @@ img {
 }
 
 .product-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-4px);
 }
 
 .product-card-inner {

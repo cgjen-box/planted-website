@@ -1,0 +1,7 @@
+{
+  "name": "Coop",
+  "logo": "/images/retailers/coop.svg",
+  "url": "https://www.coop.ch",
+  "countries": ["ch-de", "ch-fr", "ch-it"],
+  "order": 1
+}

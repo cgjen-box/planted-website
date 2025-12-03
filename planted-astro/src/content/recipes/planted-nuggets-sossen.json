@@ -8,16 +8,20 @@
     "category": "main",
     "order": 109,
     "ingredients": [
-        "1 pack planted.nuggets",
-        "2 tbsp olive oil",
-        "Salt and pepper to taste",
-        "Fresh herbs for garnish"
+        "2 Packungen planted.nuggets",
+        "3 EL Olivenöl",
+        "Für die BBQ-Sauce: 100 ml Ketchup, 2 EL Honig, 1 EL Worcestersauce",
+        "Für die Honig-Senf-Sauce: 3 EL Mayonnaise, 2 EL Senf, 1 EL Honig",
+        "Für die Knoblauch-Sauce: 100 g Joghurt, 2 Knoblauchzehen, 1 EL Zitronensaft",
+        "Salz und Pfeffer nach Geschmack",
+        "Frische Kräuter zum Garnieren"
     ],
     "instructions": [
-        "Prepare the planted.nuggets according to package instructions.",
-        "Season with salt, pepper, and your favorite spices.",
-        "Cook in a pan with olive oil until golden brown.",
-        "Serve hot with your choice of sides.",
-        "Garnish with fresh herbs and enjoy!"
+        "Backofen auf 200°C vorheizen und planted.nuggets auf einem Backblech verteilen.",
+        "Nuggets 12-15 Minuten backen, bis sie goldbraun und knusprig sind.",
+        "Für die BBQ-Sauce: Ketchup, Honig und Worcestersauce verrühren.",
+        "Für die Honig-Senf-Sauce: Mayonnaise, Senf und Honig glatt rühren.",
+        "Für die Knoblauch-Sauce: Joghurt mit gepresstem Knoblauch und Zitronensaft mischen.",
+        "Nuggets auf einem Teller mit den drei Saucen servieren und mit Kräutern garnieren."
     ]
 }

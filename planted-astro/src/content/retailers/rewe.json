@@ -1,0 +1,7 @@
+{
+  "name": "REWE",
+  "logo": "/images/retailers/rewe.svg",
+  "url": "https://www.rewe.de",
+  "countries": ["de", "at"],
+  "order": 3
+}

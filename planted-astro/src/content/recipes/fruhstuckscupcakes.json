@@ -8,16 +8,22 @@
     "category": "main",
     "order": 49,
     "ingredients": [
-        "1 pack planted",
-        "2 tbsp olive oil",
-        "Salt and pepper to taste",
-        "Fresh herbs for garnish"
+        "1 Packung planted.pulled",
+        "6 Scheiben Toastbrot",
+        "6 Eier oder vegane Ei-Alternative",
+        "100 g geriebener Käse oder vegane Alternative",
+        "2 EL Olivenöl",
+        "1 EL Schnittlauch, gehackt",
+        "50 g Kirschtomaten, halbiert",
+        "Salz und Pfeffer nach Geschmack",
+        "Butter zum Einfetten"
     ],
     "instructions": [
-        "Prepare the planted according to package instructions.",
-        "Season with salt, pepper, and your favorite spices.",
-        "Cook in a pan with olive oil until golden brown.",
-        "Serve hot with your choice of sides.",
-        "Garnish with fresh herbs and enjoy!"
+        "Backofen auf 180°C vorheizen und eine Muffinform mit Butter einfetten.",
+        "Toastbrot mit einem Nudelholz flach rollen und in die Muffinförmchen drücken.",
+        "planted.pulled in Olivenöl kurz anbraten und auf die Toastbrot-Mulden verteilen.",
+        "Eier aufschlagen und vorsichtig in jede Mulde geben, mit Käse bestreuen.",
+        "Im Ofen 15-18 Minuten backen, bis die Eier gestockt sind.",
+        "Mit Schnittlauch, Kirschtomaten und frischem Pfeffer garniert servieren."
     ]
 }

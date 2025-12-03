@@ -1,0 +1,7 @@
+{
+  "name": "Sainsbury's",
+  "logo": "/images/retailers/sainsburys.svg",
+  "url": "https://www.sainsburys.co.uk",
+  "countries": ["uk"],
+  "order": 7
+}

@@ -8,16 +8,21 @@
     "category": "main",
     "order": 120,
     "ingredients": [
-        "1 pack planted.steak",
-        "2 tbsp olive oil",
-        "Salt and pepper to taste",
-        "Fresh herbs for garnish"
+        "1 Packung planted.steak paprika",
+        "600 g kleine Kartoffeln, halbiert",
+        "4 EL Olivenöl",
+        "2 TL Paprikapulver",
+        "1 TL Knoblauchpulver",
+        "Frischer Rosmarin",
+        "100 g Kräuterquark",
+        "Salz und Pfeffer nach Geschmack"
     ],
     "instructions": [
-        "Prepare the planted.steak according to package instructions.",
-        "Season with salt, pepper, and your favorite spices.",
-        "Cook in a pan with olive oil until golden brown.",
-        "Serve hot with your choice of sides.",
-        "Garnish with fresh herbs and enjoy!"
+        "Backofen auf 200°C vorheizen.",
+        "Kartoffeln mit 3 EL Olivenöl, Paprika, Knoblauchpulver und Salz vermengen.",
+        "Auf einem Backblech verteilen und 25-30 Minuten rösten, bis sie goldbraun sind.",
+        "planted.steak paprika in einer heißen Pfanne mit dem restlichen Olivenöl 3-4 Minuten pro Seite braten.",
+        "Kartoffeln in den letzten 5 Minuten mit frischem Rosmarin bestreuen.",
+        "Steak mit den Ofenkartoffeln und Kräuterquark anrichten."
     ]
 }

@@ -82,6 +82,34 @@ const team = defineCollection({
     }),
 });
 
+// News/Blog collection
+const news = defineCollection({
+    type: 'data',
+    schema: z.object({
+        title: z.string(),
+        slug: z.string(),
+        excerpt: z.string(),
+        content: z.string().optional(),
+        image: z.string(),
+        date: z.string(), // ISO date string
+        category: z.enum(['partnership', 'product', 'company', 'sustainability', 'campaign']),
+        featured: z.boolean().default(false),
+        author: z.string().optional(),
+    }),
+});
+
+// Retailers collection
+const retailers = defineCollection({
+    type: 'data',
+    schema: z.object({
+        name: z.string(),
+        logo: z.string(),
+        url: z.string().optional(),
+        countries: z.array(z.string()),
+        order: z.number().default(0),
+    }),
+});
+
 // Site settings (singleton-style)
 const settings = defineCollection({
     type: 'data',
@@ -123,4 +151,6 @@ export const collections = {
     recipes,
     team,
     settings,
+    news,
+    retailers,
 };

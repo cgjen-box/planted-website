@@ -1,0 +1,7 @@
+{
+  "name": "Waitrose",
+  "logo": "/images/retailers/waitrose.svg",
+  "url": "https://www.waitrose.com",
+  "countries": ["uk"],
+  "order": 8
+}
