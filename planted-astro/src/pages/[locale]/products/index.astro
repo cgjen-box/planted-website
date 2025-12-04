@@ -60,7 +60,6 @@ const categories = [...new Set(products.map(p => p.data.category))];
                         <div class="product-info">
                             <div class="product-name">{getLocalizedProductName(product.data.name, locale)}</div>
                             <div class="product-variant">{product.data.variant}</div>
-                            <div class="product-protein">{product.data.nutrition?.protein || 20}g {t.products.proteinPer100g}</div>
                         </div>
                     </a>
                 ))}
@@ -229,13 +228,6 @@ const categories = [...new Set(products.map(p => p.data.category))];
         color: var(--planted-purple);
         font-size: 0.9rem;
         opacity: 0.7;
-        margin-bottom: 0.5rem;
-    }
-
-    .product-protein {
-        font-size: 0.8rem;
-        font-weight: 600;
-        color: var(--planted-green);
     }
 
     /* CTA */

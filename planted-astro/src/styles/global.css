@@ -430,16 +430,7 @@ img {
     z-index: 5;
 }
 
-.product-protein {
-    display: inline-block;
-    background: var(--planted-green);
-    color: var(--planted-black);
-    font-weight: 700;
-    font-size: 0.75rem;
-    padding: 0.35rem 0.75rem;
-    border-radius: 100px;
-    margin-top: 0.5rem;
-}
+
 
 /* ============================================
    RECIPE CARD STYLES (shared)
