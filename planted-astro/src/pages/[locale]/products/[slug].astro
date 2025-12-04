@@ -475,7 +475,7 @@ const breadcrumbJsonLd = {
     .hero-pack {
         position: relative;
         z-index: 10;
-        width: clamp(220px, 35vw, 380px);
+        width: clamp(440px, 70vw, 760px);
         transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
         will-change: transform, opacity, filter;
         filter: drop-shadow(0 30px 50px rgba(0,0,0,0.3));
@@ -715,10 +715,10 @@ const breadcrumbJsonLd = {
     .nutrition-layout { display: grid; grid-template-columns: 1fr; }
 
     @media (min-width: 800px) {
-        .nutrition-layout { grid-template-columns: 1fr 1fr; }
+        .nutrition-layout { grid-template-columns: 1fr 2fr; }
     }
 
-    .nutrition-image { position: relative; min-height: 350px; overflow: hidden; }
+    .nutrition-image { position: relative; min-height: 175px; overflow: hidden; }
 
     .nutrition-image img {
         position: absolute;
