@@ -64,6 +64,8 @@ const recipes = defineCollection({
         category: z.string().optional(),
         categories: z.array(z.string()).optional(),
         tags: z.array(z.string()).optional(),
+        // Product used in recipe (for filtering)
+        product: z.enum(['chicken', 'steak', 'pulled', 'kebab', 'schnitzel', 'bratwurst', 'duck', 'skewers', 'crispy-strips', 'nuggets', 'other']).optional(),
         ingredients: z.array(z.string()).optional(),
         instructions: z.array(z.string()).optional(),
         isFeatured: z.boolean().default(false),

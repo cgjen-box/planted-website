@@ -17,10 +17,60 @@ const t = getTranslations(locale);
 const localeData = locales[locale];
 
 const recipes = await getCollection('recipes');
-const sortedRecipes = recipes.sort((a, b) => a.data.order - b.data.order);
 
-// Group by difficulty for filtering
-const difficulties = [...new Set(recipes.map(r => r.data.difficulty))];
+// Country-specific cuisine preferences for recipe ordering
+// Products that are culturally popular/relevant for each country
+const cuisinePreferencesByCountry: Record<string, string[]> = {
+    'ch': ['schnitzel', 'bratwurst', 'steak', 'chicken', 'pulled', 'kebab', 'duck'],    // Switzerland: schnitzel, sausage, varied
+    'de': ['schnitzel', 'bratwurst', 'steak', 'kebab', 'pulled', 'chicken'],             // Germany: schnitzel, bratwurst, döner culture
+    'at': ['schnitzel', 'steak', 'bratwurst', 'chicken', 'kebab', 'pulled'],             // Austria: Wiener Schnitzel is king
+    'uk': ['chicken', 'pulled', 'steak', 'kebab', 'nuggets', 'crispy-strips'],           // UK: chicken, pulled pork, kebab culture
+    'fr': ['duck', 'steak', 'chicken', 'schnitzel', 'pulled', 'kebab'],                  // France: duck (canard), fine cuts
+    'it': ['chicken', 'steak', 'schnitzel', 'pulled', 'kebab', 'skewers'],               // Italy: chicken, grilled meats
+    'es': ['chicken', 'steak', 'skewers', 'kebab', 'pulled', 'schnitzel'],               // Spain: grilled meats, skewers (pinchos)
+    'nl': ['chicken', 'kebab', 'schnitzel', 'pulled', 'steak', 'nuggets', 'crispy-strips'], // Netherlands: chicken, shoarma/kebab, snacks
+    'global': ['chicken', 'steak', 'pulled', 'kebab', 'schnitzel', 'bratwurst'],         // International: balanced mix
+};
+
+// Get preference order for current locale's country (fallback to global preferences)
+const countryCode = localeData.country;
+const preferenceOrder = cuisinePreferencesByCountry[countryCode] || cuisinePreferencesByCountry['global'];
+
+// Custom sort function: prioritize by cuisine preference, then by original order
+const sortedRecipes = recipes.sort((a, b) => {
+    const productA = a.data.product || 'other';
+    const productB = b.data.product || 'other';
+
+    const indexA = preferenceOrder.indexOf(productA);
+    const indexB = preferenceOrder.indexOf(productB);
+
+    // If both products are in the preference list, sort by preference
+    if (indexA !== -1 && indexB !== -1) {
+        if (indexA !== indexB) return indexA - indexB;
+    }
+    // If only one is in preference list, it comes first
+    else if (indexA !== -1) return -1;
+    else if (indexB !== -1) return 1;
+
+    // For same preference level or unranked products, sort by original order
+    return a.data.order - b.data.order;
+});
+
+// Get unique products from recipes (for filter buttons)
+const productCounts = sortedRecipes.reduce((acc, r) => {
+    const product = r.data.product || 'other';
+    acc[product] = (acc[product] || 0) + 1;
+    return acc;
+}, {} as Record<string, number>);
+
+// Product filter configuration - uses translations
+const productFilterIds = ['steak', 'chicken', 'pulled', 'kebab', 'schnitzel', 'bratwurst', 'duck', 'skewers', 'crispy-strips', 'nuggets'] as const;
+const productFilters = productFilterIds
+    .filter(id => productCounts[id] && productCounts[id] > 0)
+    .map(id => ({
+        id,
+        label: (t.recipes.filters as Record<string, string>)?.[id] || `planted.${id}`
+    }));
 ---
 
 <Layout title={`${t.recipes.pageTitle} – Planted`} currentPage="recipes" locale={locale}>
@@ -32,41 +82,65 @@ const difficulties = [...new Set(recipes.map(r => r.data.difficulty))];
         </div>
     </section>
 
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <div class="filter-scroll">
+            <ul class="filter-list">
+                <li>
+                    <button class="filter-btn active" data-filter="all">
+                        {t.recipes.filterAll}
+                    </button>
+                </li>
+                {productFilters.map((product) => (
+                    <li>
+                        <button class="filter-btn" data-filter={product.id}>
+                            {product.label}
+                        </button>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    </div>
+
     <!-- Recipes Grid -->
     <section class="recipes">
         <div class="recipes-inner">
-            <div class="recipes-grid">
+            <div class="recipes-grid" id="recipesGrid">
                 {sortedRecipes.map((recipe, index) => (
                     <a href={`${base}/${locale}/recipes/${recipe.data.slug}`}
-                       class="recipe-card reveal-scale"
-                       style={`--delay: ${index * 0.03}s`}>
+                       class="recipe-card"
+                       data-product={recipe.data.product || 'other'}
+                       style={`--delay: ${Math.min(index * 0.02, 0.3)}s`}>
                         <div class="recipe-image">
                             <img src={recipe.data.image} alt={recipe.data.title} loading="lazy">
-                            <div class="recipe-badge">{recipe.data.difficulty}</div>
+                            <div class="recipe-badge">{t.recipes.difficulty[recipe.data.difficulty.toLowerCase() as 'easy' | 'medium' | 'hard'] || recipe.data.difficulty}</div>
                         </div>
                         <div class="recipe-info">
                             <h2 class="recipe-title">{recipe.data.title}</h2>
-                            <div class="recipe-meta">
-                                <span class="recipe-time">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="10"/>
-                                        <path d="M12 6v6l4 2"/>
-                                    </svg>
-                                    {recipe.data.cookTime} {t.recipes.time}
-                                </span>
+                            <div class="recipe-meta-grid">
                                 {recipe.data.servings && (
-                                    <span class="recipe-servings">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                                            <circle cx="9" cy="7" r="4"/>
-                                        </svg>
-                                        {recipe.data.servings} {t.recipes.servings}
-                                    </span>
+                                    <div class="meta-item">
+                                        <span class="meta-label">{t.recipes.servings}</span>
+                                        <span class="meta-value">{recipe.data.servings}</span>
+                                    </div>
                                 )}
+                                <div class="meta-item">
+                                    <span class="meta-label">{t.recipes.duration || 'Time'}</span>
+                                    <span class="meta-value">{recipe.data.cookTime} {t.recipes.time}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">{t.recipes.level || 'Level'}</span>
+                                    <span class="meta-value">{t.recipes.difficulty[recipe.data.difficulty.toLowerCase() as 'easy' | 'medium' | 'hard'] || recipe.data.difficulty}</span>
+                                </div>
                             </div>
                         </div>
                     </a>
                 ))}
+            </div>
+
+            <!-- No results message -->
+            <div class="no-results" id="noResults">
+                <p>Keine Rezepte gefunden</p>
             </div>
         </div>
     </section>
@@ -89,12 +163,13 @@ const difficulties = [...new Set(recipes.map(r => r.data.difficulty))];
         --green: #6BBF59;
         --cream: #FDF8F3;
         --black: #1A1A1A;
+        --healthy: #6BBF59;
     }
 
     /* Hero */
     .hero {
         background: var(--purple);
-        padding: 8rem 1.5rem 5rem;
+        padding: 8rem 1.5rem 3rem;
         text-align: center;
     }
 
@@ -113,44 +188,121 @@ const difficulties = [...new Set(recipes.map(r => r.data.difficulty))];
     .hero p {
         font-size: clamp(1rem, 2.5vw, 1.25rem);
         color: rgba(255,255,255,0.8);
-        max-width: 500px;
+        max-width: 600px;
         margin: 0 auto;
+        line-height: 1.5;
     }
 
-    /* Recipes */
+    /* Filter Bar - Matches eatplanted.com style */
+    .filter-bar {
+        background: var(--purple);
+        padding: 0 0.75rem 2rem;
+        overflow: hidden;
+    }
+
+    .filter-scroll {
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .filter-scroll::-webkit-scrollbar {
+        display: none;
+    }
+
+    .filter-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        list-style: none;
+        margin: 0;
+        padding: 0.5rem 0.75rem;
+        justify-content: center;
+    }
+
+    .filter-btn {
+        display: block;
+        font-family: inherit;
+        font-size: 0.9rem;
+        font-weight: 700;
+        padding: 0.6rem 1.25rem;
+        border-radius: 100px;
+        border: 3px solid var(--purple);
+        background: transparent;
+        color: white;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .filter-btn:hover {
+        background: rgba(255,255,255,0.1);
+        transform: translateY(-1px);
+    }
+
+    .filter-btn.active {
+        background: var(--healthy);
+        border-color: var(--healthy);
+        color: white;
+    }
+
+    /* Recipes Section */
     .recipes {
         background: var(--cream);
-        padding: 5rem 1.5rem;
+        padding: 3rem 0.75rem 5rem;
+        min-height: 50vh;
     }
 
     .recipes-inner {
         max-width: 1400px;
         margin: 0 auto;
+        padding: 0 0.75rem;
     }
 
     .recipes-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 2rem;
+        gap: 1.5rem;
     }
 
+    /* Recipe Card - Matches eatplanted.com style */
     .recipe-card {
         background: white;
-        border-radius: 1.5rem;
+        border-radius: 1.4rem;
         overflow: hidden;
         text-decoration: none;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        animation: cardFadeIn 0.4s ease forwards;
+        animation-delay: var(--delay, 0s);
+        opacity: 0;
+    }
+
+    @keyframes cardFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .recipe-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 20px 50px rgba(97, 38, 158, 0.12);
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(97, 38, 158, 0.15);
+    }
+
+    .recipe-card.filtered-out {
+        display: none;
     }
 
     .recipe-image {
         position: relative;
-        aspect-ratio: 4/3;
+        aspect-ratio: 1;
         overflow: hidden;
     }
 
@@ -158,11 +310,11 @@ const difficulties = [...new Set(recipes.map(r => r.data.difficulty))];
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .recipe-card:hover .recipe-image img {
-        transform: scale(1.08);
+        transform: scale(1.1);
     }
 
     .recipe-badge {
@@ -171,48 +323,77 @@ const difficulties = [...new Set(recipes.map(r => r.data.difficulty))];
         right: 1rem;
         background: var(--green);
         color: var(--black);
-        font-size: 0.7rem;
+        font-size: 0.65rem;
         font-weight: 700;
         text-transform: uppercase;
-        padding: 0.4rem 0.8rem;
+        padding: 0.35rem 0.7rem;
         border-radius: 100px;
         letter-spacing: 0.02em;
     }
 
     .recipe-info {
-        padding: 1.5rem;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        background: white;
     }
 
     .recipe-title {
         font-family: 'VC Henrietta', serif;
-        font-size: 1.25rem;
+        font-size: 1.1rem;
         font-weight: 700;
         color: var(--purple);
-        margin-bottom: 0.75rem;
+        margin-bottom: 1rem;
         line-height: 1.2;
+        flex-grow: 1;
     }
 
-    .recipe-meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
+    /* Meta grid - matches eatplanted.com 3-column layout */
+    .recipe-meta-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border-top: 2px solid rgba(97, 38, 158, 0.1);
+        padding-top: 0.75rem;
+        gap: 0.5rem;
     }
 
-    .recipe-time,
-    .recipe-servings {
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
-        font-size: 0.85rem;
+    .meta-item {
+        text-align: left;
+        padding-right: 0.5rem;
+    }
+
+    .meta-item:not(:last-child) {
+        border-right: 2px solid rgba(97, 38, 158, 0.1);
+    }
+
+    .meta-label {
+        display: block;
+        font-size: 0.7rem;
         color: var(--black);
+        opacity: 0.6;
+        margin-bottom: 0.15rem;
+    }
+
+    .meta-value {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--purple);
+    }
+
+    /* No results */
+    .no-results {
+        display: none;
+        text-align: center;
+        padding: 4rem 2rem;
+        color: var(--purple);
+        font-size: 1.1rem;
         opacity: 0.7;
     }
 
-    .recipe-time svg,
-    .recipe-servings svg {
-        width: 16px;
-        height: 16px;
-        color: var(--purple);
+    .no-results.visible {
+        display: block;
     }
 
     /* CTA */
@@ -264,20 +445,15 @@ const difficulties = [...new Set(recipes.map(r => r.data.difficulty))];
     }
 
     /* Animations */
-    .reveal, .reveal-scale {
+    .reveal {
         opacity: 0;
         transform: translateY(30px);
         transition: opacity 0.6s ease, transform 0.6s ease;
-        transition-delay: var(--delay, 0s);
     }
 
-    .reveal-scale {
-        transform: translateY(30px) scale(0.95);
-    }
-
-    .reveal.active, .reveal-scale.active {
+    .reveal.active {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
     }
 
     .reveal-delay-1 { transition-delay: 0.1s; }
@@ -287,6 +463,33 @@ const difficulties = [...new Set(recipes.map(r => r.data.difficulty))];
     @media (min-width: 640px) {
         .recipes-grid {
             grid-template-columns: repeat(2, 1fr);
+        }
+
+        .filter-list {
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            width: max-content;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .filter-bar {
+            padding: 0 1.5rem 2rem;
+        }
+
+        .filter-list {
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .recipes {
+            padding: 3rem 1.5rem 5rem;
+        }
+
+        .recipes-inner {
+            padding: 0;
         }
     }
 
@@ -304,11 +507,15 @@ const difficulties = [...new Set(recipes.map(r => r.data.difficulty))];
 
     @media (min-width: 1440px) {
         .hero {
-            padding: 10rem 5rem 6rem;
+            padding: 10rem 5rem 4rem;
+        }
+
+        .filter-bar {
+            padding: 0 5rem 2.5rem;
         }
 
         .recipes {
-            padding: 6rem 5rem;
+            padding: 4rem 5rem 6rem;
         }
 
         .cta {
@@ -316,3 +523,64 @@ const difficulties = [...new Set(recipes.map(r => r.data.difficulty))];
         }
     }
 </style>
+
+<script>
+    function initRecipeFilters() {
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const recipeCards = document.querySelectorAll('.recipe-card');
+        const noResults = document.getElementById('noResults');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = (btn as HTMLElement).dataset.filter;
+                let visibleCount = 0;
+
+                // Filter recipes with animation
+                recipeCards.forEach((card, index) => {
+                    const product = (card as HTMLElement).dataset.product;
+                    const shouldShow = filter === 'all' || product === filter;
+
+                    if (shouldShow) {
+                        card.classList.remove('filtered-out');
+                        // Reset animation
+                        (card as HTMLElement).style.animationDelay = `${Math.min(visibleCount * 0.03, 0.3)}s`;
+                        visibleCount++;
+                    } else {
+                        card.classList.add('filtered-out');
+                    }
+                });
+
+                // Show/hide no results message
+                if (noResults) {
+                    noResults.classList.toggle('visible', visibleCount === 0);
+                }
+            });
+        });
+
+        // Reveal animations for CTA section
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    }
+
+    // Initialize on page load
+    initRecipeFilters();
+
+    // Re-initialize on Astro page transitions
+    document.addEventListener('astro:page-load', initRecipeFilters);
+</script>
