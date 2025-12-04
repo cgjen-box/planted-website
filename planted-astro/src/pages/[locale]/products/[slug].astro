@@ -187,11 +187,11 @@ const breadcrumbJsonLd = {
         <div class="hero-sticky">
             <div class="hero-bg" style={`background: ${colors.gradient}; background-size: 200% 200%;`}></div>
 
-            {product.data.images.dish || product.data.images.background ? (
+            {product.data.images.hover && (
                 <div class="hero-dish" id="heroDish">
-                    <img src={product.data.images.dish || product.data.images.background} alt={`${localizedName} dish`} loading="eager">
+                    <img src={product.data.images.hover} alt={`${localizedName} dish`} loading="eager">
                 </div>
-            ) : null}
+            )}
 
             <div class="hero-pack" id="heroPack">
                 {product.data.isNew && <span class="product-badge-new">{t.common.new}</span>}
@@ -289,7 +289,7 @@ const breadcrumbJsonLd = {
     <section class="nutrition">
         <div class="nutrition-layout">
             <div class="nutrition-image">
-                <img src={product.data.images.dish || product.data.images.background || product.data.images.main} alt={localizedName} loading="lazy">
+                <img src={product.data.images.hover || product.data.images.main} alt={localizedName} loading="lazy">
             </div>
             <div class="nutrition-content">
                 <div class="nutrition-header">

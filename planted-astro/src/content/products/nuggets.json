@@ -10,12 +10,16 @@
     "isNew": true,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/nuggets-pack.png?v=1758813102",
-        "background": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/nuggets.png",
-        "dish": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/nuggets.png"
+        "hover": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/nuggets.png"
     },
-    "features": ["100% Plant-Based", "Crispy Coating", "Perfect for Snacking", "Made in Switzerland"],
+    "features": [
+        "100% Plant-Based",
+        "Crispy Coating",
+        "Perfect for Snacking",
+        "Made in Switzerland"
+    ],
     "ingredients": "Water, pea protein (20%), wheat flour, breadcrumbs, rapeseed oil, pea fiber, natural flavoring, salt, vitamin B12",
-    "preparation": "Pan-fry for 3-4 minutes until crispy, or bake at 200°C for 10-12 minutes. Serve with your favorite dipping sauces.",
+    "preparation": "Pan-fry for 3-4 minutes until crispy, or bake at 200\u00b0C for 10-12 minutes. Serve with your favorite dipping sauces.",
     "order": 21,
     "nutrition": {
         "energy": "785 kJ / 188 kcal",
@@ -26,7 +30,7 @@
         "fiber": "3.9 g",
         "protein": 14,
         "salt": "0.9 g",
-        "vitaminB12": "1.2 µg",
+        "vitaminB12": "1.2 \u00b5g",
         "vitaminB12Pct": 48,
         "iron": "2.1 mg",
         "ironPct": 15
@@ -36,9 +40,18 @@
         "heat": "Medium-High",
         "servings": "2-3",
         "steps": [
-            { "title": "Choose", "description": "Pan-fry for extra crispy. Oven at 200°C for hands-off." },
-            { "title": "Cook", "description": "Pan: 3-4 min. Oven: 10-12 min." },
-            { "title": "Dip", "description": "Your sauce, your rules. BBQ, honey mustard, sriracha." }
+            {
+                "title": "Choose",
+                "description": "Pan-fry for extra crispy. Oven at 200\u00b0C for hands-off."
+            },
+            {
+                "title": "Cook",
+                "description": "Pan: 3-4 min. Oven: 10-12 min."
+            },
+            {
+                "title": "Dip",
+                "description": "Your sauce, your rules. BBQ, honey mustard, sriracha."
+            }
         ]
     }
 }

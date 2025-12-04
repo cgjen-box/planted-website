@@ -10,12 +10,16 @@
     "isNew": true,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/crispy-burger-pack.png?v=1758792139",
-        "background": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/Burger-grid.png",
-        "dish": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/burger.png"
+        "hover": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/Burger-grid.png"
     },
-    "features": ["100% Plant-Based", "Extra Crispy", "High in Protein", "Made in Switzerland"],
+    "features": [
+        "100% Plant-Based",
+        "Extra Crispy",
+        "High in Protein",
+        "Made in Switzerland"
+    ],
     "ingredients": "Water, pea protein (21%), wheat flour, breadcrumbs, rapeseed oil, pea fiber, natural flavoring, spices, salt, vitamin B12",
-    "preparation": "Pan-fry for 4-5 minutes on each side until golden and crispy. Also works great in the oven at 200°C for 15-18 minutes.",
+    "preparation": "Pan-fry for 4-5 minutes on each side until golden and crispy. Also works great in the oven at 200\u00b0C for 15-18 minutes.",
     "order": 20,
     "nutrition": {
         "energy": "798 kJ / 191 kcal",
@@ -26,7 +30,7 @@
         "fiber": "4.0 g",
         "protein": 15,
         "salt": "1.0 g",
-        "vitaminB12": "1.2 µg",
+        "vitaminB12": "1.2 \u00b5g",
         "vitaminB12Pct": 48,
         "iron": "2.3 mg",
         "ironPct": 16
@@ -36,9 +40,18 @@
         "heat": "Medium-High",
         "servings": "3",
         "steps": [
-            { "title": "Choose", "description": "Pan for crispier. Oven at 200°C for easier." },
-            { "title": "Cook", "description": "Pan: 4-5 min per side. Oven: 15-18 min." },
-            { "title": "Build", "description": "Toast the bun. Stack it high. Crunch time." }
+            {
+                "title": "Choose",
+                "description": "Pan for crispier. Oven at 200\u00b0C for easier."
+            },
+            {
+                "title": "Cook",
+                "description": "Pan: 4-5 min per side. Oven: 15-18 min."
+            },
+            {
+                "title": "Build",
+                "description": "Toast the bun. Stack it high. Crunch time."
+            }
         ]
     }
 }

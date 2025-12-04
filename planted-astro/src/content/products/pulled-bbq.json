@@ -10,10 +10,14 @@
     "isNew": false,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/pulled-bbq-new.png?v=1747135991",
-        "background": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/Pulled-BBQ_grid.png",
-        "dish": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/planted-pulled.jpg"
+        "hover": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/Pulled-BBQ_grid.png"
     },
-    "features": ["100% Plant-Based", "Smoky BBQ Flavor", "High in Protein", "Made in Switzerland"],
+    "features": [
+        "100% Plant-Based",
+        "Smoky BBQ Flavor",
+        "High in Protein",
+        "Made in Switzerland"
+    ],
     "ingredients": "Water, sunflower protein (20%), pea protein, rapeseed oil, BBQ sauce (tomatoes, smoked paprika, molasses), natural flavoring, salt, vitamin B12",
     "preparation": "Heat in a pan for 3-4 minutes until warmed through. Perfect for tacos, burgers, sandwiches, or served over rice.",
     "order": 9,
@@ -26,7 +30,7 @@
         "fiber": "4.8 g",
         "protein": 17,
         "salt": "1.2 g",
-        "vitaminB12": "1.5 µg",
+        "vitaminB12": "1.5 \u00b5g",
         "vitaminB12Pct": 60,
         "iron": "2.8 mg",
         "ironPct": 20
@@ -36,9 +40,18 @@
         "heat": "Medium",
         "servings": "3-4",
         "steps": [
-            { "title": "Heat", "description": "Pan on medium. Already sauced and ready." },
-            { "title": "Warm", "description": "3-4 minutes, stirring occasionally." },
-            { "title": "Serve", "description": "Tacos, burgers, bowls—anywhere you want BBQ." }
+            {
+                "title": "Heat",
+                "description": "Pan on medium. Already sauced and ready."
+            },
+            {
+                "title": "Warm",
+                "description": "3-4 minutes, stirring occasionally."
+            },
+            {
+                "title": "Serve",
+                "description": "Tacos, burgers, bowls\u2014anywhere you want BBQ."
+            }
         ]
     }
 }

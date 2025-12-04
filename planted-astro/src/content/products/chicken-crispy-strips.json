@@ -10,12 +10,16 @@
     "isNew": true,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/tenders-new.png?v=1747136517",
-        "background": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/tenders_grid.png",
-        "dish": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/planted-chicken.png"
+        "hover": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/tenders_grid.png"
     },
-    "features": ["100% Plant-Based", "Extra Crispy", "High in Protein", "Made in Switzerland"],
+    "features": [
+        "100% Plant-Based",
+        "Extra Crispy",
+        "High in Protein",
+        "Made in Switzerland"
+    ],
     "ingredients": "Water, pea protein (22%), rapeseed oil, wheat flour, breadcrumbs, pea fiber, natural flavoring, salt, vitamin B12",
-    "preparation": "Pan-fry or bake at 200°C for 8-10 minutes until golden and crispy. Serve with your favorite dipping sauce.",
+    "preparation": "Pan-fry or bake at 200\u00b0C for 8-10 minutes until golden and crispy. Serve with your favorite dipping sauce.",
     "order": 4,
     "nutrition": {
         "energy": "780 kJ / 186 kcal",
@@ -26,7 +30,7 @@
         "fiber": "4.2 g",
         "protein": 16,
         "salt": "1.0 g",
-        "vitaminB12": "1.2 µg",
+        "vitaminB12": "1.2 \u00b5g",
         "vitaminB12Pct": 48,
         "iron": "2.4 mg",
         "ironPct": 17
@@ -36,9 +40,18 @@
         "heat": "Medium-High",
         "servings": "2-3",
         "steps": [
-            { "title": "Choose", "description": "Pan-fry for crispier or bake at 200°C for easier." },
-            { "title": "Cook", "description": "Pan: 4-5 min, turning. Oven: 8-10 min." },
-            { "title": "Dip", "description": "Golden and crispy. Serve with your favorite sauce." }
+            {
+                "title": "Choose",
+                "description": "Pan-fry for crispier or bake at 200\u00b0C for easier."
+            },
+            {
+                "title": "Cook",
+                "description": "Pan: 4-5 min, turning. Oven: 8-10 min."
+            },
+            {
+                "title": "Dip",
+                "description": "Golden and crispy. Serve with your favorite sauce."
+            }
         ]
     }
 }

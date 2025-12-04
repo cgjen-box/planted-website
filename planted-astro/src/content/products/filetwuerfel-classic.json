@@ -1,19 +1,23 @@
 {
-    "name": "planted.filetwürfel",
+    "name": "planted.filetw\u00fcrfel",
     "variant": "Classic",
     "slug": "filetwuerfel-classic",
     "category": "filetwuerfel",
     "description": "Premium plant-based steak pieces with intense umami flavor, juicy texture, and tender bite.",
-    "longDescription": "Our planted.filetwürfel Classic are bite-sized pieces of pure satisfaction. With their intense umami flavor, juicy texture, and tender bite, they're incredibly versatile. Stir-fry them with vegetables and noodles, braise them in hearty stews, or add them to your favorite recipes for an instant protein boost.",
+    "longDescription": "Our planted.filetw\u00fcrfel Classic are bite-sized pieces of pure satisfaction. With their intense umami flavor, juicy texture, and tender bite, they're incredibly versatile. Stir-fry them with vegetables and noodles, braise them in hearty stews, or add them to your favorite recipes for an instant protein boost.",
     "weight": "140g",
     "color": "burgundy",
     "isNew": true,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/filetwurfel-classic-pack.png?v=1761044986",
-        "background": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/filetwuerfel-classic.png",
-        "dish": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/filetwuerfel-classic.png"
+        "hover": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/filetwuerfel-classic.png"
     },
-    "features": ["100% Plant-Based", "Intense Umami", "High in Protein", "Made in Switzerland"],
+    "features": [
+        "100% Plant-Based",
+        "Intense Umami",
+        "High in Protein",
+        "Made in Switzerland"
+    ],
     "ingredients": "Water, soy protein (32%), rapeseed oil, natural flavoring, salt, vitamin B12",
     "preparation": "Stir-fry for 3-4 minutes or add to stews and let simmer. Perfect for Asian-style dishes, stroganoff, or grain bowls.",
     "order": 18,
@@ -26,7 +30,7 @@
         "fiber": "5.5 g",
         "protein": 23,
         "salt": "0.9 g",
-        "vitaminB12": "1.8 µg",
+        "vitaminB12": "1.8 \u00b5g",
         "vitaminB12Pct": 72,
         "iron": "3.6 mg",
         "ironPct": 26
@@ -36,9 +40,18 @@
         "heat": "High",
         "servings": "2-3",
         "steps": [
-            { "title": "Heat", "description": "Hot pan or wok. High heat for the sear." },
-            { "title": "Cook", "description": "3-4 minutes. Golden on all sides." },
-            { "title": "Serve", "description": "Stir-fry, stew, bowl. Endless possibilities." }
+            {
+                "title": "Heat",
+                "description": "Hot pan or wok. High heat for the sear."
+            },
+            {
+                "title": "Cook",
+                "description": "3-4 minutes. Golden on all sides."
+            },
+            {
+                "title": "Serve",
+                "description": "Stir-fry, stew, bowl. Endless possibilities."
+            }
         ]
     }
 }

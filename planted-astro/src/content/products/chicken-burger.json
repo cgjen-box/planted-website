@@ -10,10 +10,14 @@
     "isNew": false,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/burger-new.png?v=1747136419",
-        "background": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/Burger-grid.png",
-        "dish": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/burger.png"
+        "hover": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/Burger-grid.png"
     },
-    "features": ["100% Plant-Based", "High in Protein", "Perfect for Grilling", "Made in Switzerland"],
+    "features": [
+        "100% Plant-Based",
+        "High in Protein",
+        "Perfect for Grilling",
+        "Made in Switzerland"
+    ],
     "ingredients": "Water, pea protein (27%), rapeseed oil, pea fiber, natural flavoring, spices, salt, vitamin B12",
     "preparation": "Pan-fry or grill for 3-4 minutes on each side. Serve in a bun with your favorite toppings.",
     "order": 5,
@@ -26,7 +30,7 @@
         "fiber": "5.6 g",
         "protein": 21,
         "salt": "0.9 g",
-        "vitaminB12": "1.5 µg",
+        "vitaminB12": "1.5 \u00b5g",
         "vitaminB12Pct": 60,
         "iron": "3.0 mg",
         "ironPct": 21
@@ -36,9 +40,18 @@
         "heat": "Medium-High",
         "servings": "3",
         "steps": [
-            { "title": "Heat", "description": "Pan or grill, get it hot. A little oil helps." },
-            { "title": "Cook", "description": "3-4 minutes each side. Don't press—keep juices in." },
-            { "title": "Build", "description": "Toast the bun. Stack it high. Make it yours." }
+            {
+                "title": "Heat",
+                "description": "Pan or grill, get it hot. A little oil helps."
+            },
+            {
+                "title": "Cook",
+                "description": "3-4 minutes each side. Don't press\u2014keep juices in."
+            },
+            {
+                "title": "Build",
+                "description": "Toast the bun. Stack it high. Make it yours."
+            }
         ]
     }
 }

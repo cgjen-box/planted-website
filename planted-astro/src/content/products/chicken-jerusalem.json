@@ -10,10 +10,14 @@
     "isNew": false,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/neni-pdp.png?v=1743510040",
-        "background": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/Neni_grid.png",
-        "dish": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/planted-chicken.png"
+        "hover": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/Neni_grid.png"
     },
-    "features": ["100% Plant-Based", "NENI Collaboration", "Aromatic Spices", "Made in Switzerland"],
+    "features": [
+        "100% Plant-Based",
+        "NENI Collaboration",
+        "Aromatic Spices",
+        "Made in Switzerland"
+    ],
     "ingredients": "Water, pea protein (26%), rapeseed oil, NENI spice blend (cumin, coriander, paprika, turmeric), pea fiber, natural flavoring, salt, vitamin B12",
     "preparation": "Pan-fry for 3-4 minutes on each side. Perfect in bowls, wraps, or served with hummus and fresh vegetables.",
     "order": 3,
@@ -26,7 +30,7 @@
         "fiber": "5.8 g",
         "protein": 20,
         "salt": "1.1 g",
-        "vitaminB12": "1.5 µg",
+        "vitaminB12": "1.5 \u00b5g",
         "vitaminB12Pct": 60,
         "iron": "3.1 mg",
         "ironPct": 22
@@ -36,9 +40,18 @@
         "heat": "Medium-High",
         "servings": "4-5",
         "steps": [
-            { "title": "Slice", "description": "Cut into strips for shawarma or leave whole." },
-            { "title": "Heat", "description": "Hot pan, little oil. Let the spices bloom." },
-            { "title": "Cook", "description": "3-4 minutes each side. Serve with hummus and pita." }
+            {
+                "title": "Slice",
+                "description": "Cut into strips for shawarma or leave whole."
+            },
+            {
+                "title": "Heat",
+                "description": "Hot pan, little oil. Let the spices bloom."
+            },
+            {
+                "title": "Cook",
+                "description": "3-4 minutes each side. Serve with hummus and pita."
+            }
         ]
     }
 }

@@ -10,10 +10,14 @@
     "isNew": false,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/sausage-herbs-new.png?v=1747136126",
-        "background": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/sausage-herbs_grid.png",
-        "dish": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/planted-chicken.png"
+        "hover": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/sausage-herbs_grid.png"
     },
-    "features": ["100% Plant-Based", "Herb-Infused", "High in Protein", "Made in Switzerland"],
+    "features": [
+        "100% Plant-Based",
+        "Herb-Infused",
+        "High in Protein",
+        "Made in Switzerland"
+    ],
     "ingredients": "Water, pea protein (24%), sunflower oil, herbs (parsley, chives, marjoram), pea fiber, natural flavoring, salt, vitamin B12",
     "preparation": "Grill or pan-fry for 6-8 minutes until golden. Great in salads, with vegetables, or alongside mashed potatoes.",
     "order": 14,
@@ -26,7 +30,7 @@
         "fiber": "5.0 g",
         "protein": 20,
         "salt": "1.3 g",
-        "vitaminB12": "1.5 µg",
+        "vitaminB12": "1.5 \u00b5g",
         "vitaminB12Pct": 60,
         "iron": "3.1 mg",
         "ironPct": 22
@@ -36,9 +40,18 @@
         "heat": "Medium",
         "servings": "2",
         "steps": [
-            { "title": "Heat", "description": "Grill or pan. Medium heat works best." },
-            { "title": "Cook", "description": "6-8 minutes, turning for even browning." },
-            { "title": "Serve", "description": "The herbs shine with mashed potatoes or salad." }
+            {
+                "title": "Heat",
+                "description": "Grill or pan. Medium heat works best."
+            },
+            {
+                "title": "Cook",
+                "description": "6-8 minutes, turning for even browning."
+            },
+            {
+                "title": "Serve",
+                "description": "The herbs shine with mashed potatoes or salad."
+            }
         ]
     }
 }

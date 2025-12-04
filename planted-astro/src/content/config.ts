@@ -15,8 +15,7 @@ const products = defineCollection({
         isNew: z.boolean().default(false),
         images: z.object({
             main: z.string(),
-            background: z.string().optional(),
-            dish: z.string().optional(),
+            hover: z.string().optional(),
         }),
         features: z.array(z.string()).optional(),
         ingredients: z.string().optional(),

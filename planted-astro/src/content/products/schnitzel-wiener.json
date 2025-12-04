@@ -10,10 +10,14 @@
     "isNew": false,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/schnitzel-new.png?v=1747136641",
-        "background": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/schnitzel_grid.png",
-        "dish": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/schnitzel.png"
+        "hover": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/schnitzel_grid.png"
     },
-    "features": ["100% Plant-Based", "Crispy Coating", "High in Protein", "Made in Switzerland"],
+    "features": [
+        "100% Plant-Based",
+        "Crispy Coating",
+        "High in Protein",
+        "Made in Switzerland"
+    ],
     "ingredients": "Water, pea protein (20%), wheat flour, breadcrumbs, rapeseed oil, pea fiber, natural flavoring, salt, vitamin B12",
     "preparation": "Pan-fry in oil for 3-4 minutes on each side until golden and crispy. Serve with lemon wedges, potato salad, and lingonberry jam.",
     "order": 11,
@@ -26,7 +30,7 @@
         "fiber": "3.8 g",
         "protein": 14,
         "salt": "1.0 g",
-        "vitaminB12": "1.2 µg",
+        "vitaminB12": "1.2 \u00b5g",
         "vitaminB12Pct": 48,
         "iron": "2.2 mg",
         "ironPct": 16
@@ -36,9 +40,18 @@
         "heat": "Medium-High",
         "servings": "2",
         "steps": [
-            { "title": "Heat", "description": "Generous oil in pan. Get it properly hot." },
-            { "title": "Fry", "description": "3-4 minutes each side. Golden perfection." },
-            { "title": "Serve", "description": "Classic style: lemon, potato salad, lingonberries." }
+            {
+                "title": "Heat",
+                "description": "Generous oil in pan. Get it properly hot."
+            },
+            {
+                "title": "Fry",
+                "description": "3-4 minutes each side. Golden perfection."
+            },
+            {
+                "title": "Serve",
+                "description": "Classic style: lemon, potato salad, lingonberries."
+            }
         ]
     }
 }

@@ -1,19 +1,23 @@
 {
-    "name": "planted.filetwürfel",
+    "name": "planted.filetw\u00fcrfel",
     "variant": "A La Mexicana",
     "slug": "filetwuerfel-mexicana",
     "category": "filetwuerfel",
     "description": "Pre-marinated steak cubes with aromatic herbs and spices. Perfect for fajitas.",
-    "longDescription": "Bring Mexican flavors to your kitchen with our planted.filetwürfel A La Mexicana. These delicious steak cubes come pre-marinated with an aromatic blend of herbs and spices, making meal prep a breeze. Simply pan-fry with fresh vegetables for fajitas, or add them to salad bowls for a protein-packed meal.",
+    "longDescription": "Bring Mexican flavors to your kitchen with our planted.filetw\u00fcrfel A La Mexicana. These delicious steak cubes come pre-marinated with an aromatic blend of herbs and spices, making meal prep a breeze. Simply pan-fry with fresh vegetables for fajitas, or add them to salad bowls for a protein-packed meal.",
     "weight": "140g",
     "color": "red",
     "isNew": true,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/filetwurfel-mexicana---pack.png?v=1760958539",
-        "background": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/filetwuerfel-mexicana.png",
-        "dish": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/filetwuerfel-mexicana.png"
+        "hover": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/filetwuerfel-mexicana.png"
     },
-    "features": ["100% Plant-Based", "Pre-Marinated", "Mexican-Inspired", "Made in Switzerland"],
+    "features": [
+        "100% Plant-Based",
+        "Pre-Marinated",
+        "Mexican-Inspired",
+        "Made in Switzerland"
+    ],
     "ingredients": "Water, soy protein (30%), rapeseed oil, Mexican spice blend (cumin, chili, oregano, garlic), natural flavoring, salt, vitamin B12",
     "preparation": "Pan-fry for 3-4 minutes with sliced peppers and onions. Serve in warm tortillas with salsa, guacamole, and sour cream.",
     "order": 19,
@@ -26,7 +30,7 @@
         "fiber": "5.3 g",
         "protein": 22,
         "salt": "1.1 g",
-        "vitaminB12": "1.8 µg",
+        "vitaminB12": "1.8 \u00b5g",
         "vitaminB12Pct": 72,
         "iron": "3.5 mg",
         "ironPct": 25
@@ -36,9 +40,18 @@
         "heat": "High",
         "servings": "2-3",
         "steps": [
-            { "title": "Prep", "description": "Slice peppers and onions. Get the tortillas ready." },
-            { "title": "Fry", "description": "Hot pan, 3-4 min with veggies. Quick and hot." },
-            { "title": "Serve", "description": "Warm tortillas, salsa, guac. Fajita night." }
+            {
+                "title": "Prep",
+                "description": "Slice peppers and onions. Get the tortillas ready."
+            },
+            {
+                "title": "Fry",
+                "description": "Hot pan, 3-4 min with veggies. Quick and hot."
+            },
+            {
+                "title": "Serve",
+                "description": "Warm tortillas, salsa, guac. Fajita night."
+            }
         ]
     }
 }

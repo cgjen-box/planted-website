@@ -10,10 +10,14 @@
     "isNew": false,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/pulled-spicyherbs-new.png?v=1747135888",
-        "background": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/spicy-herbs_grid.png",
-        "dish": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/planted-pulled.jpg"
+        "hover": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/spicy-herbs_grid.png"
     },
-    "features": ["100% Plant-Based", "Spicy & Flavorful", "High in Protein", "Made in Switzerland"],
+    "features": [
+        "100% Plant-Based",
+        "Spicy & Flavorful",
+        "High in Protein",
+        "Made in Switzerland"
+    ],
     "ingredients": "Water, sunflower protein (20%), pea protein, rapeseed oil, herbs, chili (2%), chipotle, natural flavoring, salt, vitamin B12",
     "preparation": "Heat in a pan for 3-4 minutes. Great for tacos, burritos, or served over rice with fresh toppings.",
     "order": 10,
@@ -26,7 +30,7 @@
         "fiber": "5.1 g",
         "protein": 17,
         "salt": "1.1 g",
-        "vitaminB12": "1.5 µg",
+        "vitaminB12": "1.5 \u00b5g",
         "vitaminB12Pct": 60,
         "iron": "2.9 mg",
         "ironPct": 21
@@ -36,9 +40,18 @@
         "heat": "Medium",
         "servings": "3-4",
         "steps": [
-            { "title": "Heat", "description": "Pan on medium. Already seasoned with herbs and spice." },
-            { "title": "Warm", "description": "3-4 minutes, stirring occasionally." },
-            { "title": "Serve", "description": "Tacos, bowls, burritos—embrace the heat." }
+            {
+                "title": "Heat",
+                "description": "Pan on medium. Already seasoned with herbs and spice."
+            },
+            {
+                "title": "Warm",
+                "description": "3-4 minutes, stirring occasionally."
+            },
+            {
+                "title": "Serve",
+                "description": "Tacos, bowls, burritos\u2014embrace the heat."
+            }
         ]
     }
 }

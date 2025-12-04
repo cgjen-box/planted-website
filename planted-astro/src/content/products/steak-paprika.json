@@ -10,10 +10,14 @@
     "isNew": false,
     "images": {
         "main": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/steak-paprika-new.png?v=1747135415",
-        "background": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/Steak_grid.png",
-        "dish": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/paprika-test-2.png"
+        "hover": "https://cdn.shopify.com/s/files/1/0049/5383/3521/files/Steak_grid.png"
     },
-    "features": ["100% Plant-Based", "Pre-Marinated", "Quick to Cook", "Source of Vitamin B12"],
+    "features": [
+        "100% Plant-Based",
+        "Pre-Marinated",
+        "Quick to Cook",
+        "Source of Vitamin B12"
+    ],
     "ingredients": "Water, soy protein (31%), rapeseed oil, paprika (2%), natural flavoring, spices, salt, vitamin B12",
     "preparation": "Pan-fry for 2 minutes on each side until heated through. The thinner cut means faster cooking - perfect for busy weeknights.",
     "order": 7,
@@ -26,7 +30,7 @@
         "fiber": "5.4 g",
         "protein": 23,
         "salt": "1.1 g",
-        "vitaminB12": "1.8 µg",
+        "vitaminB12": "1.8 \u00b5g",
         "vitaminB12Pct": 72,
         "iron": "3.6 mg",
         "ironPct": 26
@@ -36,9 +40,18 @@
         "heat": "High",
         "servings": "2-3",
         "steps": [
-            { "title": "Unwrap", "description": "Pre-marinated with paprika. Ready for the pan." },
-            { "title": "Heat", "description": "Hot pan, little oil. High heat works best." },
-            { "title": "Sear", "description": "2 minutes each side. Watch the spices caramelize." }
+            {
+                "title": "Unwrap",
+                "description": "Pre-marinated with paprika. Ready for the pan."
+            },
+            {
+                "title": "Heat",
+                "description": "Hot pan, little oil. High heat works best."
+            },
+            {
+                "title": "Sear",
+                "description": "2 minutes each side. Watch the spices caramelize."
+            }
         ]
     }
 }
