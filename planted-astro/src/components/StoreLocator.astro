@@ -699,8 +699,10 @@ function getRetailerCountries(retailer: typeof retailers[0]): string[] {
         box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
     }
 
-    .partner-card.filtered-out {
-        display: none;
+    /* Use :global() to prevent Astro from tree-shaking this class
+       since it's added dynamically by JavaScript */
+    :global(.partner-card.filtered-out) {
+        display: none !important;
     }
 
     .card-header {
