@@ -20,12 +20,14 @@ interface Props {
     title?: string;
     subtitle?: string;
     translations?: Translations;
+    locale?: string;
 }
 
 const {
     title = "Find Us",
     subtitle = "Discover where to get your planted fix.",
-    translations = {}
+    translations = {},
+    locale
 } = Astro.props;
 
 // Default English translations
@@ -307,7 +309,7 @@ function getRetailerCountries(retailer: typeof retailers[0]): string[] {
     <div class="bg-pattern"></div>
 </section>
 
-<script define:vars={{ countryCodeToName }}>
+<script define:vars={{ countryCodeToName, locale }}>
     function initStoreLocator() {
         const countryDetected = document.getElementById('countryDetected');
         const detectingEl = countryDetected?.querySelector('.detecting');
@@ -334,28 +336,41 @@ function getRetailerCountries(retailer: typeof retailers[0]): string[] {
             'Spain': '🇪🇸'
         };
 
-        // Auto-detect country
-        async function detectCountry() {
-            try {
-                // Use ipapi.co for country detection (free, no API key needed)
-                const response = await fetch('https://ipapi.co/json/', {
-                    timeout: 5000,
-                    headers: { 'Accept': 'application/json' }
-                });
-                const data = await response.json();
-                const detectedCountryCode = data.country_code;
-                const detectedCountryName = countryCodeToName[detectedCountryCode];
+        // Map locale to country name
+        const localeToCountryName = {
+            'ch-de': 'Switzerland',
+            'ch-fr': 'Switzerland',
+            'ch-it': 'Switzerland',
+            'ch-en': 'Switzerland',
+            'de': 'Germany',
+            'de-en': 'Germany',
+            'at': 'Austria',
+            'at-en': 'Austria',
+            'it': 'Italy',
+            'it-en': 'Italy',
+            'fr': 'France',
+            'fr-en': 'France',
+            'nl': 'Netherlands',
+            'nl-en': 'Netherlands',
+            'uk': 'United Kingdom',
+            'es': 'Spain',
+            'es-en': 'Spain',
+            'global': 'Switzerland' // Default for global
+        };
 
-                if (detectedCountryName) {
-                    setCountry(detectedCountryName);
-                } else {
-                    // Default to Switzerland if country not in our list
-                    setCountry('Switzerland');
-                }
-            } catch (error) {
-                console.log('Could not detect country, defaulting to Switzerland');
-                setCountry('Switzerland');
+        // Get country from page locale - no need for IP detection
+        function getCountryFromLocale() {
+            const currentLocale = locale;
+            if (currentLocale && localeToCountryName[currentLocale]) {
+                return localeToCountryName[currentLocale];
             }
+            return 'Switzerland'; // Default fallback
+        }
+
+        // Initialize with locale-based country immediately
+        function initCountry() {
+            const countryFromLocale = getCountryFromLocale();
+            setCountry(countryFromLocale);
         }
 
         // Set country and filter results
@@ -466,8 +481,8 @@ function getRetailerCountries(retailer: typeof retailers[0]): string[] {
             });
         });
 
-        // Start detection
-        detectCountry();
+        // Initialize with locale-based country (no IP detection needed)
+        initCountry();
     }
 
     // Initialize
