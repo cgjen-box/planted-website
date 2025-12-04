@@ -1,19 +1,20 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { defaultLocale } from '../i18n/config';
 const base = import.meta.env.BASE_URL;
 ---
 
-<Layout title="Page Not Found – Planted" description="Oops! This page doesn't exist. Let's get you back on track.">
+<Layout title="Page Not Found – Planted" description="Oops! This page doesn't exist. Let's get you back on track." locale={defaultLocale}>
     <section class="error-section">
         <div class="error-content">
             <div class="error-number">404</div>
             <h1>This page went plant-based</h1>
             <p>It doesn't exist anymore. But don't worry — there's plenty of delicious content waiting for you.</p>
             <div class="error-actions">
-                <a href={base || '/'} class="btn btn-green">
+                <a href={`${base}/${defaultLocale}`} class="btn btn-green">
                     🏠 Back to Home
                 </a>
-                <a href={`${base}/products`} class="btn btn-secondary">
+                <a href={`${base}/${defaultLocale}/products`} class="btn btn-secondary">
                     🍗 Browse Products
                 </a>
             </div>

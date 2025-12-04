@@ -10,7 +10,7 @@ interface Props {
 const { locale = defaultLocale } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const t = getTranslations(locale);
-const localePath = locale === defaultLocale ? '' : `/${locale}`;
+const localePath = `/${locale}`;
 ---
 
 <footer class="footer">
