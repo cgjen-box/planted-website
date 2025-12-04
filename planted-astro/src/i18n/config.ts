@@ -1,40 +1,80 @@
 // i18n Configuration for Planted Website
-// Supports: Switzerland (de, fr, it), Germany (de), Austria (de), Italy (it), France (fr), Netherlands (nl), UK (en), Spain (es)
+// Supports: Global, Switzerland (de, fr, it, en), Germany (de, en), Austria (de, en),
+// Italy (it, en), France (fr, en), Netherlands (nl, en), UK (en), Spain (es, en)
 
 export const locales = {
+    // Global / International (fallback for all)
+    'global': { country: 'global', language: 'en', name: 'International', languageName: 'English', flag: '🌍' },
+
+    // Switzerland - 4 languages
     'ch-de': { country: 'ch', language: 'de', name: 'Schweiz', languageName: 'Deutsch', flag: '🇨🇭' },
     'ch-fr': { country: 'ch', language: 'fr', name: 'Suisse', languageName: 'Français', flag: '🇨🇭' },
     'ch-it': { country: 'ch', language: 'it', name: 'Svizzera', languageName: 'Italiano', flag: '🇨🇭' },
+    'ch-en': { country: 'ch', language: 'en', name: 'Switzerland', languageName: 'English', flag: '🇨🇭' },
+
+    // Germany - 2 languages
     'de': { country: 'de', language: 'de', name: 'Deutschland', languageName: 'Deutsch', flag: '🇩🇪' },
+    'de-en': { country: 'de', language: 'en', name: 'Germany', languageName: 'English', flag: '🇩🇪' },
+
+    // Austria - 2 languages
     'at': { country: 'at', language: 'de', name: 'Österreich', languageName: 'Deutsch', flag: '🇦🇹' },
+    'at-en': { country: 'at', language: 'en', name: 'Austria', languageName: 'English', flag: '🇦🇹' },
+
+    // Italy - 2 languages
     'it': { country: 'it', language: 'it', name: 'Italia', languageName: 'Italiano', flag: '🇮🇹' },
+    'it-en': { country: 'it', language: 'en', name: 'Italy', languageName: 'English', flag: '🇮🇹' },
+
+    // France - 2 languages
     'fr': { country: 'fr', language: 'fr', name: 'France', languageName: 'Français', flag: '🇫🇷' },
+    'fr-en': { country: 'fr', language: 'en', name: 'France', languageName: 'English', flag: '🇫🇷' },
+
+    // Netherlands - 2 languages
     'nl': { country: 'nl', language: 'nl', name: 'Nederland', languageName: 'Nederlands', flag: '🇳🇱' },
+    'nl-en': { country: 'nl', language: 'en', name: 'Netherlands', languageName: 'English', flag: '🇳🇱' },
+
+    // United Kingdom - English only
     'uk': { country: 'uk', language: 'en', name: 'United Kingdom', languageName: 'English', flag: '🇬🇧' },
+
+    // Spain - 2 languages
     'es': { country: 'es', language: 'es', name: 'España', languageName: 'Español', flag: '🇪🇸' },
+    'es-en': { country: 'es', language: 'en', name: 'Spain', languageName: 'English', flag: '🇪🇸' },
 } as const;
 
 // Type definitions (must come after locales const)
 export type LocaleCode = keyof typeof locales;
 export type LanguageCode = 'de' | 'fr' | 'it' | 'en' | 'nl' | 'es';
-export type CountryCode = 'ch' | 'de' | 'at' | 'it' | 'fr' | 'nl' | 'uk' | 'es';
+export type CountryCode = 'global' | 'ch' | 'de' | 'at' | 'it' | 'fr' | 'nl' | 'uk' | 'es';
 
 export const defaultLocale: LocaleCode = 'ch-de';
 
 // Get all locale codes
 export const allLocales = Object.keys(locales) as LocaleCode[];
 
-// Map country codes to their available locale codes
+// Map country codes to their available locale codes (ordered by preference)
 export const countryLocales: Record<CountryCode, LocaleCode[]> = {
-    'ch': ['ch-de', 'ch-fr', 'ch-it'],
-    'de': ['de'],
-    'at': ['at'],
-    'it': ['it'],
-    'fr': ['fr'],
-    'nl': ['nl'],
+    'global': ['global'],
+    'ch': ['ch-de', 'ch-fr', 'ch-it', 'ch-en'],
+    'de': ['de', 'de-en'],
+    'at': ['at', 'at-en'],
+    'it': ['it', 'it-en'],
+    'fr': ['fr', 'fr-en'],
+    'nl': ['nl', 'nl-en'],
     'uk': ['uk'],
-    'es': ['es'],
+    'es': ['es', 'es-en'],
 };
+
+// Country display data for the selector (order matters for display)
+export const countries: { code: CountryCode; flag: string; name: string; englishName: string }[] = [
+    { code: 'global', flag: '🌍', name: 'International', englishName: 'International' },
+    { code: 'ch', flag: '🇨🇭', name: 'Schweiz', englishName: 'Switzerland' },
+    { code: 'de', flag: '🇩🇪', name: 'Deutschland', englishName: 'Germany' },
+    { code: 'at', flag: '🇦🇹', name: 'Österreich', englishName: 'Austria' },
+    { code: 'fr', flag: '🇫🇷', name: 'France', englishName: 'France' },
+    { code: 'it', flag: '🇮🇹', name: 'Italia', englishName: 'Italy' },
+    { code: 'nl', flag: '🇳🇱', name: 'Nederland', englishName: 'Netherlands' },
+    { code: 'uk', flag: '🇬🇧', name: 'United Kingdom', englishName: 'United Kingdom' },
+    { code: 'es', flag: '🇪🇸', name: 'España', englishName: 'Spain' },
+];
 
 // Product name translations by language (only stores differences from base name)
 // Base names (English/German): planted.chicken, planted.pulled, planted.schnitzel, etc.
@@ -92,6 +132,7 @@ export function getLocalizedProductName(baseName: string, locale: LocaleCode): s
 
 // Retailers data per country with logos and URLs
 export const retailers: Record<CountryCode, { name: string; logo: string; url: string; type: 'retail' | 'foodservice' }[]> = {
+    'global': [], // No specific retailers for global/international
     'ch': [
         { name: 'Coop', logo: 'coop', url: 'https://www.coop.ch', type: 'retail' },
         { name: 'Migros', logo: 'migros', url: 'https://www.migros.ch', type: 'retail' },

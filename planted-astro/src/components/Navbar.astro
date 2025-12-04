@@ -1,6 +1,7 @@
 ---
-import { locales, allLocales, defaultLocale, type LocaleCode } from '../i18n/config';
+import { locales, allLocales, countries, countryLocales, defaultLocale, type LocaleCode } from '../i18n/config';
 import { getTranslations } from '../i18n/index';
+import CountrySelector from './CountrySelector.astro';
 
 interface Props {
     currentPage?: string;
@@ -40,32 +41,10 @@ const localePath = locale === defaultLocale ? '' : `/${locale}`;
             <a href={`${base}${localePath}/#locator`}>{t.nav.findUs}</a>
         </div>
 
-        <!-- Country Selector - Using native <details> for zero-JS dropdown -->
-        <details class="country-selector">
-            <summary class="country-btn">
-                <span class="country-flag">{currentLocaleData.flag}</span>
-                <span class="country-code">{locale.toUpperCase()}</span>
-                <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
-            </summary>
-            <div class="country-dropdown">
-                {allLocales.map((loc) => {
-                    const locData = locales[loc];
-                    const isActive = loc === locale;
-                    return (
-                        <a
-                            href={`${base}/${loc}/`}
-                            class:list={['country-option', { active: isActive }]}
-                        >
-                            <span class="country-flag">{locData.flag}</span>
-                            <span class="country-name">{locData.name}</span>
-                            <span class="country-lang">{locData.languageName}</span>
-                        </a>
-                    );
-                })}
-            </div>
-        </details>
+        <!-- Country Selector Modal -->
+        <div class="country-selector-wrapper">
+            <CountrySelector currentLocale={locale} />
+        </div>
 
         <button class="nav-toggle" id="navToggle" aria-label="Open menu">
             <span></span>
@@ -85,21 +64,11 @@ const localePath = locale === defaultLocale ? '' : `/${locale}`;
 
     <div class="mobile-country-selector">
         <span class="mobile-country-label">{t.nav.selectCountry}</span>
-        <div class="mobile-country-grid">
-            {allLocales.map((loc) => {
-                const locData = locales[loc];
-                const isActive = loc === locale;
-                return (
-                    <a
-                        href={`${base}/${loc}/`}
-                        class:list={['mobile-country-option', { active: isActive }]}
-                    >
-                        <span class="country-flag">{locData.flag}</span>
-                        <span class="country-code">{loc.toUpperCase()}</span>
-                    </a>
-                );
-            })}
-        </div>
+        <button class="mobile-country-btn" id="mobileCountryBtn">
+            <span class="country-flag">{currentLocaleData.flag}</span>
+            <span class="country-name">{currentLocaleData.name}</span>
+            <span class="country-lang">({currentLocaleData.languageName})</span>
+        </button>
     </div>
 </div>
 
@@ -164,119 +133,9 @@ const localePath = locale === defaultLocale ? '' : `/${locale}`;
         opacity: 0.7;
     }
 
-    /* Country Selector - Pure CSS using <details> */
-    .country-selector {
-        position: relative;
+    /* Country Selector Wrapper */
+    .country-selector-wrapper {
         display: none;
-    }
-
-    .country-btn {
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
-        background: rgba(97, 38, 158, 0.08);
-        border: 1px solid rgba(97, 38, 158, 0.15);
-        border-radius: 100px;
-        padding: 0.5rem 0.75rem;
-        cursor: pointer;
-        font-size: 0.8rem;
-        font-weight: 600;
-        color: var(--planted-purple);
-        transition: all 0.3s ease;
-        list-style: none;
-    }
-
-    /* Hide default marker */
-    .country-btn::-webkit-details-marker {
-        display: none;
-    }
-
-    .country-btn::marker {
-        display: none;
-        content: '';
-    }
-
-    .country-btn:hover {
-        background: rgba(97, 38, 158, 0.12);
-        border-color: rgba(97, 38, 158, 0.25);
-    }
-
-    .country-flag {
-        font-size: 1rem;
-    }
-
-    .country-code {
-        font-size: 0.75rem;
-        letter-spacing: 0.02em;
-    }
-
-    .chevron {
-        width: 14px;
-        height: 14px;
-        transition: transform 0.3s ease;
-    }
-
-    /* Rotate chevron when open */
-    .country-selector[open] .chevron {
-        transform: rotate(180deg);
-    }
-
-    .country-dropdown {
-        position: absolute;
-        top: calc(100% + 0.5rem);
-        right: 0;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-        min-width: 220px;
-        overflow: hidden;
-        z-index: 1002;
-        animation: dropdownFadeIn 0.2s ease;
-    }
-
-    @keyframes dropdownFadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .country-option {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 0.75rem 1rem;
-        text-decoration: none;
-        color: var(--planted-black);
-        transition: background 0.2s ease;
-    }
-
-    .country-option:hover {
-        background: rgba(97, 38, 158, 0.06);
-    }
-
-    .country-option.active {
-        background: rgba(97, 38, 158, 0.1);
-    }
-
-    .country-option .country-flag {
-        font-size: 1.25rem;
-    }
-
-    .country-option .country-name {
-        font-weight: 600;
-        font-size: 0.9rem;
-        flex: 1;
-    }
-
-    .country-option .country-lang {
-        font-size: 0.75rem;
-        color: var(--planted-purple);
-        opacity: 0.7;
     }
 
     .nav-toggle {
@@ -368,37 +227,34 @@ const localePath = locale === defaultLocale ? '' : `/${locale}`;
         display: block;
     }
 
-    .mobile-country-grid {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.5rem;
-        max-width: 300px;
-    }
-
-    .mobile-country-option {
-        display: flex;
+    .mobile-country-btn {
+        display: inline-flex;
         align-items: center;
-        gap: 0.35rem;
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        gap: 0.5rem;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.25);
         border-radius: 100px;
-        padding: 0.5rem 0.75rem;
+        padding: 0.75rem 1.25rem;
         color: white;
-        text-decoration: none;
-        font-size: 0.75rem;
+        font-family: inherit;
+        font-size: 0.9rem;
         font-weight: 600;
+        cursor: pointer;
         transition: all 0.3s ease;
     }
 
-    .mobile-country-option:hover,
-    .mobile-country-option.active {
-        background: rgba(255, 255, 255, 0.2);
+    .mobile-country-btn:hover {
+        background: rgba(255, 255, 255, 0.25);
         border-color: rgba(255, 255, 255, 0.4);
     }
 
-    .mobile-country-option .country-flag {
-        font-size: 0.9rem;
+    .mobile-country-btn .country-flag {
+        font-size: 1.1rem;
+    }
+
+    .mobile-country-btn .country-lang {
+        opacity: 0.7;
+        font-weight: 400;
     }
 
     .close-menu {
@@ -434,7 +290,7 @@ const localePath = locale === defaultLocale ? '' : `/${locale}`;
             display: flex;
         }
 
-        .country-selector {
+        .country-selector-wrapper {
             display: block;
         }
     }
@@ -466,6 +322,8 @@ const localePath = locale === defaultLocale ? '' : `/${locale}`;
         const menu = document.getElementById('navMenu');
         const navToggle = document.getElementById('navToggle');
         const closeMenuBtn = document.getElementById('closeMenu');
+        const mobileCountryBtn = document.getElementById('mobileCountryBtn');
+        const countryModal = document.getElementById('countryModal');
 
         if (!nav) return;
 
@@ -500,6 +358,18 @@ const localePath = locale === defaultLocale ? '' : `/${locale}`;
         // Close menu when clicking nav links
         menu?.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', closeMenu);
+        });
+
+        // Mobile country button opens the country modal
+        const newMobileCountryBtn = mobileCountryBtn?.cloneNode(true) as HTMLElement;
+        mobileCountryBtn?.parentNode?.replaceChild(newMobileCountryBtn, mobileCountryBtn);
+        newMobileCountryBtn?.addEventListener('click', () => {
+            closeMenu();
+            if (countryModal) {
+                countryModal.classList.add('open');
+                countryModal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            }
         });
 
         // Throttled scroll handler for nav hide/show

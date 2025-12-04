@@ -1,0 +1,422 @@
+---
+/**
+ * CountrySelector - On Running-style modal country/language selector
+ *
+ * Features:
+ * - Full-screen modal overlay
+ * - Countries grouped with flags
+ * - Multiple language options per country
+ * - Global/International fallback option
+ * - Smooth animations
+ */
+import { locales, countries, countryLocales, type LocaleCode, type CountryCode } from '../i18n/config';
+
+interface Props {
+    currentLocale: LocaleCode;
+}
+
+const { currentLocale } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const currentLocaleData = locales[currentLocale];
+const currentCountry = currentLocaleData.country as CountryCode;
+---
+
+<!-- Country Selector Button -->
+<button class="country-selector-btn" id="countrySelectorBtn" aria-label="Select country and language">
+    <span class="btn-flag">{currentLocaleData.flag}</span>
+    <span class="btn-label">{currentLocaleData.name}</span>
+    <svg class="btn-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+</button>
+
+<!-- Country Selector Modal -->
+<div class="country-modal" id="countryModal" aria-hidden="true">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Select your location</h2>
+            <button class="modal-close" id="modalClose" aria-label="Close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="countries-grid">
+                {countries.map((country) => {
+                    const isCurrentCountry = country.code === currentCountry;
+                    const countryLocaleOptions = countryLocales[country.code];
+
+                    return (
+                        <div class:list={["country-group", { active: isCurrentCountry }]}>
+                            <div class="country-header">
+                                <span class="country-flag">{country.flag}</span>
+                                <span class="country-name">{country.name}</span>
+                                {country.name !== country.englishName && (
+                                    <span class="country-english">({country.englishName})</span>
+                                )}
+                            </div>
+                            <div class="language-options">
+                                {countryLocaleOptions.map((localeCode) => {
+                                    const localeData = locales[localeCode];
+                                    const isActive = localeCode === currentLocale;
+
+                                    return (
+                                        <a
+                                            href={`${base}/${localeCode}/`}
+                                            class:list={["language-option", { active: isActive }]}
+                                            data-locale={localeCode}
+                                        >
+                                            <span class="lang-name">{localeData.languageName}</span>
+                                            {isActive && (
+                                                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                            )}
+                                        </a>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Selector Button */
+    .country-selector-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(97, 38, 158, 0.08);
+        border: 1px solid rgba(97, 38, 158, 0.15);
+        border-radius: 100px;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--planted-purple);
+        transition: all 0.3s ease;
+    }
+
+    .country-selector-btn:hover {
+        background: rgba(97, 38, 158, 0.12);
+        border-color: rgba(97, 38, 158, 0.25);
+    }
+
+    .btn-flag {
+        font-size: 1.1rem;
+    }
+
+    .btn-label {
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .btn-chevron {
+        width: 14px;
+        height: 14px;
+        transition: transform 0.3s ease;
+    }
+
+    /* Modal Overlay */
+    .country-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .country-modal.open {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+    }
+
+    .modal-content {
+        position: relative;
+        background: white;
+        border-radius: 1.5rem;
+        max-width: 600px;
+        width: calc(100% - 2rem);
+        max-height: 85vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transform: translateY(20px) scale(0.95);
+        transition: transform 0.3s ease;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    .country-modal.open .modal-content {
+        transform: translateY(0) scale(1);
+    }
+
+    /* Modal Header */
+    .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .modal-header h2 {
+        font-family: 'VC Henrietta', serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--planted-purple);
+        margin: 0;
+    }
+
+    .modal-close {
+        width: 40px;
+        height: 40px;
+        border: none;
+        background: rgba(97, 38, 158, 0.08);
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s ease;
+    }
+
+    .modal-close:hover {
+        background: rgba(97, 38, 158, 0.15);
+    }
+
+    .modal-close svg {
+        width: 20px;
+        height: 20px;
+        color: var(--planted-purple);
+    }
+
+    /* Modal Body */
+    .modal-body {
+        padding: 1.5rem 2rem 2rem;
+        overflow-y: auto;
+    }
+
+    .countries-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    /* Country Group */
+    .country-group {
+        background: rgba(97, 38, 158, 0.03);
+        border-radius: 1rem;
+        padding: 1rem 1.25rem;
+        transition: background 0.2s ease;
+    }
+
+    .country-group:hover {
+        background: rgba(97, 38, 158, 0.06);
+    }
+
+    .country-group.active {
+        background: rgba(97, 38, 158, 0.08);
+        border: 1px solid rgba(97, 38, 158, 0.15);
+    }
+
+    .country-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .country-flag {
+        font-size: 1.5rem;
+    }
+
+    .country-name {
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--planted-black);
+    }
+
+    .country-english {
+        font-size: 0.85rem;
+        color: var(--planted-black);
+        opacity: 0.5;
+    }
+
+    /* Language Options */
+    .language-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding-left: 2.25rem;
+    }
+
+    .language-option {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.5rem 1rem;
+        background: white;
+        border: 1px solid rgba(97, 38, 158, 0.15);
+        border-radius: 100px;
+        text-decoration: none;
+        color: var(--planted-black);
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .language-option:hover {
+        background: var(--planted-purple);
+        color: white;
+        border-color: var(--planted-purple);
+    }
+
+    .language-option.active {
+        background: var(--planted-purple);
+        color: white;
+        border-color: var(--planted-purple);
+    }
+
+    .check-icon {
+        width: 14px;
+        height: 14px;
+    }
+
+    /* Global/International styling */
+    .country-group:first-child {
+        background: linear-gradient(135deg, rgba(107, 191, 89, 0.08), rgba(97, 38, 158, 0.08));
+        border: 1px dashed rgba(97, 38, 158, 0.2);
+    }
+
+    .country-group:first-child:hover {
+        background: linear-gradient(135deg, rgba(107, 191, 89, 0.12), rgba(97, 38, 158, 0.12));
+    }
+
+    /* Mobile styles */
+    @media (max-width: 640px) {
+        .modal-content {
+            max-height: 90vh;
+            border-radius: 1.5rem 1.5rem 0 0;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            transform: translateY(100%);
+        }
+
+        .country-modal.open .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 1.25rem 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.25rem;
+        }
+
+        .modal-body {
+            padding: 1rem 1.5rem 2rem;
+        }
+
+        .country-group {
+            padding: 0.875rem 1rem;
+        }
+
+        .language-options {
+            padding-left: 2rem;
+        }
+
+        .btn-label {
+            display: none;
+        }
+
+        .country-selector-btn {
+            padding: 0.5rem 0.75rem;
+        }
+    }
+
+    @media (min-width: 641px) {
+        .countries-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+
+        /* Make Global span full width */
+        .country-group:first-child {
+            grid-column: 1 / -1;
+        }
+    }
+</style>
+
+<script>
+    function initCountrySelector() {
+        const btn = document.getElementById('countrySelectorBtn');
+        const modal = document.getElementById('countryModal');
+        const backdrop = document.getElementById('modalBackdrop');
+        const closeBtn = document.getElementById('modalClose');
+
+        if (!btn || !modal) return;
+
+        function openModal() {
+            modal.classList.add('open');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('open');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        // Event listeners
+        btn.addEventListener('click', openModal);
+        closeBtn?.addEventListener('click', closeModal);
+        backdrop?.addEventListener('click', closeModal);
+
+        // Close on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('open')) {
+                closeModal();
+            }
+        });
+
+        // Close when clicking a language option
+        modal.querySelectorAll('.language-option').forEach(link => {
+            link.addEventListener('click', () => {
+                closeModal();
+            });
+        });
+    }
+
+    // Initialize
+    initCountrySelector();
+
+    // Re-initialize after Astro page transitions
+    document.addEventListener('astro:page-load', initCountrySelector);
+</script>
