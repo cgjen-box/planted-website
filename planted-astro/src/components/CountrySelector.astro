@@ -428,6 +428,8 @@ const regionOrder: Region[] = ['global', 'europe'];
 </style>
 
 <script>
+    const LOCALE_STORAGE_KEY = 'planted_locale_preference';
+
     function initCountrySelector() {
         const trigger = document.getElementById('countryTrigger');
         const modal = document.getElementById('countryModal');
@@ -452,6 +454,21 @@ const regionOrder: Region[] = ['global', 'europe'];
             trigger.focus();
         }
 
+        // Save locale preference to localStorage
+        function saveLocalePreference(locale: string) {
+            try {
+                localStorage.setItem(LOCALE_STORAGE_KEY, locale);
+            } catch (e) {
+                // localStorage not available
+            }
+        }
+
+        // Extract locale from URL (e.g., /planted-website/ch-de/ -> ch-de)
+        function extractLocaleFromUrl(url: string): string | null {
+            const match = url.match(/\/([a-z]{2}(?:-[a-z]{2})?)\/?$/i);
+            return match ? match[1].toLowerCase() : null;
+        }
+
         // Event listeners
         trigger.addEventListener('click', openModal);
         closeBtn?.addEventListener('click', closeModal);
@@ -464,9 +481,18 @@ const regionOrder: Region[] = ['global', 'europe'];
             }
         });
 
-        // Close when clicking a language option (after a brief delay for visual feedback)
+        // Handle language selection - save preference and close modal
         modal.querySelectorAll('.language-pill').forEach(link => {
-            link.addEventListener('click', () => {
+            link.addEventListener('click', (e) => {
+                const href = (link as HTMLAnchorElement).href;
+                const locale = extractLocaleFromUrl(href);
+
+                // Save the preference before navigation
+                if (locale) {
+                    saveLocalePreference(locale);
+                }
+
+                // Close modal with brief delay for visual feedback
                 setTimeout(closeModal, 100);
             });
         });

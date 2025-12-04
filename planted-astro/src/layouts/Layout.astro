@@ -173,6 +173,23 @@ const schemaOrg = {
     <Footer locale={locale} />
     <CookieConsent />
 
+    <!-- Save locale preference when user visits a localized page -->
+    <script define:vars={{ locale }}>
+        // Save current locale to localStorage for future auto-detection
+        (function() {
+            const LOCALE_STORAGE_KEY = 'planted_locale_preference';
+            const currentLocale = locale;
+
+            if (currentLocale) {
+                try {
+                    localStorage.setItem(LOCALE_STORAGE_KEY, currentLocale);
+                } catch (e) {
+                    // localStorage not available
+                }
+            }
+        })();
+    </script>
+
     <script>
         function initAnimations() {
             // Cache stagger items per parent for faster lookup

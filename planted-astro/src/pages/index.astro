@@ -1,1944 +1,245 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { getCollection, getEntry } from 'astro:content';
-import StoreLocator from '../components/StoreLocator.astro';
-import NewsletterSignup from '../components/NewsletterSignup.astro';
+/**
+ * Root index page - Redirects to appropriate locale based on detection
+ *
+ * Detection priority:
+ * 1. Saved user preference (localStorage)
+ * 2. Browser language + IP geolocation
+ * 3. Default to ch-de
+ */
+import { defaultLocale } from '../i18n/config';
 const base = import.meta.env.BASE_URL;
-
-const products = await getCollection('products');
-const featuredProducts = products
-    .sort((a, b) => a.data.order - b.data.order);
-
-const recipes = await getCollection('recipes');
-const featuredRecipes = recipes
-    .sort((a, b) => a.data.order - b.data.order)
-    .slice(0, 4);
-
-const settings = await getEntry('settings', 'global');
 ---
 
-<Layout title="Planted – Approved by Meat Lovers">
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-video-wrapper">
-            <div class="hero-video-container" id="heroVideo">
-                <video class="hero-video" autoplay muted loop playsinline>
-                    <source src={`${base}/video/hero.mp4`} type="video/mp4">
-                </video>
-                <!-- Playful floating sticker -->
-                <div class="hero-sticker">
-                    <span class="sticker-text">100%</span>
-                    <span class="sticker-label">plant-based</span>
-                </div>
-            </div>
-        </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>Planted - Redirecting...</title>
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`}>
 
-        <div class="hero-content" id="heroContent">
-            <div class="hero-badge">B Corp Certified</div>
-            <h1>{settings?.data.heroTitle}</h1>
-            <p class="hero-subtitle">{settings?.data.heroSubtitle}</p>
-            <div class="hero-buttons">
-                <a href="#locator" class="btn btn-primary">
-                    Find Near You
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="btn-icon">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                        <circle cx="12" cy="10" r="3"/>
-                    </svg>
-                </a>
-                <a href="#products" class="btn btn-secondary">
-                    Explore Products
-                </a>
-            </div>
-        </div>
-
-        <!-- Trust indicators -->
-        <div class="hero-trust">
-            <span class="trust-item">Made in Switzerland</span>
-            <span class="trust-divider"></span>
-            <span class="trust-item">8,000+ restaurants</span>
-            <span class="trust-divider"></span>
-            <span class="trust-item">6 countries</span>
-        </div>
-    </section>
-
-    <!-- Statement Section -->
-    <section class="statement">
-        <div class="statement-inner">
-            <h2 class="reveal">
-                {settings?.data.statementTitle}
-                <span class="statement-highlight">{settings?.data.statementHighlight}</span>
-            </h2>
-            <p class="reveal reveal-delay-1">{settings?.data.statementSubtitle}</p>
-        </div>
-    </section>
-
-    <!-- Products Section -->
-    <section class="products" id="products">
-        <div class="products-header">
-            <h2 class="reveal">Our highlights</h2>
-            <a href={`${base}/products`} class="all-products-btn reveal">
-                → All Products
-            </a>
-        </div>
-
-        <div class="products-carousel">
-            <div class="products-scroll" id="productsScroll">
-                {featuredProducts.map((product) => (
-                    <a href={`${base}/products/${product.data.slug}`} class="product-card reveal-scale" data-color={product.data.color}>
-                        <div class="product-card-inner">
-                            {product.data.isNew && <span class="product-badge-new">New</span>}
-                            {product.data.images.background && (
-                                <div class="product-grid-overlay">
-                                    <img src={product.data.images.background} alt="" loading="lazy">
-                                </div>
-                            )}
-                            <div class="product-image product-image-pack">
-                                <img src={product.data.images.main} alt={`${product.data.name} ${product.data.variant}`} loading="lazy">
-                            </div>
-                            {product.data.images.dish && (
-                                <div class="product-image product-image-dish">
-                                    <img src={product.data.images.dish} alt={`${product.data.name} ${product.data.variant} dish`} loading="lazy">
-                                </div>
-                            )}
-                        </div>
-                        <div class="product-info">
-                            <div class="product-name">{product.data.name}</div>
-                            <div class="product-variant">{product.data.variant}</div>
-                        </div>
-                    </a>
-                ))}
-            </div>
-        </div>
-
-        <!-- Growing Carousel Navigation - Playful & On-Brand -->
-        <div class="growing-nav">
-            <!-- Left hand beckoning -->
-            <button class="nav-hand nav-hand-left" id="carouselPrev" aria-label="Previous">
-                <svg viewBox="0 0 60 60" class="hand-icon">
-                    <path class="hand-palm" d="M35 45c-8 0-14-3-17-8-2-3-3-7-2-12l3-15c1-3 4-5 7-4s5 4 4 7l-2 8" fill="#FDF8F3" stroke="#61269E" stroke-width="2.5"/>
-                    <path class="hand-finger f1" d="M28 19l2-10c1-2 3-4 5-3s3 3 2 5l-3 10" fill="#FDF8F3" stroke="#61269E" stroke-width="2"/>
-                    <path class="hand-finger f2" d="M33 17l1-12c0-2 2-4 4-4s4 2 4 4l-2 13" fill="#FDF8F3" stroke="#61269E" stroke-width="2"/>
-                    <path class="hand-finger f3" d="M40 18l2-11c0-2 2-3 4-3s3 2 3 4l-3 11" fill="#FDF8F3" stroke="#61269E" stroke-width="2"/>
-                    <path class="hand-finger f4" d="M46 22l2-8c0-2 2-3 3-2s2 2 2 4l-3 8" fill="#FDF8F3" stroke="#61269E" stroke-width="2"/>
-                </svg>
-                <span class="nav-hint">← psst!</span>
-            </button>
-
-            <!-- The Growing Stem with Leaves -->
-            <div class="stem-container" id="stemContainer">
-                <svg class="stem-svg" viewBox="0 0 300 50" preserveAspectRatio="none">
-                    <!-- Animated growing stem -->
-                    <path class="stem-path" d="M10 40 Q75 15, 150 25 T290 20" fill="none" stroke="#6BBF59" stroke-width="3" stroke-linecap="round"/>
-                    <path class="stem-path-glow" d="M10 40 Q75 15, 150 25 T290 20" fill="none" stroke="#6BBF59" stroke-width="6" stroke-linecap="round" opacity="0.2"/>
-                </svg>
-                
-                <!-- Leaf markers for each product -->
-                <div class="leaves-track" id="carouselDots">
-                    {featuredProducts.map((_, index) => (
-                        <button 
-                            class={`leaf-marker ${index === 0 ? 'active sprouting' : ''}`} 
-                            data-index={index}
-                            aria-label={`Go to product ${index + 1}`}
-                        >
-                            <svg viewBox="0 0 24 24" class="leaf-icon">
-                                <path d="M12 2C6.5 2 2 6.5 2 12c0 4 2.5 7.5 6 9 .5-2 1.5-4 3-5.5 1.5-1.5 3-2.5 5-3-1.5-3.5-5-6-8.5-6-.5 0-1 0-1.5.1C7.5 4.5 9.5 3 12 3c5.5 0 10 4.5 10 9 0 2.5-1 4.5-2.5 6-1-1.5-2.5-2.5-4-3-1.5-.5-3-.5-4.5 0" fill="currentColor"/>
-                            </svg>
-                            <span class="leaf-sprout">🌱</span>
-                        </button>
-                    ))}
-                </div>
-            </div>
-
-            <!-- Right hand beckoning -->
-            <button class="nav-hand nav-hand-right" id="carouselNext" aria-label="Next">
-                <svg viewBox="0 0 60 60" class="hand-icon">
-                    <path class="hand-palm" d="M25 45c8 0 14-3 17-8 2-3 3-7 2-12l-3-15c-1-3-4-5-7-4s-5 4-4 7l2 8" fill="#FDF8F3" stroke="#61269E" stroke-width="2.5"/>
-                    <path class="hand-finger f1" d="M32 19l-2-10c-1-2-3-4-5-3s-3 3-2 5l3 10" fill="#FDF8F3" stroke="#61269E" stroke-width="2"/>
-                    <path class="hand-finger f2" d="M27 17l-1-12c0-2-2-4-4-4s-4 2-4 4l2 13" fill="#FDF8F3" stroke="#61269E" stroke-width="2"/>
-                    <path class="hand-finger f3" d="M20 18l-2-11c0-2-2-3-4-3s-3 2-3 4l3 11" fill="#FDF8F3" stroke="#61269E" stroke-width="2"/>
-                    <path class="hand-finger f4" d="M14 22l-2-8c0-2-2-3-3-2s-2 2-2 4l3 8" fill="#FDF8F3" stroke="#61269E" stroke-width="2"/>
-                </svg>
-                <span class="nav-hint">more! →</span>
-            </button>
-        </div>
-
-        <!-- Playful Progress Message -->
-        <div class="growing-progress">
-            <span class="progress-emoji">🌱</span>
-            <span class="progress-text">
-                Growing... <strong id="carouselCurrent">1</strong> of <strong>{featuredProducts.length}</strong> planted
-            </span>
-        </div>
-    </section>
-
-    <!-- Impact Section - Immersive Full-Width -->
-    <section class="impact" id="impact">
-        <!-- Abstract gradient background - no stock photos -->
-        <div class="impact-bg">
-            <div class="impact-gradient"></div>
-            <div class="impact-pattern"></div>
-        </div>
-
-        <div class="impact-content">
-            <!-- Playful intro -->
-            <span class="impact-badge">The numbers don't lie</span>
-
-            <!-- The big stats -->
-            <div class="impact-stats">
-                <div class="impact-stat">
-                    <div class="impact-stat-value" data-count={settings?.data.impactCO2}>0<span class="percent">%</span></div>
-                    <div class="impact-stat-label">Less CO₂</div>
-                    <div class="impact-stat-compare">vs. beef</div>
-                </div>
-
-                <div class="impact-stat">
-                    <div class="impact-stat-value" data-count={settings?.data.impactWater}>0<span class="percent">%</span></div>
-                    <div class="impact-stat-label">Less Water</div>
-                    <div class="impact-stat-compare">vs. beef</div>
-                </div>
-
-                <div class="impact-stat special">
-                    <div class="impact-stat-value" data-count={settings?.data.impactAnimals}>0</div>
-                    <div class="impact-stat-label">Animals Harmed</div>
-                    <div class="impact-stat-compare">ever</div>
-                </div>
-            </div>
-
-            <!-- Brand tagline -->
-            <h2 class="impact-tagline">Same taste. Better for the planet.</h2>
-
-            <!-- Source citation -->
-            <p class="impact-source">Life Cycle Assessment verified by independent researchers</p>
-
-            <!-- Call to action -->
-            <div class="impact-cta">
-                <a href={`${base}/our-story`} class="impact-btn">
-                    See how we do it
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                </a>
-            </div>
-        </div>
-
-        <!-- Decorative floating elements -->
-        <div class="impact-float float-1"></div>
-        <div class="impact-float float-2"></div>
-        <div class="impact-float float-3"></div>
-    </section>
-
-    <!-- Recipes Section -->
-    <section class="recipes-section" id="recipes">
-        <div class="recipes-header">
-            <h2 class="reveal">Get cooking</h2>
-            <a href={`${base}/recipes`} class="reveal">All 150+ recipes →</a>
-        </div>
-
-        <div class="recipes-scroll">
-            {featuredRecipes.map((recipe) => (
-                <a href={`${base}/recipes/${recipe.data.slug}`} class="recipe-card">
-                    <div class="recipe-image">
-                        <img src={recipe.data.image} alt={recipe.data.title} loading="lazy">
-                    </div>
-                    <div class="recipe-info">
-                        <div class="recipe-title">{recipe.data.title}</div>
-                        <div class="recipe-meta">{recipe.data.cookTime} min • {recipe.data.difficulty}</div>
-                    </div>
-                </a>
-            ))}
-        </div>
-    </section>
-
-    <!-- Store Locator -->
-    <StoreLocator 
-        title={settings?.data.locatorTitle || "Find planted near you"} 
-        subtitle={settings?.data.locatorSubtitle || "Discover where to buy planted products in your area."} 
-    />
-
-    <!-- Newsletter Signup -->
-    <NewsletterSignup />
-
-    <!-- Business Section -->
-    <section class="business" id="business">
-        <div class="business-inner">
-            <div>
-                <span class="business-badge reveal">{settings?.data.businessBadge}</span>
-                <h2 class="reveal">{settings?.data.businessTitle}</h2>
-                <p class="reveal reveal-delay-1">{settings?.data.businessSubtitle}</p>
-                <a href="#" class="business-cta reveal reveal-delay-2">
-                    Get Samples →
-                </a>
-            </div>
-
-            <div class="business-stats">
-                {settings?.data.businessStats?.map((stat) => (
-                    <div class="business-stat reveal-scale">
-                        <div class="business-stat-value">{stat.value}</div>
-                        <div class="business-stat-label">{stat.label}</div>
-                    </div>
-                ))}
-            </div>
-        </div>
-    </section>
-</Layout>
-
-<style>
-    /* Hero Section */
-    .hero {
-        min-height: 100vh;
-        min-height: 100dvh;
-        background: var(--planted-cream);
-        padding: 4rem 1.5rem 2rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .hero-video-wrapper {
-        position: relative;
-        width: 100%;
-        max-width: 900px;
-        margin: 0 auto;
-    }
-
-    .hero-video-container {
-        position: relative;
-        width: 100%;
-        border-radius: 1.5rem;
-        overflow: hidden;
-        box-shadow: 0 25px 80px rgba(97, 38, 158, 0.15);
-        transform: rotate(-3deg) scale(0.95);
-        transition: box-shadow 0.3s ease;
-        will-change: transform;
-    }
-
-    .hero-video-container::before {
-        content: '';
-        display: block;
-        padding-top: 70%;
-    }
-
-    .hero-video {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    /* Playful floating sticker */
-    .hero-sticker {
-        position: absolute;
-        bottom: -1rem;
-        right: -0.5rem;
-        background: var(--planted-green);
-        color: var(--planted-black);
-        padding: 1rem 1.25rem;
-        border-radius: 1rem;
-        transform: rotate(8deg);
-        box-shadow: 0 8px 24px rgba(107, 191, 89, 0.3);
-        text-align: center;
-        z-index: 10;
-        animation: stickerBounce 3s ease-in-out infinite;
-    }
-
-    .sticker-text {
-        display: block;
-        font-family: 'VC Henrietta', serif;
-        font-size: 1.5rem;
-        font-weight: 700;
-        line-height: 1;
-    }
-
-    .sticker-label {
-        display: block;
-        font-size: 0.7rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-top: 0.15rem;
-    }
-
-    @keyframes stickerBounce {
-        0%, 100% { transform: rotate(8deg) translateY(0); }
-        50% { transform: rotate(8deg) translateY(-5px); }
-    }
-
-    .hero-content {
-        position: relative;
-        z-index: 1;
-        max-width: 900px;
-        margin: 2.5rem auto 0;
-        text-align: center;
-        opacity: 0;
-        transform: translateY(40px);
-    }
-
-    .hero-content.animate-in {
-        animation: fadeSlideUp 0.8s ease forwards;
-        animation-delay: 0.3s;
-    }
-
-    @keyframes fadeSlideUp {
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Hero badge */
-    .hero-badge {
-        display: inline-block;
-        background: rgba(97, 38, 158, 0.1);
-        border: 1px solid rgba(97, 38, 158, 0.2);
-        color: var(--planted-purple);
-        font-size: 0.75rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        padding: 0.5rem 1rem;
-        border-radius: 100px;
-        margin-bottom: 1.25rem;
-    }
-
-    .hero h1 {
-        font-size: clamp(2.25rem, 10vw, 4.5rem);
-        color: var(--planted-purple);
-        margin-bottom: 1rem;
-        line-height: 0.95;
-    }
-
-    .hero-subtitle {
-        font-size: clamp(1rem, 3vw, 1.15rem);
-        color: var(--planted-black);
-        opacity: 0.7;
-        max-width: 480px;
-        margin: 0 auto 1.75rem;
-        line-height: 1.5;
-    }
-
-    .hero-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-        justify-content: center;
-    }
-
-    .hero-buttons .btn-icon {
-        width: 18px;
-        height: 18px;
-        margin-left: 0.25rem;
-    }
-
-    /* Trust indicators */
-    .hero-trust {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 1rem;
-        margin-top: auto;
-        padding-top: 2rem;
-        flex-wrap: wrap;
-    }
-
-    .trust-item {
-        font-size: 0.8rem;
-        font-weight: 600;
-        color: var(--planted-purple);
-        opacity: 0.6;
-    }
-
-    .trust-divider {
-        width: 4px;
-        height: 4px;
-        background: var(--planted-purple);
-        border-radius: 50%;
-        opacity: 0.3;
-    }
-
-    @media (max-width: 640px) {
-        .hero-sticker {
-            bottom: -0.75rem;
-            right: 0.5rem;
-            padding: 0.75rem 1rem;
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .sticker-text {
-            font-size: 1.25rem;
-        }
-
-        .hero-trust {
-            display: none;
-        }
-    }
-
-    /* Statement Section */
-    .statement {
-        background: var(--planted-purple);
-        padding: 6rem 1.5rem;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-        width: 100%;
-    }
-
-    .statement-inner {
-        max-width: 800px;
-        margin: 0 auto;
-        position: relative;
-        z-index: 1;
-    }
-
-    .statement h2 {
-        font-size: clamp(1.8rem, 6vw, 3.2rem);
-        color: white;
-        margin-bottom: 1.25rem;
-        line-height: 1.1;
-    }
-
-    .statement-highlight {
-        color: var(--planted-green);
-    }
-
-    .statement p {
-        font-size: clamp(1rem, 2.5vw, 1.15rem);
-        color: rgba(255,255,255,0.8);
-        max-width: 500px;
-        margin: 0 auto;
-        line-height: 1.6;
-    }
-
-    .statement::before,
-    .statement::after {
-        content: '';
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.03);
-        pointer-events: none;
-    }
-
-    .statement::before {
-        width: 400px;
-        height: 400px;
-        top: -200px;
-        right: -100px;
-    }
-
-    .statement::after {
-        width: 300px;
-        height: 300px;
-        bottom: -150px;
-        left: -50px;
-    }
-
-    /* Products Section */
-    .products {
-        background: var(--planted-cream);
-        padding: 5rem 0 4rem;
-        overflow: hidden;
-    }
-
-    .products-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        padding: 0 1.5rem 2.5rem;
-        max-width: 1400px;
-        margin: 0 auto;
-    }
-
-    .products-header h2 {
-        font-family: 'VC Henrietta', serif;
-        font-size: clamp(2.5rem, 8vw, 4.5rem);
-        color: var(--planted-purple);
-        font-weight: 700;
-        line-height: 1;
-    }
-
-    .products-header .all-products-btn {
-        display: none;
-        align-items: center;
-        gap: 0.5rem;
-        background: var(--planted-green);
-        color: var(--planted-black);
-        font-weight: 700;
-        font-size: 0.85rem;
-        padding: 0.9rem 1.5rem;
-        border-radius: 0.75rem;
-        text-decoration: none;
-        text-transform: uppercase;
-        letter-spacing: 0.02em;
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .products-header .all-products-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(107, 191, 89, 0.4);
-    }
-
-    .products-carousel {
-        position: relative;
-        padding: 0 1.5rem;
-    }
-
-    .products-scroll {
-        display: flex;
-        gap: 1.25rem;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        padding-bottom: 1rem;
-    }
-
-    .products-scroll::-webkit-scrollbar {
-        display: none;
-    }
-
-    .products-scroll .product-card {
-        flex: 0 0 260px;
-        scroll-snap-align: start;
-        text-decoration: none;
-    }
-
-    .products-scroll .product-card-inner {
-        position: relative;
-        border-radius: 1.25rem;
-        aspect-ratio: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        margin-bottom: 0.75rem;
-    }
-
-    /* Product card color backgrounds are defined in global.css */
-
-    .products-scroll .product-badge-new {
-        position: absolute;
-        top: 0.75rem;
-        right: 0.75rem;
-        background: var(--planted-green);
-        color: var(--planted-black);
-        font-size: 0.6rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        padding: 0.3rem 0.6rem;
-        border-radius: 100px;
-        z-index: 10;
-    }
-
-    .products-scroll .product-grid-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        z-index: 1;
-        pointer-events: none;
-    }
-
-    .products-scroll .product-grid-overlay img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .products-scroll .product-card:hover .product-grid-overlay {
-        opacity: 1;
-    }
-
-    .products-scroll .product-image {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        top: 0;
-        left: 0;
-        padding: 1.25rem;
-        transition: opacity 0.4s ease, transform 0.4s ease;
-        z-index: 2;
-    }
-
-    .products-scroll .product-image-pack {
-        opacity: 1;
-    }
-
-    .products-scroll .product-image-dish {
-        opacity: 0;
-    }
-
-    .products-scroll .product-card:hover .product-image-pack {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-
-    .products-scroll .product-card:hover .product-image-dish {
-        opacity: 1;
-    }
-
-    .products-scroll .product-image img {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-    }
-
-    .products-scroll .product-info {
-        text-align: center;
-        padding: 0 0.25rem;
-    }
-
-    .products-scroll .product-name {
-        font-family: 'VC Henrietta', serif;
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: var(--planted-purple);
-        margin-bottom: 0.1rem;
-    }
-
-    .products-scroll .product-variant {
-        color: var(--planted-purple);
-        font-size: 0.85rem;
-        opacity: 0.7;
-    }
-
-    .products-scroll .product-card {
-        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .products-scroll .product-card:hover {
-        transform: translateY(-6px);
-    }
-
-    /* ============================================
-       GROWING CAROUSEL - Playful Plant Navigation
-       ============================================ */
-    
-    .growing-nav {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 1rem;
-        margin-top: 2.5rem;
-        padding: 0 1rem;
-    }
-
-    /* Beckoning Hand Buttons */
-    .nav-hand {
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 0.5rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.25rem;
-        transition: transform 0.3s ease;
-    }
-
-    .nav-hand:hover {
-        transform: scale(1.1);
-    }
-
-    .nav-hand:active {
-        transform: scale(0.95);
-    }
-
-    .hand-icon {
-        width: 48px;
-        height: 48px;
-        filter: drop-shadow(0 2px 4px rgba(97, 38, 158, 0.2));
-    }
-
-    /* Beckoning animation - fingers curl inward */
-    .nav-hand-left .hand-finger {
-        transform-origin: bottom right;
-        animation: beckonLeft 1.5s ease-in-out infinite;
-    }
-    .nav-hand-right .hand-finger {
-        transform-origin: bottom left;
-        animation: beckonRight 1.5s ease-in-out infinite;
-    }
-
-    .nav-hand .f1 { animation-delay: 0s; }
-    .nav-hand .f2 { animation-delay: 0.1s; }
-    .nav-hand .f3 { animation-delay: 0.2s; }
-    .nav-hand .f4 { animation-delay: 0.3s; }
-
-    @keyframes beckonLeft {
-        0%, 100% { transform: rotate(0deg); }
-        50% { transform: rotate(15deg); }
-    }
-    @keyframes beckonRight {
-        0%, 100% { transform: rotate(0deg); }
-        50% { transform: rotate(-15deg); }
-    }
-
-    .nav-hint {
-        font-size: 0.7rem;
-        color: var(--planted-purple);
-        font-weight: 700;
-        letter-spacing: 0.02em;
-        opacity: 0;
-        transform: translateY(-5px);
-        transition: all 0.3s ease;
-    }
-
-    .nav-hand:hover .nav-hint {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    /* Growing Stem Container */
-    .stem-container {
-        position: relative;
-        width: 300px;
-        height: 50px;
-        flex-shrink: 0;
-    }
-
-    .stem-svg {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-    }
-
-    .stem-path {
-        stroke-dasharray: 400;
-        stroke-dashoffset: 400;
-        animation: growStem 2s ease-out forwards;
-    }
-
-    .stem-path-glow {
-        stroke-dasharray: 400;
-        stroke-dashoffset: 400;
-        animation: growStem 2s ease-out 0.2s forwards;
-    }
-
-    @keyframes growStem {
-        to { stroke-dashoffset: 0; }
-    }
-
-    /* Leaves Track */
-    .leaves-track {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 5px;
-    }
-
-    /* Individual Leaf Markers */
-    .leaf-marker {
-        position: relative;
-        width: 24px;
-        height: 24px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        z-index: 1;
-    }
-
-    .leaf-icon {
-        width: 16px;
-        height: 16px;
-        color: var(--planted-purple);
-        opacity: 0.4;
-        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        transform: scale(0.8);
-    }
-
-    .leaf-marker:hover .leaf-icon {
-        opacity: 0.7;
-        transform: scale(1) rotate(-10deg);
-        animation: leafWiggle 0.5s ease-in-out;
-    }
-
-    @keyframes leafWiggle {
-        0%, 100% { transform: scale(1) rotate(-10deg); }
-        25% { transform: scale(1.1) rotate(-15deg); }
-        75% { transform: scale(1.1) rotate(-5deg); }
-    }
-
-    .leaf-marker.active .leaf-icon {
-        color: var(--planted-green);
-        opacity: 1;
-        transform: scale(1.4);
-        filter: drop-shadow(0 0 8px rgba(107, 191, 89, 0.5));
-    }
-
-    /* Sprout emoji that pops on activation */
-    .leaf-sprout {
-        position: absolute;
-        top: -15px;
-        font-size: 1rem;
-        opacity: 0;
-        transform: scale(0) translateY(10px);
-        pointer-events: none;
-    }
-
-    .leaf-marker.sprouting .leaf-sprout {
-        animation: sproutPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    }
-
-    @keyframes sproutPop {
-        0% {
-            opacity: 0;
-            transform: scale(0) translateY(10px);
-        }
-        50% {
-            opacity: 1;
-            transform: scale(1.3) translateY(-5px);
-        }
-        100% {
-            opacity: 0;
-            transform: scale(1) translateY(-20px);
-        }
-    }
-
-    /* Playful Progress Message */
-    .growing-progress {
-        text-align: center;
-        margin-top: 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-    }
-
-    .progress-emoji {
-        font-size: 1.2rem;
-        animation: gentleBounce 2s ease-in-out infinite;
-    }
-
-    @keyframes gentleBounce {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-3px); }
-    }
-
-    .progress-text {
-        font-size: 0.9rem;
-        color: var(--planted-purple);
-        font-weight: 500;
-    }
-
-    .progress-text strong {
-        color: var(--planted-green);
-        font-weight: 700;
-    }
-
-    /* Mobile Responsive */
-    @media (max-width: 640px) {
-        .stem-container {
-            width: 180px;
-        }
-
-        .hand-icon {
-            width: 36px;
-            height: 36px;
-        }
-
-        .leaf-icon {
-            width: 10px;
-            height: 10px;
-        }
-
-        .leaf-marker.active .leaf-icon {
-            transform: scale(1.2);
-        }
-
-        /* Show only nearby leaves on mobile */
-        .leaves-track {
-            overflow: hidden;
-            mask-image: linear-gradient(90deg, transparent, black 20%, black 80%, transparent);
-            -webkit-mask-image: linear-gradient(90deg, transparent, black 20%, black 80%, transparent);
-        }
-    }
-
-    @media (max-width: 400px) {
-        .growing-nav {
-            gap: 0.5rem;
-        }
-        
-        .stem-container {
-            width: 140px;
-        }
-
-        .nav-hint {
-            display: none;
-        }
-    }
-
-    /* ============================================
-       IMPACT SECTION - Brand-Focused Design
-       ============================================ */
-
-    .impact {
-        position: relative;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        width: 100%;
-    }
-
-    /* Abstract gradient background */
-    .impact-bg {
-        position: absolute;
-        inset: 0;
-    }
-
-    .impact-gradient {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-            135deg,
-            #4A1D7A 0%,
-            #61269E 25%,
-            #7B3DB8 50%,
-            #61269E 75%,
-            #4A1D7A 100%
-        );
-        animation: gradientShift 20s ease-in-out infinite;
-    }
-
-    @keyframes gradientShift {
-        0%, 100% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-    }
-
-    .impact-pattern {
-        position: absolute;
-        inset: 0;
-        opacity: 0.08;
-        background-image:
-            radial-gradient(circle at 20% 30%, rgba(107, 191, 89, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 80% 70%, rgba(107, 191, 89, 0.2) 0%, transparent 40%),
-            radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
-    }
-
-    /* Floating decorative elements */
-    .impact-float {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(107, 191, 89, 0.1);
-        pointer-events: none;
-        animation: float 20s ease-in-out infinite;
-    }
-
-    .float-1 {
-        width: 300px;
-        height: 300px;
-        top: 10%;
-        left: -5%;
-        animation-delay: 0s;
-    }
-
-    .float-2 {
-        width: 200px;
-        height: 200px;
-        bottom: 15%;
-        right: 5%;
-        animation-delay: -7s;
-        background: rgba(255, 255, 255, 0.05);
-    }
-
-    .float-3 {
-        width: 150px;
-        height: 150px;
-        top: 60%;
-        left: 10%;
-        animation-delay: -14s;
-    }
-
-    @keyframes float {
-        0%, 100% { transform: translate(0, 0) rotate(0deg); }
-        25% { transform: translate(20px, -20px) rotate(5deg); }
-        50% { transform: translate(-10px, 10px) rotate(-3deg); }
-        75% { transform: translate(15px, 15px) rotate(3deg); }
-    }
-
-    /* Content container */
-    .impact-content {
-        position: relative;
-        z-index: 2;
-        text-align: center;
-        padding: 6rem 2rem;
-        max-width: 1200px;
-        width: 100%;
-    }
-
-    /* Badge intro */
-    .impact-badge {
-        display: inline-block;
-        background: rgba(107, 191, 89, 0.2);
-        border: 1px solid rgba(107, 191, 89, 0.3);
-        color: var(--planted-green);
-        font-size: 0.8rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        padding: 0.6rem 1.25rem;
-        border-radius: 100px;
-        margin-bottom: 3rem;
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    .impact-badge.active {
-        animation: impactFadeSlideUp 0.8s ease forwards;
-        animation-delay: 0.2s;
-    }
-
-    @keyframes impactFadeSlideUp {
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Stats row */
-    .impact-stats {
-        display: flex;
-        justify-content: center;
-        gap: clamp(2rem, 6vw, 5rem);
-        margin-bottom: 3rem;
-        flex-wrap: wrap;
-    }
-
-    .impact-stat {
-        text-align: center;
-        opacity: 0;
-        transform: translateY(30px);
-        padding: 1.5rem;
-        border-radius: 1.5rem;
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(10px);
-        min-width: 180px;
-    }
-
-    .impact-stat.special {
-        background: rgba(107, 191, 89, 0.1);
-        border: 1px solid rgba(107, 191, 89, 0.2);
-    }
-
-    .impact-stat.active {
-        animation: impactFadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .impact-stat.active:nth-child(1) { animation-delay: 0.4s; }
-    .impact-stat.active:nth-child(2) { animation-delay: 0.55s; }
-    .impact-stat.active:nth-child(3) { animation-delay: 0.7s; }
-
-    /* The big numbers */
-    .impact-stat-value {
-        font-family: 'VC Henrietta', serif;
-        font-size: clamp(4rem, 12vw, 7rem);
-        color: white;
-        line-height: 0.9;
-        letter-spacing: -0.03em;
-        position: relative;
-    }
-
-    /* Green percent sign */
-    .impact-stat-value .percent {
-        color: var(--planted-green);
-        font-size: 0.5em;
-        vertical-align: super;
-        margin-left: -0.1em;
-    }
-
-    .impact-stat.special .impact-stat-value {
-        color: var(--planted-green);
-    }
-
-    /* Labels below numbers */
-    .impact-stat-label {
-        font-size: clamp(0.8rem, 1.5vw, 1rem);
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: white;
-        margin-top: 0.5rem;
-        font-weight: 600;
-    }
-
-    .impact-stat-compare {
-        font-size: 0.75rem;
-        color: rgba(255, 255, 255, 0.5);
-        margin-top: 0.25rem;
-    }
-
-    /* Tagline */
-    .impact-tagline {
-        font-family: 'VC Henrietta', serif;
-        font-size: clamp(1.5rem, 4vw, 2.75rem);
-        color: white;
-        margin-bottom: 0.75rem;
-        opacity: 0;
-        transform: translateY(20px);
-        line-height: 1.1;
-    }
-
-    .impact-tagline.active {
-        animation: impactFadeSlideUp 0.8s ease forwards;
-        animation-delay: 0.9s;
-    }
-
-    /* Source text */
-    .impact-source {
-        font-size: clamp(0.75rem, 1.2vw, 0.9rem);
-        color: rgba(255,255,255,0.5);
-        margin-bottom: 2rem;
-        opacity: 0;
-    }
-
-    .impact-source.active {
-        animation: impactFadeSlideUp 0.8s ease forwards;
-        animation-delay: 1s;
-    }
-
-    /* CTA Button */
-    .impact-cta {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    .impact-cta.active {
-        animation: impactFadeSlideUp 0.8s ease forwards;
-        animation-delay: 1.1s;
-    }
-
-    .impact-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.75rem;
-        background: var(--planted-green);
-        color: var(--planted-black);
-        padding: 1.15rem 2.5rem;
-        border-radius: 100px;
-        font-weight: 700;
-        font-size: 1rem;
-        text-decoration: none;
-        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        box-shadow: 0 4px 20px rgba(107, 191, 89, 0.3);
-    }
-
-    .impact-btn:hover {
-        transform: translateY(-4px) scale(1.02);
-        box-shadow: 0 16px 40px rgba(107, 191, 89, 0.4);
-    }
-
-    .impact-btn svg {
-        width: 18px;
-        height: 18px;
-        transition: transform 0.3s ease;
-    }
-
-    .impact-btn:hover svg {
-        transform: translateX(4px);
-    }
-
-    /* Impact section mobile responsive */
-    @media (max-width: 600px) {
-        .impact-stats {
-            gap: 1rem;
-        }
-
-        .impact-stat {
-            min-width: 140px;
-            padding: 1rem;
-        }
-
-        .impact-stat-value {
-            font-size: clamp(3rem, 15vw, 4.5rem);
-        }
-
-        .impact-content {
-            padding: 4rem 1.5rem;
-        }
-    }
-
-    /* For very small screens, stack stats vertically */
-    @media (max-width: 400px) {
-        .impact-stats {
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .impact-stat {
-            width: 100%;
-        }
-    }
-
-    /* Recipes Section */
-    .recipes-section {
-        background: var(--planted-cream);
-        padding: 6rem 0;
-    }
-
-    .recipes-header {
-        padding: 0 1.5rem 2rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        max-width: 1100px;
-        margin: 0 auto;
-    }
-
-    .recipes-header h2 {
-        font-size: clamp(1.8rem, 7vw, 3rem);
-        color: var(--planted-purple);
-        text-transform: uppercase;
-    }
-
-    .recipes-header a {
-        color: var(--planted-purple);
-        font-weight: 700;
-        text-decoration: none;
-        font-size: 0.9rem;
-        transition: opacity 0.3s;
-    }
-
-    .recipes-header a:hover {
-        opacity: 0.7;
-    }
-
-    .recipes-scroll {
-        display: flex;
-        gap: 1.25rem;
-        overflow-x: auto;
-        padding: 0 1.5rem 2rem;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-    }
-
-    .recipes-scroll::-webkit-scrollbar {
-        display: none;
-    }
-
-    .recipes-scroll .recipe-card {
-        flex: 0 0 280px;
-        scroll-snap-align: start;
-    }
-
-    /* Store Locator */
-    .locator {
-        background: var(--planted-purple);
-        padding: 6rem 1.5rem;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-        width: 100%;
-    }
-
-    .locator-content {
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    .locator h2 {
-        font-size: clamp(3rem, 15vw, 7rem);
-        color: white;
-        margin-bottom: 0.5rem;
-        text-transform: uppercase;
-    }
-
-    .locator-content > p {
-        font-size: 1.1rem;
-        color: rgba(255,255,255,0.8);
-        margin-bottom: 2.5rem;
-        max-width: 400px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .locator-search {
-        display: flex;
-        max-width: 420px;
-        margin: 0 auto 2.5rem;
-        background: white;
-        border-radius: 100px;
-        overflow: hidden;
-        box-shadow: 0 12px 40px rgba(0,0,0,0.2);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .locator-search:focus-within {
-        transform: scale(1.02);
-        box-shadow: 0 16px 50px rgba(0,0,0,0.25);
-    }
-
-    .locator-search input {
-        flex: 1;
-        border: none;
-        padding: 1.1rem 1.5rem;
-        font-size: 1rem;
-        font-family: inherit;
-        outline: none;
-        min-width: 0;
-    }
-
-    .locator-search button {
-        background: var(--planted-green);
-        color: var(--planted-black);
-        border: none;
-        padding: 1.1rem 1.75rem;
-        font-weight: 700;
-        font-size: 0.95rem;
-        cursor: pointer;
-        font-family: inherit;
-        white-space: nowrap;
-        transition: background 0.3s;
-    }
-
-    .locator-search button:hover {
-        background: #5aa94d;
-    }
-
-    .retailers {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.6rem;
-    }
-
-    .retailer {
-        background: rgba(255,255,255,0.15);
-        padding: 0.55rem 1.1rem;
-        border-radius: 100px;
-        font-weight: 600;
-        font-size: 0.85rem;
-        color: white;
-        transition: background 0.3s, transform 0.3s;
-    }
-
-    .retailer:hover {
-        background: rgba(255,255,255,0.25);
-        transform: scale(1.05);
-    }
-
-    /* Business Section */
-    .business {
-        background: var(--planted-black);
-        padding: 6rem 1.5rem;
-        color: white;
-        width: 100%;
-    }
-
-    .business-inner {
-        max-width: 950px;
-        margin: 0 auto;
-    }
-
-    .business-badge {
-        display: inline-block;
-        background: var(--planted-purple);
-        color: white;
-        font-size: 0.7rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        padding: 0.5rem 1rem;
-        border-radius: 100px;
-        margin-bottom: 1.25rem;
-    }
-
-    .business h2 {
-        font-size: clamp(1.6rem, 5vw, 2.5rem);
-        margin-bottom: 1rem;
-        max-width: 550px;
-    }
-
-    .business > .business-inner > p {
-        font-size: 1rem;
-        opacity: 0.7;
-        line-height: 1.6;
-        margin-bottom: 1.75rem;
-        max-width: 450px;
-    }
-
-    .business-stats {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.75rem;
-        margin-bottom: 1.75rem;
-        max-width: 360px;
-    }
-
-    .business-stat {
-        padding: 1.25rem;
-        background: rgba(255,255,255,0.05);
-        border-radius: 1rem;
-        border: 1px solid rgba(255,255,255,0.1);
-        transition: background 0.3s, transform 0.3s;
-    }
-
-    .business-stat:hover {
-        background: rgba(255,255,255,0.08);
-        transform: translateY(-4px);
-    }
-
-    .business-stat-value {
-        font-family: 'VC Henrietta', serif;
-        font-size: 1.6rem;
-        font-weight: 700;
-        color: var(--planted-green);
-    }
-
-    .business-stat-label {
-        font-size: 0.8rem;
-        opacity: 0.6;
-        margin-top: 0.15rem;
-    }
-
-    .business-cta {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        background: var(--planted-purple);
-        color: white;
-        font-weight: 700;
-        padding: 1rem 1.75rem;
-        border-radius: 100px;
-        text-decoration: none;
-        font-size: 0.95rem;
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .business-cta:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 24px rgba(97, 38, 158, 0.4);
-    }
-
-    /* Responsive */
-    @media (min-width: 640px) {
-        .products-scroll {
-            gap: 1.5rem;
-        }
-
-        .products-scroll .product-card {
-            flex: 0 0 280px;
-        }
-
-        .hero-video-wrapper {
-            max-width: 700px;
-        }
-
-        .products-header .all-products-btn {
-            display: inline-flex;
-        }
-    }
-
-    @media (min-width: 768px) {
-        .hero-video-wrapper {
-            max-width: 780px;
-        }
-
-        .hero-video-container {
-            border-radius: 2rem;
-        }
-
-        .hero-video-container::before {
-            padding-top: 60%;
-        }
-    }
-
-    @media (min-width: 1024px) {
-        .hero {
-            padding: 4.5rem 3rem 4rem;
-        }
-
-        .hero-video-wrapper {
-            max-width: 850px;
-        }
-
-        .products-header {
-            padding: 0 3rem 2.5rem;
-        }
-
-        .products-carousel {
-            padding: 0 3rem;
-        }
-
-        .products-scroll .product-card {
-            flex: 0 0 300px;
-        }
-
-        .recipes-scroll .recipe-card {
-            flex: 0 0 320px;
-        }
-
-        .business-inner {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
             align-items: center;
+            justify-content: center;
+            background: #FDF8F3;
+            font-family: 'Galano Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
-        .business-stats {
-            grid-column: 2;
-            grid-row: 1 / 3;
-            max-width: none;
-        }
-    }
-
-    @media (min-width: 1440px) {
-        .hero {
-            padding: 5rem 5rem 5rem;
+        .loader {
+            text-align: center;
+            padding: 2rem;
         }
 
-        .hero-video-wrapper {
-            max-width: 950px;
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 1.5rem;
+            animation: pulse 1.5s ease-in-out infinite;
         }
 
-        .hero h1 {
-            font-size: 5.5rem;
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.98); }
         }
 
-        .products {
-            padding: 6rem 0 5rem;
+        .loading-text {
+            font-size: 0.9rem;
+            color: #61269E;
+            opacity: 0.7;
         }
 
-        .products-header {
-            padding: 0 5rem 3rem;
-            max-width: 1600px;
-            margin: 0 auto;
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
         }
 
-        .products-carousel {
-            padding: 0 5rem;
-            max-width: 1600px;
-            margin: 0 auto;
+        @keyframes dots {
+            0% { content: ''; }
+            25% { content: '.'; }
+            50% { content: '..'; }
+            75% { content: '...'; }
         }
 
-        .products-scroll .product-card {
-            flex: 0 0 300px;
+        /* Hide content when JS redirects immediately */
+        .no-js-fallback {
+            display: none;
+            margin-top: 2rem;
         }
 
-        .statement {
-            padding: 8rem 5rem;
+        .no-js-fallback a {
+            display: inline-block;
+            background: #61269E;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .statement h2 {
-            font-size: 3.5rem;
+        .no-js-fallback a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(97, 38, 158, 0.3);
         }
+    </style>
 
-        /* Impact section is full-width immersive - no padding changes needed */
+    <!-- Noscript fallback -->
+    <noscript>
+        <meta http-equiv="refresh" content={`0;url=${base}/${defaultLocale}/`}>
+        <style>
+            .loader { display: none; }
+        </style>
+    </noscript>
+</head>
+<body>
+    <div class="loader">
+        <!-- Planted Logo SVG -->
+        <svg class="logo" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="30" font-family="serif" font-size="28" font-weight="700" fill="#61269E">planted.</text>
+        </svg>
+        <p class="loading-text">Detecting your location<span class="loading-dots"></span></p>
 
-        .recipes-section {
-            padding: 8rem 0;
-        }
+        <!-- Fallback for slow connections -->
+        <div class="no-js-fallback" id="fallback">
+            <p style="margin-bottom: 1rem; font-size: 0.85rem; color: #666;">Taking too long?</p>
+            <a href={`${base}/${defaultLocale}/`}>Continue to site</a>
+        </div>
+    </div>
 
-        .recipes-header {
-            padding: 0 5rem 2.5rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+    <script define:vars={{ base, defaultLocale }}>
+        // Show fallback link after 3 seconds
+        setTimeout(() => {
+            const fallback = document.getElementById('fallback');
+            if (fallback) fallback.style.display = 'block';
+        }, 3000);
 
-        .recipes-scroll {
-            padding: 0 5rem 2rem;
-            max-width: 1600px;
-            margin: 0 auto;
-        }
+        // Locale detection and redirect
+        (async function detectAndRedirect() {
+            const LOCALE_STORAGE_KEY = 'planted_locale_preference';
 
-        .recipes-scroll .recipe-card {
-            flex: 0 0 360px;
-        }
+            // Valid locales
+            const validLocales = [
+                'global', 'ch-de', 'ch-fr', 'ch-it', 'ch-en',
+                'de', 'de-en', 'at', 'at-en', 'it', 'it-en',
+                'fr', 'fr-en', 'nl', 'nl-en', 'uk', 'es', 'es-en'
+            ];
 
-        .locator {
-            padding: 8rem 5rem;
-        }
+            // Country code mapping
+            const COUNTRY_CODE_MAP = {
+                'CH': 'ch', 'DE': 'de', 'AT': 'at', 'FR': 'fr',
+                'IT': 'it', 'NL': 'nl', 'GB': 'uk', 'UK': 'uk', 'ES': 'es'
+            };
 
-        .business {
-            padding: 8rem 5rem;
-        }
+            // Browser language mapping
+            const BROWSER_LANG_MAP = {
+                'de': 'de', 'de-DE': 'de', 'de-AT': 'de', 'de-CH': 'de',
+                'fr': 'fr', 'fr-FR': 'fr', 'fr-CH': 'fr', 'fr-BE': 'fr',
+                'it': 'it', 'it-IT': 'it', 'it-CH': 'it',
+                'nl': 'nl', 'nl-NL': 'nl', 'nl-BE': 'nl',
+                'en': 'en', 'en-US': 'en', 'en-GB': 'en', 'en-AU': 'en',
+                'es': 'es', 'es-ES': 'es', 'es-MX': 'es', 'es-AR': 'es'
+            };
 
-        .business-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-    }
+            // Country + language to locale mapping
+            const COUNTRY_LOCALE_MAP = {
+                'ch': { 'de': 'ch-de', 'fr': 'ch-fr', 'it': 'ch-it', 'en': 'ch-en', 'nl': 'ch-de', 'es': 'ch-en' },
+                'de': { 'de': 'de', 'en': 'de-en', 'fr': 'de-en', 'it': 'de-en', 'nl': 'de', 'es': 'de-en' },
+                'at': { 'de': 'at', 'en': 'at-en', 'fr': 'at-en', 'it': 'at-en', 'nl': 'at', 'es': 'at-en' },
+                'fr': { 'fr': 'fr', 'en': 'fr-en', 'de': 'fr-en', 'it': 'fr-en', 'nl': 'fr-en', 'es': 'fr-en' },
+                'it': { 'it': 'it', 'en': 'it-en', 'de': 'it-en', 'fr': 'it-en', 'nl': 'it-en', 'es': 'it-en' },
+                'nl': { 'nl': 'nl', 'en': 'nl-en', 'de': 'nl', 'fr': 'nl-en', 'it': 'nl-en', 'es': 'nl-en' },
+                'uk': { 'en': 'uk', 'de': 'uk', 'fr': 'uk', 'it': 'uk', 'nl': 'uk', 'es': 'uk' },
+                'es': { 'es': 'es', 'en': 'es-en', 'de': 'es-en', 'fr': 'es-en', 'it': 'es-en', 'nl': 'es-en' },
+                'global': { 'en': 'global', 'de': 'ch-de', 'fr': 'fr', 'it': 'it', 'nl': 'nl', 'es': 'es' }
+            };
 
-    @media (min-width: 1920px) {
-        .hero {
-            padding: 6rem 8rem 6rem;
-            max-width: 2200px;
-            margin: 0 auto;
-        }
+            // Language defaults when country unknown
+            const LANGUAGE_DEFAULT_LOCALE = {
+                'de': 'de', 'fr': 'fr', 'it': 'it', 'nl': 'nl', 'en': 'global', 'es': 'es'
+            };
 
-        .hero-video-wrapper {
-            max-width: 1100px;
-        }
-
-        .hero h1 {
-            font-size: 6rem;
-        }
-
-        .hero-content {
-            max-width: 1000px;
-        }
-
-        .statement-inner {
-            max-width: 1000px;
-        }
-
-        .products-header {
-            padding: 0 8rem 3rem;
-            max-width: 2000px;
-        }
-
-        .products-carousel {
-            padding: 0 8rem;
-            max-width: 2000px;
-        }
-
-        .products-scroll .product-card {
-            flex: 0 0 320px;
-        }
-
-        /* Impact section ultra-wide adjustments */
-        .impact-stat-value {
-            font-size: clamp(8rem, 15vw, 14rem);
-        }
-
-        .recipes-header {
-            padding: 0 8rem 3rem;
-            max-width: 2000px;
-        }
-
-        .recipes-scroll {
-            padding: 0 8rem 2rem;
-            max-width: 2000px;
-        }
-
-        .recipes-scroll .recipe-card {
-            flex: 0 0 400px;
-        }
-
-        .locator h2 {
-            font-size: 8rem;
-        }
-
-        .locator-search {
-            max-width: 500px;
-        }
-
-        .business-inner {
-            max-width: 1400px;
-            gap: 5rem;
-        }
-    }
-</style>
-
-<script>
-    function initHomePage() {
-        // Hero video scroll transform (Apple-style)
-        const heroVideo = document.getElementById('heroVideo');
-        const heroContent = document.getElementById('heroContent');
-
-        // Trigger hero content animation on load
-        heroContent?.classList.add('animate-in');
-
-        let ticking = false;
-
-        function updateVideoTransform() {
-            const scrollY = window.scrollY;
-            const windowHeight = window.innerHeight;
-
-            // Calculate scroll progress (0 to 1 for first viewport)
-            const progress = Math.min(scrollY / (windowHeight * 0.6), 1);
-
-            // Video: rotate from -3deg to 0deg, scale from 0.95 to 1
-            const rotation = -3 + (progress * 3);
-            const scale = 0.95 + (progress * 0.05);
-            const translateY = progress * -20;
-
-            if (heroVideo) {
-                heroVideo.style.transform = `rotate(${rotation}deg) scale(${scale}) translateY(${translateY}px)`;
-
-                // Add shadow depth as it straightens
-                const shadowOpacity = 0.15 + (progress * 0.1);
-                const shadowBlur = 25 + (progress * 30);
-                heroVideo.style.boxShadow = `0 ${25 + progress * 15}px ${shadowBlur}px rgba(97, 38, 158, ${shadowOpacity})`;
+            function redirect(locale) {
+                window.location.replace(base + '/' + locale + '/');
             }
 
-            ticking = false;
-        }
-
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(updateVideoTransform);
-                ticking = true;
-            }
-        });
-
-        updateVideoTransform();
-
-        // ============================================
-        // IMPACT SECTION ANIMATIONS
-        // ============================================
-        const impactSection = document.getElementById('impact');
-        const impactElements = document.querySelectorAll('.impact-badge, .impact-stat, .impact-tagline, .impact-source, .impact-cta');
-        const statValues = document.querySelectorAll('.impact-stat-value[data-count]');
-        let impactAnimated = false;
-
-        const impactObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !impactAnimated) {
-                    impactAnimated = true;
-                    // Trigger all impact animations
-                    impactElements.forEach(el => el.classList.add('active'));
-                    // Animate counters
-                    animateCounters();
+            // 1. Check for saved preference
+            try {
+                const saved = localStorage.getItem(LOCALE_STORAGE_KEY);
+                if (saved && validLocales.includes(saved)) {
+                    redirect(saved);
+                    return;
                 }
-            });
-        }, { threshold: 0.3 });
+            } catch (e) {}
 
-        if (impactSection) {
-            impactObserver.observe(impactSection);
-        }
-
-        function animateCounters() {
-            statValues.forEach(stat => {
-                const target = parseInt((stat as HTMLElement).dataset.count || '0');
-                const duration = 1500;
-                const start = performance.now();
-                const hasPercent = stat.querySelector('.percent') !== null;
-
-                function updateCounter(currentTime: number) {
-                    const elapsed = currentTime - start;
-                    const progress = Math.min(elapsed / duration, 1);
-
-                    // Easing function (ease-out)
-                    const easeOut = 1 - Math.pow(1 - progress, 3);
-                    const current = Math.round(easeOut * target);
-
-                    if (target === 0) {
-                        stat.textContent = '0';
-                    } else if (hasPercent) {
-                        stat.innerHTML = current + '<span class="percent">%</span>';
-                    } else {
-                        stat.textContent = String(current);
-                    }
-
-                    if (progress < 1) {
-                        requestAnimationFrame(updateCounter);
-                    }
-                }
-
-                requestAnimationFrame(updateCounter);
-            });
-        }
-
-        // Products carousel - Growing Navigation
-        const productsScroll = document.getElementById('productsScroll');
-        const leafMarkers = document.querySelectorAll('.leaf-marker');
-        let lastActiveIndex = 0;
-
-        function scrollProducts(direction: number) {
-            const card = productsScroll?.querySelector('.product-card');
-            if (card && productsScroll) {
-                const cardWidth = (card as HTMLElement).offsetWidth + 24;
-                productsScroll.scrollBy({
-                    left: direction * cardWidth,
-                    behavior: 'smooth'
-                });
+            // 2. Get browser language
+            function parseBrowserLanguage(lang) {
+                if (BROWSER_LANG_MAP[lang]) return BROWSER_LANG_MAP[lang];
+                const baseLang = lang.split('-')[0].toLowerCase();
+                return BROWSER_LANG_MAP[baseLang] || 'en';
             }
-        }
 
-        // Navigate by clicking on leaves
-        leafMarkers.forEach((leaf, index) => {
-            leaf.addEventListener('click', () => {
-                const card = productsScroll?.querySelector('.product-card');
-                if (card && productsScroll) {
-                    const cardWidth = (card as HTMLElement).offsetWidth + 24;
-                    productsScroll.scrollTo({
-                        left: index * cardWidth,
-                        behavior: 'smooth'
+            const browserLang = navigator.language || 'en';
+            const language = parseBrowserLanguage(browserLang);
+
+            // 3. Try to infer country from browser locale
+            function inferCountry(lang) {
+                const parts = lang.split('-');
+                if (parts.length > 1) {
+                    const region = parts[1].toUpperCase();
+                    return COUNTRY_CODE_MAP[region] || null;
+                }
+                return null;
+            }
+
+            let country = inferCountry(browserLang);
+
+            // 4. Try IP geolocation (with timeout)
+            if (!country) {
+                try {
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+                    const response = await fetch('https://ip-api.com/json/?fields=countryCode', {
+                        signal: controller.signal
                     });
-                }
-            });
-        });
+                    clearTimeout(timeoutId);
 
-        document.getElementById('carouselPrev')?.addEventListener('click', () => scrollProducts(-1));
-        document.getElementById('carouselNext')?.addEventListener('click', () => scrollProducts(1));
-
-        // Update leaves and counter on scroll
-        const carouselCurrent = document.getElementById('carouselCurrent');
-
-        productsScroll?.addEventListener('scroll', () => {
-            const card = productsScroll.querySelector('.product-card');
-            if (card) {
-                const cardWidth = (card as HTMLElement).offsetWidth + 24;
-                const activeIndex = Math.round(productsScroll.scrollLeft / cardWidth);
-
-                // Only trigger animation if index changed
-                if (activeIndex !== lastActiveIndex) {
-                    leafMarkers.forEach((leaf, index) => {
-                        const isActive = index === activeIndex;
-                        const wasActive = index === lastActiveIndex;
-                        
-                        leaf.classList.toggle('active', isActive);
-                        
-                        // Trigger sprouting animation on newly active leaf
-                        if (isActive && !wasActive) {
-                            leaf.classList.remove('sprouting');
-                            // Force reflow to restart animation
-                            void (leaf as HTMLElement).offsetWidth;
-                            leaf.classList.add('sprouting');
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.countryCode && COUNTRY_CODE_MAP[data.countryCode]) {
+                            country = COUNTRY_CODE_MAP[data.countryCode];
                         }
-                    });
-                    
-                    lastActiveIndex = activeIndex;
-                }
-
-                // Update counter
-                if (carouselCurrent) {
-                    carouselCurrent.textContent = String(activeIndex + 1);
+                    }
+                } catch (e) {
+                    // Geolocation failed - continue without country
                 }
             }
-        });
 
-        // Touch swipe support for carousel
-        let touchStartX = 0;
-        let touchEndX = 0;
+            // 5. Determine best locale
+            let bestLocale = defaultLocale;
 
-        productsScroll?.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-
-        productsScroll?.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            const diff = touchStartX - touchEndX;
-            if (Math.abs(diff) > 50) {
-                scrollProducts(diff > 0 ? 1 : -1);
+            if (country && COUNTRY_LOCALE_MAP[country]) {
+                const countryMap = COUNTRY_LOCALE_MAP[country];
+                bestLocale = countryMap[language] || countryMap['en'] || defaultLocale;
+            } else {
+                bestLocale = LANGUAGE_DEFAULT_LOCALE[language] || 'global';
             }
-        }, { passive: true });
-    }
 
-    // Initialize on page load
-    initHomePage();
-
-    // Re-initialize after View Transitions navigation
-    document.addEventListener('astro:page-load', initHomePage);
-</script>
+            // 6. Redirect
+            redirect(bestLocale);
+        })();
+    </script>
+</body>
+</html>
