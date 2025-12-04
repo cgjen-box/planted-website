@@ -191,5 +191,5 @@ export function getLocaleFromPath(path: string): LocaleCode {
 export function localizeUrl(url: string, locale: LocaleCode): string {
     const base = import.meta.env.BASE_URL || '/';
     const cleanUrl = url.replace(base, '').replace(/^\//, '');
-    return `${base}${locale}/${cleanUrl}`;
+    return `${base}/${locale}/${cleanUrl}`;
 }
