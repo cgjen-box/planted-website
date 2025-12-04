@@ -85,7 +85,7 @@ const categories = [...new Set(products.map(p => p.data.category))];
 
     /* Hero */
     .hero {
-        background: var(--planted-purple);
+        background: var(--planted-cream);
         padding: 8rem 1.5rem 5rem;
         text-align: center;
     }
@@ -97,14 +97,15 @@ const categories = [...new Set(products.map(p => p.data.category))];
 
     .hero h1 {
         font-size: clamp(2.5rem, 10vw, 5rem);
-        color: white;
+        color: var(--planted-purple);
         margin-bottom: 1rem;
         line-height: 1;
     }
 
     .hero p {
         font-size: clamp(1rem, 2.5vw, 1.25rem);
-        color: rgba(255,255,255,0.8);
+        color: var(--planted-black);
+        opacity: 0.7;
         max-width: 500px;
         margin: 0 auto;
     }
