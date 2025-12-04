@@ -42,8 +42,8 @@ You are the guardian of the **Planted** brand identity. You know these guideline
 ```css
 :root {
   /* Primary Brand Colors */
-  --planted-purple: #6B2D8B;      /* Primary brand color */
-  --planted-purple-dark: #5A2576;  /* Darker variant */
+  --planted-purple: #61269E;      /* Primary brand color */
+  --planted-purple-dark: #4A1D7A;  /* Darker variant */
   --planted-white: #FFFFFF;        /* Logo text on purple */
   
   /* Secondary Colors */
@@ -143,8 +143,8 @@ module.exports = {
     extend: {
       colors: {
         planted: {
-          purple: '#6B2D8B',
-          'purple-dark': '#5A2576',
+          purple: '#61269E',
+          'purple-dark': '#4A1D7A',
           green: '#8BC53F',
           pink: '#FF69B4',
           orange: '#FF8C42',

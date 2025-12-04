@@ -35,10 +35,9 @@ const settings = await getEntry('settings', 'global');
                 <video class="hero-video" autoplay muted loop playsinline>
                     <source src={`${base}/video/hero.mp4`} type="video/mp4">
                 </video>
-                <!-- Playful floating sticker -->
-                <div class="hero-sticker">
-                    <span class="sticker-text">{t.home.sticker.text}</span>
-                    <span class="sticker-label">{t.home.sticker.label}</span>
+                <!-- Approved by Meat Lovers claim - playful floating badge -->
+                <div class="hero-approved-claim">
+                    <img src={`${base}/images/approvedclaim.svg`} alt="Approved by Meat Lovers" class="approved-svg" />
                 </div>
             </div>
         </div>
@@ -363,42 +362,36 @@ const settings = await getEntry('settings', 'global');
         object-fit: cover;
     }
 
-    /* Playful floating sticker */
-    .hero-sticker {
+    /* Approved by Meat Lovers claim - playful floating badge */
+    .hero-approved-claim {
         position: absolute;
-        bottom: -1rem;
-        right: -0.5rem;
-        background: var(--planted-green);
-        color: var(--planted-black);
-        padding: 1rem 1.25rem;
-        border-radius: 1rem;
-        transform: rotate(8deg);
-        box-shadow: 0 8px 24px rgba(107, 191, 89, 0.3);
-        text-align: center;
+        bottom: -1.5rem;
+        right: -1rem;
+        width: clamp(120px, 20vw, 180px);
+        transform: rotate(6deg);
         z-index: 10;
-        animation: stickerBounce 3s ease-in-out infinite;
+        animation: approvedFloat 4s ease-in-out infinite;
+        filter: drop-shadow(0 8px 16px rgba(97, 38, 158, 0.25));
+        transition: transform 0.3s ease;
     }
 
-    .sticker-text {
+    .hero-approved-claim:hover {
+        transform: rotate(6deg) scale(1.05);
+    }
+
+    .approved-svg {
+        width: 100%;
+        height: auto;
         display: block;
-        font-family: 'VC Henrietta', serif;
-        font-size: 1.5rem;
-        font-weight: 700;
-        line-height: 1;
     }
 
-    .sticker-label {
-        display: block;
-        font-size: 0.7rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-top: 0.15rem;
-    }
-
-    @keyframes stickerBounce {
-        0%, 100% { transform: rotate(8deg) translateY(0); }
-        50% { transform: rotate(8deg) translateY(-5px); }
+    @keyframes approvedFloat {
+        0%, 100% { 
+            transform: rotate(6deg) translateY(0); 
+        }
+        50% { 
+            transform: rotate(6deg) translateY(-8px); 
+        }
     }
 
     .hero-content {
@@ -494,14 +487,10 @@ const settings = await getEntry('settings', 'global');
     }
 
     @media (max-width: 640px) {
-        .hero-sticker {
-            bottom: -0.75rem;
-            right: 0.5rem;
-            padding: 0.75rem 1rem;
-        }
-
-        .sticker-text {
-            font-size: 1.25rem;
+        .hero-approved-claim {
+            bottom: -1rem;
+            right: 0;
+            width: clamp(100px, 28vw, 140px);
         }
 
         .hero-trust {
