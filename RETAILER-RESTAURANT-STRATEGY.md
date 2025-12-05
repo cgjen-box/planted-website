@@ -4,6 +4,25 @@
 
 This document outlines the strategy for enhancing the Planted website's retailer and restaurant discovery features. The goal is to provide users with direct links to Planted products in retail stores and enable food ordering from partner restaurants.
 
+## Status Update (December 2024)
+
+### Completed
+- ✅ Retailer links updated with direct product pages
+- ✅ Created `src/data/deliveryRestaurants.ts` with verified delivery partners
+
+### Verified Delivery Partners (via Web Research)
+| Restaurant | Country | City | Platform | Products |
+|------------|---------|------|----------|----------|
+| doen doen - planted kebap | DE | Berlin, Stuttgart | Wolt | planted.kebab |
+| Peter Pane | DE | Multiple | Lieferando, Uber Eats, Wolt | planted.kebab |
+| dean&david | DE | Multiple | Lieferando | planted.chicken |
+| Hans im Glück | DE | Multiple | Lieferando, Uber Eats | planted.pastrami |
+| Subway | DE | Multiple | Lieferando, Uber Eats | planted.chicken teriyaki |
+| Vapiano | AT | Vienna | Wolt, Lieferando | planted.chicken |
+| NENI | AT | Vienna | Wolt | planted.chicken |
+| Hiltl | CH | Zurich | Uber Eats | planted.chicken, planted.burger |
+| Wagamama | UK | Multiple | Deliveroo, Uber Eats, Just Eat | planted.chicken |
+
 ---
 
 ## Part 1: Retailer Product Page Links
