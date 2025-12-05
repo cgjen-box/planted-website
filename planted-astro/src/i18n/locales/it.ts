@@ -364,23 +364,6 @@ export default {
         },
     },
 
-    // Cookie Consent component
-    cookieConsent: {
-        title: 'Utilizziamo i cookie',
-        description: 'Utilizziamo i cookie per migliorare la tua esperienza e analizzare il traffico del sito. Cliccando su "Accetta tutti", acconsenti all\'uso dei cookie.',
-        acceptAll: 'Accetta tutti',
-        necessaryOnly: 'Solo necessari',
-        settings: 'Impostazioni',
-        categories: {
-            necessary: 'Necessari',
-            necessaryDesc: 'Cookie essenziali per il corretto funzionamento del sito.',
-            analytics: 'Analitici',
-            analyticsDesc: 'Ci aiutano a capire come i visitatori interagiscono con il nostro sito.',
-            marketing: 'Marketing',
-            marketingDesc: 'Utilizzati per fornire pubblicità personalizzata.',
-        },
-    },
-
     // Newsletter Signup component
     newsletter: {
         title: 'Resta aggiornato',

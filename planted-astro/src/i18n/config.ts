@@ -131,47 +131,48 @@ export function getLocalizedProductName(baseName: string, locale: LocaleCode): s
 }
 
 // Retailers data per country with logos and URLs
+// URLs should point directly to Planted product pages where available
 export const retailers: Record<CountryCode, { name: string; logo: string; url: string; type: 'retail' | 'foodservice' }[]> = {
     'global': [], // No specific retailers for global/international
     'ch': [
-        { name: 'Coop', logo: 'coop', url: 'https://www.coop.ch', type: 'retail' },
-        { name: 'Migros', logo: 'migros', url: 'https://www.migros.ch', type: 'retail' },
+        { name: 'Coop', logo: 'coop', url: 'https://www.coop.ch/en/brands/planted/', type: 'retail' },
+        { name: 'Migros', logo: 'migros', url: 'https://www.migros.ch/en/brand/planted', type: 'retail' },
         { name: 'Hiltl', logo: 'hiltl', url: 'https://hiltl.ch', type: 'foodservice' },
         { name: 'NENI', logo: 'neni', url: 'https://www.neni.at', type: 'foodservice' },
     ],
     'de': [
         { name: 'EDEKA', logo: 'edeka', url: 'https://www.edeka.de', type: 'retail' },
-        { name: 'REWE', logo: 'rewe', url: 'https://www.rewe.de', type: 'retail' },
+        { name: 'REWE', logo: 'rewe', url: 'https://shop.rewe.de/productList?brand=planted.', type: 'retail' },
     ],
     'at': [
-        { name: 'BILLA', logo: 'billa', url: 'https://www.billa.at', type: 'retail' },
-        { name: 'BILLA PLUS', logo: 'billa-plus', url: 'https://www.billa.at', type: 'retail' },
-        { name: 'Interspar', logo: 'interspar', url: 'https://www.interspar.at', type: 'retail' },
+        { name: 'BILLA', logo: 'billa', url: 'https://shop.billa.at/suche?q=planted', type: 'retail' },
+        { name: 'BILLA PLUS', logo: 'billa-plus', url: 'https://shop.billa.at/suche?q=planted', type: 'retail' },
+        { name: 'Interspar', logo: 'interspar', url: 'https://www.interspar.at/search/?q=planted', type: 'retail' },
         { name: 'Eurospar', logo: 'eurospar', url: 'https://www.eurospar.at', type: 'retail' },
-        { name: 'MPREIS', logo: 'mpreis', url: 'https://www.mpreis.at', type: 'retail' },
+        { name: 'MPREIS', logo: 'mpreis', url: 'https://shop.mpreis.at/search?q=planted', type: 'retail' },
     ],
     'it': [
         { name: 'Conad', logo: 'conad', url: 'https://www.conad.it', type: 'retail' },
-        { name: 'Esselunga', logo: 'esselunga', url: 'https://www.esselunga.it', type: 'retail' },
-        { name: 'Carrefour', logo: 'carrefour', url: 'https://www.carrefour.it', type: 'retail' },
+        { name: 'Esselunga', logo: 'esselunga', url: 'https://www.esselungaacasa.it/search/?text=planted', type: 'retail' },
+        { name: 'Carrefour', logo: 'carrefour', url: 'https://www.carrefour.it/s?q=planted', type: 'retail' },
         { name: 'Interspar', logo: 'interspar', url: 'https://www.interspar.it', type: 'retail' },
     ],
     'fr': [
-        { name: 'Carrefour', logo: 'carrefour', url: 'https://www.carrefour.fr', type: 'retail' },
-        { name: 'Monoprix', logo: 'monoprix', url: 'https://www.monoprix.fr', type: 'retail' },
+        { name: 'Carrefour', logo: 'carrefour', url: 'https://www.carrefour.fr/s?q=planted', type: 'retail' },
+        { name: 'Monoprix', logo: 'monoprix', url: 'https://www.monoprix.fr/search?q=planted', type: 'retail' },
         { name: 'Casino', logo: 'casino', url: 'https://www.casino.fr', type: 'retail' },
     ],
     'nl': [
-        { name: 'Albert Heijn', logo: 'albert-heijn', url: 'https://www.ah.nl', type: 'retail' },
-        { name: 'Jumbo', logo: 'jumbo', url: 'https://www.jumbo.com', type: 'retail' },
+        { name: 'Albert Heijn', logo: 'albert-heijn', url: 'https://www.ah.nl/producten/merk/planted', type: 'retail' },
+        { name: 'Jumbo', logo: 'jumbo', url: 'https://www.jumbo.com/producten/?searchType=keyword&searchTerms=planted', type: 'retail' },
     ],
     'uk': [
-        { name: 'Tesco', logo: 'tesco', url: 'https://www.tesco.com', type: 'retail' },
-        { name: 'Sainsbury\'s', logo: 'sainsburys', url: 'https://www.sainsburys.co.uk', type: 'retail' },
+        { name: 'Tesco', logo: 'tesco', url: 'https://www.tesco.com/groceries/en-GB/search?query=planted', type: 'retail' },
+        { name: 'Sainsbury\'s', logo: 'sainsburys', url: 'https://www.sainsburys.co.uk/gol-ui/SearchDisplayView?searchTerm=planted', type: 'retail' },
     ],
     'es': [
-        { name: 'Carrefour', logo: 'carrefour', url: 'https://www.carrefour.es', type: 'retail' },
-        { name: 'El Corte Inglés', logo: 'elcorteingles', url: 'https://www.elcorteingles.es', type: 'retail' },
+        { name: 'Carrefour', logo: 'carrefour', url: 'https://www.carrefour.es/s?q=planted', type: 'retail' },
+        { name: 'El Corte Inglés', logo: 'elcorteingles', url: 'https://www.elcorteingles.es/supermercado/buscar/?term=planted', type: 'retail' },
     ],
 };
 

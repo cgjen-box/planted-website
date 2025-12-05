@@ -364,23 +364,6 @@ export default {
         },
     },
 
-    // Cookie Consent component
-    cookieConsent: {
-        title: 'We gebruiken cookies',
-        description: 'We gebruiken cookies om je ervaring te verbeteren en siteverkeer te analyseren. Door op "Alles accepteren" te klikken, stem je in met ons cookiegebruik.',
-        acceptAll: 'Alles accepteren',
-        necessaryOnly: 'Alleen noodzakelijk',
-        settings: 'Instellingen',
-        categories: {
-            necessary: 'Noodzakelijk',
-            necessaryDesc: 'Essentiële cookies die nodig zijn voor het correct functioneren van de website.',
-            analytics: 'Analytisch',
-            analyticsDesc: 'Helpen ons te begrijpen hoe bezoekers met onze website omgaan.',
-            marketing: 'Marketing',
-            marketingDesc: 'Gebruikt om gepersonaliseerde advertenties te leveren.',
-        },
-    },
-
     // Newsletter Signup component
     newsletter: {
         title: 'Blijf op de hoogte',
