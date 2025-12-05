@@ -10,7 +10,7 @@ export default {
         sustainability: 'Sustainability',
         gastronomy: 'Gastronomy',
         news: 'News',
-        ourStory: 'Our Story',
+        ourStory: 'Our Mission',
     },
 
     // Home page
@@ -302,7 +302,7 @@ export default {
         allNews: 'All News',
     },
 
-    // Our Story page
+    // Our Story page (legacy)
     ourStory: {
         pageTitle: 'Our Story',
         hero: {
@@ -326,6 +326,99 @@ export default {
         cta: {
             ready: 'Ready to try?',
             find: 'Find Near You',
+        },
+    },
+
+    // Our Mission page (new)
+    mission: {
+        pageTitle: 'Our Mission',
+        hero: {
+            badge: 'Our Mission',
+            title: 'We\'re proving meat doesn\'t have to come from animals.',
+            subtitle: 'Same satisfaction. Fraction of the footprint.',
+        },
+        problem: {
+            title: 'The world loves meat.',
+            text1: 'And we get it. The sizzle, the texture, the satisfaction—meat is deeply woven into how we eat, celebrate, and connect.',
+            text2: 'But the way we produce meat today is costing us the planet. We thought: what if you could have everything you love about meat, made from plants?',
+        },
+        origin: {
+            title: 'It started with four friends and a question.',
+            text1: 'In 2019, Pascal, Eric, Christoph, and Lukas—food scientists and entrepreneurs—started experimenting in a small lab in Zurich.',
+            text2: 'They weren\'t trying to convert vegetarians. They wanted to win over meat lovers. To create something so good that choosing plants wouldn\'t feel like a sacrifice.',
+            text3: 'That obsession with taste—not compromise—has driven every product we\'ve made since.',
+        },
+        statement: {
+            quote: 'We don\'t make meat alternatives. We make meat. From plants.',
+            explanation: 'It\'s not about taking anything away. It\'s about giving people a better choice—one that tastes incredible and leaves the planet better off.',
+        },
+        timeline: {
+            title: 'How we got here',
+            subtitle: 'From lab to table, milestone by milestone.',
+            y2019: {
+                title: 'The Beginning',
+                desc: 'Four food scientists and entrepreneurs—Pascal Bieri, Eric Stirnemann, Christoph Jenny, and Lukas Böni—start experimenting with plant proteins in a small ETH Zurich lab.',
+            },
+            y2020: {
+                title: 'planted.chicken Launches',
+                desc: 'The first planted.chicken hits Swiss retail shelves. It sells out within days. Word spreads: this tastes different. Better.',
+            },
+            y2021: {
+                title: 'B Corp Certified',
+                desc: 'We officially become a B Corporation—joining a global community using business as a force for good.',
+            },
+            y2022: {
+                title: 'European Expansion',
+                desc: 'From Switzerland to Germany, Austria, and beyond. The appetite for better meat alternatives crosses borders.',
+            },
+            y2023: {
+                title: 'planted.steak',
+                desc: 'We launch the world\'s first fermented whole-cut plant-based steak. A breakthrough in texture and taste.',
+            },
+            y2024: {
+                title: 'CHF 70M & 8,000+ Restaurants',
+                desc: 'Major funding accelerates our mission. From Michelin stars to canteens, planted is served in over 8,000 locations.',
+            },
+            y2025: {
+                title: 'Europe\'s Largest Facility',
+                desc: 'Our Memmingen facility opens—the most advanced plant-based meat factory in Europe. 100% renewable energy.',
+            },
+        },
+        values: {
+            title: 'What drives us',
+            taste: {
+                title: 'Taste first. Always.',
+                desc: 'If it doesn\'t make meat lovers reach for seconds, we go back to the lab. No exceptions.',
+            },
+            simple: {
+                title: 'Simple ingredients.',
+                desc: 'Pea protein. Water. Rapeseed oil. Sunflower oil. Things you recognize. Nothing weird.',
+            },
+            planet: {
+                title: 'Planet over profit.',
+                desc: 'B Corp certified. Every decision considers the impact. Not because it\'s trendy—because it\'s necessary.',
+            },
+            science: {
+                title: 'Science meets kitchen.',
+                desc: 'Food tech innovation paired with culinary craft. We\'re as comfortable in a lab as in a Michelin kitchen.',
+            },
+        },
+        bcorp: {
+            title: 'Business as a force for good',
+            text1: 'In 2021, we became a certified B Corporation. It\'s not a marketing badge—it\'s accountability.',
+            text2: 'Every year, we\'re measured on how we treat workers, communities, customers, and the planet. We publish the results.',
+        },
+        future: {
+            title: 'Where we\'re headed',
+            text1: 'We\'re just getting started. New products, new markets, new ways to make choosing plants the easy choice.',
+            text2: 'Our goal isn\'t to be the biggest plant-based company. It\'s to be the one that finally makes meat eaters switch—because they want to.',
+        },
+        founders: {
+            title: 'The four behind it',
+        },
+        cta: {
+            title: 'Ready to taste the difference?',
+            subtitle: 'Find planted near you and see what plant-based meat can really be.',
         },
     },
 

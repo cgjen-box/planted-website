@@ -1,0 +1,781 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { allLocales, locales, type LocaleCode } from '../../i18n/config';
+import { getTranslations } from '../../i18n/index';
+
+export async function getStaticPaths() {
+    return allLocales.map((locale) => ({
+        params: { locale },
+        props: { locale },
+    }));
+}
+
+const { locale } = Astro.props as { locale: LocaleCode };
+const base = import.meta.env.BASE_URL;
+const t = getTranslations(locale);
+const localeData = locales[locale];
+
+const team = await getCollection('team');
+const sortedTeam = team.sort((a, b) => a.data.order - b.data.order);
+
+// Get news for timeline milestones
+const allNews = await getCollection('news');
+
+// Timeline milestones with linked news
+const milestones = [
+    {
+        year: '2019',
+        title: t.mission?.timeline?.y2019?.title || 'The Beginning',
+        description: t.mission?.timeline?.y2019?.desc || 'Four food scientists and entrepreneurs—Pascal Bieri, Eric Stirnemann, Christoph Jenny, and Lukas Böni—start experimenting with plant proteins in a small ETH Zurich lab. Their goal: create meat from plants that even meat lovers would choose.',
+        highlight: true,
+    },
+    {
+        year: '2020',
+        title: t.mission?.timeline?.y2020?.title || 'planted.chicken Launches',
+        description: t.mission?.timeline?.y2020?.desc || 'The first planted.chicken hits Swiss retail shelves. It sells out within days. Word spreads: this tastes different. Better.',
+        highlight: false,
+    },
+    {
+        year: '2021',
+        title: t.mission?.timeline?.y2021?.title || 'B Corp Certified',
+        description: t.mission?.timeline?.y2021?.desc || 'We officially become a B Corporation—joining a global community using business as a force for good. Not just talking about sustainability, but proving it.',
+        newsSlug: 'bcorp-certification',
+        highlight: false,
+    },
+    {
+        year: '2022',
+        title: t.mission?.timeline?.y2022?.title || 'European Expansion',
+        description: t.mission?.timeline?.y2022?.desc || 'From Switzerland to Germany, Austria, and beyond. The appetite for better meat alternatives crosses borders.',
+        highlight: false,
+    },
+    {
+        year: '2023',
+        title: t.mission?.timeline?.y2023?.title || 'planted.steak',
+        description: t.mission?.timeline?.y2023?.desc || 'We launch the world\'s first fermented whole-cut plant-based steak. A breakthrough in texture and taste that changes what people think is possible.',
+        highlight: true,
+    },
+    {
+        year: '2024',
+        title: t.mission?.timeline?.y2024?.title || 'CHF 70M & 8,000+ Restaurants',
+        description: t.mission?.timeline?.y2024?.desc || 'Major funding round accelerates our mission. From Michelin-starred restaurants to everyday canteens, planted is now served in over 8,000 locations.',
+        newsSlug: 'series-c-funding',
+        highlight: false,
+    },
+    {
+        year: '2025',
+        title: t.mission?.timeline?.y2025?.title || 'Europe\'s Largest Facility',
+        description: t.mission?.timeline?.y2025?.desc || 'Our new Memmingen production facility opens—the most advanced plant-based meat factory in Europe. 100% renewable energy. Built for scale.',
+        newsSlug: 'memmingen-facility-opening',
+        highlight: true,
+    },
+];
+---
+
+<Layout title={`${t.mission?.pageTitle || 'Our Mission'} – Planted`} currentPage="our-mission" locale={locale}>
+    <!-- Hero: Mission-focused -->
+    <section class="hero">
+        <span class="hero-badge">{t.mission?.hero?.badge || 'Our Mission'}</span>
+        <h1>
+            {t.mission?.hero?.title || 'We\'re proving meat doesn\'t have to come from animals.'}
+        </h1>
+        <p class="hero-subtitle">
+            {t.mission?.hero?.subtitle || 'Same satisfaction. Fraction of the footprint.'}
+        </p>
+    </section>
+
+    <!-- The Problem We're Solving -->
+    <section class="problem-section">
+        <div class="problem-content">
+            <div class="problem-text reveal">
+                <h2>{t.mission?.problem?.title || 'The world loves meat.'}</h2>
+                <p>{t.mission?.problem?.text1 || 'And we get it. The sizzle, the texture, the satisfaction—meat is deeply woven into how we eat, celebrate, and connect.'}</p>
+                <p>{t.mission?.problem?.text2 || 'But the way we produce meat today is costing us the planet. We thought: what if you could have everything you love about meat, made from plants?'}</p>
+            </div>
+            <div class="problem-visual reveal-scale">
+                <div class="impact-comparison">
+                    <div class="impact-item">
+                        <span class="impact-value">-73%</span>
+                        <span class="impact-label">{t.home?.impact?.lessCO2 || 'Less CO₂'}</span>
+                    </div>
+                    <div class="impact-item">
+                        <span class="impact-value">-63%</span>
+                        <span class="impact-label">{t.home?.impact?.lessWater || 'Less Water'}</span>
+                    </div>
+                    <div class="impact-item highlight">
+                        <span class="impact-value">0</span>
+                        <span class="impact-label">{t.home?.impact?.animalsHarmed || 'Animals Harmed'}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Origin: Brief Founder Mention -->
+    <section class="origin-section">
+        <div class="origin-content reveal">
+            <h2>{t.mission?.origin?.title || 'It started with four friends and a question.'}</h2>
+            <p class="origin-lead">
+                {t.mission?.origin?.text1 || 'In 2019, Pascal, Eric, Christoph, and Lukas—food scientists and entrepreneurs—started experimenting in a small lab in Zurich.'}
+            </p>
+            <p>
+                {t.mission?.origin?.text2 || 'They weren\'t trying to convert vegetarians. They wanted to win over meat lovers. To create something so good that choosing plants wouldn\'t feel like a sacrifice.'}
+            </p>
+            <p>
+                {t.mission?.origin?.text3 || 'That obsession with taste—not compromise—has driven every product we\'ve made since.'}
+            </p>
+        </div>
+    </section>
+
+    <!-- Mission Statement -->
+    <section class="mission-statement-section">
+        <div class="mission-statement reveal">
+            <blockquote>
+                "{t.mission?.statement?.quote || 'We don\'t make meat alternatives. We make meat. From plants.'}"
+            </blockquote>
+            <p class="mission-explanation">
+                {t.mission?.statement?.explanation || 'It\'s not about taking anything away. It\'s about giving people a better choice—one that tastes incredible and leaves the planet better off.'}
+            </p>
+        </div>
+    </section>
+
+    <!-- Timeline with News -->
+    <section class="timeline-section">
+        <div class="timeline-header">
+            <h2 class="reveal">{t.mission?.timeline?.title || 'How we got here'}</h2>
+            <p class="reveal">{t.mission?.timeline?.subtitle || 'From lab to table, milestone by milestone.'}</p>
+        </div>
+        <div class="timeline">
+            {milestones.map((milestone, index) => {
+                const linkedNews = milestone.newsSlug ? allNews.find(n => n.data.slug === milestone.newsSlug) : null;
+                return (
+                    <div class={`timeline-item ${milestone.highlight ? 'highlight' : ''} reveal`}>
+                        <div class="timeline-marker">
+                            <span class="timeline-year">{milestone.year}</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>{milestone.title}</h3>
+                            <p>{milestone.description}</p>
+                            {linkedNews && (
+                                <a href={`${base}/${locale}/news/${linkedNews.data.slug}`} class="timeline-link">
+                                    {t.common?.readMore || 'Read the story'} →
+                                </a>
+                            )}
+                        </div>
+                    </div>
+                );
+            })}
+        </div>
+    </section>
+
+    <!-- What Drives Us (Values) -->
+    <section class="values-section">
+        <div class="values-header">
+            <h2 class="reveal">{t.mission?.values?.title || 'What drives us'}</h2>
+        </div>
+        <div class="values-grid">
+            <div class="value-card reveal-scale">
+                <div class="value-number">01</div>
+                <h3>{t.mission?.values?.taste?.title || 'Taste first. Always.'}</h3>
+                <p>{t.mission?.values?.taste?.desc || 'If it doesn\'t make meat lovers reach for seconds, we go back to the lab. No exceptions.'}</p>
+            </div>
+            <div class="value-card reveal-scale">
+                <div class="value-number">02</div>
+                <h3>{t.mission?.values?.simple?.title || 'Simple ingredients.'}</h3>
+                <p>{t.mission?.values?.simple?.desc || 'Pea protein. Water. Rapeseed oil. Sunflower oil. Things you recognize. Nothing weird.'}</p>
+            </div>
+            <div class="value-card reveal-scale">
+                <div class="value-number">03</div>
+                <h3>{t.mission?.values?.planet?.title || 'Planet over profit.'}</h3>
+                <p>{t.mission?.values?.planet?.desc || 'B Corp certified. Every decision considers the impact. Not because it\'s trendy—because it\'s necessary.'}</p>
+            </div>
+            <div class="value-card reveal-scale">
+                <div class="value-number">04</div>
+                <h3>{t.mission?.values?.science?.title || 'Science meets kitchen.'}</h3>
+                <p>{t.mission?.values?.science?.desc || 'Food tech innovation paired with culinary craft. We\'re as comfortable in a lab as in a Michelin kitchen.'}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- B Corp Section -->
+    <section class="bcorp-section">
+        <div class="bcorp-inner">
+            <div class="bcorp-badge reveal-scale">
+                <span>B</span>
+            </div>
+            <div class="bcorp-content reveal">
+                <h2>{t.mission?.bcorp?.title || 'Business as a force for good'}</h2>
+                <p>{t.mission?.bcorp?.text1 || 'In 2021, we became a certified B Corporation. It\'s not a marketing badge—it\'s accountability.'}</p>
+                <p>{t.mission?.bcorp?.text2 || 'Every year, we\'re measured on how we treat workers, communities, customers, and the planet. We publish the results. No hiding.'}</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Where We're Going -->
+    <section class="future-section">
+        <div class="future-content reveal">
+            <h2>{t.mission?.future?.title || 'Where we\'re headed'}</h2>
+            <p>{t.mission?.future?.text1 || 'We\'re just getting started. New products, new markets, new ways to make choosing plants the easy choice.'}</p>
+            <p>{t.mission?.future?.text2 || 'Our goal isn\'t to be the biggest plant-based company. It\'s to be the one that finally makes meat eaters switch—because they want to, not because they have to.'}</p>
+        </div>
+    </section>
+
+    <!-- Founders (condensed) -->
+    <section class="founders-section">
+        <div class="founders-header">
+            <h2 class="reveal">{t.mission?.founders?.title || 'The four behind it'}</h2>
+        </div>
+        <div class="founders-grid">
+            {sortedTeam.slice(0, 4).map((member) => (
+                <div class="founder-card reveal-scale">
+                    <div class="founder-photo">
+                        <img src={member.data.photo} alt={member.data.name} loading="lazy" />
+                    </div>
+                    <div class="founder-info">
+                        <span class="founder-name">{member.data.name}</span>
+                        <span class="founder-role">{member.data.role}</span>
+                    </div>
+                </div>
+            ))}
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2>{t.mission?.cta?.title || 'Ready to taste the difference?'}</h2>
+        <p>{t.mission?.cta?.subtitle || 'Find planted near you and see what plant-based meat can really be.'}</p>
+        <div class="cta-buttons">
+            <a href={`${base}/${locale}/products`} class="btn btn-white">{t.home?.hero?.cta || 'Explore Products'}</a>
+            <a href={`${base}/${locale}/#locator`} class="btn btn-outline">{t.ourStory?.cta?.find || 'Find Near You'}</a>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    /* Hero */
+    .hero {
+        padding: 10rem 1.5rem 5rem;
+        text-align: center;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .hero-badge {
+        display: inline-block;
+        background: var(--planted-purple);
+        color: white;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding: 0.5rem 1rem;
+        border-radius: 100px;
+        margin-bottom: 2rem;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.5rem, 8vw, 4.5rem);
+        color: var(--planted-purple);
+        margin-bottom: 1.5rem;
+        line-height: 1.05;
+    }
+
+    .hero-subtitle {
+        font-size: 1.3rem;
+        opacity: 0.7;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* Problem Section */
+    .problem-section {
+        padding: 5rem 1.5rem;
+        background: var(--planted-cream);
+    }
+
+    .problem-content {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
+        gap: 4rem;
+        align-items: center;
+    }
+
+    .problem-text h2 {
+        font-size: clamp(2rem, 6vw, 3rem);
+        color: var(--planted-purple);
+        margin-bottom: 1.5rem;
+    }
+
+    .problem-text p {
+        font-size: 1.15rem;
+        line-height: 1.8;
+        opacity: 0.85;
+        margin-bottom: 1rem;
+    }
+
+    .impact-comparison {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .impact-item {
+        text-align: center;
+        padding: 1.5rem 2rem;
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+
+    .impact-item.highlight {
+        background: var(--planted-green);
+    }
+
+    .impact-value {
+        display: block;
+        font-family: 'VC Henrietta', serif;
+        font-size: 2.5rem;
+        color: var(--planted-purple);
+        margin-bottom: 0.25rem;
+    }
+
+    .impact-item.highlight .impact-value {
+        color: var(--planted-black);
+    }
+
+    .impact-label {
+        font-size: 0.85rem;
+        opacity: 0.7;
+    }
+
+    /* Origin Section */
+    .origin-section {
+        padding: 5rem 1.5rem;
+    }
+
+    .origin-content {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .origin-content h2 {
+        font-size: clamp(1.8rem, 5vw, 2.5rem);
+        color: var(--planted-purple);
+        margin-bottom: 1.5rem;
+    }
+
+    .origin-lead {
+        font-size: 1.25rem;
+        line-height: 1.7;
+        margin-bottom: 1.5rem;
+    }
+
+    .origin-content p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        opacity: 0.8;
+        margin-bottom: 1rem;
+    }
+
+    /* Mission Statement */
+    .mission-statement-section {
+        padding: 5rem 1.5rem;
+        background: var(--planted-purple);
+        color: white;
+    }
+
+    .mission-statement {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .mission-statement blockquote {
+        font-family: 'VC Henrietta', serif;
+        font-size: clamp(1.8rem, 5vw, 3rem);
+        line-height: 1.3;
+        margin-bottom: 2rem;
+    }
+
+    .mission-explanation {
+        font-size: 1.15rem;
+        opacity: 0.9;
+        line-height: 1.7;
+    }
+
+    /* Timeline */
+    .timeline-section {
+        padding: 5rem 1.5rem;
+    }
+
+    .timeline-header {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .timeline-header h2 {
+        font-size: clamp(2rem, 6vw, 3rem);
+        color: var(--planted-purple);
+        margin-bottom: 0.5rem;
+    }
+
+    .timeline-header p {
+        opacity: 0.7;
+    }
+
+    .timeline {
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 60px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: var(--planted-cream);
+    }
+
+    .timeline-item {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 3rem;
+        position: relative;
+    }
+
+    .timeline-marker {
+        flex-shrink: 0;
+        width: 120px;
+        display: flex;
+        align-items: flex-start;
+        position: relative;
+    }
+
+    .timeline-year {
+        font-family: 'VC Henrietta', serif;
+        font-size: 1.3rem;
+        color: var(--planted-purple);
+        background: white;
+        padding-right: 1rem;
+    }
+
+    .timeline-marker::after {
+        content: '';
+        position: absolute;
+        right: -1rem;
+        top: 0.4rem;
+        width: 12px;
+        height: 12px;
+        background: var(--planted-purple);
+        border-radius: 50%;
+        border: 3px solid white;
+        box-shadow: 0 0 0 2px var(--planted-purple);
+    }
+
+    .timeline-item.highlight .timeline-marker::after {
+        background: var(--planted-green);
+        box-shadow: 0 0 0 2px var(--planted-green);
+    }
+
+    .timeline-content {
+        flex: 1;
+        padding-bottom: 1rem;
+    }
+
+    .timeline-content h3 {
+        font-family: 'VC Henrietta', serif;
+        font-size: 1.25rem;
+        color: var(--planted-purple);
+        margin-bottom: 0.5rem;
+    }
+
+    .timeline-content p {
+        font-size: 1rem;
+        line-height: 1.7;
+        opacity: 0.75;
+        margin-bottom: 0.75rem;
+    }
+
+    .timeline-link {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--planted-purple);
+        text-decoration: none;
+        transition: opacity 0.2s;
+    }
+
+    .timeline-link:hover {
+        opacity: 0.7;
+    }
+
+    /* Values */
+    .values-section {
+        padding: 5rem 1.5rem;
+        background: var(--planted-cream);
+    }
+
+    .values-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .values-header h2 {
+        font-size: clamp(2rem, 6vw, 3rem);
+        color: var(--planted-purple);
+    }
+
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .value-card {
+        background: white;
+        padding: 2.5rem 2rem;
+        border-radius: 1.25rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    }
+
+    .value-number {
+        font-family: 'VC Henrietta', serif;
+        font-size: 2rem;
+        color: var(--planted-green);
+        margin-bottom: 1rem;
+    }
+
+    .value-card h3 {
+        font-family: 'VC Henrietta', serif;
+        font-size: 1.3rem;
+        color: var(--planted-purple);
+        margin-bottom: 0.75rem;
+    }
+
+    .value-card p {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        opacity: 0.75;
+    }
+
+    /* B Corp */
+    .bcorp-section {
+        padding: 5rem 1.5rem;
+        background: var(--planted-green);
+    }
+
+    .bcorp-inner {
+        max-width: 800px;
+        margin: 0 auto;
+        display: flex;
+        gap: 3rem;
+        align-items: center;
+    }
+
+    .bcorp-badge {
+        width: 120px;
+        height: 120px;
+        background: var(--planted-black);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .bcorp-badge span {
+        font-family: 'VC Henrietta', serif;
+        font-size: 3rem;
+        color: white;
+    }
+
+    .bcorp-content h2 {
+        font-family: 'VC Henrietta', serif;
+        font-size: 1.8rem;
+        color: var(--planted-black);
+        margin-bottom: 1rem;
+    }
+
+    .bcorp-content p {
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: var(--planted-black);
+        opacity: 0.85;
+        margin-bottom: 0.75rem;
+    }
+
+    /* Future */
+    .future-section {
+        padding: 5rem 1.5rem;
+    }
+
+    .future-content {
+        max-width: 700px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .future-content h2 {
+        font-size: clamp(2rem, 6vw, 2.5rem);
+        color: var(--planted-purple);
+        margin-bottom: 1.5rem;
+    }
+
+    .future-content p {
+        font-size: 1.15rem;
+        line-height: 1.8;
+        opacity: 0.8;
+        margin-bottom: 1rem;
+    }
+
+    /* Founders */
+    .founders-section {
+        padding: 4rem 1.5rem;
+        background: var(--planted-cream);
+    }
+
+    .founders-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+
+    .founders-header h2 {
+        font-size: clamp(1.5rem, 4vw, 2rem);
+        color: var(--planted-purple);
+    }
+
+    .founders-grid {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .founder-card {
+        text-align: center;
+    }
+
+    .founder-photo {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 auto 0.75rem;
+        background: var(--planted-purple);
+    }
+
+    .founder-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .founder-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .founder-name {
+        font-family: 'VC Henrietta', serif;
+        font-size: 1rem;
+        color: var(--planted-purple);
+    }
+
+    .founder-role {
+        font-size: 0.8rem;
+        opacity: 0.6;
+    }
+
+    /* CTA */
+    .cta-section {
+        padding: 5rem 1.5rem;
+        background: var(--planted-purple);
+        color: white;
+        text-align: center;
+    }
+
+    .cta-section h2 {
+        font-size: clamp(2rem, 6vw, 3rem);
+        margin-bottom: 1rem;
+    }
+
+    .cta-section p {
+        opacity: 0.9;
+        margin-bottom: 2rem;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .cta-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 1rem 2rem;
+        border-radius: 100px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .btn-white {
+        background: white;
+        color: var(--planted-purple);
+    }
+
+    .btn-outline {
+        background: transparent;
+        color: white;
+        border: 2px solid rgba(255,255,255,0.4);
+    }
+
+    .btn-outline:hover {
+        border-color: white;
+    }
+
+    /* Responsive */
+    @media (min-width: 768px) {
+        .problem-content {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .bcorp-inner {
+            text-align: left;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .timeline::before {
+            left: 20px;
+        }
+
+        .timeline-marker {
+            width: 60px;
+        }
+
+        .timeline-year {
+            font-size: 1rem;
+        }
+
+        .bcorp-inner {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
+</style>

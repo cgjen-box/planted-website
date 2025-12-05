@@ -10,7 +10,7 @@ export default {
         sustainability: 'Nachhaltigkeit',
         gastronomy: 'Gastronomie',
         news: 'News',
-        ourStory: 'Unsere Geschichte',
+        ourStory: 'Unsere Mission',
     },
 
     // Home page
@@ -302,7 +302,7 @@ export default {
         allNews: 'Alle News',
     },
 
-    // Our Story page
+    // Our Story page (legacy)
     ourStory: {
         pageTitle: 'Unsere Geschichte',
         hero: {
@@ -326,6 +326,99 @@ export default {
         cta: {
             ready: 'Bereit zum Probieren?',
             find: 'In deiner Nähe finden',
+        },
+    },
+
+    // Our Mission page (new)
+    mission: {
+        pageTitle: 'Unsere Mission',
+        hero: {
+            badge: 'Unsere Mission',
+            title: 'Wir beweisen, dass Fleisch nicht von Tieren kommen muss.',
+            subtitle: 'Gleicher Genuss. Bruchteil des Fussabdrucks.',
+        },
+        problem: {
+            title: 'Die Welt liebt Fleisch.',
+            text1: 'Und wir verstehen das. Das Brutzeln, die Textur, die Befriedigung – Fleisch ist tief in unserer Art zu essen, zu feiern und zusammenzukommen verwurzelt.',
+            text2: 'Aber die Art, wie wir heute Fleisch produzieren, kostet uns den Planeten. Wir dachten: Was wäre, wenn man alles, was man an Fleisch liebt, aus Pflanzen machen könnte?',
+        },
+        origin: {
+            title: 'Es begann mit vier Freunden und einer Frage.',
+            text1: '2019 begannen Pascal, Eric, Christoph und Lukas – Lebensmittelwissenschaftler und Unternehmer – in einem kleinen Labor in Zürich zu experimentieren.',
+            text2: 'Sie wollten keine Vegetarier bekehren. Sie wollten Fleischliebhaber überzeugen. Etwas so Gutes erschaffen, dass die Wahl für Pflanzen sich nicht wie ein Verzicht anfühlt.',
+            text3: 'Diese Besessenheit mit Geschmack – nicht Kompromiss – hat jedes Produkt angetrieben, das wir seitdem gemacht haben.',
+        },
+        statement: {
+            quote: 'Wir machen keine Fleischalternativen. Wir machen Fleisch. Aus Pflanzen.',
+            explanation: 'Es geht nicht darum, etwas wegzunehmen. Es geht darum, den Menschen eine bessere Wahl zu geben – eine, die unglaublich schmeckt und den Planeten besser dastehen lässt.',
+        },
+        timeline: {
+            title: 'Wie wir hierher kamen',
+            subtitle: 'Vom Labor auf den Teller, Meilenstein für Meilenstein.',
+            y2019: {
+                title: 'Der Anfang',
+                desc: 'Vier Lebensmittelwissenschaftler und Unternehmer – Pascal Bieri, Eric Stirnemann, Christoph Jenny und Lukas Böni – beginnen in einem kleinen ETH-Labor in Zürich mit Pflanzenproteinen zu experimentieren.',
+            },
+            y2020: {
+                title: 'planted.chicken startet',
+                desc: 'Das erste planted.chicken kommt in die Schweizer Regale. Innerhalb von Tagen ausverkauft. Es spricht sich herum: Das schmeckt anders. Besser.',
+            },
+            y2021: {
+                title: 'B Corp zertifiziert',
+                desc: 'Wir werden offiziell eine B Corporation – Teil einer globalen Gemeinschaft, die Business als Kraft für Gutes nutzt.',
+            },
+            y2022: {
+                title: 'Europäische Expansion',
+                desc: 'Von der Schweiz nach Deutschland, Österreich und darüber hinaus. Der Appetit auf bessere Fleischalternativen kennt keine Grenzen.',
+            },
+            y2023: {
+                title: 'planted.steak',
+                desc: 'Wir lancieren das weltweit erste fermentierte Whole-Cut-Steak auf Pflanzenbasis. Ein Durchbruch in Textur und Geschmack.',
+            },
+            y2024: {
+                title: 'CHF 70 Mio. & 8.000+ Restaurants',
+                desc: 'Grosse Finanzierungsrunde beschleunigt unsere Mission. Von Sternerestaurants bis Kantinen wird planted an über 8.000 Standorten serviert.',
+            },
+            y2025: {
+                title: 'Europas grösste Anlage',
+                desc: 'Unsere Memmingen-Anlage eröffnet – die modernste Produktionsstätte für pflanzliches Fleisch in Europa. 100% erneuerbare Energie.',
+            },
+        },
+        values: {
+            title: 'Was uns antreibt',
+            taste: {
+                title: 'Geschmack zuerst. Immer.',
+                desc: 'Wenn Fleischliebhaber nicht nach einem Nachschlag greifen, gehen wir zurück ins Labor. Keine Ausnahmen.',
+            },
+            simple: {
+                title: 'Einfache Zutaten.',
+                desc: 'Erbsenprotein. Wasser. Rapsöl. Sonnenblumenöl. Dinge, die du erkennst. Nichts Seltsames.',
+            },
+            planet: {
+                title: 'Planet vor Profit.',
+                desc: 'B Corp zertifiziert. Jede Entscheidung berücksichtigt die Auswirkungen. Nicht weil es trendy ist – weil es notwendig ist.',
+            },
+            science: {
+                title: 'Wissenschaft trifft Küche.',
+                desc: 'Food-Tech-Innovation gepaart mit kulinarischer Handwerkskunst. Wir sind im Labor genauso zuhause wie in der Sterneküche.',
+            },
+        },
+        bcorp: {
+            title: 'Business als Kraft für Gutes',
+            text1: '2021 wurden wir eine zertifizierte B Corporation. Das ist kein Marketing-Badge – das ist Verantwortlichkeit.',
+            text2: 'Jedes Jahr werden wir daran gemessen, wie wir Mitarbeitende, Gemeinschaften, Kunden und den Planeten behandeln. Wir veröffentlichen die Ergebnisse.',
+        },
+        future: {
+            title: 'Wohin wir gehen',
+            text1: 'Wir fangen gerade erst an. Neue Produkte, neue Märkte, neue Wege, die Wahl für Pflanzen zur einfachen Wahl zu machen.',
+            text2: 'Unser Ziel ist nicht, das grösste Plant-Based-Unternehmen zu sein. Sondern das, das Fleischesser endlich zum Wechseln bringt – weil sie wollen, nicht weil sie müssen.',
+        },
+        founders: {
+            title: 'Die vier dahinter',
+        },
+        cta: {
+            title: 'Bereit, den Unterschied zu schmecken?',
+            subtitle: 'Finde planted in deiner Nähe und erlebe, was pflanzliches Fleisch wirklich sein kann.',
         },
     },
 
