@@ -415,4 +415,104 @@ export default {
         defaultDescription: 'Pflanzenbasiertes Fleisch, das wirklich wie Fleisch schmeckt. Made in Switzerland. B Corp zertifiziert.',
         titleSuffix: ' | planted',
     },
+
+    // Press page
+    press: {
+        pageTitle: 'Presse & Medien',
+        hero: {
+            badge: 'Presse & Medien',
+            title: 'News von Planted',
+            subtitle: 'Ressourcen für Journalisten und Medienschaffende.',
+        },
+        contact: {
+            title: 'Pressekontakt',
+            subtitle: 'Für Presseanfragen, Interviewanfragen und Medienkooperationen:',
+        },
+        facts: {
+            title: 'Unternehmen auf einen Blick',
+            founded: 'Gegründet',
+            headquarters: 'Hauptsitz',
+            employees: 'Mitarbeitende',
+            markets: 'Märkte',
+            productsCount: 'Produkte',
+            restaurantPartners: 'Restaurant-Partner',
+        },
+        resources: {
+            title: 'Medienressourcen',
+            subtitle: 'Offizielle Markenassets und Materialien zum Download.',
+            logos: 'Logo-Paket',
+            logosDesc: 'Offizielle Planted-Logos in verschiedenen Formaten (SVG, PNG, EPS) für Print und Digital.',
+            brand: 'Markenrichtlinien',
+            brandDesc: 'Vollständiger Marken-Styleguide mit Farben, Typografie und Nutzungsrichtlinien.',
+            images: 'Produktbilder',
+            imagesDesc: 'Hochauflösende Produktfotos, Verpackungsbilder und Lifestyle-Aufnahmen.',
+            video: 'Videomaterial',
+            videoDesc: 'B-Roll-Material, Produktvideos und Hinter-den-Kulissen-Content.',
+            bios: 'Executive-Biografien',
+            biosDesc: 'Biografien und Porträtfotos der Planted-Führungskräfte und Gründer.',
+            data: 'Nachhaltigkeitsdaten',
+            dataDesc: 'LCA-Berichte, Umweltauswirkungsdaten und Nachhaltigkeitsnachweise.',
+            contact: 'Kontakt press@eatplanted.com',
+        },
+        news: {
+            title: 'Aktuelle News',
+            subtitle: 'Neueste Ankündigungen und Unternehmensupdates.',
+            viewAll: 'Alle News ansehen',
+        },
+        about: {
+            title: 'Über Planted',
+            boilerplate: 'Dieser Textbaustein kann in Pressematerialien verwendet werden.',
+            description1: 'Planted ist ein Schweizer Lebensmitteltechnologie-Unternehmen, das die Art und Weise revolutioniert, wie wir über Fleisch denken. Gegründet 2019 in Zürich, entwickelt das Unternehmen pflanzliche Fleischprodukte mit innovativer Fermentationstechnologie und einfachen, erkennbaren Zutaten. Planteds Produkte werden in grossen Einzelhandelsgeschäften in ganz Europa verkauft und in über 8.000 Restaurants serviert.',
+            description2: 'Das Unternehmen ist B Corp zertifiziert und verpflichtet sich zu den höchsten Standards für soziale und ökologische Leistung. Planteds Mission ist es, köstliches, nachhaltiges Essen für alle zugänglich zu machen und zu beweisen, dass grossartiger Geschmack und ökologische Verantwortung Hand in Hand gehen können.',
+        },
+        social: {
+            title: 'Folge Planted',
+        },
+    },
+
+    // FAQ page
+    faq: {
+        pageTitle: 'FAQ',
+        hero: {
+            badge: 'Hilfe-Center',
+            title: 'Häufig gestellte Fragen',
+            subtitle: 'Alles, was du über Planted-Produkte wissen musst.',
+        },
+        categories: {
+            general: 'Allgemein',
+            ingredients: 'Zutaten',
+            sustainability: 'Nachhaltigkeit',
+            gastronomy: 'Gastronomie & B2B',
+        },
+        contact: {
+            title: 'Noch Fragen?',
+            subtitle: 'Du findest nicht, was du suchst? Unser Team hilft gerne.',
+            button: 'Kontaktiere uns',
+            business: 'Für Geschäftsanfragen',
+        },
+    },
+
+    // Legal pages
+    legal: {
+        privacy: {
+            title: 'Datenschutzerklärung',
+            lastUpdated: 'Zuletzt aktualisiert',
+        },
+        terms: {
+            title: 'Allgemeine Geschäftsbedingungen',
+            lastUpdated: 'Zuletzt aktualisiert',
+        },
+        imprint: {
+            title: 'Impressum',
+            subtitle: 'Rechtliche Informationen',
+            company: 'Unternehmensinformationen',
+            registration: 'Registrierung',
+            contact: 'Kontakt',
+            management: 'Geschäftsführung',
+            contentResponsibility: 'Verantwortlich für den Inhalt',
+            disclaimer: 'Haftungsausschluss',
+            copyright: 'Urheberrecht',
+            disputes: 'Online-Streitbeilegung',
+        },
+    },
 } as const;
