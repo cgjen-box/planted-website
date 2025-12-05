@@ -76,6 +76,10 @@ export default {
             badge: 'For Business',
             getSamples: 'Get Samples',
         },
+        ambassador: {
+            badge: 'Brand Ambassador',
+            approvedBy: 'Approved by',
+        },
     },
 
     // Products page
@@ -227,7 +231,7 @@ export default {
             placeholder: 'Your email',
             button: 'Subscribe',
         },
-        copyright: '© 2024 planted. All rights reserved.',
+        copyright: '© 2025 planted. All rights reserved.',
         tagline: 'Plant-based. Swiss-made.',
     },
 
@@ -460,6 +464,8 @@ export default {
         acceptAll: 'Accept All',
         necessaryOnly: 'Necessary Only',
         settings: 'Settings',
+        saveSettings: 'Save Settings',
+        learnMore: 'Learn more',
         categories: {
             necessary: 'Necessary',
             necessaryDesc: 'Essential cookies required for the website to function properly.',

@@ -1,47 +1,73 @@
 ---
 // Cookie Consent Banner Component
 // GDPR-compliant cookie consent with granular controls
+import { getTranslations } from '../i18n';
+import type { LocaleCode } from '../i18n/config';
+
+interface Props {
+    locale?: LocaleCode;
+}
+
+const { locale = 'ch-de' } = Astro.props;
+const t = getTranslations(locale);
+
+// Cookie consent translations with fallbacks
+const cc = {
+    title: t.cookieConsent?.title || 'We use cookies',
+    description: t.cookieConsent?.description || 'We use cookies to improve your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies.',
+    acceptAll: t.cookieConsent?.acceptAll || 'Accept All',
+    necessaryOnly: t.cookieConsent?.necessaryOnly || 'Necessary Only',
+    settings: t.cookieConsent?.settings || 'Settings',
+    saveSettings: t.cookieConsent?.saveSettings || 'Save Settings',
+    learnMore: t.cookieConsent?.learnMore || 'Learn more',
+    necessary: t.cookieConsent?.categories?.necessary || 'Necessary',
+    necessaryDesc: t.cookieConsent?.categories?.necessaryDesc || 'Required for the website to function. Cannot be disabled.',
+    analytics: t.cookieConsent?.categories?.analytics || 'Analytics',
+    analyticsDesc: t.cookieConsent?.categories?.analyticsDesc || 'Help us understand how visitors interact with our website.',
+    marketing: t.cookieConsent?.categories?.marketing || 'Marketing',
+    marketingDesc: t.cookieConsent?.categories?.marketingDesc || 'Used to deliver personalized ads and track ad performance.',
+};
 ---
 
 <div id="cookie-consent" class="cookie-banner" hidden>
     <div class="cookie-content">
         <div class="cookie-text">
-            <h4>🍪 We use cookies</h4>
-            <p>We use cookies to improve your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies. <a href="#" class="cookie-link" data-privacy-link>Learn more</a></p>
+            <h4>🍪 {cc.title}</h4>
+            <p>{cc.description} <a href="#" class="cookie-link" data-privacy-link>{cc.learnMore}</a></p>
         </div>
         <div class="cookie-actions">
-            <button class="btn-cookie btn-accept-all" data-consent="all">Accept All</button>
-            <button class="btn-cookie btn-necessary" data-consent="necessary">Necessary Only</button>
-            <button class="btn-cookie btn-settings" data-toggle-settings>Settings</button>
+            <button class="btn-cookie btn-accept-all" data-consent="all">{cc.acceptAll}</button>
+            <button class="btn-cookie btn-necessary" data-consent="necessary">{cc.necessaryOnly}</button>
+            <button class="btn-cookie btn-settings" data-toggle-settings>{cc.settings}</button>
         </div>
     </div>
-    
+
     <div class="cookie-settings" hidden>
         <div class="cookie-categories">
             <label class="cookie-category">
                 <input type="checkbox" name="necessary" checked disabled />
                 <div class="category-info">
-                    <strong>Necessary</strong>
-                    <span>Required for the website to function. Cannot be disabled.</span>
+                    <strong>{cc.necessary}</strong>
+                    <span>{cc.necessaryDesc}</span>
                 </div>
             </label>
             <label class="cookie-category">
                 <input type="checkbox" name="analytics" />
                 <div class="category-info">
-                    <strong>Analytics</strong>
-                    <span>Help us understand how visitors interact with our website.</span>
+                    <strong>{cc.analytics}</strong>
+                    <span>{cc.analyticsDesc}</span>
                 </div>
             </label>
             <label class="cookie-category">
                 <input type="checkbox" name="marketing" />
                 <div class="category-info">
-                    <strong>Marketing</strong>
-                    <span>Used to deliver personalized ads and track ad performance.</span>
+                    <strong>{cc.marketing}</strong>
+                    <span>{cc.marketingDesc}</span>
                 </div>
             </label>
         </div>
         <div class="cookie-settings-actions">
-            <button class="btn-cookie btn-save" data-save-settings>Save Settings</button>
+            <button class="btn-cookie btn-save" data-save-settings>{cc.saveSettings}</button>
         </div>
     </div>
 </div>

@@ -76,6 +76,10 @@ export default {
             badge: 'Para empresas',
             getSamples: 'Solicitar muestras',
         },
+        ambassador: {
+            badge: 'Embajador',
+            approvedBy: 'Aprobado por',
+        },
     },
 
     // Products page
@@ -227,7 +231,7 @@ export default {
             placeholder: 'Tu email',
             button: 'Suscribirse',
         },
-        copyright: '© 2024 planted. Todos los derechos reservados.',
+        copyright: '© 2025 planted. Todos los derechos reservados.',
         tagline: 'A base de plantas. Hecho en Suiza.',
     },
 
@@ -414,5 +418,24 @@ export default {
     meta: {
         defaultDescription: 'Carne vegetal que realmente sabe a carne. Hecho en Suiza. Certificado B Corp.',
         titleSuffix: ' | planted',
+    },
+
+    // Cookie Consent component
+    cookieConsent: {
+        title: 'Usamos cookies',
+        description: 'Usamos cookies para mejorar tu experiencia y analizar el tráfico del sitio. Al hacer clic en "Aceptar todo", consientes nuestro uso de cookies.',
+        acceptAll: 'Aceptar todo',
+        necessaryOnly: 'Solo necesarias',
+        settings: 'Configuración',
+        saveSettings: 'Guardar configuración',
+        learnMore: 'Más información',
+        categories: {
+            necessary: 'Necesarias',
+            necessaryDesc: 'Cookies esenciales para el funcionamiento del sitio.',
+            analytics: 'Analíticas',
+            analyticsDesc: 'Nos ayudan a entender cómo los visitantes interactúan con nuestro sitio.',
+            marketing: 'Marketing',
+            marketingDesc: 'Se utilizan para ofrecer anuncios personalizados.',
+        },
     },
 } as const;

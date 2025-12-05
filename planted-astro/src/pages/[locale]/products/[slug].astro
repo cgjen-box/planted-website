@@ -374,7 +374,7 @@ const breadcrumbJsonLd = {
                     </div>
                     <div class="recipe-info">
                         <h3>{recipe.data.title}</h3>
-                        <span>{recipe.data.cookTime} {t.recipes.time} · {recipe.data.difficulty}</span>
+                        <span>{recipe.data.cookTime} {t.recipes.time} · {t.recipes.difficulty[recipe.data.difficulty.toLowerCase() as 'easy' | 'medium' | 'hard'] || recipe.data.difficulty}</span>
                     </div>
                 </a>
             ))}

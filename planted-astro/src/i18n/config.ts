@@ -175,6 +175,48 @@ export const retailers: Record<CountryCode, { name: string; logo: string; url: s
     ],
 };
 
+// Ambassador data per country
+// Ambassadors are shown on the home page as testimonials for specific countries
+export const ambassadors: Record<CountryCode, {
+    name: string;
+    title: string;
+    titleEn: string;
+    quote: string;
+    quoteEn: string;
+    image: string;
+    backgroundImage?: string;
+} | null> = {
+    'global': null,
+    'ch': {
+        name: 'Christian Stucki',
+        title: 'Schwingerkönig 2019 & Planted Ambassador',
+        titleEn: 'Swiss Wrestling Champion 2019 & Planted Ambassador',
+        quote: 'Gesundheit ist mir sehr wichtig. Grossartige pflanzliche Produkte wie die von Planted machen es mir leicht, bewusster zu essen, ohne auf Genuss zu verzichten.',
+        quoteEn: 'Health is very important to me. Great plant-based products like those from Planted make it easy to eat more consciously without sacrificing enjoyment.',
+        image: '/images/ambassadors/christian-stucki.jpg',
+    },
+    'de': {
+        name: 'Tim Raue',
+        title: 'Sternekoch ★★ & Planted Partner',
+        titleEn: 'Michelin Star Chef ★★ & Planted Partner',
+        quote: 'Besonders schätze ich die Textur der Planted-Produkte, die Faserigkeit ist extrem nah an der von tierischem Fleisch. Sie enthalten keine Zusatzstoffe und die Aromen sind sehr fein.',
+        quoteEn: 'I especially appreciate the texture of Planted products, the fibrousness is extremely close to that of animal meat. They also contain no additives and the aromatics are very fine.',
+        image: '/images/ambassadors/tim-raue.jpg',
+    },
+    'at': null,
+    'it': null,
+    'fr': null,
+    'nl': null,
+    'uk': null,
+    'es': null,
+};
+
+// Helper to get ambassador for a locale
+export function getAmbassadorForLocale(locale: LocaleCode): typeof ambassadors['ch'] {
+    const country = locales[locale].country as CountryCode;
+    return ambassadors[country];
+}
+
 // Get locale from URL path
 export function getLocaleFromPath(path: string): LocaleCode {
     const segments = path.split('/').filter(Boolean);

@@ -202,7 +202,7 @@ const schemaOrg = {
     <Navbar currentPage={currentPage} locale={locale} />
     <slot />
     <Footer locale={locale} />
-    <CookieConsent />
+    <CookieConsent locale={locale} />
 
     <!-- Save locale preference when user visits a localized page -->
     <script define:vars={{ locale }}>

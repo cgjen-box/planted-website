@@ -76,6 +76,10 @@ export default {
             badge: 'Für Unternehmen',
             getSamples: 'Muster anfordern',
         },
+        ambassador: {
+            badge: 'Markenbotschafter',
+            approvedBy: 'Empfohlen von',
+        },
     },
 
     // Products page
@@ -227,7 +231,7 @@ export default {
             placeholder: 'Deine E-Mail',
             button: 'Abonnieren',
         },
-        copyright: '© 2024 planted. Alle Rechte vorbehalten.',
+        copyright: '© 2025 planted. Alle Rechte vorbehalten.',
         tagline: 'Pflanzenbasiert. Swiss-made.',
     },
 
@@ -460,6 +464,8 @@ export default {
         acceptAll: 'Alle akzeptieren',
         necessaryOnly: 'Nur notwendige',
         settings: 'Einstellungen',
+        saveSettings: 'Einstellungen speichern',
+        learnMore: 'Mehr erfahren',
         categories: {
             necessary: 'Notwendig',
             necessaryDesc: 'Wesentliche Cookies, die für das Funktionieren der Website erforderlich sind.',

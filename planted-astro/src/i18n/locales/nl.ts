@@ -76,6 +76,10 @@ export default {
             badge: 'Voor bedrijven',
             getSamples: 'Monsters aanvragen',
         },
+        ambassador: {
+            badge: 'Ambassadeur',
+            approvedBy: 'Goedgekeurd door',
+        },
     },
 
     // Products page
@@ -227,7 +231,7 @@ export default {
             placeholder: 'Je e-mail',
             button: 'Aanmelden',
         },
-        copyright: '© 2024 planted. Alle rechten voorbehouden.',
+        copyright: '© 2025 planted. Alle rechten voorbehouden.',
         tagline: 'Plantaardig. Swiss-made.',
     },
 
@@ -414,5 +418,24 @@ export default {
     meta: {
         defaultDescription: 'Plantaardig vlees dat echt naar vlees smaakt. Made in Switzerland. B Corp gecertificeerd.',
         titleSuffix: ' | planted',
+    },
+
+    // Cookie Consent component
+    cookieConsent: {
+        title: 'Wij gebruiken cookies',
+        description: 'Wij gebruiken cookies om je ervaring te verbeteren en het websiteverkeer te analyseren. Door op "Alles accepteren" te klikken, stem je in met ons gebruik van cookies.',
+        acceptAll: 'Alles accepteren',
+        necessaryOnly: 'Alleen noodzakelijk',
+        settings: 'Instellingen',
+        saveSettings: 'Instellingen opslaan',
+        learnMore: 'Meer informatie',
+        categories: {
+            necessary: 'Noodzakelijk',
+            necessaryDesc: 'Essentiële cookies die nodig zijn voor het functioneren van de website.',
+            analytics: 'Analytisch',
+            analyticsDesc: 'Helpen ons te begrijpen hoe bezoekers met onze website omgaan.',
+            marketing: 'Marketing',
+            marketingDesc: 'Gebruikt om gepersonaliseerde advertenties te leveren.',
+        },
     },
 } as const;

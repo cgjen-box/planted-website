@@ -134,7 +134,7 @@ const breadcrumbJsonLd = {
                         </div>
                     )}
                     <div class="meta-badge">
-                        {recipe.data.difficulty}
+                        {t.recipes.difficulty[recipe.data.difficulty.toLowerCase() as 'easy' | 'medium' | 'hard'] || recipe.data.difficulty}
                     </div>
                 </div>
             </div>
@@ -229,7 +229,7 @@ const breadcrumbJsonLd = {
                             </div>
                             <div class="related-info">
                                 <h3>{related.data.title}</h3>
-                                <span class="related-meta">{related.data.cookTime} {t.recipes.time} • {related.data.difficulty}</span>
+                                <span class="related-meta">{related.data.cookTime} {t.recipes.time} • {t.recipes.difficulty[related.data.difficulty.toLowerCase() as 'easy' | 'medium' | 'hard'] || related.data.difficulty}</span>
                             </div>
                         </a>
                     ))}

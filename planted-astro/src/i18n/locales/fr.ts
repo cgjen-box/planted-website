@@ -76,6 +76,10 @@ export default {
             badge: 'Pour les entreprises',
             getSamples: 'Demander des échantillons',
         },
+        ambassador: {
+            badge: 'Ambassadeur',
+            approvedBy: 'Approuvé par',
+        },
     },
 
     // Products page
@@ -227,7 +231,7 @@ export default {
             placeholder: 'Votre e-mail',
             button: 'S\'abonner',
         },
-        copyright: '© 2024 planted. Tous droits réservés.',
+        copyright: '© 2025 planted. Tous droits réservés.',
         tagline: 'À base de plantes. Fabriqué en Suisse.',
     },
 
@@ -414,5 +418,24 @@ export default {
     meta: {
         defaultDescription: 'De la viande végétale qui a vraiment le goût de la viande. Fabriqué en Suisse. Certifié B Corp.',
         titleSuffix: ' | planted',
+    },
+
+    // Cookie Consent component
+    cookieConsent: {
+        title: 'Nous utilisons des cookies',
+        description: 'Nous utilisons des cookies pour améliorer votre expérience et analyser le trafic du site. En cliquant sur "Tout accepter", vous consentez à notre utilisation des cookies.',
+        acceptAll: 'Tout accepter',
+        necessaryOnly: 'Nécessaires uniquement',
+        settings: 'Paramètres',
+        saveSettings: 'Enregistrer',
+        learnMore: 'En savoir plus',
+        categories: {
+            necessary: 'Nécessaires',
+            necessaryDesc: 'Cookies essentiels au bon fonctionnement du site.',
+            analytics: 'Analytiques',
+            analyticsDesc: 'Nous aident à comprendre comment les visiteurs interagissent avec notre site.',
+            marketing: 'Marketing',
+            marketingDesc: 'Utilisés pour diffuser des publicités personnalisées.',
+        },
     },
 } as const;
