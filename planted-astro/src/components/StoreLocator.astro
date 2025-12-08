@@ -567,37 +567,14 @@ function getRetailerCountries(retailer: typeof retailers[0]): string[] {
             )}
         </div>
 
-        <!-- Online shop CTA -->
+        <!-- Online shop CTA - dynamically populated based on country -->
         <div class="online-cta reveal" id="onlineCtaSection">
             <div class="cta-content">
                 <span class="cta-badge">{t.cantFind}</span>
-                <span class="cta-text">Order planted from Swiss online shops</span>
+                <span class="cta-text" id="ctaText">Order planted online</span>
             </div>
-            <div class="cta-shops">
-                <a href="https://www.mrvegan.ch/collections/planted" class="btn btn-cta-shop" target="_blank" rel="noopener">
-                    Mr Vegan
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                        <polyline points="15 3 21 3 21 9"/>
-                        <line x1="10" y1="14" x2="21" y2="3"/>
-                    </svg>
-                </a>
-                <a href="https://www.alvies.ch/search?q=planted" class="btn btn-cta-shop" target="_blank" rel="noopener">
-                    Alvies
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                        <polyline points="15 3 21 3 21 9"/>
-                        <line x1="10" y1="14" x2="21" y2="3"/>
-                    </svg>
-                </a>
-                <a href="https://www.farmy.ch/search?q=planted" class="btn btn-cta-shop" target="_blank" rel="noopener">
-                    Farmy
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                        <polyline points="15 3 21 3 21 9"/>
-                        <line x1="10" y1="14" x2="21" y2="3"/>
-                    </svg>
-                </a>
+            <div class="cta-shops" id="ctaShops">
+                <!-- Populated by JavaScript based on country -->
             </div>
         </div>
     </div>
@@ -645,6 +622,41 @@ function getRetailerCountries(retailer: typeof retailers[0]): string[] {
             'Netherlands': '🇳🇱',
             'United Kingdom': '🇬🇧',
             'Spain': '🇪🇸'
+        };
+
+        // Online shops by country - retailers with online delivery
+        const onlineShopsByCountry = {
+            'Switzerland': [
+                { name: 'Coop', url: 'https://www.coop.ch/de/search/?text=planted' },
+                { name: 'Migros', url: 'https://www.migros.ch/de/search?query=planted' },
+                { name: 'Farmy', url: 'https://www.farmy.ch/search?q=planted' },
+            ],
+            'Germany': [
+                { name: 'REWE', url: 'https://shop.rewe.de/productList?search=planted' },
+                { name: 'Vekoop', url: 'https://www.vekoop.de/search?q=planted' },
+            ],
+            'Austria': [
+                { name: 'BILLA', url: 'https://shop.billa.at/search/planted' },
+                { name: 'REWE', url: 'https://shop.rewe.de/productList?search=planted' },
+            ],
+            'United Kingdom': [
+                { name: "Sainsbury's", url: 'https://www.sainsburys.co.uk/gol-ui/SearchResults/planted' },
+                { name: 'Waitrose', url: 'https://www.waitrose.com/ecom/shop/search?searchTerm=planted' },
+                { name: 'Ocado', url: 'https://www.ocado.com/search?entry=planted' },
+            ],
+            'Netherlands': [
+                { name: 'Albert Heijn', url: 'https://www.ah.nl/zoeken?query=planted' },
+                { name: 'Picnic', url: 'https://picnic.app' },
+            ],
+            'France': [
+                { name: 'Carrefour', url: 'https://www.carrefour.fr/s?q=planted' },
+            ],
+            'Italy': [
+                { name: 'Carrefour', url: 'https://www.carrefour.it/search?q=planted' },
+            ],
+            'Spain': [
+                { name: 'Carrefour', url: 'https://www.carrefour.es/search?query=planted' },
+            ],
         };
 
         // Map locale to country name
@@ -751,6 +763,36 @@ function getRetailerCountries(retailer: typeof retailers[0]): string[] {
 
             // Check if any cards are visible in each tab
             checkEmptyTabs();
+
+            // Update online shop CTA for this country
+            updateOnlineShopsCTA(country);
+        }
+
+        // Update the online shops CTA section based on country
+        function updateOnlineShopsCTA(country) {
+            const ctaText = document.getElementById('ctaText');
+            const ctaShops = document.getElementById('ctaShops');
+            if (!ctaText || !ctaShops) return;
+
+            const shops = onlineShopsByCountry[country] || [];
+
+            if (shops.length > 0) {
+                ctaText.textContent = `Order planted online in ${country}`;
+                ctaShops.innerHTML = shops.map(shop => `
+                    <a href="${shop.url}" class="btn btn-cta-shop" target="_blank" rel="noopener">
+                        ${shop.name}
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                            <polyline points="15 3 21 3 21 9"/>
+                            <line x1="10" y1="14" x2="21" y2="3"/>
+                        </svg>
+                    </a>
+                `).join('');
+            } else {
+                // Hide CTA if no online shops for this country
+                ctaText.textContent = 'Check our retail partners above';
+                ctaShops.innerHTML = '';
+            }
         }
 
         // ============================================
@@ -1066,14 +1108,12 @@ function getRetailerCountries(retailer: typeof retailers[0]): string[] {
                 chainGrid.parentNode.insertBefore(noDeliveryMsg, chainGrid);
             }
 
-            // Swiss online shops for CH, otherwise just show retail option
-            const isSwiss = currentCountry === 'Switzerland';
-            const onlineShopsHtml = isSwiss ? `
+            // Get online shops for current country
+            const shops = onlineShopsByCountry[currentCountry] || [];
+            const onlineShopsHtml = shops.length > 0 ? `
                 <div class="online-shops-row">
                     <span class="online-shops-label">Order online:</span>
-                    <a href="https://www.mrvegan.ch/collections/planted" target="_blank" rel="noopener" class="shop-link">Mr Vegan</a>
-                    <a href="https://www.alvies.ch/search?q=planted" target="_blank" rel="noopener" class="shop-link">Alvies</a>
-                    <a href="https://www.farmy.ch/search?q=planted" target="_blank" rel="noopener" class="shop-link">Farmy</a>
+                    ${shops.map(shop => `<a href="${shop.url}" target="_blank" rel="noopener" class="shop-link">${shop.name}</a>`).join('')}
                 </div>
             ` : '';
 
