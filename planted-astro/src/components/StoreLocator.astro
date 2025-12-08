@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import { deliveryRestaurants, platformColors, type DeliveryRestaurant } from '../data/deliveryRestaurants';
+import { chainLocations, chains, chainPlatformColors, type ChainLocation, type Chain } from '../data/chainRestaurants';
 
 interface Translations {
     detecting?: string;
@@ -21,6 +22,11 @@ interface Translations {
     cantFind?: string;
     orderOnline?: string;
     shopOnline?: string;
+    zipPlaceholder?: string;
+    zipLabel?: string;
+    findNearest?: string;
+    nearYou?: string;
+    locations?: string;
 }
 
 interface Props {
@@ -57,7 +63,29 @@ const t = {
     cantFind: translations.cantFind || "Can't find a store?",
     orderOnline: translations.orderOnline || "Order directly from our online shop and get planted delivered to your door.",
     shopOnline: translations.shopOnline || "Shop Online",
+    zipPlaceholder: translations.zipPlaceholder || "ZIP code",
+    zipLabel: translations.zipLabel || "Enter ZIP for nearest location",
+    findNearest: translations.findNearest || "Find nearest",
+    nearYou: translations.nearYou || "near you",
+    locations: translations.locations || "locations",
 };
+
+// ZIP code placeholders by country
+const zipPlaceholders: Record<string, string> = {
+    'Switzerland': '8001',
+    'Germany': '10115',
+    'Austria': '1010',
+    'Luxembourg': '1111',
+    'Italy': '20121',
+    'France': '75001',
+    'Netherlands': '1011',
+    'United Kingdom': 'SW1A 1AA',
+    'Spain': '28001',
+};
+
+// Pass chain data to client
+const chainDataForClient = JSON.stringify(chainLocations);
+const chainsMetaForClient = JSON.stringify(chains);
 
 const base = import.meta.env.BASE_URL;
 
@@ -168,6 +196,44 @@ function getRetailerCountries(retailer: typeof retailers[0]): string[] {
                             </button>
                         );
                     })}
+                </div>
+            </div>
+
+            <!-- ZIP Code Input -->
+            <div class="zip-input-wrapper reveal" id="zipInputWrapper">
+                <div class="zip-input-container">
+                    <div class="zip-input-inner">
+                        <svg class="zip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        <input
+                            type="text"
+                            id="zipInput"
+                            class="zip-input"
+                            placeholder="8001"
+                            autocomplete="postal-code"
+                            data-placeholders={JSON.stringify(zipPlaceholders)}
+                        />
+                        <button class="zip-search-btn" id="zipSearchBtn" aria-label={t.findNearest}>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <span class="zip-hint" id="zipHint">{t.zipLabel}</span>
+                </div>
+                <div class="zip-loading" id="zipLoading" style="display: none;">
+                    <span class="spinner"></span>
+                    <span>Finding nearest...</span>
+                </div>
+                <div class="zip-result" id="zipResult" style="display: none;">
+                    <span class="zip-result-text"></span>
+                    <button class="zip-clear-btn" id="zipClearBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 6L6 18M6 6l12 12"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
@@ -328,7 +394,100 @@ function getRetailerCountries(retailer: typeof retailers[0]): string[] {
                 <p>{t.deliveryIntro}</p>
             </div>
 
-            <div class="delivery-grid" id="deliveryGrid">
+            <!-- Chain restaurants grid (populated by JS based on ZIP) -->
+            <div class="chain-grid" id="chainGrid">
+                {chains.map((chain) => {
+                    // Get first location for this chain as default
+                    const defaultLocation = chainLocations.find(loc => loc.chainId === chain.id);
+                    const codeToName = { 'DE': 'Germany', 'CH': 'Switzerland', 'AT': 'Austria', 'LU': 'Luxembourg' };
+
+                    return defaultLocation && (
+                        <div
+                            class="chain-card reveal-scale"
+                            data-chain-id={chain.id}
+                            data-countries={chain.countries.map(c => codeToName[c as keyof typeof codeToName] || c).join(',')}
+                            data-location-id={defaultLocation.id}
+                        >
+                            <div class="chain-header">
+                                <div class="chain-meta">
+                                    <div class="chain-name-row">
+                                        <h3 class="chain-name">{chain.name}</h3>
+                                        <span class="chain-locations-badge" title={`${chain.totalLocations} ${t.locations}`}>
+                                            {chain.totalLocations}
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                                <circle cx="12" cy="10" r="3"/>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <div class="chain-info">
+                                        <span class="chain-location" data-location-name={defaultLocation.name}>
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                                <circle cx="12" cy="10" r="3"/>
+                                            </svg>
+                                            <span class="location-text">{defaultLocation.city}</span>
+                                        </span>
+                                        <span class="chain-cuisine">{chain.cuisine}</span>
+                                    </div>
+                                </div>
+                                <div class="distance-badge" style="display: none;">
+                                    <span class="distance-value"></span>
+                                </div>
+                            </div>
+
+                            {defaultLocation.dishes && defaultLocation.dishes.length > 0 && (
+                                <div class="dish-menu">
+                                    {defaultLocation.dishes.slice(0, 2).map((dish) => (
+                                        <div class="dish-item">
+                                            <div class="dish-info">
+                                                <div class="dish-name-row">
+                                                    <span class="dish-name">{dish.name}</span>
+                                                    {dish.isVegan && (
+                                                        <span class="vegan-badge">{t.vegan}</span>
+                                                    )}
+                                                </div>
+                                                <p class="dish-description">{dish.description}</p>
+                                            </div>
+                                            {dish.price && (
+                                                <span class="dish-price">{dish.price}</span>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            <div class="chain-products">
+                                {chain.plantedProducts.map((product) => (
+                                    <span class="product-tag">{product}</span>
+                                ))}
+                            </div>
+
+                            <div class="delivery-platforms chain-platforms" data-platforms={JSON.stringify(defaultLocation.deliveryPlatforms)}>
+                                {defaultLocation.deliveryPlatforms.slice(0, 3).map((platform) => (
+                                    <a
+                                        href={platform.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="platform-btn"
+                                        style={`--platform-color: ${chainPlatformColors[platform.name] || '#333'}`}
+                                    >
+                                        {platform.displayName}
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                            <polyline points="15 3 21 3 21 9"/>
+                                            <line x1="10" y1="14" x2="21" y2="3"/>
+                                        </svg>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+
+            <!-- Legacy delivery restaurants (for backwards compatibility) -->
+            <div class="delivery-grid" id="deliveryGrid" style="display: none;">
                 {deliveryRestaurants.map((restaurant) => {
                     const countryName = deliveryCountryMap[restaurant.country] || restaurant.country;
 
@@ -403,7 +562,7 @@ function getRetailerCountries(retailer: typeof retailers[0]): string[] {
                 })}
             </div>
 
-            {deliveryRestaurants.length === 0 && (
+            {chains.length === 0 && deliveryRestaurants.length === 0 && (
                 <p class="no-results">{t.noDelivery}</p>
             )}
         </div>
@@ -427,7 +586,7 @@ function getRetailerCountries(retailer: typeof retailers[0]): string[] {
     <div class="bg-pattern"></div>
 </section>
 
-<script define:vars={{ countryCodeToName, locale }}>
+<script define:vars={{ countryCodeToName, locale, chainDataForClient, chainsMetaForClient }}>
     function initStoreLocator() {
         const countryDetected = document.getElementById('countryDetected');
         const detectingEl = countryDetected?.querySelector('.detecting');
@@ -440,7 +599,21 @@ function getRetailerCountries(retailer: typeof retailers[0]): string[] {
         const tabBtns = document.querySelectorAll('.tab-btn');
         const tabContents = document.querySelectorAll('.tab-content');
 
+        // ZIP code elements
+        const zipInput = document.getElementById('zipInput');
+        const zipSearchBtn = document.getElementById('zipSearchBtn');
+        const zipLoading = document.getElementById('zipLoading');
+        const zipResult = document.getElementById('zipResult');
+        const zipHint = document.getElementById('zipHint');
+        const zipClearBtn = document.getElementById('zipClearBtn');
+        const zipInputContainer = document.querySelector('.zip-input-container');
+
+        // Parse chain data from server
+        const chainLocations = JSON.parse(chainDataForClient);
+        const chainsMeta = JSON.parse(chainsMetaForClient);
+
         let currentCountry = null;
+        let currentCoords = null; // { lat, lng } when ZIP is searched
 
         // Country flag mapping
         const countryFlags = {
@@ -502,6 +675,12 @@ function getRetailerCountries(retailer: typeof retailers[0]): string[] {
             if (countryName) countryName.textContent = country;
             if (countrySelector) countrySelector.style.display = 'none';
 
+            // Update ZIP placeholder for this country
+            updateZipPlaceholder(country);
+
+            // Clear any existing ZIP search when changing country
+            clearZipSearch();
+
             // Filter partner cards
             filterCards(country);
         }
@@ -522,7 +701,21 @@ function getRetailerCountries(retailer: typeof retailers[0]): string[] {
                 }
             });
 
-            // Filter delivery cards
+            // Filter chain cards
+            const chainCards = document.querySelectorAll('.chain-card');
+            chainCards.forEach((card) => {
+                const cardCountries = card.dataset.countries?.split(',') || [];
+                const matches = cardCountries.includes(country);
+
+                if (matches) {
+                    card.classList.remove('filtered-out');
+                    card.style.display = '';
+                } else {
+                    card.classList.add('filtered-out');
+                }
+            });
+
+            // Filter legacy delivery cards
             const deliveryCards = document.querySelectorAll('.delivery-card');
             deliveryCards.forEach((card) => {
                 const cardCountry = card.dataset.countries || '';
@@ -540,10 +733,292 @@ function getRetailerCountries(retailer: typeof retailers[0]): string[] {
             checkEmptyTabs();
         }
 
+        // ============================================
+        // ZIP CODE & DISTANCE FUNCTIONS
+        // ============================================
+
+        // Haversine distance calculation
+        function calculateDistance(lat1, lng1, lat2, lng2) {
+            const R = 6371; // Earth's radius in km
+            const dLat = toRad(lat2 - lat1);
+            const dLng = toRad(lng2 - lng1);
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                Math.sin(dLng / 2) * Math.sin(dLng / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        }
+
+        function toRad(deg) {
+            return deg * (Math.PI / 180);
+        }
+
+        function formatDistance(km) {
+            if (km < 1) return Math.round(km * 1000) + 'm';
+            if (km < 10) return km.toFixed(1) + 'km';
+            return Math.round(km) + 'km';
+        }
+
+        // Get country code for geocoding
+        function getCountryCodeForGeocoding(countryName) {
+            const map = {
+                'Switzerland': 'ch',
+                'Germany': 'de',
+                'Austria': 'at',
+                'Luxembourg': 'lu',
+                'Italy': 'it',
+                'France': 'fr',
+                'Netherlands': 'nl',
+                'United Kingdom': 'gb',
+                'Spain': 'es'
+            };
+            return map[countryName] || 'de';
+        }
+
+        // Geocode ZIP code using Nominatim (OSM)
+        async function geocodeZip(zip, countryCode) {
+            // Check cache first
+            const cacheKey = `geo_${zip}_${countryCode}`;
+            const cached = localStorage.getItem(cacheKey);
+            if (cached) {
+                const data = JSON.parse(cached);
+                if (Date.now() - data.timestamp < 7 * 24 * 60 * 60 * 1000) { // 7 days
+                    return data.coords;
+                }
+            }
+
+            try {
+                const url = `https://nominatim.openstreetmap.org/search?postalcode=${encodeURIComponent(zip)}&country=${countryCode}&format=json&limit=1`;
+                const response = await fetch(url, {
+                    headers: { 'User-Agent': 'PlantedWebsite/1.0' }
+                });
+
+                if (!response.ok) throw new Error('Geocoding failed');
+
+                const data = await response.json();
+                if (data.length === 0) throw new Error('ZIP not found');
+
+                const coords = {
+                    lat: parseFloat(data[0].lat),
+                    lng: parseFloat(data[0].lon),
+                    displayName: data[0].display_name.split(',')[0]
+                };
+
+                // Cache result
+                localStorage.setItem(cacheKey, JSON.stringify({
+                    coords,
+                    timestamp: Date.now()
+                }));
+
+                return coords;
+            } catch (error) {
+                console.error('Geocoding error:', error);
+                throw error;
+            }
+        }
+
+        // Get closest location for each chain
+        function getClosestChainLocations(lat, lng, country) {
+            const countryCodeMap = {
+                'Switzerland': 'ch',
+                'Germany': 'de',
+                'Austria': 'at',
+                'Luxembourg': 'lu'
+            };
+            const countryCode = countryCodeMap[country];
+
+            // Filter by country
+            const filtered = chainLocations.filter(loc => loc.country === countryCode);
+
+            // Calculate distances
+            const withDistance = filtered.map(loc => ({
+                ...loc,
+                distance: calculateDistance(lat, lng, loc.coordinates.lat, loc.coordinates.lng)
+            }));
+
+            // Group by chain and get closest for each
+            const chainMap = new Map();
+            for (const loc of withDistance) {
+                const existing = chainMap.get(loc.chainId);
+                if (!existing || loc.distance < existing.distance) {
+                    chainMap.set(loc.chainId, loc);
+                }
+            }
+
+            // Sort by distance
+            return Array.from(chainMap.values()).sort((a, b) => a.distance - b.distance);
+        }
+
+        // Update chain cards with distances
+        function updateChainCardsWithDistance(closestLocations) {
+            const chainCards = document.querySelectorAll('.chain-card');
+
+            chainCards.forEach(card => {
+                const chainId = card.dataset.chainId;
+                const closestLoc = closestLocations.find(loc => loc.chainId === chainId);
+
+                if (closestLoc) {
+                    // Show distance badge
+                    const distanceBadge = card.querySelector('.distance-badge');
+                    const distanceValue = card.querySelector('.distance-value');
+                    if (distanceBadge && distanceValue) {
+                        distanceValue.textContent = formatDistance(closestLoc.distance);
+                        distanceBadge.style.display = 'flex';
+                        distanceBadge.classList.add('animate-in');
+                    }
+
+                    // Update location text
+                    const locationText = card.querySelector('.location-text');
+                    if (locationText) {
+                        locationText.textContent = closestLoc.city;
+                    }
+
+                    // Update delivery platforms if different location
+                    const platformsContainer = card.querySelector('.chain-platforms');
+                    if (platformsContainer && closestLoc.deliveryPlatforms?.length > 0) {
+                        const platformColors = {
+                            'wolt': '#00C2E8',
+                            'lieferando': '#FF8000',
+                            'uber-eats': '#06C167',
+                            'just-eat': '#FF5A00',
+                            'smood': '#E91E63'
+                        };
+
+                        platformsContainer.innerHTML = closestLoc.deliveryPlatforms.slice(0, 3).map(p => `
+                            <a href="${p.url}" target="_blank" rel="noopener noreferrer"
+                               class="platform-btn" style="--platform-color: ${platformColors[p.name] || '#333'}">
+                                ${p.displayName}
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                    <polyline points="15 3 21 3 21 9"/>
+                                    <line x1="10" y1="14" x2="21" y2="3"/>
+                                </svg>
+                            </a>
+                        `).join('');
+                    }
+
+                    // Store distance for sorting
+                    card.dataset.distance = closestLoc.distance;
+                    card.classList.remove('filtered-out');
+                } else {
+                    card.classList.add('filtered-out');
+                }
+            });
+
+            // Sort cards by distance
+            sortChainCardsByDistance();
+        }
+
+        // Sort chain cards by distance
+        function sortChainCardsByDistance() {
+            const grid = document.getElementById('chainGrid');
+            if (!grid) return;
+
+            const cards = Array.from(grid.querySelectorAll('.chain-card:not(.filtered-out)'));
+            cards.sort((a, b) => {
+                const distA = parseFloat(a.dataset.distance) || 9999;
+                const distB = parseFloat(b.dataset.distance) || 9999;
+                return distA - distB;
+            });
+
+            // Reorder DOM
+            cards.forEach((card, index) => {
+                card.style.order = index;
+                // Stagger animation
+                card.style.animationDelay = `${index * 50}ms`;
+            });
+        }
+
+        // Clear distance badges
+        function clearDistanceBadges() {
+            const badges = document.querySelectorAll('.distance-badge');
+            badges.forEach(badge => {
+                badge.style.display = 'none';
+                badge.classList.remove('animate-in');
+            });
+
+            // Reset card order
+            const cards = document.querySelectorAll('.chain-card');
+            cards.forEach(card => {
+                card.style.order = '';
+                card.style.animationDelay = '';
+                delete card.dataset.distance;
+            });
+        }
+
+        // Handle ZIP search
+        async function handleZipSearch() {
+            const zip = zipInput?.value?.trim();
+            if (!zip || zip.length < 3) return;
+
+            const countryCode = getCountryCodeForGeocoding(currentCountry);
+
+            // Show loading
+            if (zipInputContainer) zipInputContainer.style.display = 'none';
+            if (zipLoading) zipLoading.style.display = 'flex';
+            if (zipResult) zipResult.style.display = 'none';
+
+            try {
+                const coords = await geocodeZip(zip, countryCode);
+                currentCoords = coords;
+
+                // Get closest locations and update cards
+                const closest = getClosestChainLocations(coords.lat, coords.lng, currentCountry);
+                updateChainCardsWithDistance(closest);
+
+                // Show result
+                if (zipLoading) zipLoading.style.display = 'none';
+                if (zipResult) {
+                    zipResult.style.display = 'flex';
+                    const resultText = zipResult.querySelector('.zip-result-text');
+                    if (resultText) {
+                        resultText.textContent = `${closest.length} restaurants near ${coords.displayName || zip}`;
+                    }
+                }
+
+                // Switch to delivery tab to show results
+                const deliveryTab = document.querySelector('[data-tab="delivery"]');
+                if (deliveryTab) deliveryTab.click();
+
+            } catch (error) {
+                // Show error / reset
+                if (zipLoading) zipLoading.style.display = 'none';
+                if (zipInputContainer) zipInputContainer.style.display = 'block';
+                if (zipHint) {
+                    zipHint.textContent = 'ZIP code not found. Try another.';
+                    zipHint.classList.add('error');
+                    setTimeout(() => {
+                        zipHint.textContent = 'Enter ZIP for nearest location';
+                        zipHint.classList.remove('error');
+                    }, 3000);
+                }
+            }
+        }
+
+        // Clear ZIP search
+        function clearZipSearch() {
+            currentCoords = null;
+            if (zipInput) zipInput.value = '';
+            if (zipInputContainer) zipInputContainer.style.display = 'block';
+            if (zipResult) zipResult.style.display = 'none';
+            if (zipLoading) zipLoading.style.display = 'none';
+
+            clearDistanceBadges();
+            filterCards(currentCountry);
+        }
+
+        // Update ZIP placeholder based on country
+        function updateZipPlaceholder(country) {
+            if (!zipInput) return;
+            const placeholders = JSON.parse(zipInput.dataset.placeholders || '{}');
+            zipInput.placeholder = placeholders[country] || '10115';
+        }
+
         // Check for empty tabs
         function checkEmptyTabs() {
             const retailCards = document.querySelectorAll('#retail-tab .partner-card:not(.filtered-out)');
             const foodserviceCards = document.querySelectorAll('#foodservice-tab .partner-card:not(.filtered-out)');
+            const chainCards = document.querySelectorAll('#delivery-tab .chain-card:not(.filtered-out)');
             const deliveryCards = document.querySelectorAll('#delivery-tab .delivery-card:not(.filtered-out)');
 
             // Update no results messages
@@ -628,6 +1103,18 @@ function getRetailerCountries(retailer: typeof retailers[0]): string[] {
                 });
             });
         });
+
+        // ZIP code search handlers
+        zipSearchBtn?.addEventListener('click', handleZipSearch);
+
+        zipInput?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleZipSearch();
+            }
+        });
+
+        zipClearBtn?.addEventListener('click', clearZipSearch);
 
         // Initialize with locale-based country (no IP detection needed)
         initCountry();
@@ -766,6 +1253,143 @@ function getRetailerCountries(retailer: typeof retailers[0]): string[] {
     .country-option:hover {
         background: rgba(255, 255, 255, 0.2);
         border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* ZIP Code Input */
+    .zip-input-wrapper {
+        margin-top: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .zip-input-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.35rem;
+    }
+
+    .zip-input-inner {
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.15);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 100px;
+        padding: 0.5rem 0.5rem 0.5rem 1rem;
+        transition: all 0.3s;
+    }
+
+    .zip-input-inner:focus-within {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: var(--planted-green);
+        box-shadow: 0 0 0 3px rgba(139, 197, 63, 0.2);
+    }
+
+    .zip-icon {
+        width: 18px;
+        height: 18px;
+        color: rgba(255, 255, 255, 0.7);
+        flex-shrink: 0;
+    }
+
+    .zip-input {
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 1rem;
+        font-family: inherit;
+        font-weight: 600;
+        width: 100px;
+        padding: 0.5rem;
+        outline: none;
+    }
+
+    .zip-input::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .zip-search-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: var(--planted-green);
+        border: none;
+        border-radius: 50%;
+        color: var(--planted-purple);
+        cursor: pointer;
+        transition: all 0.2s;
+        flex-shrink: 0;
+    }
+
+    .zip-search-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(139, 197, 63, 0.4);
+    }
+
+    .zip-search-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .zip-hint {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.6);
+        transition: color 0.3s;
+    }
+
+    .zip-hint.error {
+        color: #FF6B6B;
+    }
+
+    .zip-loading {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: white;
+        font-size: 0.9rem;
+    }
+
+    .zip-result {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: rgba(139, 197, 63, 0.2);
+        border: 2px solid var(--planted-green);
+        border-radius: 100px;
+        padding: 0.6rem 0.75rem 0.6rem 1.25rem;
+        color: white;
+    }
+
+    .zip-result-text {
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    .zip-clear-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        border-radius: 50%;
+        color: white;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .zip-clear-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    .zip-clear-btn svg {
+        width: 14px;
+        height: 14px;
     }
 
     /* Tab navigation */
@@ -979,6 +1603,165 @@ function getRetailerCountries(retailer: typeof retailers[0]): string[] {
         color: rgba(255, 255, 255, 0.8);
         max-width: 600px;
         margin: 0 auto 2rem;
+    }
+
+    /* Chain restaurant grid */
+    .chain-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1.25rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .chain-card {
+        background: white;
+        border-radius: 1.25rem;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        transition: transform 0.3s var(--ease-out-expo), box-shadow 0.3s, opacity 0.3s;
+        animation: cardFadeIn 0.4s ease-out forwards;
+    }
+
+    @keyframes cardFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .chain-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    :global(.chain-card.filtered-out) {
+        display: none !important;
+    }
+
+    .chain-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .chain-meta {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .chain-name-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.35rem;
+    }
+
+    .chain-name {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--planted-charcoal);
+        margin: 0;
+        line-height: 1.2;
+    }
+
+    .chain-locations-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.2rem;
+        background: rgba(107, 57, 131, 0.1);
+        color: var(--planted-purple);
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 0.2rem 0.5rem;
+        border-radius: 100px;
+    }
+
+    .chain-locations-badge svg {
+        width: 10px;
+        height: 10px;
+    }
+
+    .chain-info {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .chain-location {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 0.85rem;
+        color: #666;
+    }
+
+    .chain-location svg {
+        width: 14px;
+        height: 14px;
+        color: var(--planted-green);
+    }
+
+    .chain-cuisine {
+        font-size: 0.8rem;
+        color: var(--planted-purple);
+        background: rgba(107, 57, 131, 0.1);
+        padding: 0.2rem 0.6rem;
+        border-radius: 100px;
+    }
+
+    /* Distance badge */
+    .distance-badge {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--planted-green), #7CB342);
+        color: white;
+        padding: 0.4rem 0.75rem;
+        border-radius: 100px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        flex-shrink: 0;
+        box-shadow: 0 2px 8px rgba(139, 197, 63, 0.3);
+        opacity: 0;
+        transform: scale(0.8);
+        transition: all 0.3s ease-out;
+    }
+
+    .distance-badge.animate-in {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .chain-products {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        padding-top: 0.5rem;
+    }
+
+    .product-tag {
+        background: linear-gradient(135deg, var(--planted-purple), #8B3DB5);
+        color: white;
+        font-size: 0.7rem;
+        font-weight: 600;
+        padding: 0.25rem 0.6rem;
+        border-radius: 100px;
+    }
+
+    .chain-platforms {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
     }
 
     .delivery-grid {
