@@ -33,10 +33,10 @@ export interface DeliveryPlatformLink {
 export interface ChainDish {
   name: string;
   description?: string;
-  /** @deprecated Use priceByCountry instead */
+  /** Single price - use for chains operating in one country only */
   price?: string;
-  /** Country-specific prices (e.g., { ch: 'CHF 14.90', de: '€12.90', at: '€12.90' }) */
-  priceByCountry?: Record<'ch' | 'de' | 'at' | 'lu', string>;
+  /** Country-specific prices for multi-country chains (e.g., { ch: 'CHF 14.90', de: '€12.90' }) */
+  priceByCountry?: Partial<Record<'ch' | 'de' | 'at' | 'lu', string>>;
   plantedProduct: string;
   isVegan?: boolean;
 }
@@ -402,8 +402,8 @@ export const chainLocations: ChainLocation[] = [
     ],
     plantedProducts: ['planted.chicken'],
     dishes: [
-      { name: 'Classic Planted Burger', description: 'Crispy planted.chicken, cheese, salad, pickle, Signature Sauce', priceByCountry: { de: '€8.85', at: '€8.85', ch: 'CHF 12.90', lu: '€8.85' }, plantedProduct: 'planted.chicken', isVegan: true },
-      { name: 'Spicy Planted Burger', description: 'planted.chicken, jalapeños, Chipotle Mayo, Buffalo Sauce', priceByCountry: { de: '€9.75', at: '€9.75', ch: 'CHF 13.90', lu: '€9.75' }, plantedProduct: 'planted.chicken', isVegan: true },
+      { name: 'Classic Planted Burger', description: 'Crispy planted.chicken, cheese, salad, pickle, Signature Sauce', price: '€8.85', plantedProduct: 'planted.chicken', isVegan: true },
+      { name: 'Spicy Planted Burger', description: 'planted.chicken, jalapeños, Chipotle Mayo, Buffalo Sauce', price: '€9.75', plantedProduct: 'planted.chicken', isVegan: true },
     ],
   },
   {
@@ -523,7 +523,7 @@ export const chainLocations: ChainLocation[] = [
     ],
     plantedProducts: ['planted.chicken'],
     dishes: [
-      { name: 'Thai-Gericht mit planted.chicken', description: 'planted chicken with broccoli, bamboo, carrots, mushrooms in soy sauce, jasmine rice', priceByCountry: { ch: 'CHF 22.90', de: '€16.90', at: '€16.90', lu: '€16.90' }, plantedProduct: 'planted.chicken', isVegan: true },
+      { name: 'Thai-Gericht mit planted.chicken', description: 'planted chicken with broccoli, bamboo, carrots, mushrooms in soy sauce, jasmine rice', priceByCountry: { ch: 'CHF 22.90', de: '€16.90' }, plantedProduct: 'planted.chicken', isVegan: true },
     ],
   },
   {
@@ -583,8 +583,8 @@ export const chainLocations: ChainLocation[] = [
     ],
     plantedProducts: ['planted.chicken'],
     dishes: [
-      { name: 'Fried Rice with planted.chicken', description: 'Fried rice with planted chicken, vegetables, bean sprouts, chili, coriander', priceByCountry: { ch: 'CHF 24.50', de: '€18.90', at: '€18.90', lu: '€18.90' }, plantedProduct: 'planted.chicken', isVegan: true },
-      { name: "Sweet'n'Sour planted.chicken", description: 'planted chicken in tempura batter with peppers, pineapple, sweet & sour sauce, jasmine rice', priceByCountry: { ch: 'CHF 25.90', de: '€19.90', at: '€19.90', lu: '€19.90' }, plantedProduct: 'planted.chicken', isVegan: true },
+      { name: 'Fried Rice with planted.chicken', description: 'Fried rice with planted chicken, vegetables, bean sprouts, chili, coriander', price: 'CHF 24.50', plantedProduct: 'planted.chicken', isVegan: true },
+      { name: "Sweet'n'Sour planted.chicken", description: 'planted chicken in tempura batter with peppers, pineapple, sweet & sour sauce, jasmine rice', price: 'CHF 25.90', plantedProduct: 'planted.chicken', isVegan: true },
     ],
   },
   {
@@ -643,7 +643,7 @@ export const chainLocations: ChainLocation[] = [
     ],
     plantedProducts: ['planted.chicken'],
     dishes: [
-      { name: 'planted.chicken Burrito', description: 'planted.chicken with guacamole, salad, rice, beans, salsa', priceByCountry: { de: '€11.90', at: '€12.50', ch: 'CHF 16.90', lu: '€12.50' }, plantedProduct: 'planted.chicken', isVegan: true },
+      { name: 'planted.chicken Burrito', description: 'planted.chicken with guacamole, salad, rice, beans, salsa', price: '€11.90', plantedProduct: 'planted.chicken', isVegan: true },
     ],
   },
   {
@@ -707,8 +707,8 @@ export const chainLocations: ChainLocation[] = [
     ],
     plantedProducts: ['planted.chicken'],
     dishes: [
-      { name: 'Vegan Fit Planted', description: 'Quinoa, chickpea, planted chicken, broccoli, beetroot hummus, cashew', priceByCountry: { de: '€13.95', at: '€14.50', ch: 'CHF 19.90', lu: '€14.50' }, plantedProduct: 'planted.chicken', isVegan: true },
-      { name: 'Mexican Taco Planted', description: 'Rice, planted chicken, sweet potato, black bean, guacamole, tortilla chips', priceByCountry: { de: '€13.95', at: '€14.50', ch: 'CHF 19.90', lu: '€14.50' }, plantedProduct: 'planted.chicken', isVegan: true },
+      { name: 'Vegan Fit Planted', description: 'Quinoa, chickpea, planted chicken, broccoli, beetroot hummus, cashew', price: '€13.95', plantedProduct: 'planted.chicken', isVegan: true },
+      { name: 'Mexican Taco Planted', description: 'Rice, planted chicken, sweet potato, black bean, guacamole, tortilla chips', price: '€13.95', plantedProduct: 'planted.chicken', isVegan: true },
     ],
   },
   {
@@ -772,8 +772,8 @@ export const chainLocations: ChainLocation[] = [
     ],
     plantedProducts: ['planted.kebab'],
     dishes: [
-      { name: 'Planted Kebap Döner', description: 'Vegan döner with planted kebab, fresh salad, grilled vegetables, sauces', priceByCountry: { de: '€8.90', at: '€9.50', ch: 'CHF 13.90', lu: '€9.50' }, plantedProduct: 'planted.kebab', isVegan: true },
-      { name: 'Planted Kebap Dürüm', description: 'Wrap with planted kebab, salad mix, grilled vegetables, herb-yogurt sauce', priceByCountry: { de: '€9.50', at: '€10.00', ch: 'CHF 14.90', lu: '€10.00' }, plantedProduct: 'planted.kebab', isVegan: true },
+      { name: 'Planted Kebap Döner', description: 'Vegan döner with planted kebab, fresh salad, grilled vegetables, sauces', price: '€8.90', plantedProduct: 'planted.kebab', isVegan: true },
+      { name: 'Planted Kebap Dürüm', description: 'Wrap with planted kebab, salad mix, grilled vegetables, herb-yogurt sauce', price: '€9.50', plantedProduct: 'planted.kebab', isVegan: true },
     ],
   },
   {
@@ -821,9 +821,9 @@ export const chainLocations: ChainLocation[] = [
     ],
     plantedProducts: ['planted.chicken', 'planted.duck', 'planted.pulled'],
     dishes: [
-      { name: 'Mad Mediterranean', description: 'Lemon-herbs planted.chicken bowl', priceByCountry: { de: '€14.90', at: '€15.50', ch: 'CHF 21.90', lu: '€15.50' }, plantedProduct: 'planted.chicken', isVegan: true },
-      { name: 'Decadent Duck', description: 'Hoisin planted.duck bowl', priceByCountry: { de: '€15.90', at: '€16.50', ch: 'CHF 22.90', lu: '€16.50' }, plantedProduct: 'planted.duck', isVegan: true },
-      { name: 'Cheating Chili', description: 'BBQ chili planted.pulled bowl', priceByCountry: { de: '€14.90', at: '€15.50', ch: 'CHF 21.90', lu: '€15.50' }, plantedProduct: 'planted.pulled', isVegan: true },
+      { name: 'Mad Mediterranean', description: 'Lemon-herbs planted.chicken bowl', price: '€14.90', plantedProduct: 'planted.chicken', isVegan: true },
+      { name: 'Decadent Duck', description: 'Hoisin planted.duck bowl', price: '€15.90', plantedProduct: 'planted.duck', isVegan: true },
+      { name: 'Cheating Chili', description: 'BBQ chili planted.pulled bowl', price: '€14.90', plantedProduct: 'planted.pulled', isVegan: true },
     ],
   },
   {
@@ -858,7 +858,7 @@ export const chainLocations: ChainLocation[] = [
     ],
     plantedProducts: ['planted.chicken'],
     dishes: [
-      { name: 'Baguette Planted Chicken Curry', description: 'Pretzel baguette with planted.chicken, Lollo Verde lettuce, and curry sauce', priceByCountry: { ch: 'CHF 8.20', de: '€6.90', at: '€7.20', lu: '€7.20' }, plantedProduct: 'planted.chicken', isVegan: true },
+      { name: 'Baguette Planted Chicken Curry', description: 'Pretzel baguette with planted.chicken, Lollo Verde lettuce, and curry sauce', price: 'CHF 8.20', plantedProduct: 'planted.chicken', isVegan: true },
     ],
   },
   {
