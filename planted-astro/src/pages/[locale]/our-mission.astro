@@ -306,13 +306,20 @@ const milestones = [
             <h2 class="reveal">{t.mission?.founders?.title || 'Meet the Team'}</h2>
             <p class="team-subtitle reveal">{t.mission?.founders?.subtitle || 'The people behind planted.'}</p>
         </div>
-        <div class="team-photo-container reveal-scale">
-            <img
-                src="https://eatplanted.com/cdn/shop/files/Founders-Principals-2_web.jpg?v=1727348509"
-                alt="The planted team"
-                loading="lazy"
-                class="team-group-photo"
-            />
+
+        <!-- Leadership Split Section: Photo + Text -->
+        <div class="leadership-split reveal">
+            <div class="leadership-photo">
+                <img
+                    src="https://eatplanted.com/cdn/shop/files/Founders-Principals-2_web.jpg?v=1727348509"
+                    alt="Planted Senior Leadership Team"
+                    loading="lazy"
+                />
+            </div>
+            <div class="leadership-content">
+                <h3 class="nice-to-meet">{t.mission?.founders?.niceToMeet || 'Nice to meet you!'}</h3>
+                <p class="leadership-text">{t.mission?.founders?.leadershipText || 'Meet Judith, Chris, Pascal, Lukas, Marion, David, Rasmus and Joanna - the first four are founders of Planted, and the whole group acts as our senior leadership team. They lead our teams towards our goal of inspiring people to make a permanent switch to better protein, wherever they eat. Planted is so much more than just a (very) tasty product - it\'s a mindset. They empower our team every day to make important decisions, evolve and reach their full potential. We are all convinced that we can only achieve our ambitious goals with the best team.'}</p>
+            </div>
         </div>
 
         <!-- Team Members Grid -->
@@ -797,18 +804,60 @@ const milestones = [
         margin: 0 auto;
     }
 
-    .team-photo-container {
-        max-width: 900px;
+    /* Leadership Split Layout */
+    .leadership-split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        max-width: 1100px;
         margin: 0 auto;
+        align-items: center;
+    }
+
+    .leadership-photo {
         border-radius: 1.5rem;
         overflow: hidden;
         box-shadow: 0 8px 40px rgba(97, 38, 158, 0.12);
     }
 
-    .team-group-photo {
+    .leadership-photo img {
         width: 100%;
         height: auto;
         display: block;
+    }
+
+    .leadership-content {
+        padding: 1rem 0;
+    }
+
+    .nice-to-meet {
+        font-family: 'VC Henrietta', serif;
+        font-size: clamp(1.8rem, 5vw, 2.5rem);
+        color: var(--planted-purple);
+        margin-bottom: 1.5rem;
+    }
+
+    .leadership-text {
+        font-size: 1.05rem;
+        line-height: 1.8;
+        color: var(--planted-charcoal);
+        opacity: 0.85;
+    }
+
+    @media (max-width: 800px) {
+        .leadership-split {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .leadership-photo {
+            order: 1;
+        }
+
+        .leadership-content {
+            order: 2;
+            text-align: center;
+        }
     }
 
     /* Team Members Section */

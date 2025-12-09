@@ -429,6 +429,8 @@ export default {
         founders: {
             title: 'Meet the Team',
             subtitle: 'The people behind planted.',
+            niceToMeet: 'Nice to meet you!',
+            leadershipText: 'Meet Judith, Chris, Pascal, Lukas, Marion, David, Rasmus and Joanna - the first four are founders of Planted, and the whole group acts as our senior leadership team. They lead our teams towards our goal of inspiring people to make a permanent switch to better protein, wherever they eat. Planted is so much more than just a (very) tasty product - it\'s a mindset. They empower our team every day to make important decisions, evolve and reach their full potential. We are all convinced that we can only achieve our ambitious goals with the best team.',
             gangTitle: 'Get to know some of the faces of our gang!',
         },
         cta: {

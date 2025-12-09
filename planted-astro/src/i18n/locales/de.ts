@@ -429,6 +429,8 @@ export default {
         founders: {
             title: 'Das Team',
             subtitle: 'Die Menschen hinter planted.',
+            niceToMeet: 'Schön, dich kennenzulernen!',
+            leadershipText: 'Das sind Judith, Chris, Pascal, Lukas, Marion, David, Rasmus und Joanna – die ersten vier sind Gründer von Planted, und die ganze Gruppe bildet unser Senior Leadership Team. Sie führen unsere Teams mit dem Ziel, Menschen zu inspirieren, dauerhaft auf besseres Protein umzusteigen – überall, wo sie essen. Planted ist so viel mehr als nur ein (sehr) leckeres Produkt – es ist eine Denkweise. Sie befähigen unser Team jeden Tag, wichtige Entscheidungen zu treffen, sich weiterzuentwickeln und ihr volles Potenzial zu entfalten. Wir sind alle überzeugt, dass wir unsere ehrgeizigen Ziele nur mit dem besten Team erreichen können.',
             gangTitle: 'Lerne einige Gesichter unserer Gang kennen!',
         },
         cta: {
