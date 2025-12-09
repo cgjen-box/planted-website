@@ -427,7 +427,9 @@ export default {
             text2: 'Our goal isn\'t to be the biggest plant-based company. It\'s to be the one that finally makes meat eaters switch—because they want to.',
         },
         founders: {
-            title: 'The four behind it',
+            title: 'Meet the Team',
+            subtitle: 'The people behind planted.',
+            gangTitle: 'Get to know some of the faces of our gang!',
         },
         cta: {
             title: 'Ready to taste the difference?',

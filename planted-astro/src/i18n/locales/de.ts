@@ -427,7 +427,9 @@ export default {
             text2: 'Unser Ziel ist nicht, das grösste Plant-Based-Unternehmen zu sein. Sondern das, das Fleischesser endlich zum Wechseln bringt – weil sie wollen, nicht weil sie müssen.',
         },
         founders: {
-            title: 'Die vier dahinter',
+            title: 'Das Team',
+            subtitle: 'Die Menschen hinter planted.',
+            gangTitle: 'Lerne einige Gesichter unserer Gang kennen!',
         },
         cta: {
             title: 'Bereit, den Unterschied zu schmecken?',

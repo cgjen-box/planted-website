@@ -16,8 +16,57 @@ const base = import.meta.env.BASE_URL;
 const t = getTranslations(locale);
 const localeData = locales[locale];
 
-const team = await getCollection('team');
-const sortedTeam = team.sort((a, b) => a.data.order - b.data.order);
+// Team members data - from eatplanted.com/pages/meet-the-team
+const teamMembers = [
+    {
+        name: 'Eric Stirnemann',
+        role: 'Co-founder & Lead Extrusion Technology',
+        photo: 'https://eatplanted.com/cdn/shop/files/Eric_DSC4460_1.jpg?v=1754659268',
+        description: 'Eric is one of the brains behind Planted and the pioneer of our extrusion technology. As a co-founder, he has been instrumental in shaping our product innovations from the very beginning.',
+    },
+    {
+        name: 'Amine Kharroubi',
+        role: 'Process Engineer',
+        photo: 'https://eatplanted.com/cdn/shop/files/Mohamed_Amine_DSC06217.jpg?v=1726580393',
+        description: 'As a process engineer, Amine works closely with production on a daily basis, and the many languages he speaks are very helpful for this.',
+    },
+    {
+        name: 'Sabrina Toto',
+        role: 'Shift Supervisor',
+        photo: 'https://eatplanted.com/cdn/shop/files/Sabrina_DSC06236.jpg?v=1726580606',
+        description: 'Sabrina has worked her way up from production employee to shift manager and has learned German from scratch. She leads her team with great commitment every day.',
+    },
+    {
+        name: 'Christina Müssner',
+        role: 'Lead Quality Management',
+        photo: 'https://eatplanted.com/cdn/shop/files/Christina_A7404444.jpg?v=1726580923',
+        description: 'As Planted\'s first employee, Christina built up the quality department from scratch. She also plays for the Liechtenstein national women\'s football team.',
+    },
+    {
+        name: 'Kim Mishra',
+        role: 'Head of Research and Development',
+        photo: 'https://eatplanted.com/cdn/shop/files/Kim_DSC07422.jpg?v=1726580392',
+        description: 'Kim, who started out as a lipid specialist, now heads the biotech R&D team. He is also training the next generation of food scientists at ETH Zurich.',
+    },
+    {
+        name: 'Cynthia Büchi',
+        role: 'HR Business Partner',
+        photo: 'https://eatplanted.com/cdn/shop/files/Cynthia_DSC05111_1.png?v=1726580394',
+        description: 'Cynthia works part-time as an HR Business Partner because she is a 100% mother. She successfully combines professional responsibility with family life.',
+    },
+    {
+        name: 'Julian Rehberg',
+        role: 'Contract Manufacturing Manager',
+        photo: 'https://eatplanted.com/cdn/shop/files/Julian_DSC06289.jpg?v=1726580392',
+        description: 'Julian started his career at Planted as a Culinary Developer, but wanted to go in a different direction. Now he is a valuable member of our manufacturing team.',
+    },
+    {
+        name: 'Sampo Lenzi',
+        role: 'Creative Director',
+        photo: 'https://eatplanted.com/cdn/shop/files/DSC03985-Enhanced-NR2.jpg?v=1727686926',
+        description: 'After an initial application a year earlier, Sampo landed his dream job as creative director at Planted on his second attempt.',
+    },
+];
 
 // Get news for timeline milestones
 const allNews = await getCollection('news');
@@ -251,23 +300,38 @@ const milestones = [
         </div>
     </section>
 
-    <!-- Founders (condensed) -->
-    <section class="founders-section">
-        <div class="founders-header">
-            <h2 class="reveal">{t.mission?.founders?.title || 'The four behind it'}</h2>
+    <!-- Meet the Team -->
+    <section class="team-section">
+        <div class="team-header">
+            <h2 class="reveal">{t.mission?.founders?.title || 'Meet the Team'}</h2>
+            <p class="team-subtitle reveal">{t.mission?.founders?.subtitle || 'The people behind planted.'}</p>
         </div>
-        <div class="founders-grid">
-            {sortedTeam.slice(0, 4).map((member) => (
-                <div class="founder-card reveal-scale">
-                    <div class="founder-photo">
-                        <img src={member.data.photo} alt={member.data.name} loading="lazy" />
+        <div class="team-photo-container reveal-scale">
+            <img
+                src="https://eatplanted.com/cdn/shop/files/Founders-Principals-2_web.jpg?v=1727348509"
+                alt="The planted team"
+                loading="lazy"
+                class="team-group-photo"
+            />
+        </div>
+
+        <!-- Team Members Grid -->
+        <div class="team-members-section">
+            <h3 class="gang-title reveal">{t.mission?.founders?.gangTitle || 'Get to know some of the faces of our gang!'}</h3>
+            <div class="team-members-grid">
+                {teamMembers.map((member) => (
+                    <div class="team-member-card reveal-scale">
+                        <div class="member-photo">
+                            <img src={member.photo} alt={member.name} loading="lazy" />
+                        </div>
+                        <div class="member-info">
+                            <span class="member-name">{member.name}</span>
+                            <span class="member-role">{member.role}</span>
+                            <p class="member-description">{member.description}</p>
+                        </div>
                     </div>
-                    <div class="founder-info">
-                        <span class="founder-name">{member.data.name}</span>
-                        <span class="founder-role">{member.data.role}</span>
-                    </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
     </section>
 
@@ -709,64 +773,155 @@ const milestones = [
         margin-bottom: 1rem;
     }
 
-    /* Founders */
-    .founders-section {
-        padding: 4rem 1.5rem;
+    /* Meet the Team */
+    .team-section {
+        padding: 5rem 1.5rem;
         background: var(--planted-cream);
     }
 
-    .founders-header {
+    .team-header {
         text-align: center;
-        margin-bottom: 2.5rem;
+        margin-bottom: 3rem;
     }
 
-    .founders-header h2 {
-        font-size: clamp(1.5rem, 4vw, 2rem);
+    .team-header h2 {
+        font-size: clamp(2rem, 6vw, 3rem);
         color: var(--planted-purple);
+        margin-bottom: 0.5rem;
     }
 
-    .founders-grid {
-        display: flex;
-        justify-content: center;
-        gap: 2rem;
-        flex-wrap: wrap;
-        max-width: 800px;
+    .team-subtitle {
+        font-size: 1.15rem;
+        opacity: 0.7;
+        max-width: 500px;
         margin: 0 auto;
     }
 
-    .founder-card {
-        text-align: center;
+    .team-photo-container {
+        max-width: 900px;
+        margin: 0 auto;
+        border-radius: 1.5rem;
+        overflow: hidden;
+        box-shadow: 0 8px 40px rgba(97, 38, 158, 0.12);
     }
 
-    .founder-photo {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
+    .team-group-photo {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    /* Team Members Section */
+    .team-members-section {
+        max-width: 1100px;
+        margin: 4rem auto 0;
+    }
+
+    .gang-title {
+        font-family: 'VC Henrietta', serif;
+        font-size: clamp(1.5rem, 4vw, 2rem);
+        color: var(--planted-purple);
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .team-members-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+    }
+
+    .team-member-card {
+        background: white;
+        border-radius: 1.25rem;
         overflow: hidden;
-        margin: 0 auto 0.75rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .team-member-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(97, 38, 158, 0.15);
+    }
+
+    .member-photo {
+        width: 100%;
+        aspect-ratio: 1;
+        overflow: hidden;
         background: var(--planted-purple);
     }
 
-    .founder-photo img {
+    .member-photo img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        transition: transform 0.3s ease;
     }
 
-    .founder-info {
-        display: flex;
-        flex-direction: column;
+    .team-member-card:hover .member-photo img {
+        transform: scale(1.03);
     }
 
-    .founder-name {
+    .member-info {
+        padding: 1.5rem;
+    }
+
+    .member-name {
+        display: block;
         font-family: 'VC Henrietta', serif;
-        font-size: 1rem;
+        font-size: 1.2rem;
         color: var(--planted-purple);
+        font-weight: 600;
+        margin-bottom: 0.25rem;
     }
 
-    .founder-role {
-        font-size: 0.8rem;
-        opacity: 0.6;
+    .member-role {
+        display: block;
+        font-size: 0.9rem;
+        color: var(--planted-green);
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+    }
+
+    .member-description {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: var(--planted-charcoal);
+        opacity: 0.8;
+        margin: 0;
+    }
+
+    @media (max-width: 600px) {
+        .team-photo-container {
+            border-radius: 1rem;
+            margin: 0 -0.5rem;
+        }
+
+        .team-members-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .team-member-card {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+        }
+
+        .member-photo {
+            aspect-ratio: 1;
+            height: 100%;
+        }
+
+        .member-info {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .member-description {
+            display: none;
+        }
     }
 
     /* CTA */
