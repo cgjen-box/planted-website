@@ -157,6 +157,23 @@
         { "fieldPath": "status", "order": "ASCENDING" },
         { "fieldPath": "started_at", "order": "DESCENDING" }
       ]
+    },
+    {
+      "collectionGroup": "discovered_venues",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "created_at", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "dish_extraction_strategies",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "chain_id", "order": "ASCENDING" },
+        { "fieldPath": "platform", "order": "ASCENDING" },
+        { "fieldPath": "success_rate", "order": "DESCENDING" }
+      ]
     }
   ],
   "fieldOverrides": []

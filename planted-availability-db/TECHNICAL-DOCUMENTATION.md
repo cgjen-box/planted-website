@@ -15,10 +15,10 @@ The Planted Availability Database (PAD) is a comprehensive system for managing a
 
 | Component | Technology | Version |
 |-----------|------------|---------|
-| Framework | Astro | 5.16.3 |
-| UI Library | React | 19.2.1 |
-| Styling | styled-components | 6.1.19 |
-| CMS | Sanity | 4.20.3 |
+| Framework | Astro | 5.x |
+| UI Library | React | 19.x |
+| Styling | styled-components | 6.x |
+| CMS | Sanity | 4.x |
 | Build | Static Site Generation | - |
 | Deployment | GitHub Pages | - |
 
@@ -41,7 +41,7 @@ planted-astro/
 │   │   ├── Navbar.astro           # Navigation
 │   │   └── ...
 │   ├── data/
-│   │   ├── chainRestaurants.ts    # 200+ chain locations
+│   │   ├── chainRestaurants.ts    # Chain locations
 │   │   ├── discoveredLocations.ts # Auto-generated venues
 │   │   ├── deliveryRestaurants.ts # Delivery partners
 │   │   └── padApi.ts              # PAD API client
@@ -58,7 +58,7 @@ planted-astro/
 
 ### 1.3 Internationalization (i18n)
 
-The website supports 9 locales across 8 countries:
+The website supports multiple locales across several countries:
 
 | Country | Locales | Languages |
 |---------|---------|-----------|
@@ -89,7 +89,7 @@ Display sorted results
 ```
 
 **Data Sources:**
-1. `chainRestaurants.ts` - 200+ manually curated chain locations
+1. `chainRestaurants.ts` - Manually curated chain locations
 2. `discoveredLocations.ts` - Auto-generated from PAD discovery system
 3. PAD API - Live venue data from Firestore
 
@@ -111,13 +111,11 @@ planted-availability-db/
 │   ├── core/                      # Shared types & utilities
 │   ├── database/                  # Firestore collections
 │   ├── api/                       # Cloud Functions
-│   ├── scrapers/                  # Discovery agents
+│   ├── scrapers/                  # Discovery agents & CLI tools
 │   ├── admin-dashboard/           # React admin UI
 │   └── client-sdk/                # JavaScript SDK
-├── firebase/
-│   ├── functions/                 # Deployed functions
-│   ├── firestore.rules            # Security rules
-│   └── firestore.indexes.json     # Database indexes
+├── firebase.json                  # Firebase configuration
+├── firestore.indexes.json         # Database indexes
 ├── turbo.json                     # Turbo build config
 ├── pnpm-workspace.yaml            # pnpm workspace
 └── package.json                   # Root package
@@ -143,13 +141,14 @@ export type VenueStatus = 'active' | 'stale' | 'archived';
 export type DiscoveredVenueStatus = 'discovered' | 'verified' | 'rejected' | 'promoted' | 'stale';
 
 // Platform types
-export type DeliveryPlatform = 'uber-eats' | 'lieferando' | 'wolt' | 'just-eat' | 'smood';
+export type DeliveryPlatform = 'uber-eats' | 'just-eat' | 'lieferando' | 'wolt' | 'smood';
 export type SupportedCountry = 'CH' | 'DE' | 'AT';
 
 // Product SKUs
 export const PLANTED_PRODUCT_SKUS = [
   'planted.chicken',
   'planted.chicken_tenders',
+  'planted.chicken_burger',
   'planted.kebab',
   'planted.schnitzel',
   'planted.pulled',
@@ -157,7 +156,9 @@ export const PLANTED_PRODUCT_SKUS = [
   'planted.steak',
   'planted.pastrami',
   'planted.duck'
-];
+] as const;
+
+export type PlantedProductSku = (typeof PLANTED_PRODUCT_SKUS)[number];
 ```
 
 #### @pad/database
@@ -169,33 +170,43 @@ Firestore collection definitions and query utilities.
 |------------|---------|------------|
 | `venues` | Production venue data | name, type, address, delivery_platforms |
 | `dishes` | Production dish data | venue_id, name, price, planted_products |
+| `products` | Planted product catalog | sku, name, description |
 | `chains` | Restaurant chain metadata | name, locations_count |
 | `promotions` | Active promotions | venue_id, discount, valid_until |
+| `partners` | Partner integrations | name, api_config |
+| `changelog` | Data change history | entity_type, entity_id, changes |
+| `scraper-runs` | Scraper execution logs | scraper_id, status, results |
+| `retail-availability` | Retail stock levels | store_id, product_id, in_stock |
+| `ingestionBatches` | Batch import tracking | status, records_count |
 | `discovered_venues` | AI-discovered venues | confidence_score, status |
 | `discovered_dishes` | AI-extracted dishes | product_confidence, prices |
-| `discovery_strategies` | Search query patterns | success_rate, query_template |
-| `discovery_runs` | Discovery execution logs | stats, strategies_used |
-| `dish_extraction_strategies` | Menu extraction patterns | extraction_config |
-| `dish_extraction_runs` | Extraction execution logs | dishes_extracted |
-| `search_feedback` | Discovery feedback | result_type, venue_was_correct |
-| `dish_feedback` | Extraction feedback | name_correct, price_correct |
+| `discovery-strategies` | Search query patterns | success_rate, query_template |
+| `discovery-runs` | Discovery execution logs | stats, strategies_used |
+| `dish-extraction-strategies` | Menu extraction patterns | extraction_config |
+| `dish-extraction-runs` | Extraction execution logs | dishes_extracted |
+| `search-feedback` | Discovery feedback | result_type, venue_was_correct |
+| `dish-feedback` | Extraction feedback | name_correct, price_correct |
 
-**Key Files:**
-- `src/collections/discovered-venues.ts` - Venue discovery queries
-- `src/collections/discovered-dishes.ts` - Dish extraction queries
-- `src/collections/discovery-strategies.ts` - Strategy management
-- `src/collections/dish-feedback.ts` - Feedback collection
+**Staging Collections:**
+| Collection | Purpose |
+|------------|---------|
+| `staged-venues` | Venues pending review |
+| `staged-dishes` | Dishes pending review |
+| `staged-promotions` | Promotions pending review |
+| `staged-availability` | Availability updates pending |
 
 #### @pad/api
 Firebase Cloud Functions for API endpoints.
 
-**Public Endpoints:**
+**Public Endpoints (region: europe-west6):**
 ```
-GET  /venues                    # List venues with filters
-GET  /venues/:id                # Single venue details
-GET  /nearby?lat=X&lng=Y&r=5km  # Nearby venue search
-GET  /dishes?product=chicken    # Dish search
-GET  /delivery?platform=wolt    # Delivery platform venues
+GET  /api/v1/venues                    # List venues with filters
+GET  /api/v1/venues/:id                # Single venue details with dishes
+GET  /api/v1/nearby?lat=X&lng=Y        # Nearby venue search
+GET  /api/v1/dishes                    # Dish search
+GET  /api/v1/dishes/:id                # Single dish details
+GET  /api/v1/delivery                  # Delivery platform venues
+GET  /api/v1/geolocate                 # IP-based geolocation
 ```
 
 **Admin Endpoints:**
@@ -224,22 +235,22 @@ AI-powered discovery and extraction agents.
 1. **SmartDiscoveryAgent**
    - Location: `src/agents/smart-discovery/SmartDiscoveryAgent.ts`
    - Purpose: Find new Planted restaurant partners via web search
-   - Uses: Claude AI for reasoning, Google/SerpAPI for search
+   - Uses: Gemini/Claude AI for reasoning, Google Custom Search API
 
 2. **SmartDishFinderAgent**
-   - Location: `src/agents/smart-dish-finder/SmartDishFinderAgent.ts`
+   - Location: `src/agents/smart-dish-finder/index.ts`
    - Purpose: Extract menu items from delivery platform pages
-   - Uses: Claude AI for extraction, Puppeteer for page fetching
+   - Uses: Gemini AI for extraction, Puppeteer for page fetching
 
-3. **Platform Adapters**
-   - Location: `src/agents/smart-discovery/platforms/`
-   - Purpose: Parse search results from each delivery platform
-   - Implementations: UberEats, Lieferando, Wolt, JustEat, Smood
+3. **SearchEnginePool**
+   - Location: `src/agents/smart-discovery/SearchEnginePool.ts`
+   - Purpose: Manage multiple search engine IDs for quota optimization
+   - Provides: 600 free queries/day (6 engines x 100 each)
 
 **CLI Tools:**
 ```bash
 # Run venue discovery
-pnpm run discovery --country DE --platform uber-eats
+pnpm run discovery --countries DE --platforms uber-eats
 
 # Run dish extraction
 pnpm run dish-finder --chains dean-david --mode enrich
@@ -249,6 +260,9 @@ pnpm run review --batch 10 --country CH
 
 # Interactive dish review
 pnpm run review-dishes --batch 10 --chain dean-david
+
+# Search pool management
+pnpm run search-pool stats
 ```
 
 #### @pad/admin-dashboard
@@ -259,18 +273,25 @@ React-based admin interface.
 |-----------|------------|---------|
 | Framework | React | 18.3.1 |
 | Routing | React Router | 7.0.1 |
-| State | React Query | 5.60.0 |
+| State | TanStack Query | 5.60.0 |
 | Build | Vite | 6.0.1 |
 | Auth | Firebase Auth | - |
 
 **Pages:**
-- `/` - Dashboard (stats overview)
-- `/venues` - Venue management (CRUD)
-- `/dishes` - Dish management (CRUD)
-- `/scrapers` - Scraper monitoring
-- `/promotions` - Promotion management
-- `/moderation` - Flagged item review
-- `/partners` - Partner management
+| Page | URL | Description |
+|------|-----|-------------|
+| Dashboard | `/` | Overview stats and metrics |
+| Venues | `/venues` | Venue management (CRUD) |
+| Dishes | `/dishes` | Dish management (CRUD) |
+| Scrapers | `/scrapers` | Scraper monitoring |
+| Promotions | `/promotions` | Promotion management |
+| Moderation | `/moderation` | Flagged item review |
+| Partners | `/partners` | Partner management |
+| Discovery Review | `/discovery-review` | Review AI-discovered venues |
+| Budget | `/budget` | Budget and cost monitoring |
+| Analytics | `/analytics` | Analytics dashboard |
+| Import | `/import` | Batch data import |
+| Login | `/login` | Authentication |
 
 ---
 
@@ -290,7 +311,7 @@ React-based admin interface.
 │           │                       │                          │
 │           ▼                       ▼                          │
 │  ┌──────────────────────────────────────────────────────┐   │
-│  │                 Claude AI Integration                 │   │
+│  │              AI Integration (Gemini/Claude)           │   │
 │  │  • Query generation    • Menu extraction             │   │
 │  │  • Result parsing      • Product matching            │   │
 │  │  • Chain detection     • Confidence scoring          │   │
@@ -299,9 +320,9 @@ React-based admin interface.
 │                           ▼                                  │
 │  ┌──────────────────────────────────────────────────────┐   │
 │  │                Firestore Database                     │   │
-│  │  • discovery_strategies   • discovered_venues        │   │
-│  │  • discovery_runs         • discovered_dishes        │   │
-│  │  • search_feedback        • dish_feedback            │   │
+│  │  • discovery-strategies   • discovered_venues        │   │
+│  │  • discovery-runs         • discovered_dishes        │   │
+│  │  • search-feedback        • dish-feedback            │   │
 │  └──────────────────────────────────────────────────────┘   │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
@@ -311,17 +332,17 @@ React-based admin interface.
 
 ```
 1. Initialize Discovery Run
-   └─ Create discovery_runs record with status: 'pending'
+   └─ Create discovery-runs record with status: 'pending'
 
 2. For each platform/country combination:
    ├─ Get active strategies (success_rate >= 30%)
    ├─ Execute strategy with city variable substitution
    │   └─ Query: "site:ubereats.com planted chicken {city}"
-   ├─ Web Search (Google/SerpAPI)
-   ├─ Claude parses results:
+   ├─ Web Search (Google Custom Search API)
+   ├─ AI parses results:
    │   └─ Extracts: URL, name, city, chain signals, Planted mentions
    ├─ Filter false positives:
-   │   ├─ Brand misuse chains (e.g., Goldies)
+   │   ├─ Brand misuse chains
    │   ├─ Duplicates (by delivery URL)
    │   └─ Already verified venues
    ├─ Calculate confidence score (0-100)
@@ -333,15 +354,23 @@ React-based admin interface.
 4. Complete run with stats
 ```
 
-### 3.3 Dish Extraction Workflow
+### 3.3 Discovery Modes
+
+| Mode | Description | Use Case |
+|------|-------------|----------|
+| `explore` | Search for new venues across cities | Default mode for broad discovery |
+| `enumerate` | Find all locations of specific chains | Targeted chain expansion |
+| `verify` | Re-check existing venue URLs | Data freshness maintenance |
+
+### 3.4 Dish Extraction Workflow
 
 ```
 1. Initialize Extraction Run
-   └─ Create dish_extraction_runs record
+   └─ Create dish-extraction-runs record
 
 2. For each venue with delivery platform URLs:
    ├─ Fetch page content (Puppeteer)
-   ├─ Claude extracts dish data:
+   ├─ AI extracts dish data:
    │   ├─ Dish name, description, category
    │   ├─ Price with currency
    │   ├─ Image URL
@@ -355,7 +384,7 @@ React-based admin interface.
 4. Complete run with stats
 ```
 
-### 3.4 Confidence Scoring
+### 3.5 Confidence Scoring
 
 **Venue Confidence Factors:**
 | Factor | Weight | Description |
@@ -373,7 +402,7 @@ React-based admin interface.
 | Description Quality | 20 | Detailed description found |
 | Known Chain | 20 | Venue from verified chain |
 
-### 3.5 Reinforcement Learning
+### 3.6 Reinforcement Learning
 
 The system learns from human feedback:
 
@@ -388,90 +417,71 @@ The system learns from human feedback:
    - Creates "evolved" strategies from parents
 
 3. **Feedback Collection**
-   - `search_feedback` - Was the venue correct?
-   - `dish_feedback` - Was the extraction accurate?
+   - `search-feedback` - Was the venue correct?
+   - `dish-feedback` - Was the extraction accurate?
 
-### 3.6 Search Engine Credential Pool
+### 3.7 Search Engine Credential Pool
 
-The system manages multiple Google Custom Search API credentials to maximize free-tier usage.
+The system uses multiple Google Custom Search Engine IDs with a single API key to maximize free-tier usage.
 
 **Architecture:**
 ```
 ┌─────────────────────────────────────────────────────┐
 │                SearchEnginePool                      │
 ├─────────────────────────────────────────────────────┤
-│  Credentials: [cred_1, cred_2, ... cred_n]          │
-│  Daily Limit: 100 queries/credential (free tier)    │
+│  API Key: Single shared key                         │
+│  Search Engines: 6 custom search engine IDs         │
+│  Daily Limit: 100 queries/engine (free tier)        │
+│  Total Free: 600 queries/day                        │
+│  Paid Fallback: $5 per 1,000 queries                │
 │  Quota Reset: Midnight UTC                          │
-│  Storage: Firestore (search_engine_quota)           │
+│  Storage: In-memory + Firestore tracking            │
 └─────────────────────────────────────────────────────┘
          │
          ▼
 ┌─────────────────────────────────────────────────────┐
 │           Credential Rotation Logic                  │
 ├─────────────────────────────────────────────────────┤
-│  1. Get next credential with remaining quota        │
+│  1. Get next engine with remaining free quota       │
 │  2. Execute query via Google Custom Search API      │
 │  3. On success: increment usage counter             │
 │  4. On 429 error: mark exhausted, rotate to next    │
-│  5. If all exhausted: throw error                   │
+│  5. If all exhausted: switch to paid mode           │
 └─────────────────────────────────────────────────────┘
 ```
 
-**Scaling:**
-- 1 credential = 100 queries/day free
-- 20 credentials = 2,000 queries/day free
-- 50 credentials = 5,000 queries/day free
-
 **Configuration:**
 ```bash
-# Option 1: JSON array (recommended)
-GOOGLE_SEARCH_CREDENTIALS='[
-  {"apiKey":"AIza...1","searchEngineId":"abc...1"},
-  {"apiKey":"AIza...2","searchEngineId":"abc...2"}
-]'
-
-# Option 2: Numbered environment variables
-GOOGLE_SEARCH_API_KEY_1=AIza...
-GOOGLE_SEARCH_ENGINE_ID_1=abc...
-GOOGLE_SEARCH_API_KEY_2=AIza...
-GOOGLE_SEARCH_ENGINE_ID_2=abc...
-
-# Option 3: Single credential (legacy)
+# Required: Single API key for all search engines
 GOOGLE_SEARCH_API_KEY=AIza...
-GOOGLE_SEARCH_ENGINE_ID=abc...
+
+# Optional: Custom search engine IDs (defaults provided)
+GOOGLE_SEARCH_ENGINE_ID_1=abc123...
+GOOGLE_SEARCH_ENGINE_ID_2=def456...
+# ... up to GOOGLE_SEARCH_ENGINE_ID_6
 ```
 
 **CLI Tools:**
 ```bash
 pnpm run search-pool stats    # View pool statistics
-pnpm run search-pool list     # Detailed per-credential usage
+pnpm run search-pool list     # Detailed per-engine usage
 pnpm run search-pool test     # Test credential rotation
 ```
 
-### 3.7 AI Provider Architecture
+### 3.8 AI Provider Architecture
 
 The system supports multiple AI providers with auto-detection:
 
-**Smart Discovery (Reasoning & Query Generation):**
+**Smart Discovery & Dish Extraction:**
 | Provider | Model | Use Case |
 |----------|-------|----------|
 | Gemini | gemini-2.5-flash | Default - fast, cost-effective |
-| Claude | claude-sonnet-4 | Alternative - higher reasoning |
-
-**Dish Extraction:**
-| Provider | Model | Use Case |
-|----------|-------|----------|
-| Gemini | gemini-2.5-flash | Default - menu parsing (with 2.0-flash fallback) |
+| Claude | claude-sonnet-4-20250514 | Alternative - higher reasoning |
 
 **Auto-Detection Priority:**
 1. Check `GOOGLE_AI_API_KEY` or `GEMINI_API_KEY` → use Gemini
 2. Check `ANTHROPIC_API_KEY` → use Claude
 3. No keys → error
-
-**Automatic Fallback:**
-- If Gemini 2.5 Flash fails, automatically falls back to 2.0 Flash
-- Maintains all settings during fallback
 
 **Manual Selection:**
 ```bash
@@ -479,11 +489,9 @@ pnpm run discovery --ai gemini    # Force Gemini
 pnpm run discovery --ai claude    # Force Claude
 ```
 
-### 3.8 Query Deduplication Cache
+### 3.9 Query Deduplication Cache
 
 The system prevents redundant API calls by caching executed queries:
-
-**Location:** `QueryCache.ts`
 
 **Cache Rules:**
 - Skip if same query executed in last **24 hours** (had results)
@@ -498,17 +506,10 @@ All variations are treated as identical queries.
 
 **Storage:** Firestore collection `query_cache`
 
-### 3.9 Budget Enforcement
-
-The SmartDiscoveryAgent enforces query budgets to control costs:
-
-**Default Budget:** 2,000 queries per run
-
-**Cost Structure:**
-| Queries | Free | Paid | Cost |
-|---------|------|------|------|
-| 0-600 | 600 | 0 | $0 |
-| 601-2000 | 600 | 1400 | $7.00 |
+**Configuration:**
+```bash
+ENABLE_QUERY_CACHE=true    # Enable/disable caching
+```
 
 ---
 
@@ -534,24 +535,34 @@ interface DiscoveredVenue {
     city: string;
     postal_code?: string;
     country: SupportedCountry;
+    full_address?: string;
   };
-  coordinates?: { lat: number; lng: number };
+  coordinates?: {
+    latitude: number;
+    longitude: number;
+    accuracy?: 'exact' | 'approximate' | 'city-center';
+  };
 
   // Delivery platforms
   delivery_platforms: {
     platform: DeliveryPlatform;
     url: string;
+    venue_id_on_platform?: string;
+    active: boolean;
+    verified: boolean;
     rating?: number;
     review_count?: number;
   }[];
 
   // Products & dishes
-  planted_products: PlantedProductSku[];
+  planted_products: string[];
   dishes: {
     name: string;
     price?: string;
-    product: string;
+    currency?: string;
+    planted_product: string;
     description?: string;
+    confidence: number;
   }[];
 
   // Confidence
@@ -565,6 +576,7 @@ interface DiscoveredVenue {
   // Status
   status: 'discovered' | 'verified' | 'rejected' | 'promoted' | 'stale';
   rejection_reason?: string;
+  production_venue_id?: string;
 
   // Discovery metadata
   discovered_by_strategy_id: string;
@@ -610,7 +622,7 @@ interface ExtractedDish {
     formatted: string;
     last_seen: Date;
   }[];
-  price_by_country: Record<SupportedCountry, string>;
+  price_by_country: Partial<Record<SupportedCountry, string>>;
 
   // Dietary info
   is_vegan: boolean;
@@ -623,6 +635,7 @@ interface ExtractedDish {
   // Status
   status: 'discovered' | 'verified' | 'rejected' | 'promoted' | 'stale';
   rejection_reason?: string;
+  production_dish_id?: string;
 
   // Metadata
   discovered_by_strategy_id: string;
@@ -630,6 +643,7 @@ interface ExtractedDish {
 
   // Timestamps
   created_at: Date;
+  updated_at: Date;
   verified_at?: Date;
   promoted_at?: Date;
 }
@@ -677,16 +691,18 @@ interface DiscoveryStrategy {
 
 ### 5.1 Public API
 
-**Base URL:** `https://europe-west6-get-planted-db.cloudfunctions.net`
+**Base URL:** `https://europe-west6-planted-availability-db.cloudfunctions.net`
 
-#### GET /venues
+#### GET /api/v1/venues
 List venues with optional filters.
 
 **Parameters:**
 | Name | Type | Description |
 |------|------|-------------|
 | country | string | Filter by country code (CH, DE, AT) |
-| type | string | Filter by venue type |
+| type | string | Filter by venue type (retail, restaurant, delivery_kitchen) |
+| chain_id | string | Filter by chain ID |
+| status | string | Filter by status (active, stale, archived) |
 | limit | number | Max results (default: 50) |
 | offset | number | Pagination offset |
 
@@ -695,11 +711,29 @@ List venues with optional filters.
 {
   "venues": [...],
   "total": 150,
-  "hasMore": true
+  "limit": 50,
+  "offset": 0,
+  "has_more": true
 }
 ```
 
-#### GET /nearby
+#### GET /api/v1/venues/:id
+Get venue details with dishes and promotions.
+
+**Response:**
+```json
+{
+  "venue": {...},
+  "dishes": [...],
+  "promotions": [...],
+  "is_open": true,
+  "next_open": null,
+  "today_hours": "11:00 - 22:00",
+  "delivery_partners": [...]
+}
+```
+
+#### GET /api/v1/nearby
 Find venues near a location.
 
 **Parameters:**
@@ -707,8 +741,28 @@ Find venues near a location.
 |------|------|-------------|
 | lat | number | Latitude (required) |
 | lng | number | Longitude (required) |
-| radius | number | Search radius in km (default: 5) |
-| type | string | Venue type filter |
+| radius_km | number | Search radius in km (default: 5) |
+| type | string | Venue type filter (all, retail, restaurant, delivery_kitchen) |
+| product_sku | string | Filter by Planted product |
+| open_now | boolean | Only show currently open venues |
+| limit | number | Max results (default: 20) |
+
+**Response:**
+```json
+{
+  "results": [
+    {
+      "venue": {..., "distance_km": 1.2},
+      "dishes": [...],
+      "is_open": true,
+      "next_open": null,
+      "today_hours": "11:00 - 22:00"
+    }
+  ],
+  "total": 10,
+  "has_more": false
+}
+```
 
 ### 5.2 Admin API
 
@@ -762,6 +816,7 @@ npm run dev
 
 # Production build
 npm run build
+npm run preview  # Preview the production build
 
 # Deploy (GitHub Pages)
 git push origin main  # Triggers GitHub Actions
@@ -792,7 +847,7 @@ firebase deploy
 ```bash
 cd packages/admin-dashboard
 npm install
-npm run dev       # Development
+npm run dev       # Development at http://localhost:5173
 npm run build     # Production build
 ```
 
@@ -800,45 +855,46 @@ npm run build     # Production build
 
 ## Part 7: Environment Variables
 
+Create a `.env` file based on `.env.example`:
+
 ### Firebase Configuration
 ```env
-FIREBASE_PROJECT_ID=get-planted-db
-FIREBASE_API_KEY=...
-FIREBASE_AUTH_DOMAIN=...
+GOOGLE_APPLICATION_CREDENTIALS=./service-account.json
+FIREBASE_PROJECT_ID=planted-availability-db
 ```
 
 ### AI Provider Keys
 ```env
 # Gemini AI (recommended - default provider)
-GOOGLE_AI_API_KEY=...          # Primary Gemini key
-GEMINI_API_KEY=...             # Alternative Gemini key
+GOOGLE_AI_API_KEY=...              # Primary Gemini key
+GOOGLE_AI_MODEL=gemini-2.5-flash   # Model selection
 
 # Claude AI (alternative)
-ANTHROPIC_API_KEY=...          # Claude API key
+ANTHROPIC_API_KEY=...              # Claude API key (optional)
 ```
 
 ### Web Search Keys
 ```env
-# Google Custom Search (recommended)
-# Option 1: JSON array for multiple credentials
-GOOGLE_SEARCH_CREDENTIALS='[{"apiKey":"...","searchEngineId":"..."},...]'
+# Google Custom Search (required)
+GOOGLE_SEARCH_API_KEY=...              # Single API key for all engines
 
-# Option 2: Numbered variables
-GOOGLE_SEARCH_API_KEY_1=...
+# Search Engine IDs (optional - defaults provided)
 GOOGLE_SEARCH_ENGINE_ID_1=...
-
-# Option 3: Single credential (legacy)
-GOOGLE_SEARCH_API_KEY=...
-GOOGLE_SEARCH_ENGINE_ID=...
-
-# SerpAPI (alternative/fallback)
-SERPAPI_API_KEY=...
+GOOGLE_SEARCH_ENGINE_ID_2=...
+# ... up to GOOGLE_SEARCH_ENGINE_ID_6
 ```
 
-### Optional
+### Discovery Settings
 ```env
-NODE_ENV=production
-LOG_LEVEL=info
+MAX_QUERIES_PER_RUN=2000           # Budget per discovery run
+ENABLE_QUERY_CACHE=true            # Enable query deduplication
+ENABLE_INLINE_DISH_EXTRACTION=true # Extract dishes during discovery
+```
+
+### Admin Dashboard
+```env
+VITE_API_URL=http://localhost:5001/planted-availability-db/us-central1/api
+VITE_FIREBASE_AUTH_DOMAIN=planted-availability-db.firebaseapp.com
 ```
 
 ---
@@ -847,16 +903,27 @@ LOG_LEVEL=info
 
 ### 8.1 Common Issues
 
-**Discovery Agent Failures:**
-- Check `ANTHROPIC_API_KEY` is set
-- Check `SERPAPI_API_KEY` is set
-- Verify network connectivity
-- Check rate limiting (2-3 seconds between queries)
+**"No AI API key found"**
+```bash
+# Set Gemini key (recommended)
+GOOGLE_AI_API_KEY=your-key-here
+
+# Or set Claude key
+ANTHROPIC_API_KEY=your-key-here
+```
+
+**"No search credentials available"**
+```bash
+# Ensure search API key is set
+GOOGLE_SEARCH_API_KEY=your-key-here
+```
 
 **Admin Dashboard Login Issues:**
-- Verify Firebase Auth is configured
-- Check user has admin custom claims
-- Clear browser cache/cookies
+1. Verify Firebase Auth is configured
+2. Check user has admin custom claims:
+   ```bash
+   firebase auth:setCustomUserClaims <uid> '{"admin": true}'
+   ```
 
 **API Errors:**
 - Check Firebase functions logs: `firebase functions:log`
@@ -880,3 +947,5 @@ Key metrics to monitor:
 - Extraction accuracy (target: >85%)
 - API response time (target: <500ms)
 - Stale venue count (should decrease over time)
+- Free query quota remaining
+- Paid query costs

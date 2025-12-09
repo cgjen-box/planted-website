@@ -12,7 +12,7 @@ This guide explains how to run, use, and maintain the Planted Availability Datab
 - pnpm 9.x (`npm install -g pnpm`)
 - Firebase CLI (`npm install -g firebase-tools`)
 - Gemini API key (for AI features) - recommended
-- Google Custom Search API key + Engine ID (for web search)
+- Google Custom Search API key (for web search)
 
 ### Initial Setup
 
@@ -90,6 +90,9 @@ The admin dashboard will be available at `http://localhost:5173`
 | Moderation | `/moderation` | Review flagged items |
 | Partners | `/partners` | Manage partner integrations |
 | Discovery Review | `/discovery-review` | Review AI-discovered venues |
+| Budget | `/budget` | Monitor query costs and budget |
+| Analytics | `/analytics` | View analytics dashboard |
+| Import | `/import` | Batch data import |
 
 ---
 
@@ -103,33 +106,49 @@ Find new restaurants serving Planted products:
 cd planted-availability-db/packages/scrapers
 
 # Discover venues in Germany on Uber Eats
-pnpm run discovery --country DE --platform uber-eats
+pnpm run discovery --countries DE --platforms uber-eats
 
 # Discover across all platforms in Switzerland
-pnpm run discovery --country CH
+pnpm run discovery --countries CH
+
+# Use specific discovery mode
+pnpm run discovery --mode explore --countries CH
+pnpm run discovery --mode enumerate --chains "dean&david,Hiltl"
+pnpm run discovery --mode verify --countries DE
 
 # Dry run (don't save to database)
-pnpm run discovery --country AT --dry-run
+pnpm run discovery --countries AT --dry-run
 
 # Limit number of queries
-pnpm run discovery --country DE --max-queries 20
+pnpm run discovery --countries DE --max-queries 50
+
+# Verbose output
+pnpm run discovery --countries CH --verbose
 ```
+
+**Discovery Modes:**
+| Mode | Description |
+|------|-------------|
+| `explore` | Search for new venues across cities (default) |
+| `enumerate` | Find all locations of specific chains |
+| `verify` | Re-check existing venue URLs |
 
 **Options:**
 | Flag | Description |
 |------|-------------|
-| `--country, -c` | Target country (CH, DE, AT) |
-| `--platform, -p` | Specific platform (uber-eats, lieferando, wolt, just-eat, smood) |
-| `--max-queries` | Maximum search queries to execute (default: 2000) |
+| `--mode, -m` | Discovery mode: explore, enumerate, verify (default: explore) |
+| `--countries, -c` | Comma-separated countries: CH,DE,AT |
+| `--platforms, -p` | Comma-separated platforms (default: all) |
+| `--chains` | Comma-separated chain names (for enumerate mode) |
+| `--max-queries` | Maximum search queries to execute (default: 20) |
 | `--dry-run` | Don't save results to database |
 | `--verbose, -v` | Detailed logging |
 | `--ai` | AI provider: gemini (default) or claude |
 | `--provider` | Search provider: google (default), serpapi, mock |
 
 **Budget & Caching:**
-- Default budget: 2,000 queries per run
-- First 600 queries are free (6 search engines × 100 each)
-- Queries 601-2000 cost $5 per 1,000 queries
+- Free quota: 600 queries/day (6 search engines x 100 each)
+- Paid fallback: $5 per 1,000 queries after free quota exhausted
 - Query cache prevents duplicate searches (24h for results, 7d for no results)
 
 ### Search Pool Management
@@ -137,6 +156,8 @@ pnpm run discovery --country DE --max-queries 20
 Monitor and manage search engine quota:
 
 ```bash
+cd planted-availability-db/packages/scrapers
+
 # View current quota usage
 pnpm run search-pool stats
 
@@ -152,6 +173,8 @@ pnpm run search-pool test
 Extract menu items from discovered venues:
 
 ```bash
+cd planted-availability-db/packages/scrapers
+
 # Enrich venues with dish data
 pnpm run dish-finder --mode enrich --chains dean-david
 
@@ -161,19 +184,33 @@ pnpm run dish-finder --mode refresh --countries CH
 # Verify dishes still exist
 pnpm run dish-finder --mode verify --max-venues 50
 
-# All platforms for a specific chain
-pnpm run dish-finder --chains "BIRDIE BIRDIE CHICKEN"
+# Dry run with verbose output
+pnpm run dish-finder --chains kaimug --dry-run --verbose
+
+# Show statistics
+pnpm run dish-finder --stats
 ```
+
+**Extraction Modes:**
+| Mode | Description |
+|------|-------------|
+| `enrich` | Add dishes to venues without dish data (default) |
+| `refresh` | Update prices for existing dishes |
+| `verify` | Check if dishes still exist on platforms |
 
 **Options:**
 | Flag | Description |
 |------|-------------|
 | `--mode, -m` | Mode: enrich, refresh, verify |
-| `--chains` | Specific chain IDs to process |
-| `--countries, -c` | Target countries |
-| `--platforms, -p` | Specific platforms |
-| `--max-venues` | Limit venues processed |
+| `--venues` | Comma-separated venue IDs to process |
+| `--chains` | Comma-separated chain IDs to process |
+| `--countries, -c` | Comma-separated country codes (CH,DE,AT) |
+| `--platforms, -p` | Comma-separated platforms |
+| `--max-venues` | Limit venues processed (default: 50) |
 | `--dry-run` | Don't save results |
+| `--verbose, -v` | Verbose output |
+| `--learn` | Run learning process after extraction |
+| `--stats` | Show statistics and exit |
 
 ---
 
@@ -195,25 +232,39 @@ pnpm run review --country DE
 # Review specific number
 pnpm run review --batch 20
 
-# Review in order of confidence
+# Review in order of confidence (highest first)
 pnpm run review --sequential
+
+# Review venues with specific status
+pnpm run review --status discovered
 ```
+
+**Options:**
+| Flag | Description |
+|------|-------------|
+| `--batch, -b` | Number of venues to review (default: 10) |
+| `--country, -c` | Filter by country: CH, DE, AT |
+| `--random, -r` | Show venues in random order (default) |
+| `--sequential, -s` | Show venues in order of confidence score |
+| `--status` | Filter by status: discovered, verified, etc. |
 
 **Interactive Commands:**
 | Key | Action |
 |-----|--------|
-| `y` | Verify venue (correct) |
-| `n` | Reject venue (false positive) |
-| `s` | Skip this venue |
-| `o` | Open URL in browser |
-| `q` | Quit review session |
-| `?` | Show help |
+| `y` / `yes` / `+` | Verify venue (correct) |
+| `n` / `no` / `-` | Reject venue (false positive) |
+| `s` / `skip` | Skip this venue |
+| `o` / `open` | Open URL in browser |
+| `q` / `quit` | Exit review session |
+| `?` / `help` | Show help |
 
 ### Command Line Review (Dishes)
 
 Interactive CLI for reviewing extracted dishes:
 
 ```bash
+cd planted-availability-db/packages/scrapers
+
 # Review 10 dishes
 pnpm run review-dishes
 
@@ -222,18 +273,31 @@ pnpm run review-dishes --chain dean-david
 
 # Review Swiss dishes with high confidence
 pnpm run review-dishes --country CH --min-confidence 80
+
+# Review more dishes
+pnpm run review-dishes --batch 20
 ```
+
+**Options:**
+| Flag | Description |
+|------|-------------|
+| `--batch, -b` | Number of dishes to review (default: 10) |
+| `--chain` | Filter by chain ID (e.g., dean-david) |
+| `--country` | Filter by country: CH, DE, AT |
+| `--status` | Filter by status: discovered, verified |
+| `--min-confidence` | Minimum confidence score (0-100) |
 
 **Interactive Commands:**
 | Key | Action |
 |-----|--------|
-| `y` | Verify dish (correct) |
-| `n` | Reject dish (not Planted) |
+| `y` / `yes` / `+` | Verify dish (correct) |
+| `n` / `no` / `-` | Reject dish (not Planted) |
 | `p` | Wrong product - enter correct one |
 | `r` | Wrong price - mark for re-extraction |
-| `s` | Skip |
-| `o` | Open source URL |
-| `q` | Quit |
+| `s` / `skip` | Skip this dish |
+| `o` / `open` | Open source URL in browser |
+| `q` / `quit` | Exit review session |
+| `?` / `help` | Show help |
 
 ### Admin Dashboard Review
 
@@ -268,6 +332,8 @@ node scripts/sync-to-website.js
 Pre-configured batch scripts for common operations:
 
 ```bash
+cd planted-availability-db/packages/scrapers
+
 # Run discovery for all countries
 run-discovery-all.bat
 
@@ -315,17 +381,77 @@ firebase emulators:start
 
 ---
 
-## 7. Troubleshooting
+## 7. Environment Variables
+
+### API Keys Location
+
+**All API keys are stored in:** `planted-availability-db/.env`
+
+This file is gitignored and contains sensitive credentials. The keys are already configured for this project:
+- **Gemini AI Key** (`GOOGLE_AI_API_KEY`) - For AI-powered discovery and extraction
+- **Google Search Key** (`GOOGLE_SEARCH_API_KEY`) - For web search queries
+
+**Important:** Never commit `.env` to git. If you need to set up on a new machine, copy the keys from the existing `.env` file or request them from the project owner.
+
+### Required Variables
+
+```bash
+# Firebase/Google Cloud
+GOOGLE_APPLICATION_CREDENTIALS=./service-account.json
+FIREBASE_PROJECT_ID=get-planted-db
+
+# Gemini AI (recommended - default provider)
+# Key is stored in .env - DO NOT share publicly
+GOOGLE_AI_API_KEY=<configured>
+
+# Google Custom Search
+# Key is stored in .env - DO NOT share publicly
+GOOGLE_SEARCH_API_KEY=<configured>
+```
+
+### Optional Variables
+
+```bash
+# AI Model selection
+GOOGLE_AI_MODEL=gemini-2.5-flash
+
+# Claude AI (alternative to Gemini)
+ANTHROPIC_API_KEY=your-anthropic-api-key-here
+
+# Custom Search Engine IDs (defaults provided)
+GOOGLE_SEARCH_ENGINE_ID_1=engine-id-1
+GOOGLE_SEARCH_ENGINE_ID_2=engine-id-2
+# ... up to GOOGLE_SEARCH_ENGINE_ID_6
+
+# Discovery settings
+MAX_QUERIES_PER_RUN=2000
+ENABLE_QUERY_CACHE=true
+ENABLE_INLINE_DISH_EXTRACTION=true
+
+# Admin Dashboard
+VITE_API_URL=http://localhost:5001/planted-availability-db/us-central1/api
+VITE_FIREBASE_AUTH_DOMAIN=planted-availability-db.firebaseapp.com
+```
+
+---
+
+## 8. Troubleshooting
 
 ### Common Issues
 
-**"ANTHROPIC_API_KEY not set"**
+**"No AI API key found"**
 ```bash
-# Add to .env file
-ANTHROPIC_API_KEY=your-key-here
+# Set Gemini key (recommended)
+GOOGLE_AI_API_KEY=your-key-here
 
-# Or set environment variable
-export ANTHROPIC_API_KEY=your-key-here
+# Or set Claude key
+ANTHROPIC_API_KEY=your-key-here
+```
+
+**"No search credentials available"**
+```bash
+# Ensure search API key is set
+GOOGLE_SEARCH_API_KEY=your-key-here
 ```
 
 **"Login failed" in Admin Dashboard**
@@ -340,6 +466,7 @@ export ANTHROPIC_API_KEY=your-key-here
 - Check internet connectivity
 - Try with `--verbose` flag for details
 - Verify search strategies aren't all deprecated
+- Check search pool quota: `pnpm run search-pool stats`
 
 **Build Errors**
 ```bash
@@ -362,13 +489,13 @@ Check console output when running CLI tools with `--verbose` flag.
 
 ---
 
-## 8. Daily Operations
+## 9. Daily Operations
 
 ### Recommended Workflow
 
 1. **Morning:** Check admin dashboard for overnight discoveries
 2. **Review:** Process pending venues in Discovery Review
-3. **Monitor:** Check scraper status for any failures
+3. **Monitor:** Check scraper status and budget usage
 4. **Export:** After reviews, export data to website
 
 ### Scheduled Tasks
@@ -380,6 +507,13 @@ The system runs automated tasks:
 | Discovery | Daily 3 AM | Find new venues |
 | Verification | Weekly Sunday 4 AM | Re-verify existing venues |
 
+### Budget Monitoring
+
+- Check `/budget` page in admin dashboard
+- Monitor free quota usage daily
+- Review paid query costs weekly
+- Use `pnpm run search-pool stats` for CLI monitoring
+
 ### Data Freshness
 
 - Venues are marked "stale" after 7 days without verification
@@ -388,19 +522,22 @@ The system runs automated tasks:
 
 ---
 
-## 9. API Usage
+## 10. API Usage
 
 ### Public API Endpoints
 
 ```bash
 # Get venues by country
-curl "https://europe-west6-get-planted-db.cloudfunctions.net/venues?country=CH"
+curl "https://europe-west6-planted-availability-db.cloudfunctions.net/api/v1/venues?country=CH"
 
 # Get nearby venues
-curl "https://europe-west6-get-planted-db.cloudfunctions.net/nearby?lat=47.3769&lng=8.5417&radius=5"
+curl "https://europe-west6-planted-availability-db.cloudfunctions.net/api/v1/nearby?lat=47.3769&lng=8.5417&radius_km=5"
 
 # Get dishes
-curl "https://europe-west6-get-planted-db.cloudfunctions.net/dishes?product=planted.chicken"
+curl "https://europe-west6-planted-availability-db.cloudfunctions.net/api/v1/dishes?product=planted.chicken"
+
+# Get venue details
+curl "https://europe-west6-planted-availability-db.cloudfunctions.net/api/v1/venues/VENUE_ID"
 ```
 
 ### Using the SDK
@@ -419,7 +556,7 @@ const venue = await client.getVenue('venue-id');
 
 ---
 
-## 10. Development
+## 11. Development
 
 ### Package Structure
 
@@ -461,6 +598,51 @@ pnpm --filter @pad/admin-dashboard dev
 
 ---
 
+## 12. Quick Reference
+
+### Discovery CLI Cheatsheet
+
+```bash
+# Basic discovery
+pnpm run discovery --countries CH
+
+# Multiple countries and platforms
+pnpm run discovery --countries CH,DE,AT --platforms uber-eats,lieferando
+
+# Chain enumeration
+pnpm run discovery --mode enumerate --chains "dean&david"
+
+# Dry run with verbose
+pnpm run discovery --countries DE --dry-run --verbose
+
+# Force specific AI provider
+pnpm run discovery --countries CH --ai gemini
+```
+
+### Review CLI Cheatsheet
+
+```bash
+# Quick venue review
+pnpm run review --batch 10 --country CH
+
+# Sequential review (highest confidence first)
+pnpm run review --sequential --batch 20
+
+# Dish review by chain
+pnpm run review-dishes --chain dean-david --batch 15
+```
+
+### Admin Dashboard Shortcuts
+
+| Page | URL | Purpose |
+|------|-----|---------|
+| Quick Stats | `/` | Daily overview |
+| Review Queue | `/discovery-review` | Process discoveries |
+| Cost Monitor | `/budget` | Track query costs |
+| Data Import | `/import` | Bulk data upload |
+
+---
+
 ## Support
 
 For issues or questions:
@@ -468,3 +650,4 @@ For issues or questions:
 2. Review the TECHNICAL-DOCUMENTATION.md for system details
 3. Check Firebase console for deployment issues
 4. Review Cloud Functions logs for runtime errors
+5. Use `--verbose` flag for detailed CLI output

@@ -1,0 +1,1190 @@
+{
+  "generatedAt": "2025-12-08T22:27:59.083Z",
+  "stats": {
+    "totalVerified": 100,
+    "chains": 11,
+    "standalone": 22
+  },
+  "chains": [
+    {
+      "id": "dean-david",
+      "name": "dean&david",
+      "cuisine": "Healthy Bowls & Salads",
+      "plantedProducts": [
+        "planted.chicken",
+        "planted.duck"
+      ],
+      "locations": [
+        {
+          "name": "dean&david München Pasinger Bahnhof Delivery",
+          "city": "Munich",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/dean%26david-munchen-pasinger-bahnhof/op-MSBtkXOqGEI6UI7t7Fg",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken",
+            "planted.duck"
+          ]
+        },
+        {
+          "name": "dean&david München Orleansplatz Delivery",
+          "city": "Munich",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/dean%26david-munchen-orleansplatz/Y_zlK8gFXnyjUJUjer7Q2w",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken",
+            "planted.duck"
+          ]
+        },
+        {
+          "name": "dean&david Berlin Bülowstraße",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/dean%26david-berlin-bulowstrasse/idOCsndLVaiDoMTdsK8ryQ",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken",
+            "planted.duck"
+          ]
+        },
+        {
+          "name": "dean&david",
+          "city": "Hamburg",
+          "country": "de",
+          "url": "https://www.lieferando.de/speisekarte/dean-david-hamburg-stadthoefe",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken",
+            "planted.duck"
+          ]
+        },
+        {
+          "name": "dean&david",
+          "city": "Hamburg",
+          "country": "de",
+          "url": "https://www.lieferando.de/it/menu/dean-david-hamburg-stadthoefe",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken",
+            "planted.duck"
+          ]
+        },
+        {
+          "name": "dean&david",
+          "city": "Hamburg",
+          "country": "de",
+          "url": "https://www.lieferando.de/speisekarte/deandavid-georgsplatz-hamburg",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "dean&david München",
+          "city": "München",
+          "country": "de",
+          "url": "https://www.lieferando.de/it/menu/deandavid-mnchen-pasing",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken",
+            "planted.duck"
+          ]
+        },
+        {
+          "name": "dean&david München",
+          "city": "München",
+          "country": "de",
+          "url": "https://www.lieferando.de/pl/menu/dean-david-muenchen-leopoldstrasse",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken",
+            "planted.duck"
+          ]
+        },
+        {
+          "name": "dean&david München",
+          "city": "München",
+          "country": "de",
+          "url": "https://www.lieferando.de/speisekarte/deandavid-mnchen-pasing",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken",
+            "planted.duck"
+          ]
+        },
+        {
+          "name": "dean&david München",
+          "city": "München",
+          "country": "de",
+          "url": "https://www.lieferando.de/en/menu/deandavid-munchen-bahnhofsplatz",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken",
+            "planted.duck"
+          ]
+        },
+        {
+          "name": "dean&david München",
+          "city": "München",
+          "country": "de",
+          "url": "https://www.lieferando.de/speisekarte/deandavid-mnchen-arnulfpark",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken",
+            "planted.duck"
+          ]
+        },
+        {
+          "name": "dean&david Berlin",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.lieferando.de/en/menu/deandavid-berlin-steglitz",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "dean&david Berlin",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.lieferando.de/en/menu/dean-david-berlin-schoenhauser-allee",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken",
+            "planted.duck"
+          ]
+        },
+        {
+          "name": "dean&david München Parkstadt Delivery",
+          "city": "München",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/dean%26david-munchen-parkstadt/IP15Q6xWQpqN34JKCNIVKw",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken",
+            "planted.duck"
+          ]
+        },
+        {
+          "name": "dean&david München Leopoldstr. Delivery",
+          "city": "München",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/dean%26david-munchen-leopoldstr/4LLB__FYQnaNmGIDibRgow",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "dean&david (München 5 Höfe)",
+          "city": "München",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/dean%26david-munchen-5-hofe/MvU4RVEbWyCg-G1lgDei-g",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken",
+            "planted.duck"
+          ]
+        },
+        {
+          "name": "dean&david München Bahnhofplatz",
+          "city": "München",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/dean%26david-munchen-bahnhofplatz/GYQEb7ooWe-Tl-q8tZp06w",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken",
+            "planted.duck"
+          ]
+        },
+        {
+          "name": "dean&david (Hirschengraben)",
+          "city": "Bern",
+          "country": "ch",
+          "url": "https://www.ubereats.com/ch-de/store/dean%26david-hirschengraben/ggs3VTYbRb6iTc6QEtrvnA",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken",
+            "planted.duck"
+          ]
+        },
+        {
+          "name": "dean&david",
+          "city": "Basel",
+          "country": "ch",
+          "url": "https://www.ubereats.com/ch/brand-city/basel-bs/dean-david",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken",
+            "planted.duck"
+          ]
+        },
+        {
+          "name": "dean&david",
+          "city": "Zürich",
+          "country": "ch",
+          "url": "https://www.ubereats.com/ch/brand-city/z%C3%BCrich-zh/dean-david",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken",
+            "planted.duck"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cotidiano",
+      "name": "Cotidiano",
+      "cuisine": "Cafe & Restaurant",
+      "plantedProducts": [
+        "planted.chicken_burger",
+        "planted.pastrami"
+      ],
+      "locations": [
+        {
+          "name": "Cotidiano Promenadeplatz - Frühstück, Restaurant & Bar München",
+          "city": "München",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/cotidiano-promenadeplatz-fruhstuck-restaurant-%26-bar-munchen/uXJoQ8HZX_ajkezUPItI4g",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken_burger",
+            "planted.pastrami"
+          ]
+        },
+        {
+          "name": "Cotidiano Konstanz Lago",
+          "city": "Stuttgart",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/cotidiano-konstanz-lago/je3FAkE5W86lh_7El88Ccg",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken_burger"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "birdie-birdie",
+      "name": "Birdie Birdie Chicken",
+      "cuisine": "Fried Chicken",
+      "plantedProducts": [
+        "planted.chicken_burger",
+        "planted.chicken_tenders"
+      ],
+      "locations": [
+        {
+          "name": "Birdie Birdie Chicken Trudering Delivery",
+          "city": "München",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/birdie-birdie-chicken-trudering/MwdK9WnRUja-ulMvbc9YTQ",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken_burger",
+            "planted.chicken_tenders"
+          ]
+        },
+        {
+          "name": "Birdie Birdie Chicken Stadtmitte",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/birdie-birdie-chicken-stadtmitte/BibqwWYDXd6ziZGAgAs8ng",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken_burger",
+            "planted.chicken_tenders"
+          ]
+        },
+        {
+          "name": "Birdie Birdie Chicken Prenzlauer Berg",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/birdie-birdie-chicken-prenzlauer-berg/P-S868PmUYyIuX82FFqwvA",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken_burger",
+            "planted.chicken_tenders"
+          ]
+        },
+        {
+          "name": "Birdie Birdie Chicken Hamburg- Altona",
+          "city": "Hamburg",
+          "country": "de",
+          "url": "https://www.lieferando.de/speisekarte/birdie-birdie-chicken-altona-hamburg-kieler-strasse",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken_burger",
+            "planted.chicken_tenders"
+          ]
+        },
+        {
+          "name": "Birdie Birdie Chicken Hammerbrook",
+          "city": "Hamburg",
+          "country": "de",
+          "url": "https://www.lieferando.de/en/menu/birdie-birdie-chicken-hammerbrook",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "Birdie Birdie Chicken Hamburg Barmbek",
+          "city": "Hamburg",
+          "country": "de",
+          "url": "https://www.lieferando.de/en/menu/birdie-birdie-hamburg-barmbek",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken_burger",
+            "planted.chicken_tenders"
+          ]
+        },
+        {
+          "name": "Birdie Birdie Chicken Trudering München",
+          "city": "München",
+          "country": "de",
+          "url": "https://www.lieferando.de/da/menu/birdie-birdie-3",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken_burger",
+            "planted.chicken_tenders"
+          ]
+        },
+        {
+          "name": "Birdie Birdie Chicken Trudering München",
+          "city": "München",
+          "country": "de",
+          "url": "https://www.lieferando.de/en/menu/birdie-birdie-3",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken_burger",
+            "planted.chicken_tenders"
+          ]
+        },
+        {
+          "name": "Birdie Birdie Chicken Reinickendorf Berlin",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.lieferando.de/it/menu/birdie-birdie-chicken-reinickendorf-1",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken_burger",
+            "planted.chicken_tenders"
+          ]
+        },
+        {
+          "name": "Birdie Birdie Chicken Marienfelde Berlin",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.lieferando.de/speisekarte/birdie-birdie-chicken-marienfelde-1",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken_burger",
+            "planted.chicken_tenders"
+          ]
+        },
+        {
+          "name": "Birdie Birdie Chicken Rudow Berlin",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.lieferando.de/en/menu/birdie-birdie-chicken-rudow",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken_burger",
+            "planted.chicken_tenders"
+          ]
+        },
+        {
+          "name": "Birdie Birdie Chicken Stadtmitte Berlin",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.lieferando.de/en/menu/birdie-birdie-stadtmitte",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "Birdie Birdie Chicken Wellsee",
+          "city": "Hamburg",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/birdie-birdie-chicken-wellsee/9CIztCNbWdyOibkwBc2Wgw",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken_burger",
+            "planted.chicken_tenders"
+          ]
+        },
+        {
+          "name": "Birdie Birdie",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/brand-city/berlin-be/birdie-birdie",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken_burger",
+            "planted.chicken_tenders"
+          ]
+        },
+        {
+          "name": "Birdie Birdie",
+          "city": "München",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/brand-city/m%C3%BCnchen-by/birdie-birdie",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "Birdie Birdie Chicken Mahlsdorf",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/birdie-birdie-chicken-mahlsdorf/rsvFVeF4UeqDB2dJfJq_qQ",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken_burger",
+            "planted.chicken_tenders"
+          ]
+        },
+        {
+          "name": "Birdie Birdie Chicken Friedrichshain (lost)",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/birdie-birdie-chicken-friedrichshain-lost/OCs5STSQUeyx9F1pFoYqhw",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken_burger",
+            "planted.chicken_tenders"
+          ]
+        },
+        {
+          "name": "Birdie Birdie Chicken Oranienburg",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/birdie-birdie-chicken-oranienburg/1YHoPz7AUm2xHXLzv604Sw",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken_burger",
+            "planted.chicken_tenders"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "veganitas",
+      "name": "Veganitas",
+      "cuisine": "Vegan",
+      "plantedProducts": [
+        "planted.steak",
+        "planted.chicken"
+      ],
+      "locations": [
+        {
+          "name": "Veganitas (Bern)",
+          "city": "Bern",
+          "country": "ch",
+          "url": "https://www.ubereats.com/ch/store/veganitas-bern/bxPY2FdIX6ubIfhvVpG9Pw",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "Veganitas (Bern)",
+          "city": "Bern",
+          "country": "ch",
+          "url": "https://www.ubereats.com/ch-de/store/veganitas-bern/bxPY2FdIX6ubIfhvVpG9Pw",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "Veganitas (Zürich)",
+          "city": "Zürich",
+          "country": "ch",
+          "url": "https://www.ubereats.com/ch-de/store/veganitas-zurich/IBPu1oNMQNenKK-AOseb1g",
+          "platform": "uber-eats",
+          "products": [
+            "planted.steak"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kaspar-schmauser",
+      "name": "Kaspar Schmauser",
+      "cuisine": "German Comfort Food",
+      "plantedProducts": [
+        "planted.chicken",
+        "planted.kebab",
+        "planted.steak"
+      ],
+      "locations": [
+        {
+          "name": "Kaspar Schmauser",
+          "city": "Hamburg",
+          "country": "de",
+          "url": "https://www.bestellen-kaspar-schmauser.de/",
+          "platform": "own",
+          "products": [
+            "planted.chicken",
+            "planted.kebab",
+            "planted.steak"
+          ]
+        },
+        {
+          "name": "Kaspar Schmauser Berlin",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.lieferando.de/speisekarte/kaspar-schmauser-berlin",
+          "platform": "just-eat",
+          "products": [
+            "planted.kebab"
+          ]
+        },
+        {
+          "name": "Kaspar Schmauser Berlin",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.lieferando.de/en/menu/kaspar-schmauser-berlin",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "Kaspar Schmauser Friedrichstraße_LOST",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/kaspar-schmauser-friedrichstrasse_lost/qv_fjUO5WHeCWamLcOHW6w",
+          "platform": "uber-eats",
+          "products": [
+            "planted.pulled",
+            "planted.kebab"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "green-club",
+      "name": "Green Club",
+      "cuisine": "Healthy Fast Food",
+      "plantedProducts": [
+        "planted.chicken",
+        "planted.kebab",
+        "planted.pastrami"
+      ],
+      "locations": [
+        {
+          "name": "Green Club München",
+          "city": "München",
+          "country": "de",
+          "url": "https://www.lieferando.de/speisekarte/green-club-munchen-rosenheimer-strasse",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken",
+            "planted.kebab"
+          ]
+        },
+        {
+          "name": "Green Club München",
+          "city": "München",
+          "country": "de",
+          "url": "https://www.lieferando.de/speisekarte/green-club-munchen",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken",
+            "planted.kebab"
+          ]
+        },
+        {
+          "name": "Green Club München",
+          "city": "München",
+          "country": "de",
+          "url": "https://www.lieferando.de/da/menu/green-club-munchen",
+          "platform": "just-eat",
+          "products": [
+            "planted.kebab"
+          ]
+        },
+        {
+          "name": "Green Club München",
+          "city": "München",
+          "country": "de",
+          "url": "https://www.lieferando.de/pl/menu/green-club-munchen",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken",
+            "planted.kebab"
+          ]
+        },
+        {
+          "name": "Green Club Maxvorstadt Delivery",
+          "city": "München",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/green-club-maxvorstadt/N2nK2x1pUmuGolfR4FSEVw",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken",
+            "planted.pastrami",
+            "planted.kebab"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "doen-doen",
+      "name": "Doen Doen Planted Kebap",
+      "cuisine": "Kebab",
+      "plantedProducts": [
+        "planted.kebab",
+        "planted.chicken"
+      ],
+      "locations": [
+        {
+          "name": "doen doen planted kebap Berlin",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.lieferando.de/bg/menu/doen-doen-planted-kebap-berlin",
+          "platform": "just-eat",
+          "products": [
+            "planted.kebab",
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "Consegna da doen doen planted kebap a Berlin",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.lieferando.de/it/menu/doen-doen-planted-kebap-berlin",
+          "platform": "just-eat",
+          "products": [
+            "planted.kebab",
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "doen doen planted kebap Berlin",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.lieferando.de/speisekarte/doen-doen-planted-kebap-berlin",
+          "platform": "just-eat",
+          "products": [
+            "planted.kebab",
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "doen doen® Delivery",
+          "city": "Stuttgart",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/doen-doen/Gy0q6gB6V7WBxMZ4-1oIMg",
+          "platform": "uber-eats",
+          "products": [
+            "planted.kebab",
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "Doen Doen Planted Kebap",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/doen-doen-planted-kebap/sne7dq9YT3iXmoAkE4jtMQ",
+          "platform": "uber-eats",
+          "products": [
+            "planted.kebab",
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "Doen Doen Planted Kebap - New",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/doen-doen-planted-kebap-new/bMrZz_nWXAym7msiea8Iuw",
+          "platform": "uber-eats",
+          "products": [
+            "planted.kebab",
+            "planted.chicken"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "beets-roots",
+      "name": "beets&roots",
+      "cuisine": "Healthy Bowls",
+      "plantedProducts": [
+        "planted.chicken",
+        "planted.steak"
+      ],
+      "locations": [
+        {
+          "name": "beets&roots Berlin",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.lieferando.de/speisekarte/beetsroots-berlin-1",
+          "platform": "just-eat",
+          "products": [
+            "planted.chicken",
+            "planted.steak"
+          ]
+        },
+        {
+          "name": "beets&roots Hamburg Hauptbahnhof",
+          "city": "Hamburg",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/beets%26roots-hamburg-hauptbahnhof/6Sl61Gn0WiWBCXf7jo6dDQ",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken",
+            "planted.steak"
+          ]
+        },
+        {
+          "name": "beets&roots Ostbahnhof",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/beets%26roots-ostbahnhof/ecgVOBKxW_ugU8_VAVBKiA",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken",
+            "planted.duck"
+          ]
+        },
+        {
+          "name": "beets&roots Prinzenstr.",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/beets%26roots-prinzenstr/a231t-yIUjGkSTX6uCb9UQ",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken",
+            "planted.steak"
+          ]
+        },
+        {
+          "name": "beets&roots Potsdamer Platz",
+          "city": "Berlin",
+          "country": "de",
+          "url": "https://www.ubereats.com/de-en/store/beets%26roots-potsdamer-platz/JjfrDDXhW0irPBQoEtRWpQ",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken",
+            "planted.steak"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nooch",
+      "name": "Nooch Asian Kitchen",
+      "cuisine": "Asian Kitchen",
+      "plantedProducts": [
+        "planted.chicken"
+      ],
+      "locations": [
+        {
+          "name": "Nooch Asian Kitchen",
+          "city": "Basel",
+          "country": "ch",
+          "url": "https://www.ubereats.com/ch/brand-city/basel-bs/nooch-asian-kitchen",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "Nooch Asian Kitchen (Viktoriaplatz)",
+          "city": "Bern",
+          "country": "ch",
+          "url": "https://www.ubereats.com/ch/store/nooch-asian-kitchen-viktoriaplatz/Mjy61L0YSga9PvtvCn152A",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "Nooch Asian Kitchen (Viktoriaplatz)",
+          "city": "Bern",
+          "country": "ch",
+          "url": "https://www.ubereats.com/ch-de/store/nooch-asian-kitchen-viktoriaplatz/Mjy61L0YSga9PvtvCn152A",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "Nooch Asian Kitchen (Stadthausgasse)",
+          "city": "Basel",
+          "country": "ch",
+          "url": "https://www.ubereats.com/ch/store/nooch-asian-kitchen-stadthausgasse/FALDJHd5T5mCxlwP3i1KYw",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rice-up",
+      "name": "Rice Up!",
+      "cuisine": "Asian Bowls",
+      "plantedProducts": [
+        "planted.chicken"
+      ],
+      "locations": [
+        {
+          "name": "Rice Up! (Bern)",
+          "city": "Bern",
+          "country": "ch",
+          "url": "https://www.ubereats.com/ch-fr/store/rice-up!-bern/P5rPbQ8OVh2N5deBA73yxw",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "Rice Up! (Bern)",
+          "city": "Bern",
+          "country": "ch",
+          "url": "https://www.ubereats.com/ch-de/store/rice-up!-bern/P5rPbQ8OVh2N5deBA73yxw",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "Rice Up! (Bern)",
+          "city": "Bern",
+          "country": "ch",
+          "url": "https://www.ubereats.com/ch/store/rice-up!-bern/P5rPbQ8OVh2N5deBA73yxw",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "Rice Up!",
+          "city": "Bern",
+          "country": "ch",
+          "url": "https://www.ubereats.com/ch/brand-city/bern-be/rice-up",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "Rice Up! (Hauptbahnhof)",
+          "city": "Zürich",
+          "country": "ch",
+          "url": "https://www.ubereats.com/ch/store/rice-up!-hauptbahnhof/QHsuqIC5UcekApIBn0YpDQ",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "Rice Up! (Stadelhofen)",
+          "city": "Zürich",
+          "country": "ch",
+          "url": "https://www.ubereats.com/ch/store/rice-up!-stadelhofen/oL5B9M-fVnuwHi2Xg6DiCQ",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "Rice Up!",
+          "city": "Zürich",
+          "country": "ch",
+          "url": "https://www.ubereats.com/ch/brand-city/z%C3%BCrich-zh/rice-up",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "Rice Up! (Löwenplatz)",
+          "city": "Zürich",
+          "country": "ch",
+          "url": "https://www.ubereats.com/ch/store/rice-up!-lowenplatz/gl_vdTYjXBmN_BRobuURXw",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kaisin",
+      "name": "kaisin.",
+      "cuisine": "Asian Fusion",
+      "plantedProducts": [
+        "planted.chicken"
+      ],
+      "locations": [
+        {
+          "name": "kaisin. (Oerlikon)",
+          "city": "Zürich",
+          "country": "ch",
+          "url": "https://www.ubereats.com/ch/store/kaisin-oerlikon/CH_L-XsGQ-iCBkLQwSAmXw",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "kaisin. (Seefeld)",
+          "city": "Zürich",
+          "country": "ch",
+          "url": "https://www.ubereats.com/ch/store/kaisin-seefeld/yTX8bOtgQPSjNIyQCBKqIA",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken"
+          ]
+        },
+        {
+          "name": "kaisin.",
+          "city": "Zürich",
+          "country": "ch",
+          "url": "https://www.ubereats.com/ch/brand-city/z%C3%BCrich-zh/kaisin",
+          "platform": "uber-eats",
+          "products": [
+            "planted.chicken"
+          ]
+        }
+      ]
+    }
+  ],
+  "standalone": [
+    {
+      "name": "Munchies",
+      "city": "Berlin",
+      "country": "de",
+      "url": "https://www.ubereats.com/de-en/brand-city/berlin-be/munchies",
+      "platform": "uber-eats",
+      "products": []
+    },
+    {
+      "name": "Palm Bowls Mainz",
+      "city": "Mainz",
+      "country": "de",
+      "url": "https://www.ubereats.com/de-en/store/palm-bowls-mainz/XTu1yqhXTsWosC4RHH4Yzg",
+      "platform": "uber-eats",
+      "products": [
+        "planted.pulled"
+      ]
+    },
+    {
+      "name": "Råbowls",
+      "city": "Berlin",
+      "country": "de",
+      "url": "https://www.ubereats.com/de/store/rabowls/20fesBfZVQSdHxrVuMCc6Q",
+      "platform": "uber-eats",
+      "products": [
+        "planted.pulled",
+        "planted.duck",
+        "planted.chicken"
+      ]
+    },
+    {
+      "name": "GOOD BANK - Invalidenstr.",
+      "city": "Berlin",
+      "country": "de",
+      "url": "https://www.ubereats.com/de-en/store/good-bank-invalidenstr/R2n_1IwBQjafN-Tel87Qxg",
+      "platform": "uber-eats",
+      "products": [
+        "planted.chicken"
+      ]
+    },
+    {
+      "name": "TACO & GRINGO",
+      "city": "Berlin",
+      "country": "de",
+      "url": "https://www.ubereats.com/de-en/store/taco-%26-gringo/0kDYQ2nsVrmS3KQ097eOow",
+      "platform": "uber-eats",
+      "products": [
+        "planted.pulled"
+      ]
+    },
+    {
+      "name": "Restaurant Kesar",
+      "city": "Genf",
+      "country": "ch",
+      "url": "https://www.ubereats.com/ch-de/store/restaurant-kesar/6GPM395DTMiz2M5JQnuAdA",
+      "platform": "uber-eats",
+      "products": [
+        "planted.chicken"
+      ]
+    },
+    {
+      "name": "Beets & Roots Berlin",
+      "city": "Berlin",
+      "country": "de",
+      "url": "https://www.lieferando.de/speisekarte/beets-roots-schlterstrasse",
+      "platform": "just-eat",
+      "products": [
+        "planted.chicken",
+        "planted.steak"
+      ]
+    },
+    {
+      "name": "Beets & Roots Berlin",
+      "city": "Berlin",
+      "country": "de",
+      "url": "https://www.lieferando.de/en/menu/beets-roots-newbbr",
+      "platform": "just-eat",
+      "products": [
+        "planted.chicken",
+        "planted.steak"
+      ]
+    },
+    {
+      "name": "Hamburg Katendrecht",
+      "city": "Rotterdam",
+      "country": "de",
+      "url": "https://www.ubereats.com/nl-en/store/hamburg-katendrecht/9AOrXXGWX-W3zBpAAE96wA",
+      "platform": "uber-eats",
+      "products": [
+        "planted.chicken_burger"
+      ]
+    },
+    {
+      "name": "råbowls rathaus",
+      "city": "Hamburg",
+      "country": "de",
+      "url": "https://www.ubereats.com/de-en/store/rabowls-rathaus/c2vt7htzRk6ZNd6q6xbeBQ",
+      "platform": "uber-eats",
+      "products": [
+        "planted.chicken",
+        "planted.pulled",
+        "planted.duck"
+      ]
+    },
+    {
+      "name": "Katzentempel",
+      "city": "Unknown",
+      "country": "de",
+      "url": "https://katzentempel.de/speisekarte/",
+      "platform": "uber-eats",
+      "products": [
+        "planted.chicken",
+        "planted.chicken_burger",
+        "planted.pulled"
+      ]
+    },
+    {
+      "name": "Okra",
+      "city": "Bern",
+      "country": "ch",
+      "url": "https://www.ubereats.com/ch-de/store/okra/lJIy7VKKTNyp1R7tbc6gjg",
+      "platform": "uber-eats",
+      "products": [
+        "planted.chicken"
+      ]
+    },
+    {
+      "name": "Emmis Brunch Club Schwabing",
+      "city": "München",
+      "country": "de",
+      "url": "https://www.ubereats.com/de-en/store/emmis-brunch-club-schwabing/1shz09RnXsmcJ2sMY21l3Q",
+      "platform": "uber-eats",
+      "products": [
+        "planted.chicken"
+      ]
+    },
+    {
+      "name": "Edy's",
+      "city": "Zürich",
+      "country": "de",
+      "url": "https://www.ubereats.com/ch/store/edys/VCGwz-tESSeJ7ZkBvOJBQw",
+      "platform": "uber-eats",
+      "products": [
+        "planted.kebab"
+      ]
+    },
+    {
+      "name": "Boost&Bowls",
+      "city": "Essen",
+      "country": "de",
+      "url": "https://www.ubereats.com/de-en/store/boost%26bowls/tJUVt7UpTi6gcvp23ryxvw",
+      "platform": "uber-eats",
+      "products": [
+        "planted.kebab"
+      ]
+    },
+    {
+      "name": "Smash Bro's Burger (Muri)",
+      "city": "Muri bei Bern",
+      "country": "ch",
+      "url": "https://www.ubereats.com/ch/store/smash-bros-burger-muri/bqvqRLTiUyWoHmIUO0u4-Q",
+      "platform": "uber-eats",
+      "products": [
+        "planted.chicken"
+      ]
+    },
+    {
+      "name": "Smash Bro's Burger (Muri)",
+      "city": "Muri bei Bern",
+      "country": "ch",
+      "url": "https://www.ubereats.com/ch-de/store/smash-bros-burger-muri/bqvqRLTiUyWoHmIUO0u4-Q",
+      "platform": "uber-eats",
+      "products": [
+        "planted.chicken"
+      ]
+    },
+    {
+      "name": "Subway - CH Test account DE",
+      "city": "Lausanne",
+      "country": "ch",
+      "url": "https://www.ubereats.com/ch-de/store/subway-ch-test-account-de/lR46YQzTRLuphtwhHuBfaw",
+      "platform": "uber-eats",
+      "products": [
+        "planted.chicken"
+      ]
+    },
+    {
+      "name": "Subway",
+      "city": "Bern",
+      "country": "ch",
+      "url": "https://www.ubereats.com/ch/brand-city/bern-be/subway",
+      "platform": "uber-eats",
+      "products": [
+        "planted.chicken"
+      ]
+    },
+    {
+      "name": "Nam Soup Bar",
+      "city": "Basel",
+      "country": "ch",
+      "url": "https://www.ubereats.com/ch/store/nam-soup-bar/CE_sUwBCWOSJLvJs8SruyA",
+      "platform": "uber-eats",
+      "products": [
+        "planted.chicken_tenders"
+      ]
+    },
+    {
+      "name": "Tibits Zürich",
+      "city": "Zürich",
+      "country": "ch",
+      "url": "https://www.just-eat.ch/en/menu/tibits-zurich",
+      "platform": "just-eat",
+      "products": [
+        "planted.chicken"
+      ]
+    },
+    {
+      "name": "Hiltl - Vegetarian Restaurant",
+      "city": "Zürich",
+      "country": "ch",
+      "url": "https://www.just-eat.ch/en/menu/hiltl-zurich",
+      "platform": "just-eat",
+      "products": [
+        "planted.chicken"
+      ]
+    }
+  ]
+}
