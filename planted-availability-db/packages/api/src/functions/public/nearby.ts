@@ -2,20 +2,12 @@ import { onRequest, HttpsOptions } from 'firebase-functions/v2/https';
 import type { Request, Response } from 'express';
 import { initializeFirestore, venues, dishes } from '@pad/database';
 import { isVenueOpen, getNextOpeningTime, getTodayHoursString } from '@pad/core';
-import type { Venue, Dish, VenueType, GeoPoint } from '@pad/core';
+import type { Venue, Dish, GeoPoint } from '@pad/core';
+import { publicRateLimit } from '../../middleware/withRateLimit.js';
+import { nearbyQuerySchema, parseQuery } from '../../schemas/requests.js';
 
 // Initialize Firestore
 initializeFirestore();
-
-interface NearbyRequest {
-  lat: number;
-  lng: number;
-  radius_km?: number;
-  type?: VenueType | 'all';
-  limit?: number;
-  open_now?: boolean;
-  product_sku?: string;
-}
 
 interface NearbyResult {
   venue: Venue & { distance_km: number };
@@ -41,52 +33,34 @@ const functionOptions: HttpsOptions = {
  * GET /api/v1/nearby
  * Returns venues and dishes near a location
  */
-export const nearbyHandler = onRequest(functionOptions, async (req: Request, res: Response) => {
+export const nearbyHandler = onRequest(functionOptions, publicRateLimit(async (req: Request, res: Response) => {
   if (req.method !== 'GET') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
   }
 
   try {
-    // Parse query parameters
-    const lat = parseFloat(req.query.lat as string);
-    const lng = parseFloat(req.query.lng as string);
-
-    if (isNaN(lat) || isNaN(lng)) {
+    // Validate query parameters with Zod
+    const parseResult = parseQuery(req.query, nearbyQuerySchema);
+    if (!parseResult.success) {
       res.status(400).json({
         error: 'Bad request',
-        message: 'lat and lng query parameters are required and must be numbers',
+        message: 'Invalid query parameters',
+        details: parseResult.error,
       });
       return;
     }
 
-    if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
-      res.status(400).json({
-        error: 'Bad request',
-        message: 'Invalid coordinates',
-      });
-      return;
-    }
-
-    const params: NearbyRequest = {
-      lat,
-      lng,
-      radius_km: Math.min(parseFloat(req.query.radius_km as string) || 10, 50),
-      type: (req.query.type as VenueType | 'all') || 'all',
-      limit: Math.min(parseInt(req.query.limit as string, 10) || 20, 100),
-      open_now: req.query.open_now === 'true',
-      product_sku: req.query.product_sku as string,
-    };
-
+    const params = parseResult.data;
     const center: GeoPoint = { latitude: params.lat, longitude: params.lng };
 
     // Query nearby venues
     const nearbyVenues = await venues.queryNearby({
       center,
-      radiusKm: params.radius_km!,
-      type: params.type === 'all' ? undefined : params.type,
+      radiusKm: params.radius_km,
+      type: params.type === 'all' ? undefined : (params.type as 'retail' | 'restaurant' | 'delivery_kitchen' | undefined),
       status: 'active',
-      limit: params.limit! + 10, // Fetch extra for filtering
+      limit: params.limit + 10, // Fetch extra for filtering
     });
 
     // Get dishes for each venue
@@ -125,7 +99,7 @@ export const nearbyHandler = onRequest(functionOptions, async (req: Request, res
       });
 
       // Stop if we have enough results
-      if (results.length >= params.limit!) {
+      if (results.length >= params.limit) {
         break;
       }
     }
@@ -150,4 +124,4 @@ export const nearbyHandler = onRequest(functionOptions, async (req: Request, res
       stack: process.env.NODE_ENV === 'development' ? errorStack : undefined,
     });
   }
-});
+}));

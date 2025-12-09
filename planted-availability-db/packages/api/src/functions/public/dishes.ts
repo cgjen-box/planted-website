@@ -2,6 +2,8 @@ import { onRequest, HttpsOptions } from 'firebase-functions/v2/https';
 import type { Request, Response } from 'express';
 import { initializeFirestore, dishes, venues } from '@pad/database';
 import { calculateDistance, type GeoPoint } from '@pad/core';
+import { publicRateLimit } from '../../middleware/withRateLimit.js';
+import { dishesQuerySchema, parseQuery } from '../../schemas/requests.js';
 
 // Initialize Firestore
 initializeFirestore();
@@ -32,23 +34,35 @@ const functionOptions: HttpsOptions = {
  * GET /api/v1/dishes
  * Search dishes with filters
  */
-export const dishesHandler = onRequest(functionOptions, async (req: Request, res: Response) => {
+export const dishesHandler = onRequest(functionOptions, publicRateLimit(async (req: Request, res: Response) => {
   if (req.method !== 'GET') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
   }
 
   try {
-    // Parse query parameters
-    const productSku = req.query.product_sku as string | undefined;
-    const lat = req.query.lat ? parseFloat(req.query.lat as string) : undefined;
-    const lng = req.query.lng ? parseFloat(req.query.lng as string) : undefined;
-    const radiusKm = req.query.radius_km ? parseFloat(req.query.radius_km as string) : 50;
-    const tags = req.query.tags ? (req.query.tags as string).split(',') : undefined;
-    const cuisine = req.query.cuisine as string | undefined;
-    const minPrice = req.query.min_price ? parseFloat(req.query.min_price as string) : undefined;
-    const maxPrice = req.query.max_price ? parseFloat(req.query.max_price as string) : undefined;
-    const limit = Math.min(parseInt(req.query.limit as string, 10) || 20, 100);
+    // Validate query parameters with Zod
+    const parseResult = parseQuery(req.query, dishesQuerySchema);
+    if (!parseResult.success) {
+      res.status(400).json({
+        error: 'Bad request',
+        message: 'Invalid query parameters',
+        details: parseResult.error,
+      });
+      return;
+    }
+
+    const {
+      product_sku: productSku,
+      lat,
+      lng,
+      radius_km: radiusKm,
+      tags,
+      cuisine,
+      min_price: minPrice,
+      max_price: maxPrice,
+      limit,
+    } = parseResult.data;
 
     // Build query options
     const queryOptions: Parameters<typeof dishes.query>[0] = {
@@ -152,13 +166,13 @@ export const dishesHandler = onRequest(functionOptions, async (req: Request, res
       message: errorMessage,
     });
   }
-});
+}));
 
 /**
  * GET /api/v1/dishes/:id
  * Get single dish details
  */
-export const dishDetailHandler = onRequest(functionOptions, async (req: Request, res: Response) => {
+export const dishDetailHandler = onRequest(functionOptions, publicRateLimit(async (req: Request, res: Response) => {
   if (req.method !== 'GET') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -214,5 +228,5 @@ export const dishDetailHandler = onRequest(functionOptions, async (req: Request,
       message: errorMessage,
     });
   }
-});
+}));
 

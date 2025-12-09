@@ -2,6 +2,8 @@ import { onRequest, HttpsOptions } from 'firebase-functions/v2/https';
 import type { Request, Response } from 'express';
 import { initializeFirestore, venues, dishes } from '@pad/database';
 import type { Dish, Venue, DeliveryPartner } from '@pad/core';
+import { publicRateLimit } from '../../middleware/withRateLimit.js';
+import { deliveryCheckQuerySchema, parseQuery } from '../../schemas/requests.js';
 
 // Initialize Firestore
 initializeFirestore();
@@ -31,26 +33,25 @@ const functionOptions: HttpsOptions = {
  * GET /api/v1/delivery/check
  * Check delivery availability for a specific address or postal code
  */
-export const deliveryCheckHandler = onRequest(functionOptions, async (req: Request, res: Response) => {
+export const deliveryCheckHandler = onRequest(functionOptions, publicRateLimit(async (req: Request, res: Response) => {
   if (req.method !== 'GET') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
   }
 
   try {
-    const postalCode = req.query.postal_code as string | undefined;
-    const country = req.query.country as string | undefined;
-    const address = req.query.address as string | undefined;
-    const limit = Math.min(parseInt(req.query.limit as string, 10) || 10, 20);
-
-    // Validate input
-    if (!postalCode && !address) {
+    // Validate query parameters with Zod
+    const parseResult = parseQuery(req.query, deliveryCheckQuerySchema);
+    if (!parseResult.success) {
       res.status(400).json({
         error: 'Bad request',
-        message: 'Either postal_code or address query parameter is required',
+        message: 'Invalid query parameters',
+        details: parseResult.error,
       });
       return;
     }
+
+    const { postal_code: postalCode, country, limit } = parseResult.data;
 
     // Query delivery kitchens and restaurants with delivery
     const deliveryVenues = await venues.query({
@@ -153,4 +154,4 @@ export const deliveryCheckHandler = onRequest(functionOptions, async (req: Reque
       message: errorMessage,
     });
   }
-});
+}));

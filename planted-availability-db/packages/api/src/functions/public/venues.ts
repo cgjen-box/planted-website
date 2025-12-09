@@ -8,6 +8,8 @@ import {
   type VenueType,
   type VenueStatus,
 } from '@pad/core';
+import { publicRateLimit } from '../../middleware/withRateLimit.js';
+import { venuesListQuerySchema, parseQuery } from '../../schemas/requests.js';
 
 // Type guards for venue query params
 const VENUE_TYPES: VenueType[] = ['retail', 'restaurant', 'delivery_kitchen'];
@@ -34,7 +36,7 @@ const functionOptions: HttpsOptions = {
  * GET /api/v1/venues/:id
  * Get full venue details including dishes and promotions
  */
-export const venueDetailHandler = onRequest(functionOptions, async (req: Request, res: Response) => {
+export const venueDetailHandler = onRequest(functionOptions, publicRateLimit(async (req: Request, res: Response) => {
   if (req.method !== 'GET') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
@@ -115,31 +117,37 @@ export const venueDetailHandler = onRequest(functionOptions, async (req: Request
       message: errorMessage,
     });
   }
-});
+}));
 
 /**
  * GET /api/v1/venues
  * List venues with optional filters
  */
-export const venuesListHandler = onRequest(functionOptions, async (req: Request, res: Response) => {
+export const venuesListHandler = onRequest(functionOptions, publicRateLimit(async (req: Request, res: Response) => {
   if (req.method !== 'GET') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
   }
 
   try {
-    const type = req.query.type as string | undefined;
-    const country = req.query.country as string | undefined;
-    const chainId = req.query.chain_id as string | undefined;
-    const status = req.query.status as string | undefined;
-    const limit = Math.min(parseInt(req.query.limit as string, 10) || 50, 100);
-    const offset = parseInt(req.query.offset as string, 10) || 0;
+    // Validate query parameters with Zod
+    const parseResult = parseQuery(req.query, venuesListQuerySchema);
+    if (!parseResult.success) {
+      res.status(400).json({
+        error: 'Bad request',
+        message: 'Invalid query parameters',
+        details: parseResult.error,
+      });
+      return;
+    }
+
+    const { type, country, chain_id: chainId, status, limit, offset } = parseResult.data;
 
     const venuesList = await venues.query({
-      type: isValidVenueType(type) ? type : undefined,
+      type,
       country,
       chainId,
-      status: isValidVenueStatus(status) ? status : undefined,
+      status,
       limit,
       offset,
     });
@@ -162,4 +170,4 @@ export const venuesListHandler = onRequest(functionOptions, async (req: Request,
       message: errorMessage,
     });
   }
-});
+}));

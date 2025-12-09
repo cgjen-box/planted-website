@@ -7,6 +7,7 @@
 
 import type { Request, Response } from 'express';
 import { getGeolocationService, getClientIP } from '../../services/geolocation.js';
+import { publicRateLimit } from '../../middleware/withRateLimit.js';
 
 export interface GeolocateResponse {
   city: string | null;
@@ -25,7 +26,7 @@ export interface GeolocateResponse {
  * Returns the approximate location of the client based on IP address.
  * Can be used for initial map centering and country-specific content.
  */
-export async function geolocateHandler(req: Request, res: Response): Promise<void> {
+async function geolocateHandlerImpl(req: Request, res: Response): Promise<void> {
   try {
     const geoService = getGeolocationService();
 
@@ -70,3 +71,6 @@ export async function geolocateHandler(req: Request, res: Response): Promise<voi
     });
   }
 }
+
+// Export with rate limiting wrapper
+export const geolocateHandler = publicRateLimit(geolocateHandlerImpl);

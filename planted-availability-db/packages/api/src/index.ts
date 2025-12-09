@@ -23,6 +23,11 @@ export {
   adminPartnersHandler as adminPartners,
   adminBatchesHandler as adminBatches,
   adminDiscoveredVenuesHandler as adminDiscoveredVenues,
+  adminMetricsHandler as adminMetrics,
+  adminPlatformHealthHandler as adminPlatformHealth,
+  adminCircuitBreakersHandler as adminCircuitBreakers,
+  adminScrapersHandler as adminScrapers,
+  adminSyncHandler as adminSync,
 } from './functions/admin/index.js';
 
 // Partner API endpoints
