@@ -58,7 +58,7 @@ const ambassadorQuote = ambassador ? (localeData.language === 'en' ? ambassador.
                     <!-- Headline with rotation -->
                     <div class="hero-headline">
                         <h1>{t.home.hero.title}</h1>
-                        <div class="hero-subtext">{t.home.mission.highlight}</div>
+                        <div class="hero-subtext">{t.home.hero.subtitle}</div>
                     </div>
 
                     <!-- Whisper box -->
@@ -99,6 +99,12 @@ const ambassadorQuote = ambassador ? (localeData.language === 'en' ? ambassador.
 
                 <!-- Right Column: TV Set -->
                 <div class="hero-visual">
+                    <!-- Evidence Label -->
+                    <div class="evidence-label">
+                        <span class="evidence-text">{t.home.hero.evidenceLabel || 'Beweisstück A'}</span>
+                        <span class="evidence-arrow">→</span>
+                    </div>
+
                     <!-- TV Frame -->
                     <div class="tv-frame">
                         <div class="tv-screen">
@@ -222,7 +228,9 @@ const ambassadorQuote = ambassador ? (localeData.language === 'en' ? ambassador.
 
         <div class="products-container">
             <div class="products-grid">
-                {featuredProducts.map((product) => (
+                {featuredProducts.map((product) => {
+                    const hoverText = t.home.products.hoverText?.[product.data.slug] || 'Pflanzlich. Und verdammt lecker.';
+                    return (
                     <a href={`${base}/${locale}/products/${product.data.slug}`} class="product-card reveal-scale" data-color={product.data.color}>
                         <div class="product-card-inner">
                             {product.data.isNew && <span class="product-badge-new">{t.common.new}</span>}
@@ -231,7 +239,7 @@ const ambassadorQuote = ambassador ? (localeData.language === 'en' ? ambassador.
                             </div>
                             <div class="product-hover-overlay">
                                 <div class="product-hover-text">
-                                    Das perfekte Fleisch für alle, die Fleisch lieben
+                                    {hoverText}
                                 </div>
                             </div>
                         </div>
@@ -240,7 +248,8 @@ const ambassadorQuote = ambassador ? (localeData.language === 'en' ? ambassador.
                             <div class="product-variant">{product.data.variant}</div>
                         </div>
                     </a>
-                ))}
+                    );
+                })}
             </div>
         </div>
     </section>
@@ -254,8 +263,11 @@ const ambassadorQuote = ambassador ? (localeData.language === 'en' ? ambassador.
         </div>
 
         <div class="impact-content">
-            <!-- Playful intro badge -->
-            <span class="impact-badge">{t.home.impact.badge}</span>
+            <!-- Playful intro -->
+            <div class="impact-intro">
+                <h2 class="impact-intro-title">{t.home.impact.badge}</h2>
+                <p class="impact-intro-subtitle">{t.home.impact.badgeSubtitle || ''}</p>
+            </div>
 
             <!-- The big stats -->
             <div class="impact-stats">
@@ -584,6 +596,43 @@ const ambassadorQuote = ambassador ? (localeData.language === 'en' ? ambassador.
 
     @keyframes fadeIn {
         to { opacity: 1; }
+    }
+
+    /* Evidence Label */
+    .evidence-label {
+        position: absolute;
+        bottom: 55%;
+        right: calc(100% + 12px);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        white-space: nowrap;
+        z-index: 5;
+    }
+
+    .evidence-text {
+        font-family: 'VC Henrietta', serif;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: var(--planted-purple);
+        font-style: italic;
+    }
+
+    .evidence-arrow {
+        font-size: 1.5rem;
+        color: var(--planted-purple);
+        animation: pointRight 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pointRight {
+        0%, 100% { transform: translateX(0); }
+        50% { transform: translateX(6px); }
+    }
+
+    @media (max-width: 1024px) {
+        .evidence-label {
+            display: none;
+        }
     }
 
     .tv-frame {
@@ -1345,6 +1394,32 @@ const ambassadorQuote = ambassador ? (localeData.language === 'en' ? ambassador.
     }
 
     /* Badge intro */
+    /* Impact Intro */
+    .impact-intro {
+        text-align: center;
+        margin-bottom: 3rem;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    .impact-intro.active {
+        animation: impactFadeSlideUp 0.8s ease forwards;
+        animation-delay: 0.2s;
+    }
+
+    .impact-intro-title {
+        font-family: 'VC Henrietta', serif;
+        font-size: clamp(1.75rem, 4vw, 2.5rem);
+        font-weight: 700;
+        color: white;
+        margin-bottom: 0.5rem;
+    }
+
+    .impact-intro-subtitle {
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
     .impact-badge {
         display: inline-block;
         background: rgba(107, 191, 89, 0.2);
@@ -2010,7 +2085,7 @@ const ambassadorQuote = ambassador ? (localeData.language === 'en' ? ambassador.
     function initHomePage() {
         // Impact Section Animations
         const impactSection = document.getElementById('impact');
-        const impactElements = document.querySelectorAll('.impact-badge, .impact-stat, .impact-tagline, .impact-source, .impact-cta');
+        const impactElements = document.querySelectorAll('.impact-intro, .impact-badge, .impact-stat, .impact-tagline, .impact-source, .impact-cta');
         const statValues = document.querySelectorAll('.impact-stat-value[data-count]');
         let impactAnimated = false;
 

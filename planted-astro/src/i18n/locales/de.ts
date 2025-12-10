@@ -16,9 +16,9 @@ export default {
     // Home page
     home: {
         hero: {
-            title: 'Die Zukunft des Fleisches',
-            subtitle: 'Pflanzenbasiert. Swiss-made. Unglaublich lecker.',
-            cta: 'Produkte entdecken',
+            title: 'Wir machen Fleisch.',
+            subtitle: 'Nur halt ohne das Tier.',
+            cta: 'Wo gibt\'s das?',
             badge: 'B Corp zertifiziert',
             whisper: '(Das klingt einfacher als es ist. Aber nach 6 Jahren Tüfteln haben es sogar Fleischliebhaber abgenommen.)',
             proofRestaurants: 'Restaurants',
@@ -112,18 +112,19 @@ export default {
             button: 'Suchen',
         },
         impact: {
-            badge: 'Die Zahlen sprechen für sich',
-            lessCO2: 'Weniger CO₂',
-            lessWater: 'Weniger Wasser',
-            animalsHarmed: 'Tiere geschlachtet',
+            badge: 'Okay, jetzt wird\'s kurz ernst.',
+            badgeSubtitle: '(Keine Sorge, nur 30 Sekunden, dann sind wir wieder lustig.)',
+            lessCO2: 'weniger CO₂',
+            lessWater: 'weniger Wasser',
+            animalsHarmed: 'Tiere',
             vsCow: 'vs. Rindfleisch',
-            ever: 'nie',
+            ever: 'null, nada, keine',
             tagline: 'Gleicher Geschmack. Besser für den Planeten.',
-            source: 'Ökobilanz durch unabhängige Forscher verifiziert',
-            seeHow: 'Erfahre mehr',
-            co2Context: 'Das entspricht etwa 12 Autofahrten von Zürich nach Bern. Pro Packung.',
-            waterContext: 'Genug, um 47 Mal zu duschen. Nicht dass du weniger duschen solltest.',
-            animalsContext: 'Klingt simpel. Ist es auch. Keine versteckten Fussnoten.',
+            source: 'Quelle: Unabhängige Ökobilanz-Studie. Wir haben\'s nicht selbst erfunden.',
+            seeHow: 'Die ganze nerdy Analyse lesen',
+            co2Context: 'Das entspricht etwa 12 Autofahrten von Zürich nach Bern. Pro Packung. Wir haben\'s nicht erfunden, das haben Wissenschaftler berechnet.',
+            waterContext: 'Genug, um 47 Mal zu duschen. Nicht dass du weniger duschen solltest. Bitte nicht.',
+            animalsContext: 'Klingt simpel. Ist es auch. Keine versteckten Fussnoten. Versprochen.',
         },
         business: {
             badge: 'Für Unternehmen',
@@ -548,13 +549,19 @@ export default {
 
     // Newsletter Signup component
     newsletter: {
-        title: 'Bleib auf dem Laufenden',
-        subtitle: 'Hungrig nach mehr?',
-        description: 'Erhalte Rezepte, Produktneuheiten und exklusive Angebote. Wir versprechen, es lecker zu halten, nicht spammig.',
-        placeholder: 'Deine E-Mail-Adresse',
-        button: 'Abonnieren',
+        title: 'Newsletter',
+        subtitle: 'Okay, hier kommt die Newsletter-Anmeldung.',
+        description: 'Du weisst wie das funktioniert. Wir fragen nach deiner E-Mail. Du überlegst ob wir dich zuspammen werden.',
+        placeholder: 'deine@email.ch',
+        button: 'Ich bin dabei',
         consent: 'Ich stimme zu, Marketing-E-Mails zu erhalten.',
-        success: 'Danke fürs Abonnieren!',
+        success: 'Willkommen an Bord! Wir freuen uns.',
+        promiseTitle: 'Unser Versprechen:',
+        promiseRecipes: 'Rezepte, die tatsächlich funktionieren',
+        promiseProducts: 'Neue Produkte bevor sie im Regal stehen',
+        promiseJokes: 'Gelegentlich ein schlechter Witz',
+        promiseNoSpam: 'Keine täglichen E-Mails. Wir haben auch anderes zu tun.',
+        finePrint: 'Du kannst dich jederzeit abmelden. Wir werden dann leise weinen, aber wir werden dich in Ruhe lassen.',
     },
 
     // Countries (for dropdowns and localization)
