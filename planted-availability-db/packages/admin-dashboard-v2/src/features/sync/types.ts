@@ -72,9 +72,12 @@ export interface SyncPreview {
 
 /**
  * Sync Request
+ * Matches backend executeBodySchema in sync/execute.ts
  */
 export interface SyncRequest {
-  itemIds: string[]; // IDs of items to sync
+  venueIds?: string[]; // IDs of venues to sync
+  dishIds?: string[]; // IDs of dishes to sync
+  syncAll?: boolean; // If true, sync all verified items
   dryRun?: boolean; // If true, only validate without executing
 }
 
@@ -91,19 +94,34 @@ export interface SyncProgressEvent {
 
 /**
  * Sync Result
+ * Matches backend response from sync/execute.ts
  */
 export interface SyncResult {
   success: boolean;
-  syncId: string;
-  itemsProcessed: number;
-  itemsSucceeded: number;
-  itemsFailed: number;
-  duration: number; // seconds
+  message: string;
+  synced: {
+    venues: number;
+    dishes: number;
+  };
   errors?: Array<{
-    itemId: string;
+    entityId: string;
+    entityType: 'venue' | 'dish';
     error: string;
   }>;
-  timestamp: string; // ISO date string
+  stats: {
+    requested: {
+      venues: number;
+      dishes: number;
+    };
+    successful: {
+      venues: number;
+      dishes: number;
+    };
+    failed: {
+      venues: number;
+      dishes: number;
+    };
+  };
 }
 
 /**

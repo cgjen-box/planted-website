@@ -194,10 +194,10 @@ export const ambassadors: Record<CountryCode, {
     'global': null,
     'ch': {
         name: 'Christian Stucki',
-        title: 'Schwingerkönig 2019 & Planted Ambassador',
-        titleEn: 'Swiss Wrestling Champion 2019 & Planted Ambassador',
-        quote: 'Gesundheit ist mir sehr wichtig. Grossartige pflanzliche Produkte wie die von Planted machen es mir leicht, bewusster zu essen, ohne auf Genuss zu verzichten.',
-        quoteEn: 'Health is very important to me. Great plant-based products like those from Planted make it easy to eat more consciously without sacrificing enjoyment.',
+        title: 'Schwingerkönig 2019',
+        titleEn: 'Swiss Wrestling Champion 2019',
+        quote: 'Ich wiege 140 Kilo. Ich brauche Protein. Und ich hab keine Zeit für Zeugs, das nicht schmeckt. Das hier schmeckt.',
+        quoteEn: 'I weigh 140 kilos. I need protein. And I don\'t have time for stuff that doesn\'t taste good. This tastes good.',
         image: '/images/ambassadors/christian-stucki.jpg',
     },
     'de': {

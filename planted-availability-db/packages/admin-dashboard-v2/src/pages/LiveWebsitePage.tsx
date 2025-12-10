@@ -35,29 +35,27 @@ export function LiveWebsitePage() {
   const handleSyncAll = async () => {
     if (!preview) return;
 
-    const allItemIds = [
-      ...preview.additions.map(i => i.id),
-      ...preview.updates.map(i => i.id),
-      ...preview.removals.map(i => i.id),
-    ];
+    const totalCount = preview.additions.length + preview.updates.length + preview.removals.length;
 
-    if (allItemIds.length === 0) {
+    if (totalCount === 0) {
       alert('No changes to sync');
       return;
     }
 
-    if (!confirm(`Are you sure you want to sync ${allItemIds.length} changes to the website?`)) {
+    if (!confirm(`Are you sure you want to sync ${totalCount} changes to the website?`)) {
       return;
     }
 
     setSyncing(true);
     try {
-      const result = await syncMutation.mutateAsync({ itemIds: allItemIds });
+      // Use syncAll: true to sync all verified venues/dishes
+      const result = await syncMutation.mutateAsync({ syncAll: true });
       if (result.success) {
-        alert(`Sync completed successfully! ${result.itemsSucceeded} items synced.`);
+        const synced = (result.synced?.venues || 0) + (result.synced?.dishes || 0);
+        alert(`Sync completed successfully! ${synced} items synced.`);
         refetchPreview();
       } else {
-        alert(`Sync completed with ${result.itemsFailed} failures.`);
+        alert(`Sync completed with errors. Check console for details.`);
       }
     } catch (error) {
       console.error('Sync failed:', error);

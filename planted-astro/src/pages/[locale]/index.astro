@@ -222,7 +222,7 @@ const ambassadorQuote = ambassador ? (localeData.language === 'en' ? ambassador.
         <div class="products-header">
             <h2 class="reveal">{t.home.products.title}</h2>
             <a href={`${base}/${locale}/products`} class="view-all-link reveal">
-                {t.home.products.viewAll} <span class="view-all-arrow">→</span>
+                {t.home.products.viewAllLink || `${t.home.products.viewAll} →`}
             </a>
         </div>
 

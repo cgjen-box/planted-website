@@ -595,8 +595,9 @@ export default {
 
     // Meta / SEO
     meta: {
-        defaultDescription: 'Pflanzenbasiertes Fleisch, das wirklich wie Fleisch schmeckt. Made in Switzerland. B Corp zertifiziert.',
+        defaultDescription: 'Fleisch aus Erbsen, Sonnenblumen und Hafer. Klingt komisch. Schmeckt nach Poulet. Made in Switzerland.',
         titleSuffix: ' | planted',
+        homeTitle: 'Planted – Fleisch aus Pflanzen. Ja, wirklich.',
     },
 
     // Press page
