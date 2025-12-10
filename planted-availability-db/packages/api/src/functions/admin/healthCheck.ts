@@ -81,10 +81,10 @@ export const adminHealthCheckHandler = onRequest(
     // Test discovered venues collection (for review queue)
     const discoveredReadStart = Date.now();
     try {
-      const pendingCount = await discoveredVenues.countByStatus('pending_review');
+      const pendingVenues = await discoveredVenues.getByStatus('discovered');
       checks.discovered_venues = {
         status: 'ok',
-        message: `${pendingCount} venues pending review`,
+        message: `${pendingVenues.length} venues pending review`,
         latencyMs: Date.now() - discoveredReadStart,
       };
     } catch (error) {

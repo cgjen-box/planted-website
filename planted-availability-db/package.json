@@ -13,7 +13,10 @@
     "deploy": "firebase deploy",
     "deploy:functions": "firebase deploy --only functions",
     "deploy:hosting": "firebase deploy --only hosting",
-    "emulators": "firebase emulators:start"
+    "emulators": "firebase emulators:start",
+    "pre-deploy": "node scripts/pre-deploy-check.js",
+    "smoke-test": "node scripts/smoke-test.js",
+    "deploy:safe": "pnpm build && pnpm pre-deploy && firebase deploy && pnpm smoke-test"
   },
   "devDependencies": {
     "@types/node": "^22.10.1",

@@ -82,40 +82,25 @@ export function TestPage() {
     results[0] = healthTest;
     setTests([...results]);
 
-    // Test 2: CORS Preflight
+    // Test 2: CORS (via actual cross-origin GET request)
+    // Note: Browsers don't allow manual OPTIONS requests, but if GET works, CORS is configured
     const corsTest: TestResult = {
-      name: 'CORS Preflight (OPTIONS)',
+      name: 'CORS Configuration',
       status: 'pending',
       message: 'Testing...',
     };
     results.push(corsTest);
     setTests([...results]);
 
-    const corsStart = Date.now();
-    try {
-      const response = await fetch(`${API_BASE_URL}/adminHealthCheck`, {
-        method: 'OPTIONS',
-        headers: {
-          'Origin': window.location.origin,
-          'Access-Control-Request-Method': 'GET',
-        },
-      });
-      const latency = Date.now() - corsStart;
-      const corsHeader = response.headers.get('Access-Control-Allow-Origin');
-
-      if (response.status === 204 || response.status === 200) {
-        corsTest.status = 'pass';
-        corsTest.message = `Preflight OK (${latency}ms), CORS: ${corsHeader || 'header present'}`;
-        corsTest.latencyMs = latency;
-      } else {
-        corsTest.status = 'fail';
-        corsTest.message = `Unexpected status: ${response.status}`;
-        corsTest.latencyMs = latency;
-      }
-    } catch (error) {
-      corsTest.status = 'error';
-      corsTest.message = `Network error: ${(error as Error).message}`;
-      corsTest.latencyMs = Date.now() - corsStart;
+    // If the health check above worked, CORS is working (browser did preflight automatically)
+    if (healthTest.status === 'pass') {
+      corsTest.status = 'pass';
+      corsTest.message = 'CORS working (cross-origin request succeeded)';
+      corsTest.latencyMs = 0;
+    } else {
+      corsTest.status = 'fail';
+      corsTest.message = 'CORS may be blocking requests (health check failed)';
+      corsTest.latencyMs = 0;
     }
     results[1] = corsTest;
     setTests([...results]);
