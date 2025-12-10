@@ -13,9 +13,103 @@ import { z } from 'zod';
 import {
   initializeFirestore,
   discoveredVenues,
+  discoveredDishes,
+  chains,
 } from '@pad/database';
 import { createAdminHandler } from '../../../middleware/adminHandler.js';
-import type { SupportedCountry, DiscoveredVenueStatus } from '@pad/core';
+import type { SupportedCountry, DiscoveredVenueStatus, Chain } from '@pad/core';
+
+/**
+ * Known chain name patterns mapped to standardized chain identifiers.
+ * Used for high-confidence automatic chain suggestions.
+ * The key is a lowercase pattern to match, value is the canonical chain name.
+ */
+const KNOWN_CHAIN_PATTERNS: Record<string, string> = {
+  // Dean & David variations
+  'dean&david': 'Dean & David',
+  'dean & david': 'Dean & David',
+  'dean david': 'Dean & David',
+  'deanddavid': 'Dean & David',
+  'dean&david ': 'Dean & David',
+
+  // Birdie Birdie
+  'birdie birdie': 'Birdie Birdie',
+  'birdiebirdie': 'Birdie Birdie',
+  'birdie-birdie': 'Birdie Birdie',
+
+  // Beets & Roots variations
+  'beets&roots': 'Beets & Roots',
+  'beets & roots': 'Beets & Roots',
+  'beets and roots': 'Beets & Roots',
+  'beetsandroots': 'Beets & Roots',
+
+  // Green Club
+  'green club': 'Green Club',
+  'greenclub': 'Green Club',
+
+  // Nooch
+  'nooch asian kitchen': 'Nooch',
+  'nooch asian': 'Nooch',
+  'nooch': 'Nooch',
+
+  // Rice Up
+  'rice up': 'Rice Up',
+  'rice up!': 'Rice Up',
+  'riceup': 'Rice Up',
+
+  // Smash Bro
+  'smash bro': 'Smash Bro',
+  'smashbro': 'Smash Bro',
+
+  // Doen Doen
+  'doen doen': 'Doen Doen',
+  'doendoen': 'Doen Doen',
+
+  // Hiltl
+  'hiltl': 'Hiltl',
+  'haus hiltl': 'Hiltl',
+
+  // Tibits
+  'tibits': 'Tibits',
+
+  // Kaimug
+  'kaimug': 'Kaimug',
+
+  // Stadtsalat
+  'stadtsalat': 'Stadtsalat',
+
+  // Råbowls
+  'råbowls': 'Råbowls',
+  'rabowls': 'Råbowls',
+
+  // Chidoba
+  'chidoba': 'Chidoba',
+
+  // Hans im Glück
+  'hans im glück': 'Hans im Glück',
+  'hans im glueck': 'Hans im Glück',
+
+  // Vapiano
+  'vapiano': 'Vapiano',
+
+  // Cotidiano
+  'cotidiano': 'Cotidiano',
+
+  // Yardbird
+  'yardbird': 'Yardbird',
+
+  // Brezelkönig
+  'brezelkönig': 'Brezelkönig',
+  'brezelkoenig': 'Brezelkönig',
+  'brezelkonig': 'Brezelkönig',
+};
+
+interface ChainSuggestion {
+  chainId: string;
+  chainName: string;
+  confidence: number;
+  matchedPattern: string;
+}
 
 // Initialize Firestore
 initializeFirestore();
@@ -37,7 +131,7 @@ interface CountryGroup {
 }
 
 interface VenueTypeGroup {
-  type: 'chain' | 'independent';
+  type: 'chain' | 'independent' | 'suggested';
   chains?: ChainGroup[];
   venues?: ReviewVenue[];
   totalVenues: number;
@@ -55,6 +149,10 @@ interface ReviewVenue {
   name: string;
   chainId?: string;
   chainName?: string;
+  // Suggested chain for venues that don't have chain_id set but match known patterns
+  suggestedChainId?: string;
+  suggestedChainName?: string;
+  suggestedChainConfidence?: number;
   address: {
     street?: string;
     city: string;
@@ -84,6 +182,56 @@ interface ReviewDish {
 }
 
 /**
+ * Suggests a chain for a venue based on its name pattern.
+ * Only suggests chains that exist in the database.
+ * Returns null if no match found or if venue already has a chain assigned.
+ */
+async function suggestChainForVenue(
+  venueName: string,
+  existingChainId: string | undefined,
+  chainLookup: Map<string, Chain>
+): Promise<ChainSuggestion | null> {
+  // Don't suggest if already has a chain
+  if (existingChainId) {
+    return null;
+  }
+
+  const lowerName = venueName.toLowerCase();
+
+  // Sort patterns by length (longest first) to match most specific patterns first
+  const sortedPatterns = Object.entries(KNOWN_CHAIN_PATTERNS)
+    .sort((a, b) => b[0].length - a[0].length);
+
+  for (const [pattern, canonicalName] of sortedPatterns) {
+    if (lowerName.includes(pattern)) {
+      // Look up the chain by canonical name in our loaded chains
+      const chain = Array.from(chainLookup.values()).find(
+        c => c.name.toLowerCase() === canonicalName.toLowerCase()
+      );
+
+      if (chain) {
+        return {
+          chainId: chain.id,
+          chainName: chain.name,
+          confidence: 95, // High confidence for exact pattern matches
+          matchedPattern: pattern,
+        };
+      } else {
+        // Chain exists in patterns but not in database - suggest creating it
+        return {
+          chainId: '', // Empty means chain needs to be created
+          chainName: canonicalName,
+          confidence: 90,
+          matchedPattern: pattern,
+        };
+      }
+    }
+  }
+
+  return null;
+}
+
+/**
  * Handler for GET /admin/review/queue
  */
 export const adminReviewQueueHandler = createAdminHandler(
@@ -106,6 +254,10 @@ export const adminReviewQueueHandler = createAdminHandler(
       cursor,
       limit = 50,
     } = validation.data;
+
+    // Load all chains for suggestion matching
+    const allChains = await chains.query({});
+    const chainLookup = new Map<string, Chain>(allChains.map(c => [c.id, c]));
 
     // Fetch venues based on filters
     let venues = await discoveredVenues.getByStatus(status as DiscoveredVenueStatus);
@@ -150,28 +302,74 @@ export const adminReviewQueueHandler = createAdminHandler(
     const hasMore = startIndex + limit < venues.length;
     const nextCursor = hasMore ? paginatedVenues[paginatedVenues.length - 1]?.id : undefined;
 
-    // Map venues to ReviewVenue format with embedded dishes
-    const venuesWithDishes = paginatedVenues.map((venue) => {
-      // Use embedded dishes from the venue document
-      // These are populated by SmartDiscoveryAgent during discovery
+    // Get all venue IDs for batch fetching dishes from discovered_dishes collection
+    const venueIds = paginatedVenues.map(v => v.id);
+
+    // Fetch dishes from discovered_dishes collection for all venues at once
+    const allDiscoveredDishes = await discoveredDishes.query({});
+    const dishesByVenueId = new Map<string, typeof allDiscoveredDishes>();
+
+    for (const dish of allDiscoveredDishes) {
+      if (venueIds.includes(dish.venue_id)) {
+        if (!dishesByVenueId.has(dish.venue_id)) {
+          dishesByVenueId.set(dish.venue_id, []);
+        }
+        dishesByVenueId.get(dish.venue_id)!.push(dish);
+      }
+    }
+
+    // Map venues to ReviewVenue format with dishes from both sources
+    const venuesWithDishes = await Promise.all(paginatedVenues.map(async (venue) => {
+      // First try embedded dishes from the venue document
       const embeddedDishes = venue.dishes || [];
 
-      const reviewDishes: ReviewDish[] = embeddedDishes.map((dish, index) => ({
-        id: `${venue.id}-dish-${index}`,  // Generate ID (embedded dishes don't have IDs)
-        name: dish.name,
-        description: dish.description,
-        product: dish.planted_product,
-        confidence: dish.confidence,       // Embedded uses 'confidence' (0-100)
-        price: dish.price,                 // Simple string like "CHF 18.90"
-        imageUrl: undefined,               // Embedded dishes don't have images
-        status: 'discovered',              // Embedded dishes don't track status
-      }));
+      // Then check discovered_dishes collection
+      const collectionDishes = dishesByVenueId.get(venue.id) || [];
+
+      let reviewDishes: ReviewDish[] = [];
+
+      // Prefer embedded dishes if available, otherwise use collection dishes
+      if (embeddedDishes.length > 0) {
+        reviewDishes = embeddedDishes.map((dish, index) => ({
+          id: `${venue.id}-dish-${index}`,
+          name: dish.name,
+          description: dish.description,
+          product: dish.planted_product,
+          confidence: dish.confidence,       // Embedded uses 'confidence' (0-100)
+          price: dish.price,                 // Simple string like "CHF 18.90"
+          imageUrl: undefined,               // Embedded dishes don't have images
+          status: 'discovered',
+        }));
+      } else if (collectionDishes.length > 0) {
+        // Use dishes from discovered_dishes collection
+        reviewDishes = collectionDishes.map((dish) => ({
+          id: dish.id,
+          name: dish.name,
+          description: dish.description,
+          product: dish.planted_product,
+          confidence: dish.confidence_score, // Collection uses 'confidence_score' (0-100)
+          price: dish.prices?.[0]?.amount ? `${dish.prices[0].currency} ${dish.prices[0].amount}` : undefined,
+          imageUrl: dish.image_url,
+          status: dish.status || 'discovered',
+        }));
+      }
+
+      // Get chain suggestion for venues without chain_id
+      const chainSuggestion = await suggestChainForVenue(
+        venue.name,
+        venue.chain_id,
+        chainLookup
+      );
 
       const reviewVenue: ReviewVenue = {
         id: venue.id,
         name: venue.name,
         chainId: venue.chain_id,
         chainName: venue.chain_name,
+        // Include chain suggestion if available
+        suggestedChainId: chainSuggestion?.chainId,
+        suggestedChainName: chainSuggestion?.chainName,
+        suggestedChainConfidence: chainSuggestion?.confidence,
         address: {
           street: venue.address.street,
           city: venue.address.city,
@@ -190,7 +388,7 @@ export const adminReviewQueueHandler = createAdminHandler(
       };
 
       return reviewVenue;
-    });
+    }));
 
     // Build hierarchical structure
     const hierarchy = buildHierarchy(venuesWithDishes);
