@@ -28,6 +28,7 @@ import { SmoodAdapter } from './SmoodAdapter.js';
 
 /**
  * Registry of all platform adapters
+ * Note: Deliveroo and Glovo use generic adapters until specific ones are implemented
  */
 export const platformAdapters: Record<DeliveryPlatform, BasePlatformAdapter> = {
   'just-eat': new JustEatAdapter(),
@@ -35,6 +36,9 @@ export const platformAdapters: Record<DeliveryPlatform, BasePlatformAdapter> = {
   'lieferando': new LieferandoAdapter(),
   'wolt': new WoltAdapter(),
   'smood': new SmoodAdapter(),
+  // New platforms - using UberEats adapter as fallback (they have similar structures)
+  'deliveroo': new UberEatsAdapter(), // TODO: Create dedicated DeliverooAdapter
+  'glovo': new UberEatsAdapter(), // TODO: Create dedicated GlovoAdapter
 };
 
 /**

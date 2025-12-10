@@ -42,6 +42,7 @@ export {
   adminAnalyticsKpisHandler,
   adminAnalyticsCostsHandler,
   adminAnalyticsRejectionsHandler,
+  adminStrategyStatsHandler,
 } from './analytics/index.js';
 
 export {
@@ -51,6 +52,9 @@ export {
   adminRejectVenueHandler,
   adminBulkApproveHandler,
   adminBulkRejectHandler,
+  adminFlagVenueHandler,
+  adminClearVenueFlagHandler,
+  adminFlaggedVenuesHandler,
 } from './review/index.js';
 
 export {

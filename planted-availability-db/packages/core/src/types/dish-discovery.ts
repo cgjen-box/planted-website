@@ -482,6 +482,13 @@ export const CURRENCY_BY_COUNTRY: Record<SupportedCountry, string> = {
   CH: 'CHF',
   DE: 'EUR',
   AT: 'EUR',
+  NL: 'EUR',
+  UK: 'GBP',
+  FR: 'EUR',
+  ES: 'EUR',
+  IT: 'EUR',
+  BE: 'EUR',
+  PL: 'PLN',
 };
 
 export const CURRENCY_SYMBOLS: Record<string, string> = {
@@ -489,4 +496,5 @@ export const CURRENCY_SYMBOLS: Record<string, string> = {
   EUR: '€',
   USD: '$',
   GBP: '£',
+  PLN: 'zł',
 };

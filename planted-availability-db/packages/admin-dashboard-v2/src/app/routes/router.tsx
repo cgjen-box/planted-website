@@ -3,21 +3,11 @@ import { useAuthContext } from '@/app/providers/AuthProvider';
 import { MainLayout } from '@/shared/components/Layout/MainLayout';
 import { LoadingState } from '@/shared/components/LoadingState';
 
-// Pages
+// Pages - Minimal 3-tab structure
 import { LoginPage } from '@/pages/LoginPage';
-import { TestPage } from '@/pages/TestPage';
-import { ScrapeControlPage } from '@/pages/ScrapeControlPage';
 import { ReviewQueuePage } from '@/pages/ReviewQueuePage';
-import { LiveVenuesPage } from '@/pages/LiveVenuesPage';
-import { CostsPage } from '@/pages/CostsPage';
-
-// Workflow Pages
-import { DashboardPage as WorkflowDashboard } from '@/pages/workflow/DashboardPage';
-import { ScrapeControlPage as WorkflowScrapeControl } from '@/pages/workflow/ScrapeControlPage';
-import { SyncPage } from '@/pages/workflow/SyncPage';
-
-// Browser Pages
-import { VenueBrowserPage } from '@/pages/browser/VenueBrowserPage';
+import { LiveWebsitePage } from '@/pages/LiveWebsitePage';
+import { StatsPage } from '@/pages/StatsPage';
 
 /**
  * Protected Route Component
@@ -60,9 +50,11 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
 }
 
 /**
- * Application Router
+ * Minimal 3-Tab Router
  *
- * Defines all routes for the application.
+ * Tab 1: Approve Queue (/) - Main approval workflow
+ * Tab 2: Live Website (/live) - Published venues and sync
+ * Tab 3: Stats (/stats) - Budget and performance metrics
  */
 export const router = createBrowserRouter([
   // Public Routes
@@ -74,115 +66,38 @@ export const router = createBrowserRouter([
       </PublicRoute>
     ),
   },
-  // Test page - no auth required (for debugging)
-  {
-    path: '/test',
-    element: <TestPage />,
-  },
 
-  // Protected Routes - Workflow Section
+  // Tab 1: Approve Queue (default)
   {
     path: '/',
     element: (
       <ProtectedRoute>
-        <WorkflowDashboard />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: '/workflow/dashboard',
-    element: (
-      <ProtectedRoute>
-        <WorkflowDashboard />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: '/workflow/scrape-control',
-    element: (
-      <ProtectedRoute>
-        <WorkflowScrapeControl />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: '/scrape-control',
-    element: (
-      <ProtectedRoute>
-        <ScrapeControlPage />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: '/review',
-    element: (
-      <ProtectedRoute>
         <ReviewQueuePage />
       </ProtectedRoute>
     ),
   },
+
+  // Tab 2: Live Website
   {
-    path: '/review-queue',
+    path: '/live',
     element: (
       <ProtectedRoute>
-        <ReviewQueuePage />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: '/sync',
-    element: (
-      <ProtectedRoute>
-        <SyncPage />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: '/workflow/sync',
-    element: (
-      <ProtectedRoute>
-        <SyncPage />
+        <LiveWebsitePage />
       </ProtectedRoute>
     ),
   },
 
-  // Protected Routes - Browser Section
+  // Tab 3: Stats
   {
-    path: '/venues',
+    path: '/stats',
     element: (
       <ProtectedRoute>
-        <VenueBrowserPage />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: '/browser',
-    element: (
-      <ProtectedRoute>
-        <VenueBrowserPage />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: '/live-venues',
-    element: (
-      <ProtectedRoute>
-        <LiveVenuesPage />
+        <StatsPage />
       </ProtectedRoute>
     ),
   },
 
-  // Protected Routes - Operations Section
-  {
-    path: '/costs',
-    element: (
-      <ProtectedRoute>
-        <CostsPage />
-      </ProtectedRoute>
-    ),
-  },
-
-  // Catch-all - redirect to dashboard
+  // Catch-all - redirect to approve queue
   {
     path: '*',
     element: <Navigate to="/" replace />,

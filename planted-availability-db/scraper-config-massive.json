@@ -1,0 +1,57 @@
+{
+  "$schema": "./scraper-config.schema.json",
+  "description": "MASSIVE VENUE DISCOVERY RUN - Full European coverage",
+
+  "discovery": {
+    "enabled": true,
+    "mode": "explore",
+    "platforms": ["uber-eats", "just-eat", "lieferando", "wolt", "smood", "deliveroo", "glovo"],
+    "countries": ["CH", "DE", "AT", "NL", "UK", "FR", "ES", "IT", "BE", "PL"],
+    "chains": [
+      "Birdie Birdie",
+      "beets&roots",
+      "FAT MONK",
+      "dean&david",
+      "Pit's Burger",
+      "Union Diner",
+      "Alpoke",
+      "Doen Doen",
+      "råbowls",
+      "Green Club",
+      "Nooch",
+      "Rice Up",
+      "Smash Bro",
+      "Chidoba",
+      "Kaimug",
+      "Stadtsalat"
+    ],
+    "maxQueries": 5000,
+    "searchProvider": "google",
+    "dryRun": false
+  },
+
+  "extraction": {
+    "enabled": true,
+    "mode": "enrich",
+    "target": "all",
+    "chainId": null,
+    "venueIds": [],
+    "countries": ["CH", "DE", "AT", "NL", "UK", "FR", "ES", "IT", "BE", "PL"],
+    "platforms": [],
+    "maxVenues": 1000,
+    "dryRun": false,
+    "learn": true
+  },
+
+  "review": {
+    "enabled": false,
+    "type": "venues",
+    "limit": 50
+  },
+
+  "sync": {
+    "enabled": false,
+    "preview": true,
+    "execute": false
+  }
+}

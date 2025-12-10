@@ -135,6 +135,13 @@ const PLATFORMS_BY_COUNTRY: Record<SupportedCountry, DeliveryPlatform[]> = {
   CH: ['uber-eats', 'just-eat', 'smood'],
   DE: ['uber-eats', 'lieferando', 'wolt'],
   AT: ['uber-eats', 'lieferando', 'wolt'],
+  NL: ['uber-eats', 'just-eat', 'lieferando', 'deliveroo'],
+  UK: ['uber-eats', 'just-eat', 'deliveroo'],
+  FR: ['uber-eats', 'just-eat', 'deliveroo'],
+  ES: ['uber-eats', 'just-eat', 'deliveroo', 'glovo'],
+  IT: ['uber-eats', 'just-eat', 'deliveroo', 'glovo'],
+  BE: ['uber-eats', 'just-eat', 'lieferando', 'deliveroo'],
+  PL: ['uber-eats', 'just-eat', 'wolt', 'glovo'],
 };
 
 // =============================================================================
@@ -574,6 +581,13 @@ export class QueryPrioritizer {
       CH: 0,
       DE: 0,
       AT: 0,
+      NL: 0,
+      UK: 0,
+      FR: 0,
+      ES: 0,
+      IT: 0,
+      BE: 0,
+      PL: 0,
     };
 
     const venuesByPlatform: Record<string, number> = {};
@@ -605,7 +619,7 @@ export class QueryPrioritizer {
 
     // Count uncovered cities
     let uncoveredCitiesCount = 0;
-    for (const country of ['CH', 'DE', 'AT'] as SupportedCountry[]) {
+    for (const country of ['CH', 'DE', 'AT', 'NL', 'UK', 'FR', 'ES', 'IT', 'BE', 'PL'] as SupportedCountry[]) {
       const uncovered = await this.getUncoveredCities(country);
       uncoveredCitiesCount += uncovered.length;
     }

@@ -1,0 +1,2491 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>planted. | Wir machen Fleisch. Nur halt ohne das Tier.</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       PLANTED WEBSITE — FULL CONCEPT WITH TV SET HERO
+       "Approved by Meat Lovers" — Living Through Every Pixel
+       ═══════════════════════════════════════════════════════════════ */
+
+    :root {
+      /* Brand Colors */
+      --purple: #7B2D8E;
+      --purple-dark: #5A1F6A;
+      --purple-light: #9B4DAE;
+      --green: #6AB547;
+      --green-dark: #4A8F2F;
+      --green-light: #8AD067;
+      
+      /* Accent Colors */
+      --pink: #FF69B4;
+      --orange: #FF8C42;
+      --cream: #FDF8F3;
+      --cream-dark: #F5EDE3;
+      
+      /* Neutrals */
+      --white: #FFFFFF;
+      --black: #1A1A1A;
+      --gray-100: #F7F7F7;
+      --gray-200: #E5E5E5;
+      --gray-400: #9CA3AF;
+      --gray-600: #4B5563;
+      --gray-800: #1F2937;
+      
+      /* Typography */
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Space Grotesk', sans-serif;
+      --font-handwritten: 'Caveat', cursive;
+      
+      /* Spacing */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2rem;
+      --space-2xl: 3rem;
+      --space-3xl: 4rem;
+      --space-4xl: 6rem;
+      
+      /* Borders */
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --radius-xl: 32px;
+      --radius-full: 9999px;
+      
+      /* Transitions */
+      --transition-fast: 150ms ease;
+      --transition-base: 250ms ease;
+      --transition-slow: 400ms cubic-bezier(0.16, 1, 0.3, 1);
+      
+      /* Shadows */
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+      --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);
+      --shadow-glow-purple: 0 0 40px rgba(123, 45, 142, 0.3);
+      --shadow-glow-green: 0 0 40px rgba(106, 181, 71, 0.3);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       RESET & BASE
+       ═══════════════════════════════════════════════════════════════ */
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--cream);
+      color: var(--black);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img, video {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--space-lg);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       NAVIGATION
+       ═══════════════════════════════════════════════════════════════ */
+
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(253, 248, 243, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(123, 45, 142, 0.1);
+      transition: var(--transition-base);
+    }
+
+    .nav.scrolled {
+      box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .nav-logo svg {
+      height: 40px;
+      width: auto;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xl);
+    }
+
+    .nav-link {
+      position: relative;
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: var(--gray-800);
+      transition: color var(--transition-fast);
+    }
+
+    .nav-link::before {
+      content: attr(data-hover);
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      font-size: 0.75rem;
+      color: var(--purple);
+      background: var(--white);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-md);
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: all var(--transition-fast);
+    }
+
+    .nav-link:hover {
+      color: var(--purple);
+    }
+
+    .nav-link:hover::before {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .nav-cta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      padding: 12px 24px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border-radius: var(--radius-full);
+      transition: all var(--transition-fast);
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background: var(--green-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-secondary {
+      background: var(--white);
+      color: var(--purple);
+      border: 2px solid var(--purple);
+    }
+
+    .btn-secondary:hover {
+      background: var(--purple);
+      color: var(--white);
+    }
+
+    .country-selector {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: 8px 16px;
+      background: var(--white);
+      border-radius: var(--radius-full);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .country-selector:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 8px;
+    }
+
+    .nav-toggle span {
+      width: 24px;
+      height: 2px;
+      background: var(--purple);
+      transition: var(--transition-fast);
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       MEAT LOVER TICKER
+       ═══════════════════════════════════════════════════════════════ */
+
+    .ticker {
+      background: var(--purple);
+      color: var(--white);
+      padding: 12px 0;
+      overflow: hidden;
+      margin-top: 72px;
+    }
+
+    .ticker-track {
+      display: flex;
+      animation: ticker 45s linear infinite;
+    }
+
+    .ticker-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      white-space: nowrap;
+      padding: 0 var(--space-2xl);
+      font-size: 0.9rem;
+    }
+
+    .ticker-item .quote {
+      font-style: italic;
+    }
+
+    .ticker-item .attribution {
+      opacity: 0.7;
+      font-size: 0.8rem;
+    }
+
+    .ticker-separator {
+      color: var(--green);
+      font-size: 1.2rem;
+    }
+
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       HERO SECTION — TV SET EDITION
+       ═══════════════════════════════════════════════════════════════ */
+
+    .hero {
+      min-height: calc(100vh - 120px);
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      padding: var(--space-4xl) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%237B2D8E' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: var(--space-3xl);
+      align-items: center;
+    }
+
+    .hero-text {
+      max-width: 520px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      background: var(--white);
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--purple);
+      box-shadow: var(--shadow-md);
+      margin-bottom: var(--space-lg);
+      animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .hero-headline {
+      animation: fadeInUp 0.6s ease 0.1s forwards;
+      opacity: 0;
+    }
+
+    .hero-headline h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.75rem, 5.5vw, 4.25rem);
+      font-weight: 900;
+      line-height: 0.95;
+      color: var(--purple);
+      transform: rotate(-1deg);
+    }
+
+    .hero-subtext {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 2.8vw, 2rem);
+      font-weight: 600;
+      color: var(--green);
+      margin-top: 12px;
+      margin-left: 16px;
+      transform: rotate(-0.5deg);
+    }
+
+    .hero-whisper {
+      font-size: 0.95rem;
+      color: var(--gray-600);
+      max-width: 400px;
+      margin-top: var(--space-xl);
+      padding: var(--space-md);
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border-left: 3px solid var(--purple-light);
+      animation: fadeInUp 0.6s ease 0.2s forwards;
+      opacity: 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      margin-top: var(--space-xl);
+      animation: fadeInUp 0.6s ease 0.3s forwards;
+      opacity: 0;
+    }
+
+    .hero-proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xl);
+      margin-top: var(--space-2xl);
+      padding-top: var(--space-xl);
+      border-top: 1px solid rgba(123, 45, 142, 0.1);
+      animation: fadeInUp 0.6s ease 0.4s forwards;
+      opacity: 0;
+    }
+
+    .proof-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .proof-value {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--purple);
+    }
+
+    .proof-label {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Video Side — TV Set */
+    .hero-visual {
+      position: relative;
+      animation: fadeIn 0.8s ease 0.3s forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .evidence-label {
+      position: absolute;
+      bottom: 55%;
+      right: calc(100% + 12px);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+      animation: fadeInRight 0.6s ease 0.6s forwards;
+      opacity: 0;
+    }
+
+    .evidence-label .text {
+      font-family: var(--font-handwritten);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--purple);
+    }
+
+    .evidence-label .arrow {
+      font-size: 1.5rem;
+      animation: pointRight 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pointRight {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(6px); }
+    }
+
+    @keyframes fadeInRight {
+      from { opacity: 0; transform: translateX(-10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .tv-frame {
+      position: relative;
+      background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 50%, #0f0f0f 100%);
+      border-radius: 28px;
+      padding: 24px 24px 70px;
+      box-shadow: 
+        0 40px 80px rgba(0,0,0,0.35),
+        0 15px 30px rgba(0,0,0,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.1),
+        inset 0 -1px 0 rgba(0,0,0,0.3);
+    }
+
+    .tv-frame::before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 10px;
+      height: 10px;
+      background: radial-gradient(circle, #ff4444 0%, #cc0000 100%);
+      border-radius: 50%;
+      box-shadow: 0 0 8px #ff4444, 0 0 20px rgba(255, 68, 68, 0.4);
+      animation: tvGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes tvGlow {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .tv-frame::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 60px;
+      background: repeating-linear-gradient(to bottom, #333 0px, #333 2px, #1a1a1a 2px, #1a1a1a 4px);
+      border-radius: 2px;
+    }
+
+    .tv-screen {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+    }
+
+    .tv-screen video {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+    }
+
+    .tv-screen::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 40%;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.03) 0%, transparent 100%);
+      pointer-events: none;
+      border-radius: 12px 12px 0 0;
+    }
+
+    .tv-controls {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .tv-dial {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(145deg, #444 0%, #222 100%);
+      border-radius: 50%;
+      border: 2px solid #1a1a1a;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 2px 4px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    .tv-dial::after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 8px;
+      background: #666;
+      border-radius: 1px;
+    }
+
+    .tv-brand {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    /* The Annotation */
+    .tv-annotation {
+      position: absolute;
+      top: -24px;
+      right: -28px;
+      z-index: 20;
+      animation: annotationFloat 4s ease-in-out infinite, fadeInDown 0.6s ease 0.8s forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-10px) rotate(3deg); }
+      to { opacity: 1; transform: translateY(0) rotate(3deg); }
+    }
+
+    @keyframes annotationFloat {
+      0%, 100% { transform: translateY(0) rotate(3deg); }
+      50% { transform: translateY(-5px) rotate(4deg); }
+    }
+
+    .annotation-card {
+      position: relative;
+      background: var(--white);
+      padding: 20px 24px;
+      border-radius: 4px 20px 20px 20px;
+      box-shadow: 0 8px 30px rgba(123, 45, 142, 0.15), 0 2px 8px rgba(0,0,0,0.08);
+      max-width: 260px;
+      transform: rotate(3deg);
+    }
+
+    .annotation-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(135deg, var(--purple) 50%, transparent 50%);
+      border-radius: 4px 0 0 0;
+    }
+
+    .annotation-card::after {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 20px;
+      width: 40px;
+      height: 16px;
+      background: linear-gradient(90deg, rgba(123, 45, 142, 0.8) 0%, rgba(123, 45, 142, 0.6) 100%);
+      border-radius: 2px;
+      transform: rotate(-2deg);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .annotation-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: var(--cream);
+      border-radius: 50%;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+
+    .annotation-text {
+      font-family: var(--font-handwritten);
+      font-size: 1.35rem;
+      font-weight: 500;
+      line-height: 1.35;
+      color: var(--gray-800);
+    }
+
+    .annotation-text .highlight {
+      color: var(--purple);
+      font-weight: 700;
+    }
+
+    .annotation-signature {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed rgba(123, 45, 142, 0.2);
+      font-size: 0.8rem;
+      color: var(--gray-400);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .annotation-signature::before {
+      content: '—';
+    }
+
+    /* Approved Badge */
+    .approved-badge {
+      position: absolute;
+      bottom: -16px;
+      left: 24px;
+      background: var(--purple);
+      color: var(--white);
+      padding: 14px 22px;
+      border-radius: 16px;
+      transform: rotate(-3deg);
+      box-shadow: 0 10px 30px rgba(123, 45, 142, 0.35), 0 4px 12px rgba(0,0,0,0.1);
+      z-index: 10;
+      animation: badgePop 0.5s ease 1s forwards;
+      opacity: 0;
+    }
+
+    @keyframes badgePop {
+      0% { opacity: 0; transform: rotate(-3deg) scale(0.8); }
+      50% { transform: rotate(-3deg) scale(1.05); }
+      100% { opacity: 1; transform: rotate(-3deg) scale(1); }
+    }
+
+    .approved-badge .small {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      opacity: 0.85;
+      display: block;
+    }
+
+    .approved-badge .big {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--green);
+      display: block;
+      margin-top: 2px;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: var(--space-2xl);
+      }
+      .hero-text { max-width: 100%; order: 2; }
+      .hero-headline h1 { transform: none; }
+      .hero-subtext { margin-left: 0; transform: none; }
+      .hero-whisper { margin: var(--space-xl) auto 0; }
+      .hero-actions { justify-content: center; }
+      .hero-proof { justify-content: center; }
+      .hero-visual { order: 1; max-width: 550px; margin: 0 auto; }
+      .evidence-label { display: none; }
+      .tv-annotation { right: -12px; top: -16px; }
+      .annotation-card { max-width: 220px; padding: 16px 20px; }
+      .annotation-text { font-size: 1.15rem; }
+    }
+
+    @media (max-width: 480px) {
+      .tv-annotation {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin-top: var(--space-lg);
+        animation: none;
+        opacity: 1;
+      }
+      .annotation-card {
+        transform: none;
+        max-width: 100%;
+        border-radius: 16px;
+      }
+      .annotation-card::before { display: none; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       INTRO SECTION
+       ═══════════════════════════════════════════════════════════════ */
+
+    .intro {
+      padding: var(--space-4xl) 0;
+      background: var(--white);
+    }
+
+    .intro-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .intro-label {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-lg);
+    }
+
+    .intro h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 700;
+      color: var(--purple);
+      line-height: 1.3;
+      margin-bottom: var(--space-lg);
+    }
+
+    .intro p {
+      font-size: 1.1rem;
+      color: var(--gray-600);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .intro-badges {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: var(--space-lg);
+      margin-top: var(--space-2xl);
+    }
+
+    .intro-badge {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: 10px 20px;
+      background: var(--cream);
+      border-radius: var(--radius-full);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--gray-800);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       PRODUCTS SECTION
+       ═══════════════════════════════════════════════════════════════ */
+
+    .products {
+      padding: var(--space-4xl) 0;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: var(--space-lg);
+      margin-bottom: var(--space-2xl);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      color: var(--purple);
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--gray-600);
+      margin-top: var(--space-sm);
+    }
+
+    .section-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-weight: 600;
+      color: var(--green);
+      transition: gap var(--transition-fast);
+    }
+
+    .section-link:hover {
+      gap: var(--space-md);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--space-xl);
+    }
+
+    .product-card {
+      position: relative;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all var(--transition-slow);
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-xl);
+    }
+
+    .product-badge {
+      position: absolute;
+      top: var(--space-md);
+      left: var(--space-md);
+      z-index: 2;
+      background: var(--green);
+      color: var(--white);
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .product-image {
+      position: relative;
+      padding: var(--space-xl);
+      background: linear-gradient(135deg, var(--cream) 0%, var(--white) 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 220px;
+    }
+
+    .product-image img {
+      max-height: 180px;
+      transition: transform var(--transition-slow);
+    }
+
+    .product-card:hover .product-image img {
+      transform: scale(1.08) rotate(-2deg);
+    }
+
+    .product-info {
+      padding: var(--space-lg);
+    }
+
+    .product-category {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--green);
+      margin-bottom: var(--space-xs);
+    }
+
+    .product-name {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--purple);
+    }
+
+    .product-hover-text {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--purple);
+      color: var(--white);
+      padding: var(--space-md) var(--space-lg);
+      font-size: 0.9rem;
+      text-align: center;
+      transform: translateY(100%);
+      transition: transform var(--transition-slow);
+    }
+
+    .product-card:hover .product-hover-text {
+      transform: translateY(0);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       IMPACT SECTION
+       ═══════════════════════════════════════════════════════════════ */
+
+    .impact {
+      padding: var(--space-4xl) 0;
+      background: var(--purple);
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .impact::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: var(--purple-light);
+      border-radius: 50%;
+      opacity: 0.2;
+    }
+
+    .impact-intro {
+      text-align: center;
+      margin-bottom: var(--space-3xl);
+      position: relative;
+      z-index: 1;
+    }
+
+    .impact-intro h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 700;
+      margin-bottom: var(--space-sm);
+    }
+
+    .impact-intro p {
+      font-size: 1rem;
+      opacity: 0.8;
+    }
+
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-xl);
+      position: relative;
+      z-index: 1;
+    }
+
+    .impact-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius-lg);
+      padding: var(--space-2xl);
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: var(--transition-slow);
+    }
+
+    .impact-card:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-5px);
+    }
+
+    .impact-number {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 6vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: var(--space-sm);
+    }
+
+    .impact-number .stat-unit {
+      font-size: 0.5em;
+      opacity: 0.8;
+    }
+
+    .impact-label {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: var(--space-md);
+      color: var(--green-light);
+    }
+
+    .impact-context {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      line-height: 1.5;
+    }
+
+    .impact-cta {
+      text-align: center;
+      margin-top: var(--space-2xl);
+      position: relative;
+      z-index: 1;
+    }
+
+    .impact-cta p {
+      font-size: 0.85rem;
+      opacity: 0.7;
+      margin-bottom: var(--space-md);
+    }
+
+    .impact-cta a {
+      color: var(--green-light);
+      font-weight: 600;
+      border-bottom: 1px solid currentColor;
+    }
+
+    @media (max-width: 768px) {
+      .impact-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       AMBASSADOR SECTION
+       ═══════════════════════════════════════════════════════════════ */
+
+    .ambassador {
+      padding: var(--space-4xl) 0;
+      background: var(--white);
+    }
+
+    .ambassador-card {
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: var(--space-3xl);
+      align-items: center;
+      background: var(--cream);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+
+    .ambassador-image {
+      position: relative;
+      height: 100%;
+      min-height: 500px;
+    }
+
+    .ambassador-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .ambassador-badge {
+      position: absolute;
+      bottom: var(--space-lg);
+      left: var(--space-lg);
+      background: var(--purple);
+      color: var(--white);
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .ambassador-content {
+      padding: var(--space-2xl);
+    }
+
+    .ambassador-surprise {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      background: var(--white);
+      padding: 10px 16px;
+      border-radius: var(--radius-full);
+      margin-bottom: var(--space-lg);
+    }
+
+    .ambassador-surprise .emoji { font-size: 1.5rem; }
+    .ambassador-surprise .text {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--purple);
+    }
+
+    .ambassador-quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+      font-weight: 600;
+      color: var(--gray-800);
+      line-height: 1.4;
+      margin-bottom: var(--space-lg);
+      position: relative;
+      padding-left: var(--space-xl);
+    }
+
+    .ambassador-quote::before {
+      content: '"';
+      position: absolute;
+      left: 0;
+      top: -10px;
+      font-size: 4rem;
+      color: var(--purple);
+      opacity: 0.3;
+      font-family: Georgia, serif;
+    }
+
+    .ambassador-name {
+      font-weight: 700;
+      color: var(--purple);
+      font-size: 1.1rem;
+    }
+
+    .ambassador-title {
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      margin-bottom: var(--space-lg);
+    }
+
+    .ambassador-context {
+      padding: var(--space-md);
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border-left: 3px solid var(--green);
+      font-size: 0.95rem;
+      color: var(--gray-600);
+      margin-bottom: var(--space-xl);
+    }
+
+    .ambassador-favorite {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-md);
+      background: var(--white);
+      border-radius: var(--radius-md);
+      max-width: fit-content;
+    }
+
+    .ambassador-favorite-label {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+    }
+
+    .ambassador-favorite-product {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: 8px 16px;
+      background: var(--purple);
+      color: var(--white);
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: var(--transition-fast);
+    }
+
+    .ambassador-favorite-product:hover {
+      background: var(--purple-dark);
+    }
+
+    @media (max-width: 968px) {
+      .ambassador-card { grid-template-columns: 1fr; }
+      .ambassador-image { min-height: 350px; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       RECIPES SECTION
+       ═══════════════════════════════════════════════════════════════ */
+
+    .recipes {
+      padding: var(--space-4xl) 0;
+    }
+
+    .recipes-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-lg);
+    }
+
+    .recipe-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      cursor: pointer;
+    }
+
+    .recipe-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform var(--transition-slow);
+    }
+
+    .recipe-card:hover img {
+      transform: scale(1.1);
+    }
+
+    .recipe-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: var(--space-lg);
+      color: var(--white);
+    }
+
+    .recipe-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: var(--space-xs);
+    }
+
+    .recipe-meta {
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+
+    @media (max-width: 968px) {
+      .recipes-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .recipes-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       STORE LOCATOR SECTION
+       ═══════════════════════════════════════════════════════════════ */
+
+    .locator {
+      padding: var(--space-4xl) 0;
+      background: var(--white);
+    }
+
+    .locator-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto var(--space-2xl);
+    }
+
+    .locator-header h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      color: var(--purple);
+      margin-bottom: var(--space-sm);
+    }
+
+    .locator-header p {
+      font-size: 1rem;
+      color: var(--gray-600);
+    }
+
+    .locator-search {
+      max-width: 500px;
+      margin: 0 auto var(--space-2xl);
+    }
+
+    .search-input-group {
+      display: flex;
+      gap: var(--space-sm);
+      background: var(--cream);
+      padding: 8px;
+      border-radius: var(--radius-full);
+      box-shadow: var(--shadow-md);
+    }
+
+    .search-input-group input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 12px 20px;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .search-input-group button {
+      background: var(--green);
+      color: var(--white);
+      padding: 12px 24px;
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      transition: var(--transition-fast);
+    }
+
+    .search-input-group button:hover {
+      background: var(--green-dark);
+    }
+
+    .locator-tabs {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-xl);
+    }
+
+    .locator-tab {
+      padding: 10px 24px;
+      border-radius: var(--radius-full);
+      font-weight: 500;
+      color: var(--gray-600);
+      background: var(--cream);
+      transition: var(--transition-fast);
+    }
+
+    .locator-tab.active,
+    .locator-tab:hover {
+      background: var(--purple);
+      color: var(--white);
+    }
+
+    .retailers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--space-lg);
+    }
+
+    .retailer-card {
+      background: var(--cream);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: var(--transition-slow);
+    }
+
+    .retailer-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .retailer-logo {
+      height: 60px;
+      margin-bottom: var(--space-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .retailer-logo img {
+      max-height: 100%;
+      max-width: 120px;
+    }
+
+    .retailer-name {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--purple);
+      margin-bottom: var(--space-xs);
+    }
+
+    .retailer-country {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       NEWSLETTER SECTION
+       ═══════════════════════════════════════════════════════════════ */
+
+    .newsletter {
+      padding: var(--space-4xl) 0;
+      background: linear-gradient(135deg, var(--purple) 0%, var(--purple-dark) 100%);
+      color: var(--white);
+    }
+
+    .newsletter-content {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .newsletter h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 700;
+      margin-bottom: var(--space-md);
+    }
+
+    .newsletter-honesty {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-bottom: var(--space-xl);
+    }
+
+    .newsletter-promise {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-bottom: var(--space-xl);
+      text-align: left;
+    }
+
+    .newsletter-promise h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: var(--space-md);
+      color: var(--green-light);
+    }
+
+    .newsletter-promise ul { list-style: none; }
+
+    .newsletter-promise li {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-sm);
+      font-size: 0.95rem;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: var(--space-sm);
+      max-width: 450px;
+      margin: 0 auto;
+    }
+
+    .newsletter-form input {
+      flex: 1;
+      padding: 14px 20px;
+      border: none;
+      border-radius: var(--radius-full);
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .newsletter-form button {
+      background: var(--green);
+      color: var(--white);
+      padding: 14px 28px;
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      white-space: nowrap;
+      transition: var(--transition-fast);
+    }
+
+    .newsletter-form button:hover {
+      background: var(--green-dark);
+      transform: scale(1.02);
+    }
+
+    .newsletter-fine-print {
+      font-size: 0.85rem;
+      opacity: 0.7;
+      margin-top: var(--space-lg);
+    }
+
+    @media (max-width: 480px) {
+      .newsletter-form { flex-direction: column; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       GASTRO SECTION
+       ═══════════════════════════════════════════════════════════════ */
+
+    .gastro {
+      padding: var(--space-4xl) 0;
+      background: var(--cream);
+    }
+
+    .gastro-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-3xl);
+      align-items: center;
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+
+    .gastro-content {
+      padding: var(--space-3xl);
+    }
+
+    .gastro-label {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-md);
+    }
+
+    .gastro h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      font-weight: 800;
+      color: var(--purple);
+      margin-bottom: var(--space-md);
+    }
+
+    .gastro p {
+      font-size: 1rem;
+      color: var(--gray-600);
+      margin-bottom: var(--space-xl);
+    }
+
+    .gastro-stats {
+      display: flex;
+      gap: var(--space-2xl);
+      margin-bottom: var(--space-xl);
+    }
+
+    .gastro-stat-value {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--purple);
+    }
+
+    .gastro-stat-label {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+    }
+
+    .gastro-image {
+      height: 100%;
+      min-height: 400px;
+    }
+
+    .gastro-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @media (max-width: 968px) {
+      .gastro-card { grid-template-columns: 1fr; }
+      .gastro-image { order: -1; min-height: 300px; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════════════════ */
+
+    .footer {
+      background: var(--gray-800);
+      color: var(--white);
+      padding: var(--space-3xl) 0 var(--space-xl);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr repeat(3, 1fr);
+      gap: var(--space-3xl);
+      margin-bottom: var(--space-3xl);
+    }
+
+    .footer-brand p {
+      font-size: 0.95rem;
+      opacity: 0.8;
+      margin-top: var(--space-md);
+      max-width: 300px;
+    }
+
+    .footer-brand .location {
+      margin-top: var(--space-lg);
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    .footer-column h4 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      margin-bottom: var(--space-lg);
+      color: var(--green-light);
+    }
+
+    .footer-column ul { list-style: none; }
+
+    .footer-column li { margin-bottom: var(--space-sm); }
+
+    .footer-column a {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      transition: opacity var(--transition-fast);
+    }
+
+    .footer-column a:hover { opacity: 1; }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-lg);
+      padding-top: var(--space-xl);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-copyright {
+      font-size: 0.85rem;
+      opacity: 0.6;
+    }
+
+    .footer-easter-egg {
+      position: relative;
+    }
+
+    .footer-easter-egg button {
+      font-size: 1.5rem;
+      opacity: 0.5;
+      transition: var(--transition-fast);
+    }
+
+    .footer-easter-egg button:hover {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+
+    .footer-secret {
+      position: absolute;
+      bottom: calc(100% + 10px);
+      right: 0;
+      background: var(--purple);
+      color: var(--white);
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+      max-width: 280px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all var(--transition-fast);
+    }
+
+    .footer-easter-egg:hover .footer-secret {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .footer-brand { grid-column: span 2; }
+    }
+
+    @media (max-width: 480px) {
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-brand { grid-column: span 1; }
+    }
+
+    /* Scroll Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       NAVIGATION
+       ═══════════════════════════════════════════════════════════════ -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="/" class="nav-logo">
+        <svg viewBox="0 0 140 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="140" height="40" rx="8" fill="#7B2D8E"/>
+          <text x="12" y="28" fill="white" font-family="Outfit, sans-serif" font-weight="800" font-size="22">planted.</text>
+        </svg>
+      </a>
+      
+      <div class="nav-links">
+        <a href="#products" class="nav-link" data-hover="Das gute Zeug">Produkte</a>
+        <a href="#recipes" class="nav-link" data-hover="Kochen ohne Reue">Rezepte</a>
+        <a href="#mission" class="nav-link" data-hover="Warum wir das machen">Unsere Mission</a>
+        <a href="#locator" class="nav-link" data-hover="Wo du uns findest">Finde uns</a>
+      </div>
+      
+      <div class="nav-cta">
+        <div class="country-selector">
+          <span>🇨🇭</span>
+          <span>DE</span>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5"/></svg>
+        </div>
+        <a href="#locator" class="btn btn-primary">Kaufen</a>
+      </div>
+      
+      <button class="nav-toggle" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       MEAT LOVER TICKER
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="ticker">
+    <div class="ticker-track">
+      <div class="ticker-item">
+        <span class="quote">"Ich hab's meinem Vater nicht gesagt. Er hat den Unterschied nicht gemerkt."</span>
+        <span class="attribution">— Marc, 34, Grillmeister</span>
+      </div>
+      <span class="ticker-separator">•</span>
+      <div class="ticker-item">
+        <span class="quote">"Okay, ich geb's zu. Es schmeckt."</span>
+        <span class="attribution">— Fleischesser seit 1978</span>
+      </div>
+      <span class="ticker-separator">•</span>
+      <div class="ticker-item">
+        <span class="quote">"Mein Metzger ist jetzt sauer auf mich."</span>
+        <span class="attribution">— Anonymous</span>
+      </div>
+      <span class="ticker-separator">•</span>
+      <div class="ticker-item">
+        <span class="quote">"Hab gewettet, es schmeckt nicht. Hab verloren."</span>
+        <span class="attribution">— Thomas, widerwillig überzeugt</span>
+      </div>
+      <span class="ticker-separator">•</span>
+      <div class="ticker-item">
+        <span class="quote">"Wenn das pflanzlich ist, dann bin ich Vegetarier."</span>
+        <span class="attribution">— Stefan, noch nicht ganz</span>
+      </div>
+      <span class="ticker-separator">•</span>
+      <!-- Duplicate for seamless loop -->
+      <div class="ticker-item">
+        <span class="quote">"Ich hab's meinem Vater nicht gesagt. Er hat den Unterschied nicht gemerkt."</span>
+        <span class="attribution">— Marc, 34, Grillmeister</span>
+      </div>
+      <span class="ticker-separator">•</span>
+      <div class="ticker-item">
+        <span class="quote">"Okay, ich geb's zu. Es schmeckt."</span>
+        <span class="attribution">— Fleischesser seit 1978</span>
+      </div>
+      <span class="ticker-separator">•</span>
+      <div class="ticker-item">
+        <span class="quote">"Mein Metzger ist jetzt sauer auf mich."</span>
+        <span class="attribution">— Anonymous</span>
+      </div>
+      <span class="ticker-separator">•</span>
+      <div class="ticker-item">
+        <span class="quote">"Hab gewettet, es schmeckt nicht. Hab verloren."</span>
+        <span class="attribution">— Thomas, widerwillig überzeugt</span>
+      </div>
+      <span class="ticker-separator">•</span>
+      <div class="ticker-item">
+        <span class="quote">"Wenn das pflanzlich ist, dann bin ich Vegetarier."</span>
+        <span class="attribution">— Stefan, noch nicht ganz</span>
+      </div>
+      <span class="ticker-separator">•</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       HERO SECTION — TV SET
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="container hero-content">
+      
+      <!-- Text Side -->
+      <div class="hero-text">
+        <div class="hero-badge">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="9" stroke="#6AB547" stroke-width="2"/>
+            <path d="M6 10L9 13L14 7" stroke="#6AB547" stroke-width="2"/>
+          </svg>
+          <span>B Corp zertifiziert</span>
+        </div>
+        
+        <div class="hero-headline">
+          <h1>
+            Wir machen<br>
+            Fleisch.
+          </h1>
+          <p class="hero-subtext">Nur halt ohne das Tier.</p>
+        </div>
+        
+        <p class="hero-whisper">
+          (Das klingt einfacher als es ist. Aber nach 6 Jahren Tüfteln haben es sogar Fleischliebhaber abgenommen.)
+        </p>
+        
+        <div class="hero-actions">
+          <a href="#locator" class="btn btn-primary">Wo gibt's das?</a>
+          <a href="#products" class="btn btn-secondary">Produkte ansehen</a>
+        </div>
+        
+        <div class="hero-proof">
+          <div class="proof-item">
+            <span class="proof-value">8'000+</span>
+            <span class="proof-label">Restaurants</span>
+          </div>
+          <div class="proof-item">
+            <span class="proof-value">6</span>
+            <span class="proof-label">Länder</span>
+          </div>
+          <div class="proof-item">
+            <span class="proof-value">1</span>
+            <span class="proof-label">Schwingerkönig</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Video Side — TV Set -->
+      <div class="hero-visual">
+        
+        <!-- Evidence Label -->
+        <div class="evidence-label">
+          <span class="text">Beweisstück A</span>
+          <span class="arrow">→</span>
+        </div>
+        
+        <!-- TV Frame -->
+        <div class="tv-frame">
+          <div class="tv-screen">
+            <video autoplay muted loop playsinline>
+              <source src="https://cdn.shopify.com/videos/c/o/v/29af63e4e3a84a5ca0cd89ba169b5d76.mp4" type="video/mp4">
+            </video>
+          </div>
+          
+          <div class="tv-controls">
+            <div class="tv-dial"></div>
+            <span class="tv-brand">planted.tv</span>
+            <div class="tv-dial"></div>
+          </div>
+          
+          <!-- Beautiful Annotation -->
+          <div class="tv-annotation">
+            <div class="annotation-card">
+              <div class="annotation-icon">🎬</div>
+              <p class="annotation-text">
+                Ja, wir zeigen dir ein Video von brutzelndem Essen. Das ist <span class="highlight">quasi Manipulation.</span> Aber es ist auch einfach die Wahrheit.
+              </p>
+              <span class="annotation-signature">Das Marketing-Team</span>
+            </div>
+          </div>
+          
+          <!-- Approved Badge -->
+          <div class="approved-badge">
+            <span class="small">Approved by</span>
+            <span class="big">Meat Lovers</span>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       INTRO SECTION
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="intro">
+    <div class="container intro-content reveal">
+      <span class="intro-label">
+        <span>🇨🇭</span>
+        Swiss-made
+      </span>
+      <h2>Wir glauben, dass Fleisch nicht von Tieren kommen muss. Es muss einfach unglaublich lecker schmecken.</h2>
+      <p>Aus Erbsen, Sonnenblumen und Hafer. Ohne Zusatzstoffe. Und ehrlich? Es ist wirklich, wirklich gut.</p>
+      
+      <div class="intro-badges">
+        <div class="intro-badge">
+          <span>🌱</span>
+          <span>100% pflanzlich</span>
+        </div>
+        <div class="intro-badge">
+          <span>🧪</span>
+          <span>Keine Zusatzstoffe</span>
+        </div>
+        <div class="intro-badge">
+          <span>💪</span>
+          <span>High Protein</span>
+        </div>
+        <div class="intro-badge">
+          <span>Ⓑ</span>
+          <span>B Corp</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       PRODUCTS SECTION
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="products" class="products">
+    <div class="container">
+      <div class="section-header reveal">
+        <div>
+          <h2 class="section-title">Das gute Zeug</h2>
+          <p class="section-subtitle">Finde deinen neuen Favoriten</p>
+        </div>
+        <a href="/products" class="section-link">
+          Alle Produkte
+          <span>→</span>
+        </a>
+      </div>
+      
+      <div class="products-grid">
+        <a href="/products/chicken-nature" class="product-card reveal">
+          <div class="product-image">
+            <img src="https://cdn.shopify.com/s/files/1/0049/5383/3521/files/chicken-nature-new.png?v=1747135663" alt="planted.chicken Nature">
+          </div>
+          <div class="product-info">
+            <span class="product-category">planted.chicken</span>
+            <h3 class="product-name">Nature</h3>
+          </div>
+          <div class="product-hover-text">Das Huhn, das nie eines war.</div>
+        </a>
+        
+        <a href="/products/kebab" class="product-card reveal">
+          <div class="product-image">
+            <img src="https://cdn.shopify.com/s/files/1/0049/5383/3521/files/kebab-new.png?v=1747135550" alt="planted.kebab">
+          </div>
+          <div class="product-info">
+            <span class="product-category">planted.kebab</span>
+            <h3 class="product-name">Original</h3>
+          </div>
+          <div class="product-hover-text">3 Uhr nachts. Ohne Reue danach.</div>
+        </a>
+        
+        <a href="/products/schnitzel-wiener" class="product-card reveal">
+          <div class="product-image">
+            <img src="https://cdn.shopify.com/s/files/1/0049/5383/3521/files/schnitzel-new.png?v=1747136641" alt="planted.schnitzel">
+          </div>
+          <div class="product-info">
+            <span class="product-category">planted.schnitzel</span>
+            <h3 class="product-name">Wiener Art</h3>
+          </div>
+          <div class="product-hover-text">Sogar die Grossmutter gibt zu: fast wie damals.</div>
+        </a>
+        
+        <a href="/products/steak" class="product-card reveal">
+          <div class="product-image">
+            <img src="https://cdn.shopify.com/s/files/1/0049/5383/3521/files/festive-packshot.png?v=1762765654" alt="planted.steak">
+          </div>
+          <div class="product-info">
+            <span class="product-category">planted.steak</span>
+            <h3 class="product-name">Classic</h3>
+          </div>
+          <div class="product-hover-text">Für alle, die dachten: "Steak geht doch nicht pflanzlich."</div>
+        </a>
+        
+        <a href="/products/crispy-strips" class="product-card reveal">
+          <span class="product-badge">Neu</span>
+          <div class="product-image">
+            <img src="https://cdn.shopify.com/s/files/1/0049/5383/3521/files/tenders-new.png?v=1747136517" alt="planted.chicken Crispy Strips">
+          </div>
+          <div class="product-info">
+            <span class="product-category">planted.chicken</span>
+            <h3 class="product-name">Crispy Strips</h3>
+          </div>
+          <div class="product-hover-text">Knusprig wie Nuggets. Besser als Nuggets.</div>
+        </a>
+        
+        <a href="/products/pulled-bbq" class="product-card reveal">
+          <div class="product-image">
+            <img src="https://cdn.shopify.com/s/files/1/0049/5383/3521/files/pulled-bbq-new.png?v=1747135991" alt="planted.pulled BBQ">
+          </div>
+          <div class="product-info">
+            <span class="product-category">planted.pulled</span>
+            <h3 class="product-name">BBQ</h3>
+          </div>
+          <div class="product-hover-text">Pulled ohne Schwein. Schmeckt wie texanischer Sommer.</div>
+        </a>
+        
+        <a href="/products/bratwurst-original" class="product-card reveal">
+          <div class="product-image">
+            <img src="https://cdn.shopify.com/s/files/1/0049/5383/3521/files/sausage-original-new.png?v=1747136145" alt="planted.bratwurst">
+          </div>
+          <div class="product-info">
+            <span class="product-category">planted.bratwurst</span>
+            <h3 class="product-name">Original</h3>
+          </div>
+          <div class="product-hover-text">Der Grill weiss nicht, dass es pflanzlich ist.</div>
+        </a>
+        
+        <a href="/products/duck-asian" class="product-card reveal">
+          <span class="product-badge">Neu</span>
+          <div class="product-image">
+            <img src="https://cdn.shopify.com/s/files/1/0049/5383/3521/files/duck-pdp.png?v=1743509753" alt="planted.duck Asian Style">
+          </div>
+          <div class="product-info">
+            <span class="product-category">planted.duck</span>
+            <h3 class="product-name">Asian Style</h3>
+          </div>
+          <div class="product-hover-text">Peking-Ente. Ohne Ente.</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       IMPACT SECTION
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="mission" class="impact">
+    <div class="container">
+      <div class="impact-intro reveal">
+        <h2>Okay, jetzt wird's kurz ernst.</h2>
+        <p>(Keine Sorge, nur 30 Sekunden, dann sind wir wieder lustig.)</p>
+      </div>
+      
+      <div class="impact-grid">
+        <div class="impact-card reveal">
+          <div class="impact-number">
+            <span class="stat-value" data-target="73">0</span>
+            <span class="stat-unit">%</span>
+          </div>
+          <p class="impact-label">weniger CO₂</p>
+          <p class="impact-context">
+            Das entspricht etwa 12 Autofahrten von Zürich nach Bern. Pro Packung. Wir haben's nicht erfunden, das haben Wissenschaftler berechnet.
+          </p>
+        </div>
+        
+        <div class="impact-card reveal">
+          <div class="impact-number">
+            <span class="stat-value" data-target="90">0</span>
+            <span class="stat-unit">%</span>
+          </div>
+          <p class="impact-label">weniger Wasser</p>
+          <p class="impact-context">
+            Genug, um 47 Mal zu duschen. Nicht dass du weniger duschen solltest. Bitte nicht.
+          </p>
+        </div>
+        
+        <div class="impact-card reveal">
+          <div class="impact-number">
+            <span class="stat-value">0</span>
+          </div>
+          <p class="impact-label">Tiere</p>
+          <p class="impact-context">
+            Klingt simpel. Ist es auch. Keine versteckten Fussnoten. Versprochen.
+          </p>
+        </div>
+      </div>
+      
+      <div class="impact-cta reveal">
+        <p>Quelle: Unabhängige Ökobilanz-Studie. Wir haben's nicht selbst erfunden.</p>
+        <a href="/sustainability">Die ganze nerdy Analyse lesen →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       AMBASSADOR SECTION
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="ambassador">
+    <div class="container">
+      <div class="ambassador-card reveal">
+        <div class="ambassador-image">
+          <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&h=1000&fit=crop&crop=faces" alt="Christian Stucki">
+          <span class="ambassador-badge">Schwingerkönig 2019</span>
+        </div>
+        
+        <div class="ambassador-content">
+          <div class="ambassador-surprise">
+            <span class="emoji">😳</span>
+            <span class="text">Ja, wirklich. DER Christian Stucki.</span>
+          </div>
+          
+          <blockquote class="ambassador-quote">
+            Gesundheit ist mir sehr wichtig. Grossartige pflanzliche Produkte wie die von Planted machen es mir leicht, bewusster zu essen, ohne auf Genuss zu verzichten.
+          </blockquote>
+          
+          <p class="ambassador-name">Christian Stucki</p>
+          <p class="ambassador-title">Schwingerkönig & Planted Ambassador</p>
+          
+          <div class="ambassador-context">
+            Ein 150-Kilo-Schwingerkönig, der pflanzlich isst. Wenn das kein Beweis ist, wissen wir auch nicht.
+          </div>
+          
+          <div class="ambassador-favorite">
+            <span class="ambassador-favorite-label">Christians Favorit:</span>
+            <a href="/products/steak" class="ambassador-favorite-product">
+              🥩 planted.steak
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       RECIPES SECTION
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="recipes" class="recipes">
+    <div class="container">
+      <div class="section-header reveal">
+        <div>
+          <h2 class="section-title">Lass dich inspirieren</h2>
+          <p class="section-subtitle">Kochen ohne Reue. Geniessen ohne Kompromisse.</p>
+        </div>
+        <a href="/recipes" class="section-link">
+          Alle Rezepte
+          <span>→</span>
+        </a>
+      </div>
+      
+      <div class="recipes-grid">
+        <a href="/recipes/ajvar-auflauf" class="recipe-card reveal">
+          <img src="https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/Rezept_Ajvar_Bake_Bild_3.jpg?v=1681301125" alt="Ajvar Auflauf">
+          <div class="recipe-overlay">
+            <h3 class="recipe-title">Ajvar Auflauf</h3>
+            <p class="recipe-meta">21 Min • Einfach</p>
+          </div>
+        </a>
+        
+        <a href="/recipes/bao-buns" class="recipe-card reveal">
+          <img src="https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/planted.chicken_Bao.jpg?v=1681291029" alt="Bao Buns">
+          <div class="recipe-overlay">
+            <h3 class="recipe-title">Bao Buns</h3>
+            <p class="recipe-meta">21 Min • Einfach</p>
+          </div>
+        </a>
+        
+        <a href="/recipes/bami-goreng" class="recipe-card reveal">
+          <img src="https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/BAMI_GORENG_HIGH_QUALITY_2.jpg?v=1700127473" alt="Bami Goreng">
+          <div class="recipe-overlay">
+            <h3 class="recipe-title">Bami Goreng</h3>
+            <p class="recipe-meta">43 Min • Einfach</p>
+          </div>
+        </a>
+        
+        <a href="/recipes/antipasti-sandwich" class="recipe-card reveal">
+          <img src="https://cdn.shopify.com/s/files/1/0049/5383/3521/articles/DSC0281_2.jpg?v=1681301165" alt="Antipasti Sandwich">
+          <div class="recipe-overlay">
+            <h3 class="recipe-title">Antipasti Sandwich</h3>
+            <p class="recipe-meta">34 Min • Einfach</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       STORE LOCATOR SECTION
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="locator" class="locator">
+    <div class="container">
+      <div class="locator-header reveal">
+        <h2>Wo gibt's das jetzt?</h2>
+        <p>Im Supermarkt um die Ecke. Im Restaurant nebenan. Oder direkt zu dir nach Hause.</p>
+      </div>
+      
+      <div class="locator-search reveal">
+        <div class="search-input-group">
+          <input type="text" placeholder="PLZ oder Stadt eingeben..." aria-label="Standort suchen">
+          <button type="button">Suchen</button>
+        </div>
+      </div>
+      
+      <div class="locator-tabs reveal">
+        <button class="locator-tab active">Supermärkte</button>
+        <button class="locator-tab">Restaurants</button>
+        <button class="locator-tab">Online bestellen</button>
+      </div>
+      
+      <div class="retailers-grid reveal">
+        <a href="https://www.coop.ch" target="_blank" class="retailer-card">
+          <div class="retailer-logo">
+            <img src="https://upload.wikimedia.org/wikipedia/de/thumb/5/5e/Coop_%28Schweiz%29.svg/320px-Coop_%28Schweiz%29.svg.png" alt="Coop">
+          </div>
+          <h3 class="retailer-name">Coop</h3>
+          <p class="retailer-country">🇨🇭 Schweiz</p>
+        </a>
+        
+        <a href="https://www.migros.ch" target="_blank" class="retailer-card">
+          <div class="retailer-logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Migros_logo.svg/320px-Migros_logo.svg.png" alt="Migros">
+          </div>
+          <h3 class="retailer-name">Migros</h3>
+          <p class="retailer-country">🇨🇭 Schweiz</p>
+        </a>
+        
+        <a href="https://www.rewe.de" target="_blank" class="retailer-card">
+          <div class="retailer-logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/REWE_Markt_Logo.svg/320px-REWE_Markt_Logo.svg.png" alt="REWE">
+          </div>
+          <h3 class="retailer-name">REWE</h3>
+          <p class="retailer-country">🇩🇪 Deutschland • 🇦🇹 Österreich</p>
+        </a>
+        
+        <a href="https://www.edeka.de" target="_blank" class="retailer-card">
+          <div class="retailer-logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/EDEKA_Logo.svg/320px-EDEKA_Logo.svg.png" alt="EDEKA">
+          </div>
+          <h3 class="retailer-name">EDEKA</h3>
+          <p class="retailer-country">🇩🇪 Deutschland</p>
+        </a>
+        
+        <a href="https://www.carrefour.fr" target="_blank" class="retailer-card">
+          <div class="retailer-logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Carrefour_logo.svg/320px-Carrefour_logo.svg.png" alt="Carrefour">
+          </div>
+          <h3 class="retailer-name">Carrefour</h3>
+          <p class="retailer-country">🇫🇷 🇪🇸 🇮🇹</p>
+        </a>
+        
+        <a href="https://www.ah.nl" target="_blank" class="retailer-card">
+          <div class="retailer-logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Albert_Heijn_Logo.svg/320px-Albert_Heijn_Logo.svg.png" alt="Albert Heijn">
+          </div>
+          <h3 class="retailer-name">Albert Heijn</h3>
+          <p class="retailer-country">🇳🇱 Niederlande</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       NEWSLETTER SECTION
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="newsletter">
+    <div class="container">
+      <div class="newsletter-content reveal">
+        <h2>Okay, hier kommt die Newsletter-Anmeldung.</h2>
+        <p class="newsletter-honesty">
+          Du weisst wie das funktioniert. Wir fragen nach deiner E-Mail. Du überlegst ob wir dich zuspammen werden.
+        </p>
+        
+        <div class="newsletter-promise">
+          <h3>Unser Versprechen:</h3>
+          <ul>
+            <li>
+              <span>✅</span>
+              <span>Rezepte, die tatsächlich funktionieren</span>
+            </li>
+            <li>
+              <span>✅</span>
+              <span>Neue Produkte bevor sie im Regal stehen</span>
+            </li>
+            <li>
+              <span>✅</span>
+              <span>Gelegentlich ein schlechter Witz</span>
+            </li>
+            <li>
+              <span>❌</span>
+              <span>Keine täglichen E-Mails. Wir haben auch anderes zu tun.</span>
+            </li>
+          </ul>
+        </div>
+        
+        <form class="newsletter-form">
+          <input type="email" placeholder="deine@email.ch" required>
+          <button type="submit">Ich bin dabei</button>
+        </form>
+        
+        <p class="newsletter-fine-print">
+          Du kannst dich jederzeit abmelden. Wir werden dann leise weinen, aber wir werden dich in Ruhe lassen.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       GASTRO SECTION
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="gastro">
+    <div class="container">
+      <div class="gastro-card reveal">
+        <div class="gastro-content">
+          <span class="gastro-label">
+            <span>👨‍🍳</span>
+            Für Profiküchen
+          </span>
+          <h2>Pflanzliches Fleisch für Restaurants, die vorwärts denken</h2>
+          <p>Von Sterneküchen bis Kantinen. Von Tim Raue bis Deutsche Bahn. Wir beliefern Partner, die leckeres Essen servieren wollen, ohne die Welt kaputt zu machen.</p>
+          
+          <div class="gastro-stats">
+            <div>
+              <span class="gastro-stat-value">8'000+</span>
+              <span class="gastro-stat-label">Partner-Restaurants</span>
+            </div>
+            <div>
+              <span class="gastro-stat-value">6</span>
+              <span class="gastro-stat-label">Länder</span>
+            </div>
+          </div>
+          
+          <a href="/gastronomy" class="btn btn-primary">Muster anfordern →</a>
+        </div>
+        
+        <div class="gastro-image">
+          <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop" alt="Restaurant Küche">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <svg viewBox="0 0 140 40" width="120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="140" height="40" rx="8" fill="#7B2D8E"/>
+            <text x="12" y="28" fill="white" font-family="Outfit, sans-serif" font-weight="800" font-size="22">planted.</text>
+          </svg>
+          <p>Gemacht von Menschen, die glauben dass leckeres Essen die Welt nicht kaputt machen muss.</p>
+          <p class="location">📍 Kemptthal, Schweiz</p>
+        </div>
+        
+        <div class="footer-column">
+          <h4>Produkte</h4>
+          <ul>
+            <li><a href="/products/chicken">planted.chicken</a></li>
+            <li><a href="/products/steak">planted.steak</a></li>
+            <li><a href="/products/kebab">planted.kebab</a></li>
+            <li><a href="/products">Alle Produkte</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h4>Unternehmen</h4>
+          <ul>
+            <li><a href="/about">Über uns</a></li>
+            <li><a href="/sustainability">Nachhaltigkeit</a></li>
+            <li><a href="/gastronomy">Gastronomie</a></li>
+            <li><a href="/press">Presse</a></li>
+            <li><a href="/faq">FAQ</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h4>Rechtliches</h4>
+          <ul>
+            <li><a href="/privacy">Datenschutz</a></li>
+            <li><a href="/terms">AGB</a></li>
+            <li><a href="/imprint">Impressum</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2025 planted. Alle Rechte vorbehalten.</p>
+        
+        <div class="footer-easter-egg">
+          <button aria-label="Secret">🌱</button>
+          <div class="footer-secret">
+            Du hast uns gefunden! Hier ist ein Geheimnis: Der erste Prototyp schmeckte schrecklich. Wirklich schrecklich. Aber wir haben nicht aufgegeben. Und nach 347 Versuchen hatten wir's.
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SCRIPTS
+       ═══════════════════════════════════════════════════════════════ -->
+  <script>
+    // Scroll reveal
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // Stat counter
+    const statElements = document.querySelectorAll('.stat-value[data-target]');
+    const statObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const target = parseInt(entry.target.dataset.target);
+          let current = 0;
+          const increment = target / 50;
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+              current = target;
+              clearInterval(timer);
+            }
+            entry.target.textContent = Math.round(current);
+          }, 30);
+          statObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    statElements.forEach(el => statObserver.observe(el));
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Nav scroll effect
+    const nav = document.querySelector('.nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Locator tabs
+    const locatorTabs = document.querySelectorAll('.locator-tab');
+    locatorTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        locatorTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+      });
+    });
+  </script>
+
+</body>
+</html>

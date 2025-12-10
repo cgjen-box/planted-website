@@ -60,34 +60,65 @@ const PLATFORM_WAIT_SELECTORS: Record<DeliveryPlatform, string> = {
   'wolt': '[data-test-id="menu-item"], .MenuItem',
   'just-eat': '.menu-item, [data-test-id="menu-item"]',
   'smood': '.menu-item, .product-card',
+  'deliveroo': '[data-test-id="menu-item"], .menu-item',
+  'glovo': '.product-row, .menu-item, [data-test-id="product"]',
 };
 
 // Platform URL patterns for country detection
-const PLATFORM_COUNTRY_PATTERNS: Record<DeliveryPlatform, Record<SupportedCountry, RegExp>> = {
+const PLATFORM_COUNTRY_PATTERNS: Record<DeliveryPlatform, Partial<Record<SupportedCountry, RegExp>>> = {
   'uber-eats': {
     CH: /ubereats\.com\/ch/i,
     DE: /ubereats\.com\/de/i,
     AT: /ubereats\.com\/at/i,
+    NL: /ubereats\.com\/nl/i,
+    UK: /ubereats\.com\/gb/i,
+    FR: /ubereats\.com\/fr/i,
+    ES: /ubereats\.com\/es/i,
+    IT: /ubereats\.com\/it/i,
+    BE: /ubereats\.com\/be/i,
+    PL: /ubereats\.com\/pl/i,
   },
   'lieferando': {
     CH: /eat\.ch/i, // Just Eat owns eat.ch but sometimes Lieferando links redirect
     DE: /lieferando\.de/i,
     AT: /lieferando\.at/i,
+    NL: /thuisbezorgd\.nl/i,
+    BE: /takeaway\.com\/be/i,
+    PL: /pyszne\.pl/i,
   },
   'wolt': {
     CH: /wolt\.com\/[a-z]{2}\/che/i,
     DE: /wolt\.com\/[a-z]{2}\/deu/i,
     AT: /wolt\.com\/[a-z]{2}\/aut/i,
+    PL: /wolt\.com\/[a-z]{2}\/pol/i,
   },
   'just-eat': {
     CH: /just-eat\.ch|eat\.ch/i,
-    DE: /just-eat\.de/i, // Rare but possible
-    AT: /just-eat\.at/i, // Rare but possible
+    DE: /just-eat\.de/i,
+    AT: /just-eat\.at/i,
+    NL: /thuisbezorgd\.nl/i,
+    UK: /just-eat\.co\.uk/i,
+    FR: /just-eat\.fr/i,
+    ES: /just-eat\.es/i,
+    IT: /justeat\.it/i,
+    BE: /takeaway\.com\/be/i,
+    PL: /pyszne\.pl/i,
   },
   'smood': {
     CH: /smood\.ch/i,
-    DE: /smood\.de/i, // Doesn't really exist
-    AT: /smood\.at/i, // Doesn't really exist
+  },
+  'deliveroo': {
+    UK: /deliveroo\.co\.uk/i,
+    FR: /deliveroo\.fr/i,
+    ES: /deliveroo\.es/i,
+    IT: /deliveroo\.it/i,
+    BE: /deliveroo\.be/i,
+    NL: /deliveroo\.nl/i,
+  },
+  'glovo': {
+    ES: /glovoapp\.com\/es/i,
+    IT: /glovoapp\.com\/it/i,
+    PL: /glovoapp\.com\/pl/i,
   },
 };
 

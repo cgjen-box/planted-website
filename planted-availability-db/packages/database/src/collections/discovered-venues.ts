@@ -11,13 +11,16 @@ import type {
   CreateDiscoveredVenueInput,
   DeliveryPlatform,
   SupportedCountry,
+  VenueFlagType,
+  VenueFlagPriority,
 } from '@pad/core';
 
-interface DiscoveredVenueDoc extends Omit<DiscoveredVenue, 'created_at' | 'verified_at' | 'promoted_at'> {
+interface DiscoveredVenueDoc extends Omit<DiscoveredVenue, 'created_at' | 'verified_at' | 'promoted_at' | 'flagged_at'> {
   created_at: Date;
   updated_at: Date;
   verified_at?: Date;
   promoted_at?: Date;
+  flagged_at?: Date;
 }
 
 /**
@@ -46,6 +49,13 @@ class DiscoveredVenuesCollection extends BaseCollection<DiscoveredVenueDoc> {
       status: data.status || 'discovered',
       rejection_reason: data.rejection_reason,
       production_venue_id: data.production_venue_id,
+      // Flag fields
+      flag_type: data.flag_type || null,
+      flag_priority: data.flag_priority,
+      flag_reason: data.flag_reason,
+      flagged_by: data.flagged_by,
+      flagged_at: data.flagged_at ? (data.flagged_at as Timestamp).toDate() : undefined,
+      // Source tracking
       discovered_by_strategy_id: data.discovered_by_strategy_id,
       discovered_by_query: data.discovered_by_query,
       created_at: (data.created_at as Timestamp)?.toDate() || new Date(),
@@ -74,6 +84,13 @@ class DiscoveredVenuesCollection extends BaseCollection<DiscoveredVenueDoc> {
     if (data.status !== undefined) doc.status = data.status;
     if (data.rejection_reason !== undefined) doc.rejection_reason = data.rejection_reason;
     if (data.production_venue_id !== undefined) doc.production_venue_id = data.production_venue_id;
+    // Flag fields
+    if (data.flag_type !== undefined) doc.flag_type = data.flag_type;
+    if (data.flag_priority !== undefined) doc.flag_priority = data.flag_priority;
+    if (data.flag_reason !== undefined) doc.flag_reason = data.flag_reason;
+    if (data.flagged_by !== undefined) doc.flagged_by = data.flagged_by;
+    if (data.flagged_at !== undefined) doc.flagged_at = data.flagged_at;
+    // Source tracking
     if (data.discovered_by_strategy_id !== undefined) doc.discovered_by_strategy_id = data.discovered_by_strategy_id;
     if (data.discovered_by_query !== undefined) doc.discovered_by_query = data.discovered_by_query;
     if (data.verified_at !== undefined) doc.verified_at = data.verified_at;
@@ -305,6 +322,74 @@ class DiscoveredVenuesCollection extends BaseCollection<DiscoveredVenueDoc> {
       by_platform: byPlatform,
       average_confidence: all.length > 0 ? Math.round(totalConfidence / all.length) : 0,
     };
+  }
+
+  /**
+   * Flag a venue for scraper priority (dish extraction or re-verification)
+   */
+  async flagVenue(
+    venueId: string,
+    flagType: VenueFlagType,
+    priority: VenueFlagPriority,
+    userId: string,
+    reason?: string
+  ): Promise<DiscoveredVenueDoc> {
+    return this.update(venueId, {
+      flag_type: flagType,
+      flag_priority: priority,
+      flag_reason: reason,
+      flagged_by: userId,
+      flagged_at: new Date(),
+    });
+  }
+
+  /**
+   * Clear flag from a venue
+   */
+  async clearFlag(venueId: string): Promise<DiscoveredVenueDoc> {
+    return this.update(venueId, {
+      flag_type: null,
+      flag_priority: undefined,
+      flag_reason: undefined,
+      flagged_by: undefined,
+      flagged_at: undefined,
+    });
+  }
+
+  /**
+   * Get venues flagged for a specific purpose, sorted by priority
+   */
+  async getFlaggedVenues(flagType?: VenueFlagType): Promise<DiscoveredVenueDoc[]> {
+    // Get all venues with flags
+    const all = await this.getAll();
+
+    let flagged = all.filter(v => v.flag_type != null);
+
+    // Filter by flag type if specified
+    if (flagType) {
+      flagged = flagged.filter(v => v.flag_type === flagType);
+    }
+
+    // Sort by priority (urgent > high > normal) and then by flagged_at (oldest first)
+    const priorityOrder: Record<VenueFlagPriority, number> = {
+      urgent: 0,
+      high: 1,
+      normal: 2,
+    };
+
+    return flagged.sort((a, b) => {
+      const priorityA = priorityOrder[a.flag_priority || 'normal'];
+      const priorityB = priorityOrder[b.flag_priority || 'normal'];
+
+      if (priorityA !== priorityB) {
+        return priorityA - priorityB;
+      }
+
+      // Same priority - sort by flagged_at (oldest first)
+      const timeA = a.flagged_at?.getTime() || 0;
+      const timeB = b.flagged_at?.getTime() || 0;
+      return timeA - timeB;
+    });
   }
 }
 

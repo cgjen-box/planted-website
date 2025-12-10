@@ -1,14 +1,14 @@
 {
   "$schema": "./scraper-config.schema.json",
-  "description": "MASSIVE RUN - Target 1000 new venues for website",
+  "description": "MASSIVE VENUE DISCOVERY - 10 countries, 7 platforms, 100+ German cities",
 
   "discovery": {
     "enabled": true,
     "mode": "explore",
-    "platforms": ["uber-eats", "just-eat", "lieferando", "wolt", "smood", "deliveroo"],
-    "countries": ["CH", "DE", "AT", "NL", "UK", "FR"],
-    "chains": [],
-    "maxQueries": 200,
+    "platforms": ["uber-eats", "just-eat", "lieferando", "wolt", "smood", "deliveroo", "glovo"],
+    "countries": ["CH", "DE", "AT", "NL", "UK", "FR", "ES", "IT", "BE", "PL"],
+    "chains": ["Birdie Birdie", "beets&roots", "FAT MONK", "dean&david", "Pit's Burger", "Union Diner", "Alpoke", "Doen Doen", "råbowls", "Green Club", "Nooch", "Rice Up", "Smash Bro", "Chidoba", "Kaimug", "Stadtsalat"],
+    "maxQueries": 2000,
     "searchProvider": "google",
     "dryRun": false
   },
@@ -19,7 +19,7 @@
     "target": "all",
     "chainId": null,
     "venueIds": [],
-    "countries": ["CH", "DE", "AT", "NL", "UK", "FR"],
+    "countries": ["CH", "DE", "AT", "NL", "UK", "FR", "ES", "IT", "BE", "PL"],
     "platforms": [],
     "maxVenues": 500,
     "dryRun": false,

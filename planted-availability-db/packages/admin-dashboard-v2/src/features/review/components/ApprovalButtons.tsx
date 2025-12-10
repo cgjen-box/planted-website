@@ -1,11 +1,11 @@
 /**
  * ApprovalButtons Component
  *
- * Three main action buttons: Approve All, Partial Approve, and Reject.
+ * Four main action buttons: Approve All, Partial Approve, Reject, and Flag.
  * Includes loading states and triggers dialogs for feedback/rejection.
  */
 
-import { Check, AlertTriangle, X } from 'lucide-react';
+import { Check, AlertTriangle, X, Flag } from 'lucide-react';
 import { Button } from '@/shared/ui/Button';
 import { cn } from '@/lib/utils';
 
@@ -13,6 +13,7 @@ interface ApprovalButtonsProps {
   onApprove: () => void;
   onPartialApprove: () => void;
   onReject: () => void;
+  onFlag?: () => void;
   isLoading?: boolean;
   disabled?: boolean;
   className?: string;
@@ -25,12 +26,27 @@ export function ApprovalButtons({
   onApprove,
   onPartialApprove,
   onReject,
+  onFlag,
   isLoading = false,
   disabled = false,
   className,
 }: ApprovalButtonsProps) {
   return (
     <div className={cn('flex gap-3', className)}>
+      {/* Flag for Priority */}
+      {onFlag && (
+        <Button
+          onClick={onFlag}
+          disabled={disabled || isLoading}
+          variant="outline"
+          className="border-purple-500 text-purple-600 hover:bg-purple-50"
+          size="lg"
+        >
+          <Flag className="h-5 w-5 mr-2" />
+          Flag
+        </Button>
+      )}
+
       {/* Approve All */}
       <Button
         onClick={onApprove}

@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm build:*)",
+      "Bash(firebase deploy:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git checkout:*)",
+      "Bash(firebase functions:list:*)",
+      "Bash(curl:*)",
+      "Bash(firebase hosting:channel:deploy:*)",
+      "Bash(firebase auth:export:*)",
+      "Bash(grep:*)",
+      "Bash(npx firebase:*)",
+      "Bash(node:*)",
+      "Bash(pnpm run local:*)"
+    ]
+  }
+}

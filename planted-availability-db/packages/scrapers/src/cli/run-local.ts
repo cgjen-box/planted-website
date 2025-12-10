@@ -289,7 +289,7 @@ async function runDiscovery(config: DiscoveryConfig, verbose: boolean): Promise<
     mode: config.mode,
     countries: config.countries,
     platforms: config.platforms,
-    chains: config.mode === 'enumerate' ? config.chains : undefined,
+    target_chains: config.mode === 'enumerate' ? config.chains : undefined,
   });
 
   console.log('\n📊 Discovery Results:');
@@ -365,7 +365,7 @@ async function runExtraction(config: ExtractionConfig, verbose: boolean): Promis
   }
 }
 
-async function runReview(config: ReviewConfig, verbose: boolean): Promise<void> {
+async function runReview(config: ReviewConfig, _verbose: boolean): Promise<void> {
   console.log('\n╔══════════════════════════════════════════════════════════════╗');
   console.log('║                    RUNNING REVIEW                             ║');
   console.log('╚══════════════════════════════════════════════════════════════╝\n');
@@ -377,7 +377,7 @@ async function runReview(config: ReviewConfig, verbose: boolean): Promise<void> 
   console.log('  pnpm run review-dishes # Review dishes');
 }
 
-async function runSync(config: SyncConfig, verbose: boolean): Promise<void> {
+async function runSync(config: SyncConfig, _verbose: boolean): Promise<void> {
   console.log('\n╔══════════════════════════════════════════════════════════════╗');
   console.log('║                    RUNNING SYNC                               ║');
   console.log('╚══════════════════════════════════════════════════════════════╝\n');

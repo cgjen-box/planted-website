@@ -265,54 +265,35 @@ pnpm run review-dishes --batch 10 --chain dean-david
 pnpm run search-pool stats
 ```
 
-#### @pad/admin-dashboard (Legacy v1)
-React-based admin interface (original version).
-
-**Technology Stack:**
-| Component | Technology | Version |
-|-----------|------------|---------|
-| Framework | React | 18.3.1 |
-| Routing | React Router | 7.0.1 |
-| State | TanStack Query | 5.60.0 |
-| Build | Vite | 6.0.1 |
-| Auth | Firebase Auth | - |
-
-**Pages:**
-| Page | URL | Description |
-|------|-----|-------------|
-| Dashboard | `/` | Overview stats and metrics |
-| Venues | `/venues` | Venue management (CRUD) |
-| Dishes | `/dishes` | Dish management (CRUD) |
-| Scrapers | `/scrapers` | Scraper monitoring |
-| Promotions | `/promotions` | Promotion management |
-| Moderation | `/moderation` | Flagged item review |
-| Partners | `/partners` | Partner management |
-| Discovery Review | `/discovery-review` | Review AI-discovered venues |
-| Budget | `/budget` | Budget and cost monitoring |
-| Analytics | `/analytics` | Analytics dashboard |
-| Import | `/import` | Batch data import |
-| Login | `/login` | Authentication |
-
-#### @pad/admin-dashboard-v2 (New)
-Modern workflow-focused admin dashboard with enhanced stability and features.
+#### @pad/admin-dashboard-v2 (Minimal Dashboard)
+Lightweight, focused admin dashboard for approval workflow and reinforcement learning optimization.
 
 **Technology Stack:**
 | Component | Technology | Version |
 |-----------|------------|---------|
 | Framework | React | 18.x |
 | Routing | React Router | 7.x |
-| State | TanStack Query + Zustand | 5.x |
+| State | TanStack Query | 5.x |
 | Build | Vite | 6.x |
 | Auth | Firebase Auth | 11.x |
 | UI Components | Shadcn/UI + Radix UI | Latest |
 | Styling | Tailwind CSS | 3.x |
 
 **Key Features:**
-- **Workflow-First Design**: Clear pipeline from scraping → extraction → review → sync
-- **Error Boundary System**: Global error handling with recovery UI
-- **API Client with Retry Logic**: Automatic retries with exponential backoff
-- **Offline Detection**: Connection status awareness
-- **Type-Safe**: Full TypeScript with strict mode
+- **3-Tab Minimal Design**: Approve Queue, Live Website, Stats
+- **Bulk Approval**: Multi-select with keyboard shortcuts
+- **Flag for Priority**: Mark venues for dish extraction or re-verification
+- **Strategy Learning Stats**: Monitor reinforcement learning performance
+- **One-Click Sync**: Push approved venues to website
+- **Budget Monitoring**: Track Google search and AI API costs
+
+**Pages:**
+| Page | URL | Description |
+|------|-----|-------------|
+| Approve Queue | `/` | Main approval workflow with hierarchical tree |
+| Live Website | `/live` | Published venues and sync controls |
+| Stats | `/stats` | Budget usage and strategy performance |
+| Login | `/login` | Authentication |
 
 **Project Structure:**
 ```
@@ -322,56 +303,43 @@ packages/admin-dashboard-v2/
 │   │   ├── providers/          # Context providers (Auth, Query)
 │   │   ├── routes/             # Route configuration
 │   │   └── App.tsx             # Root component
-│   ├── features/               # Feature modules (self-contained)
-│   │   ├── scraping/           # Scraper control & monitoring
-│   │   │   ├── components/     # ScraperCard, ScraperProgress, BudgetStatus
-│   │   │   └── hooks/          # useScrapers, useScraperRun, useBudget
+│   ├── features/               # Feature modules
 │   │   ├── review/             # Review workflow
-│   │   │   ├── components/     # VenueDetailPanel, DishGrid, ApprovalButtons
-│   │   │   └── hooks/          # useReviewQueue, useApproval, useFeedback
-│   │   ├── browser/            # Data browsing
-│   │   │   ├── components/     # HierarchyTree, VenueTable, FilterBar
-│   │   │   └── hooks/          # useVenueBrowser, useFilters
-│   │   ├── sync/               # Website sync
-│   │   └── analytics/          # KPI & cost monitoring
-│   ├── lib/                    # Core libraries
-│   │   ├── api/                # API client with retries
-│   │   ├── firebase.ts         # Firebase configuration
-│   │   └── utils.ts            # Utility functions
+│   │   │   ├── components/     # HierarchyTree, VenueDetailPanel, DishGrid, ApprovalButtons
+│   │   │   └── hooks/          # useReviewQueue, useApproval, useFeedback, useFlagVenue
+│   │   ├── scraping/           # Budget monitoring
+│   │   │   ├── components/     # BudgetStatus
+│   │   │   └── hooks/          # useBudget
+│   │   └── sync/               # Website sync
+│   │       ├── components/     # SyncPreview
+│   │       └── hooks/          # useSyncPreview, useSync
+│   ├── hooks/                  # Global hooks
+│   │   └── useStrategyStats.ts # Strategy learning stats
 │   ├── pages/                  # Page components
-│   │   ├── workflow/           # Workflow section pages
-│   │   └── browser/            # Browser section pages
+│   │   ├── ReviewQueuePage.tsx # Tab 1: Approve Queue
+│   │   ├── LiveWebsitePage.tsx # Tab 2: Live Website
+│   │   ├── StatsPage.tsx       # Tab 3: Stats
+│   │   └── LoginPage.tsx       # Authentication
 │   ├── shared/                 # Shared components
 │   │   ├── components/         # Layout, ErrorBoundary, LoadingState
-│   │   ├── hooks/              # Shared hooks
 │   │   └── ui/                 # UI components (Button, Card, Dialog)
-│   └── types/                  # Global types
+│   └── lib/                    # Core libraries
 └── package.json
 ```
 
-**Navigation Sections:**
-
-| Section | Pages | Description |
-|---------|-------|-------------|
-| **Workflow** | Dashboard, Scrape Control, Review Queue, Sync to Website | Main operational workflow |
-| **Browser** | Venue Browser, Live on Website | Data exploration |
-| **Operations** | Cost Monitor | System monitoring |
-
-**Pages (v2):**
-| Page | URL | Description |
-|------|-----|-------------|
-| Dashboard | `/` | Workflow overview with pipeline status |
-| Scrape Control | `/scrape-control` | Trigger and monitor scraping operations |
-| Review Queue | `/review-queue` | Review and approve discovered venues |
-| Sync to Website | `/sync` | Push approved data to production website |
-| Venue Browser | `/venues` | Browse all venue data |
-| Live on Website | `/live-venues` | View published venues |
-| Cost Monitor | `/costs` | Track API costs and budget |
-| Login | `/login` | Firebase authentication |
+**Keyboard Shortcuts (Approve Queue):**
+| Key | Action |
+|-----|--------|
+| `j` / Down | Navigate to next venue |
+| `k` / Up | Navigate to previous venue |
+| `a` | Approve venue |
+| `p` | Partial approve |
+| `r` | Reject venue |
+| `f` | Flag for priority |
+| `?` | Show keyboard help |
 
 **Port Configuration:**
-- v1 Dashboard: `http://localhost:5173` (or 5174)
-- v2 Dashboard: `http://localhost:5175`
+- Dashboard: `http://localhost:5173`
 
 ---
 
@@ -916,6 +884,10 @@ Firebase Cloud Functions use flat function names, not REST-style paths:
 | `/adminRejectVenue` | POST | Reject with reason (venueId in body) |
 | `/adminBulkApprove` | POST | Bulk approve (max 100) |
 | `/adminBulkReject` | POST | Bulk reject (max 100) |
+| `/adminFlagVenue` | POST | Flag venue for priority scraping |
+| `/adminClearVenueFlag` | POST | Clear flag from venue |
+| `/adminFlaggedVenues` | GET | Get flagged venues sorted by priority |
+| `/adminStrategyStats` | GET | Get strategy learning performance stats |
 
 #### GET /admin/review/queue
 Get review queue with hierarchical organization.
@@ -1233,3 +1205,156 @@ Key metrics to monitor:
 - Stale venue count (should decrease over time)
 - Free query quota remaining
 - Paid query costs
+
+---
+
+## Part 9: Testing Infrastructure
+
+### 9.1 Admin Dashboard v2 Testing
+
+The admin dashboard uses a comprehensive testing setup with Vitest, React Testing Library, and MSW for API mocking.
+
+**Test Framework Stack:**
+| Component | Technology | Version |
+|-----------|------------|---------|
+| Test Runner | Vitest | 2.x |
+| Component Testing | React Testing Library | 16.x |
+| DOM Environment | happy-dom | 15.x |
+| API Mocking | MSW (Mock Service Worker) | 2.x |
+| Coverage | @vitest/coverage-v8 | 2.x |
+
+**Test Directory Structure:**
+```
+packages/admin-dashboard-v2/
+├── vitest.config.ts              # Vitest configuration
+├── src/
+│   ├── test/                     # Test infrastructure
+│   │   ├── setup.ts              # Global test setup
+│   │   ├── test-utils.tsx        # Custom render with providers
+│   │   └── mocks/
+│   │       ├── server.ts         # MSW server
+│   │       ├── handlers/         # API mock handlers
+│   │       │   ├── review.ts     # Review API mocks
+│   │       │   ├── sync.ts       # Sync API mocks
+│   │       │   ├── scraping.ts   # Scraper/budget mocks
+│   │       │   └── auth.ts       # Auth mocks
+│   │       └── data/             # Mock data factories
+│   │           ├── venues.ts     # Mock venue data
+│   │           ├── sync.ts       # Mock sync data
+│   │           └── scraping.ts   # Mock budget/strategy data
+│   ├── features/
+│   │   └── */
+│   │       └── __tests__/        # Feature-specific tests
+│   ├── pages/
+│   │   └── __tests__/            # Page-level tests
+│   └── shared/
+│       └── __tests__/            # Shared component tests
+```
+
+### 9.2 Running Tests
+
+```bash
+# Navigate to admin dashboard
+cd packages/admin-dashboard-v2
+
+# Run all tests
+pnpm test
+
+# Run tests in watch mode
+pnpm test:watch
+
+# Run tests with coverage report
+pnpm test:coverage
+
+# Run tests with UI
+pnpm test:ui
+```
+
+### 9.3 Coverage Requirements
+
+| Metric | Target |
+|--------|--------|
+| Line Coverage | ≥95% |
+| Branch Coverage | ≥90% |
+| Function Coverage | ≥95% |
+| Statement Coverage | ≥95% |
+
+### 9.4 Test Patterns
+
+**Component Testing:**
+```typescript
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@/test/test-utils';
+import { Button } from '../Button';
+
+describe('Button', () => {
+  it('renders with text', () => {
+    render(<Button>Click me</Button>);
+    expect(screen.getByRole('button')).toHaveTextContent('Click me');
+  });
+
+  it('handles click events', async () => {
+    const onClick = vi.fn();
+    const { user } = render(<Button onClick={onClick}>Click</Button>);
+    await user.click(screen.getByRole('button'));
+    expect(onClick).toHaveBeenCalledOnce();
+  });
+});
+```
+
+**Hook Testing:**
+```typescript
+import { renderHook, waitFor } from '@testing-library/react';
+import { useReviewQueue } from '../useReviewQueue';
+
+describe('useReviewQueue', () => {
+  it('fetches review queue data', async () => {
+    const { result } = renderHook(() => useReviewQueue({}), {
+      wrapper: createWrapper(),
+    });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(result.current.data.items).toBeDefined();
+  });
+});
+```
+
+**API Mock with MSW:**
+```typescript
+import { http, HttpResponse } from 'msw';
+import { server } from '@/test/mocks/server';
+
+it('handles API errors', async () => {
+  server.use(
+    http.get('*/adminReviewQueue', () => {
+      return HttpResponse.json({ error: 'Server error' }, { status: 500 });
+    })
+  );
+  // Test error handling...
+});
+```
+
+### 9.5 CI/CD Integration
+
+Tests run automatically via GitHub Actions on:
+- Push to `main` branch (paths: `planted-availability-db/packages/admin-dashboard-v2/**`)
+- Pull requests to `main` branch
+
+**Workflow file:** `.github/workflows/test-admin-dashboard.yml`
+
+Pipeline steps:
+1. Install dependencies
+2. Type check (`pnpm typecheck`)
+3. Lint (`pnpm lint`)
+4. Run tests with coverage (`pnpm test:coverage`)
+5. Upload coverage to Codecov
+
+### 9.6 Writing New Tests
+
+1. **Create test file** in `__tests__/` directory adjacent to the source file
+2. **Import test utilities** from `@/test/test-utils`
+3. **Use mock data** from `@/test/mocks/data/`
+4. **Test all variants** - loading, error, success states
+5. **Test interactions** - clicks, keyboard events, form submissions
+6. **Test accessibility** - ARIA attributes, roles, labels
+
+See `packages/admin-dashboard-v2/docs/TESTING.md` for detailed guidelines.

@@ -168,6 +168,11 @@ interface ReviewVenue {
     url: string;
     active: boolean;
   }[];
+  // Flag fields for scraper priority
+  flagType?: 'dish_extraction' | 're_verification' | null;
+  flagPriority?: 'urgent' | 'high' | 'normal';
+  flagReason?: string;
+  flaggedAt?: Date;
 }
 
 interface ReviewDish {
@@ -385,6 +390,11 @@ export const adminReviewQueueHandler = createAdminHandler(
           url: dp.url,
           active: dp.active ?? true,
         })) || [],
+        // Include flag data
+        flagType: venue.flag_type,
+        flagPriority: venue.flag_priority,
+        flagReason: venue.flag_reason,
+        flaggedAt: venue.flagged_at,
       };
 
       return reviewVenue;
@@ -569,6 +579,11 @@ async function calculateStats(
   const withoutChain = filteredVenues.filter(v => !v.chain_id).length;
   const markedAsChain = filteredVenues.filter(v => v.is_chain && !v.chain_id).length; // Marked as chain but not assigned
 
+  // Count flagged venues
+  const flaggedForDishExtraction = filteredVenues.filter(v => v.flag_type === 'dish_extraction').length;
+  const flaggedForReVerification = filteredVenues.filter(v => v.flag_type === 're_verification').length;
+  const totalFlagged = flaggedForDishExtraction + flaggedForReVerification;
+
   return {
     pending: byStatus.pending,
     verified: byStatus.verified,
@@ -581,6 +596,11 @@ async function calculateStats(
       assigned: withChain,
       unassigned: withoutChain,
       needsAssignment: markedAsChain, // These are likely chain venues without chain_id
+    },
+    flagged: {
+      total: totalFlagged,
+      dish_extraction: flaggedForDishExtraction,
+      re_verification: flaggedForReVerification,
     },
     total: filteredVenues.length,
   };

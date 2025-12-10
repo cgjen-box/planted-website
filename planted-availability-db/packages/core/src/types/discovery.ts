@@ -14,24 +14,90 @@ export type DeliveryPlatform =
   | 'just-eat'
   | 'lieferando'
   | 'wolt'
-  | 'smood';
+  | 'smood'
+  | 'deliveroo'
+  | 'glovo';
 
-export type SupportedCountry = 'CH' | 'DE' | 'AT';
+export type SupportedCountry = 'CH' | 'DE' | 'AT' | 'NL' | 'UK' | 'FR' | 'ES' | 'IT' | 'BE' | 'PL';
 
 export const PLATFORM_COUNTRIES: Record<DeliveryPlatform, SupportedCountry[]> = {
-  'uber-eats': ['CH', 'DE', 'AT'],
-  'just-eat': ['CH'],
-  'lieferando': ['DE', 'AT'],
-  'wolt': ['DE', 'AT'],
+  'uber-eats': ['CH', 'DE', 'AT', 'NL', 'UK', 'FR', 'ES', 'IT', 'BE', 'PL'],
+  'just-eat': ['CH', 'NL', 'UK', 'FR', 'ES', 'IT', 'BE', 'PL'],
+  'lieferando': ['DE', 'AT', 'NL', 'BE', 'PL'],
+  'wolt': ['DE', 'AT', 'PL'],
   'smood': ['CH'],
+  'deliveroo': ['UK', 'FR', 'ES', 'IT', 'BE', 'NL'],
+  'glovo': ['ES', 'IT', 'PL'],
 };
 
 export const PLATFORM_URLS: Record<DeliveryPlatform, string> = {
   'uber-eats': 'ubereats.com',
-  'just-eat': 'just-eat.ch',
-  'lieferando': 'lieferando.de',
+  'just-eat': 'just-eat.ch', // Base URL, varies by country
+  'lieferando': 'lieferando.de', // Also lieferando.at, thuisbezorgd.nl
   'wolt': 'wolt.com',
   'smood': 'smood.ch',
+  'deliveroo': 'deliveroo.co.uk', // Also deliveroo.fr, deliveroo.es, deliveroo.it
+  'glovo': 'glovoapp.com',
+};
+
+// Country-specific platform URLs for accurate scraping
+export const PLATFORM_URLS_BY_COUNTRY: Record<SupportedCountry, Partial<Record<DeliveryPlatform, string>>> = {
+  CH: {
+    'uber-eats': 'ubereats.com/ch',
+    'just-eat': 'just-eat.ch',
+    'smood': 'smood.ch',
+  },
+  DE: {
+    'uber-eats': 'ubereats.com/de',
+    'lieferando': 'lieferando.de',
+    'wolt': 'wolt.com/de',
+  },
+  AT: {
+    'uber-eats': 'ubereats.com/at',
+    'lieferando': 'lieferando.at',
+    'wolt': 'wolt.com/at',
+  },
+  NL: {
+    'uber-eats': 'ubereats.com/nl',
+    'just-eat': 'thuisbezorgd.nl',
+    'lieferando': 'thuisbezorgd.nl',
+    'deliveroo': 'deliveroo.nl',
+  },
+  UK: {
+    'uber-eats': 'ubereats.com/gb',
+    'just-eat': 'just-eat.co.uk',
+    'deliveroo': 'deliveroo.co.uk',
+  },
+  FR: {
+    'uber-eats': 'ubereats.com/fr',
+    'just-eat': 'just-eat.fr',
+    'deliveroo': 'deliveroo.fr',
+  },
+  ES: {
+    'uber-eats': 'ubereats.com/es',
+    'just-eat': 'just-eat.es',
+    'deliveroo': 'deliveroo.es',
+    'glovo': 'glovoapp.com/es',
+  },
+  IT: {
+    'uber-eats': 'ubereats.com/it',
+    'just-eat': 'justeat.it',
+    'deliveroo': 'deliveroo.it',
+    'glovo': 'glovoapp.com/it',
+  },
+  BE: {
+    'uber-eats': 'ubereats.com/be',
+    'just-eat': 'takeaway.com/be',
+    'lieferando': 'takeaway.com/be',
+    'deliveroo': 'deliveroo.be',
+  },
+  PL: {
+    'uber-eats': 'ubereats.com/pl',
+    'just-eat': 'pyszne.pl',
+    'lieferando': 'pyszne.pl',
+    'wolt': 'wolt.com/pl',
+    'glovo': 'glovoapp.com/pl',
+  },
 };
 
 // =============================================================================
@@ -162,6 +228,9 @@ export type DiscoveredVenueStatus =
   | 'promoted'      // Moved to production venues collection
   | 'stale';        // Needs re-verification
 
+export type VenueFlagType = 'dish_extraction' | 're_verification';
+export type VenueFlagPriority = 'urgent' | 'high' | 'normal';
+
 // Aligned with production Address type (venue.ts)
 // Only difference: street/postal_code optional during discovery
 export interface DiscoveredVenueAddress {
@@ -240,6 +309,13 @@ export interface DiscoveredVenue {
   status: DiscoveredVenueStatus;
   rejection_reason?: string;
   production_venue_id?: string; // If promoted
+
+  // Flagging for scraper priority
+  flag_type?: VenueFlagType | null;
+  flag_priority?: VenueFlagPriority;
+  flag_reason?: string;
+  flagged_at?: Date;
+  flagged_by?: string;
 
   // Timestamps
   created_at: Date;
@@ -413,11 +489,13 @@ export const DEFAULT_DISCOVERY_CONFIG: DiscoveryConfig = {
     auto_deprecate_below: 0.1,
   },
   platforms: {
-    'uber-eats': { enabled: true, countries: ['CH', 'DE', 'AT'] },
-    'just-eat': { enabled: true, countries: ['CH'] },
-    'lieferando': { enabled: true, countries: ['DE', 'AT'] },
-    'wolt': { enabled: true, countries: ['DE', 'AT'] },
+    'uber-eats': { enabled: true, countries: ['CH', 'DE', 'AT', 'NL', 'UK', 'FR', 'ES', 'IT', 'BE', 'PL'] },
+    'just-eat': { enabled: true, countries: ['CH', 'NL', 'UK', 'FR', 'ES', 'IT', 'BE', 'PL'] },
+    'lieferando': { enabled: true, countries: ['DE', 'AT', 'NL', 'BE', 'PL'] },
+    'wolt': { enabled: true, countries: ['DE', 'AT', 'PL'] },
     'smood': { enabled: true, countries: ['CH'] },
+    'deliveroo': { enabled: true, countries: ['UK', 'FR', 'ES', 'IT', 'BE', 'NL'] },
+    'glovo': { enabled: true, countries: ['ES', 'IT', 'PL'] },
   },
 };
 
@@ -643,6 +721,340 @@ export const SEED_STRATEGIES: Omit<DiscoveryStrategy, 'id' | 'created_at'>[] = [
     tags: ['chain-discovery'],
     origin: 'seed',
   },
+
+  // =========================================================================
+  // NEW PLATFORMS AND COUNTRIES
+  // =========================================================================
+
+  // Netherlands - Thuisbezorgd (Just Eat brand)
+  {
+    platform: 'just-eat',
+    country: 'NL',
+    query_template: 'site:thuisbezorgd.nl planted chicken {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
+  {
+    platform: 'just-eat',
+    country: 'NL',
+    query_template: 'site:thuisbezorgd.nl "planted" {city}',
+    success_rate: 75,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'high-precision'],
+    origin: 'seed',
+  },
+
+  // Netherlands - Uber Eats
+  {
+    platform: 'uber-eats',
+    country: 'NL',
+    query_template: 'site:ubereats.com/nl planted chicken {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
+
+  // Netherlands - Deliveroo
+  {
+    platform: 'deliveroo',
+    country: 'NL',
+    query_template: 'site:deliveroo.nl planted {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
+
+  // UK - Deliveroo
+  {
+    platform: 'deliveroo',
+    country: 'UK',
+    query_template: 'site:deliveroo.co.uk planted chicken {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
+  {
+    platform: 'deliveroo',
+    country: 'UK',
+    query_template: 'site:deliveroo.co.uk "planted" vegan {city}',
+    success_rate: 75,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'high-precision'],
+    origin: 'seed',
+  },
+
+  // UK - Just Eat
+  {
+    platform: 'just-eat',
+    country: 'UK',
+    query_template: 'site:just-eat.co.uk planted chicken {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
+
+  // UK - Uber Eats
+  {
+    platform: 'uber-eats',
+    country: 'UK',
+    query_template: 'site:ubereats.com/gb planted chicken {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
+
+  // France - Deliveroo
+  {
+    platform: 'deliveroo',
+    country: 'FR',
+    query_template: 'site:deliveroo.fr planted chicken {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
+  {
+    platform: 'deliveroo',
+    country: 'FR',
+    query_template: 'site:deliveroo.fr "planted" vegan {city}',
+    success_rate: 75,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'high-precision'],
+    origin: 'seed',
+  },
+
+  // France - Uber Eats
+  {
+    platform: 'uber-eats',
+    country: 'FR',
+    query_template: 'site:ubereats.com/fr planted poulet {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
+
+  // Spain - Glovo
+  {
+    platform: 'glovo',
+    country: 'ES',
+    query_template: 'site:glovoapp.com/es planted chicken {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
+  {
+    platform: 'glovo',
+    country: 'ES',
+    query_template: 'site:glovoapp.com/es "planted" vegano {city}',
+    success_rate: 75,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'high-precision'],
+    origin: 'seed',
+  },
+
+  // Spain - Deliveroo
+  {
+    platform: 'deliveroo',
+    country: 'ES',
+    query_template: 'site:deliveroo.es planted chicken {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
+
+  // Spain - Uber Eats
+  {
+    platform: 'uber-eats',
+    country: 'ES',
+    query_template: 'site:ubereats.com/es planted pollo {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
+
+  // Italy - Glovo
+  {
+    platform: 'glovo',
+    country: 'IT',
+    query_template: 'site:glovoapp.com/it planted chicken {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
+
+  // Italy - Deliveroo
+  {
+    platform: 'deliveroo',
+    country: 'IT',
+    query_template: 'site:deliveroo.it planted chicken {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
+
+  // Italy - Just Eat
+  {
+    platform: 'just-eat',
+    country: 'IT',
+    query_template: 'site:justeat.it planted pollo {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
+
+  // Italy - Uber Eats
+  {
+    platform: 'uber-eats',
+    country: 'IT',
+    query_template: 'site:ubereats.com/it planted chicken {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
+
+  // Belgium - Deliveroo
+  {
+    platform: 'deliveroo',
+    country: 'BE',
+    query_template: 'site:deliveroo.be planted chicken {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
+
+  // Belgium - Uber Eats
+  {
+    platform: 'uber-eats',
+    country: 'BE',
+    query_template: 'site:ubereats.com/be planted chicken {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
+
+  // Belgium - Takeaway (Lieferando brand)
+  {
+    platform: 'lieferando',
+    country: 'BE',
+    query_template: 'site:takeaway.com/be planted chicken {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
+
+  // Poland - Glovo
+  {
+    platform: 'glovo',
+    country: 'PL',
+    query_template: 'site:glovoapp.com/pl planted chicken {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
+
+  // Poland - Wolt
+  {
+    platform: 'wolt',
+    country: 'PL',
+    query_template: 'site:wolt.com/pl planted chicken {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
+
+  // Poland - Pyszne (Just Eat brand)
+  {
+    platform: 'just-eat',
+    country: 'PL',
+    query_template: 'site:pyszne.pl planted chicken {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
+
+  // Poland - Uber Eats
+  {
+    platform: 'uber-eats',
+    country: 'PL',
+    query_template: 'site:ubereats.com/pl planted chicken {city}',
+    success_rate: 70,
+    total_uses: 0,
+    successful_discoveries: 0,
+    false_positives: 0,
+    tags: ['city-specific', 'product-specific'],
+    origin: 'seed',
+  },
 ];
 
 // =============================================================================
@@ -651,26 +1063,146 @@ export const SEED_STRATEGIES: Omit<DiscoveryStrategy, 'id' | 'created_at'>[] = [
 
 export const CITIES_BY_COUNTRY: Record<SupportedCountry, string[]> = {
   CH: [
+    // Major cities
     'Zürich', 'Basel', 'Bern', 'Genf', 'Lausanne', 'Luzern',
     'St. Gallen', 'Winterthur', 'Lugano', 'Biel', 'Thun', 'Fribourg',
+    // Additional cities
+    'Chur', 'Schaffhausen', 'Neuchâtel', 'Sion', 'Zug', 'Uster',
+    'Köniz', 'Rapperswil', 'Yverdon', 'Montreux', 'Aarau', 'Baden',
+    'Wettingen', 'Dietikon', 'Olten', 'Solothurn', 'Bellinzona', 'Locarno',
   ],
   DE: [
-    // Major cities
-    'Berlin', 'München', 'Hamburg', 'Frankfurt', 'Köln', 'Stuttgart',
-    'Düsseldorf', 'Leipzig', 'Nürnberg', 'Dresden', 'Hannover', 'Bremen',
-    // Mid-sized cities
-    'Essen', 'Dortmund', 'Duisburg', 'Bochum', 'Wuppertal', 'Bielefeld',
-    'Bonn', 'Münster', 'Mannheim', 'Karlsruhe', 'Augsburg', 'Wiesbaden',
-    'Gelsenkirchen', 'Mönchengladbach', 'Braunschweig', 'Kiel', 'Chemnitz',
-    'Aachen', 'Halle', 'Magdeburg', 'Freiburg', 'Krefeld', 'Mainz',
-    // Smaller cities
-    'Lübeck', 'Erfurt', 'Rostock', 'Kassel', 'Hagen', 'Saarbrücken',
-    'Hamm', 'Potsdam', 'Ludwigshafen', 'Oldenburg', 'Osnabrück', 'Leverkusen',
-    'Heidelberg', 'Darmstadt', 'Solingen', 'Regensburg', 'Paderborn', 'Ingolstadt',
-    'Würzburg', 'Ulm', 'Wolfsburg', 'Göttingen', 'Offenbach', 'Reutlingen',
-    'Koblenz', 'Bremerhaven', 'Trier', 'Jena', 'Erlangen', 'Konstanz',
+    // === TIER 1: Major cities (pop > 500k) ===
+    'Berlin', 'Hamburg', 'München', 'Köln', 'Frankfurt am Main', 'Stuttgart',
+    'Düsseldorf', 'Leipzig', 'Dortmund', 'Essen', 'Bremen', 'Dresden',
+    'Hannover', 'Nürnberg', 'Duisburg',
+    // === TIER 2: Large cities (pop 200k-500k) ===
+    'Bochum', 'Wuppertal', 'Bielefeld', 'Bonn', 'Münster', 'Mannheim',
+    'Karlsruhe', 'Augsburg', 'Wiesbaden', 'Mönchengladbach', 'Gelsenkirchen',
+    'Aachen', 'Braunschweig', 'Kiel', 'Chemnitz', 'Halle', 'Magdeburg',
+    'Freiburg im Breisgau', 'Krefeld', 'Mainz', 'Lübeck', 'Erfurt', 'Rostock',
+    'Kassel', 'Hagen', 'Saarbrücken', 'Hamm', 'Potsdam', 'Ludwigshafen',
+    'Oldenburg', 'Osnabrück', 'Leverkusen', 'Heidelberg', 'Darmstadt',
+    'Solingen', 'Regensburg', 'Herne', 'Paderborn', 'Neuss',
+    // === TIER 3: Medium cities (pop 100k-200k) ===
+    'Ingolstadt', 'Würzburg', 'Ulm', 'Wolfsburg', 'Göttingen', 'Offenbach',
+    'Reutlingen', 'Koblenz', 'Bremerhaven', 'Trier', 'Jena', 'Erlangen',
+    'Remscheid', 'Moers', 'Siegen', 'Hildesheim', 'Salzgitter', 'Cottbus',
+    'Kaiserslautern', 'Gütersloh', 'Schwerin', 'Witten', 'Gera', 'Iserlohn',
+    'Zwickau', 'Düren', 'Ratingen', 'Esslingen', 'Hanau', 'Ludwigsburg',
+    'Flensburg', 'Marl', 'Lünen', 'Wilhelmshaven', 'Velbert', 'Minden',
+    'Konstanz', 'Neumünster', 'Norderstedt', 'Detmold', 'Viersen', 'Dorsten',
+    'Marburg', 'Arnsberg', 'Lüdenscheid', 'Gladbeck', 'Troisdorf', 'Kerpen',
+    'Castrop-Rauxel', 'Rheine', 'Recklinghausen', 'Bergisch Gladbach', 'Bottrop',
+    // === TIER 4: Smaller cities with delivery coverage (pop 50k-100k) ===
+    'Gießen', 'Fulda', 'Weimar', 'Langen', 'Friedrichshafen', 'Stralsund',
+    'Greifswald', 'Brandenburg', 'Bayreuth', 'Celle', 'Aschaffenburg',
+    'Bamberg', 'Landshut', 'Passau', 'Rosenheim', 'Kempten', 'Neu-Ulm',
+    'Schweinfurt', 'Ravensburg', 'Sindelfingen', 'Böblingen', 'Pforzheim',
+    'Villingen-Schwenningen', 'Offenburg', 'Tübingen', 'Heidenheim', 'Rastatt',
+    'Lörrach', 'Baden-Baden', 'Göppingen', 'Waiblingen', 'Schwäbisch Gmünd',
+    'Heilbronn', 'Neckarsulm', 'Bietigheim-Bissingen', 'Leonberg', 'Weinheim',
+    'Speyer', 'Frankenthal', 'Neustadt an der Weinstraße', 'Landau', 'Pirmasens',
+    'Idar-Oberstein', 'Bad Kreuznach', 'Neuwied', 'Andernach', 'Bad Homburg',
+    'Oberursel', 'Friedberg', 'Bad Vilbel', 'Wetzlar', 'Limburg', 'Bensheim',
+    'Viernheim', 'Rüsselsheim', 'Dreieich', 'Rodgau', 'Dietzenbach', 'Heusenstamm',
   ],
   AT: [
-    'Wien', 'Graz', 'Salzburg', 'Linz', 'Innsbruck', 'Klagenfurt',
+    // Major cities
+    'Wien', 'Graz', 'Linz', 'Salzburg', 'Innsbruck', 'Klagenfurt',
+    // Additional cities
+    'Villach', 'Wels', 'St. Pölten', 'Dornbirn', 'Wiener Neustadt', 'Steyr',
+    'Feldkirch', 'Bregenz', 'Leonding', 'Klosterneuburg', 'Baden', 'Wolfsberg',
+    'Leoben', 'Krems', 'Traun', 'Amstetten', 'Lustenau', 'Kapfenberg',
+  ],
+  NL: [
+    // Randstad region
+    'Amsterdam', 'Rotterdam', 'Den Haag', 'Utrecht',
+    // Major cities
+    'Eindhoven', 'Groningen', 'Tilburg', 'Almere', 'Breda', 'Nijmegen',
+    // Medium cities
+    'Apeldoorn', 'Haarlem', 'Arnhem', 'Enschede', 'Amersfoort', 'Zaanstad',
+    'Haarlemmermeer', 's-Hertogenbosch', 'Zoetermeer', 'Zwolle', 'Maastricht',
+    'Leiden', 'Dordrecht', 'Ede', 'Delft', 'Deventer', 'Alkmaar', 'Helmond',
+    'Hilversum', 'Leeuwarden', 'Venlo', 'Heerlen', 'Roosendaal', 'Oss',
+  ],
+  UK: [
+    // Major cities
+    'London', 'Birmingham', 'Manchester', 'Leeds', 'Glasgow', 'Liverpool',
+    'Newcastle', 'Sheffield', 'Bristol', 'Edinburgh', 'Leicester', 'Nottingham',
+    // Large cities
+    'Cardiff', 'Belfast', 'Southampton', 'Brighton', 'Plymouth', 'Reading',
+    'Wolverhampton', 'Derby', 'Swansea', 'Coventry', 'Hull', 'Bradford',
+    // Medium cities
+    'Stoke-on-Trent', 'Preston', 'Sunderland', 'Luton', 'Oxford', 'Cambridge',
+    'Milton Keynes', 'Middlesbrough', 'Bolton', 'Blackpool', 'Bournemouth',
+    'Slough', 'Peterborough', 'Ipswich', 'Colchester', 'Huddersfield', 'York',
+    'Warrington', 'Dundee', 'Aberdeen', 'Blackburn', 'Stockport', 'Newport',
+    'Gloucester', 'Exeter', 'Norwich', 'Portsmouth', 'Worcester', 'Bath',
+    'Chester', 'Northampton', 'Cheltenham', 'Eastbourne', 'Worthing', 'Crawley',
+  ],
+  FR: [
+    // Major cities
+    'Paris', 'Marseille', 'Lyon', 'Toulouse', 'Nice', 'Nantes',
+    'Strasbourg', 'Montpellier', 'Bordeaux', 'Lille', 'Rennes', 'Reims',
+    // Large cities
+    'Le Havre', 'Saint-Étienne', 'Toulon', 'Grenoble', 'Dijon', 'Angers',
+    'Nîmes', 'Villeurbanne', 'Le Mans', 'Aix-en-Provence', 'Clermont-Ferrand',
+    'Brest', 'Tours', 'Amiens', 'Limoges', 'Annecy', 'Perpignan',
+    // Medium cities
+    'Besançon', 'Metz', 'Orléans', 'Rouen', 'Mulhouse', 'Caen', 'Nancy',
+    'Saint-Denis', 'Argenteuil', 'Montreuil', 'Roubaix', 'Tourcoing', 'Avignon',
+    'Dunkerque', 'Poitiers', 'Versailles', 'Courbevoie', 'Créteil', 'Pau',
+    'La Rochelle', 'Calais', 'Antibes', 'Cannes', 'Saint-Nazaire', 'Colmar',
+  ],
+  ES: [
+    // Major cities
+    'Madrid', 'Barcelona', 'Valencia', 'Sevilla', 'Zaragoza', 'Málaga',
+    'Murcia', 'Palma de Mallorca', 'Las Palmas', 'Bilbao',
+    // Large cities
+    'Alicante', 'Córdoba', 'Valladolid', 'Vigo', 'Gijón', 'Hospitalet',
+    'A Coruña', 'Granada', 'Vitoria-Gasteiz', 'Elche', 'Oviedo', 'Badalona',
+    // Medium cities
+    'Santa Cruz de Tenerife', 'Cartagena', 'Terrassa', 'Jerez de la Frontera',
+    'Sabadell', 'Móstoles', 'Alcalá de Henares', 'Pamplona', 'Fuenlabrada',
+    'Almería', 'Leganés', 'San Sebastián', 'Santander', 'Burgos', 'Castellón',
+    'Getafe', 'Albacete', 'Alcorcón', 'Logroño', 'San Cristóbal de La Laguna',
+    'Badajoz', 'Salamanca', 'Huelva', 'Lleida', 'Marbella', 'Tarragona',
+    'León', 'Cádiz', 'Dos Hermanas', 'Torrejón de Ardoz', 'Parla', 'Mataró',
+  ],
+  IT: [
+    // Major cities
+    'Roma', 'Milano', 'Napoli', 'Torino', 'Palermo', 'Genova',
+    'Bologna', 'Firenze', 'Bari', 'Catania', 'Venezia', 'Verona',
+    // Large cities
+    'Messina', 'Padova', 'Trieste', 'Brescia', 'Parma', 'Taranto',
+    'Prato', 'Modena', 'Reggio Calabria', 'Reggio Emilia', 'Perugia',
+    // Medium cities
+    'Ravenna', 'Livorno', 'Cagliari', 'Foggia', 'Rimini', 'Salerno',
+    'Ferrara', 'Sassari', 'Latina', 'Giugliano', 'Monza', 'Siracusa',
+    'Pescara', 'Bergamo', 'Forlì', 'Trento', 'Vicenza', 'Terni', 'Bolzano',
+    'Novara', 'Piacenza', 'Ancona', 'Andria', 'Arezzo', 'Udine', 'Cesena',
+    'Lecce', 'Pesaro', 'Barletta', 'Alessandria', 'La Spezia', 'Catanzaro',
+  ],
+  BE: [
+    // Major cities
+    'Bruxelles', 'Antwerpen', 'Gent', 'Charleroi', 'Liège', 'Brugge',
+    // Medium cities
+    'Namur', 'Leuven', 'Mons', 'Aalst', 'Mechelen', 'La Louvière',
+    'Kortrijk', 'Hasselt', 'Sint-Niklaas', 'Ostende', 'Tournai', 'Genk',
+    'Seraing', 'Roeselare', 'Verviers', 'Mouscron', 'Dendermonde', 'Beringen',
+  ],
+  PL: [
+    // Major cities
+    'Warszawa', 'Kraków', 'Łódź', 'Wrocław', 'Poznań', 'Gdańsk',
+    'Szczecin', 'Bydgoszcz', 'Lublin', 'Białystok', 'Katowice',
+    // Large cities
+    'Gdynia', 'Częstochowa', 'Radom', 'Sosnowiec', 'Toruń', 'Kielce',
+    'Rzeszów', 'Gliwice', 'Zabrze', 'Olsztyn', 'Bielsko-Biała', 'Bytom',
+    // Medium cities
+    'Zielona Góra', 'Rybnik', 'Ruda Śląska', 'Opole', 'Tychy', 'Gorzów',
+    'Dąbrowa Górnicza', 'Płock', 'Elbląg', 'Wałbrzych', 'Włocławek', 'Tarnów',
+    'Chorzów', 'Koszalin', 'Kalisz', 'Legnica', 'Grudziądz', 'Jaworzno',
+    'Słupsk', 'Jastrzębie-Zdrój', 'Nowy Sącz', 'Jelenia Góra', 'Siedlce',
   ],
 };

@@ -40,6 +40,10 @@ export {
   adminRejectVenueHandler as adminRejectVenue,
   adminBulkApproveHandler as adminBulkApprove,
   adminBulkRejectHandler as adminBulkReject,
+  // Flag endpoints
+  adminFlagVenueHandler as adminFlagVenue,
+  adminClearVenueFlagHandler as adminClearVenueFlag,
+  adminFlaggedVenuesHandler as adminFlaggedVenues,
   // Feedback endpoints
   adminFeedbackSubmitHandler as adminFeedbackSubmit,
   adminFeedbackProcessHandler as adminFeedbackProcess,
@@ -57,6 +61,7 @@ export {
   adminAnalyticsKpisHandler as adminAnalyticsKpis,
   adminAnalyticsCostsHandler as adminAnalyticsCosts,
   adminAnalyticsRejectionsHandler as adminAnalyticsRejections,
+  adminStrategyStatsHandler as adminStrategyStats,
   // Budget endpoints
   adminBudgetStatusHandler as adminBudgetStatus,
 } from './functions/admin/index.js';
