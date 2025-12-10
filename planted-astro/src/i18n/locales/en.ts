@@ -30,11 +30,11 @@ export default {
         },
         ticker: {
             testimonials: [
-                { quote: 'I didn\'t tell my dad. He didn\'t notice the difference.', attribution: 'Marc, 34, Grill Master' },
-                { quote: 'Okay, I admit it. It tastes good.', attribution: 'Meat eater since 1978' },
-                { quote: 'My butcher is mad at me now.', attribution: 'Anonymous' },
-                { quote: 'I bet it wouldn\'t taste good. I lost.', attribution: 'Thomas, reluctantly convinced' },
-                { quote: 'If this is plant-based, then I\'m a vegetarian.', attribution: 'Stefan, not quite there yet' },
+                { text: 'I didn\'t tell my dad. He couldn\'t tell the difference.', author: 'Marc, 34, Grill Master' },
+                { text: 'Okay, I\'ll admit it. It\'s good.', author: 'Meat eater since 1978' },
+                { text: 'My butcher is mad at me now.', author: 'Anonymous' },
+                { text: 'Bet it wouldn\'t taste good. Lost that bet.', author: 'Thomas, reluctantly convinced' },
+                { text: 'If this is plant-based, then call me vegetarian.', author: 'Stefan, not quite there yet' },
             ],
         },
         sticker: {

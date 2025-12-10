@@ -30,11 +30,11 @@ export default {
         },
         ticker: {
             testimonials: [
-                { quote: 'Ich hab\'s meinem Vater nicht gesagt. Er hat den Unterschied nicht gemerkt.', attribution: 'Marc, 34, Grillmeister' },
-                { quote: 'Okay, ich geb\'s zu. Es schmeckt.', attribution: 'Fleischesser seit 1978' },
-                { quote: 'Mein Metzger ist jetzt sauer auf mich.', attribution: 'Anonymous' },
-                { quote: 'Hab gewettet, es schmeckt nicht. Hab verloren.', attribution: 'Thomas, widerwillig überzeugt' },
-                { quote: 'Wenn das pflanzlich ist, dann bin ich Vegetarier.', attribution: 'Stefan, noch nicht ganz' },
+                { text: 'Ich hab\'s meinem Vater nicht gesagt. Er hat den Unterschied nicht gemerkt.', author: 'Marc, 34, Grillmeister' },
+                { text: 'Okay, ich geb\'s zu. Es schmeckt.', author: 'Fleischesser seit 1978' },
+                { text: 'Mein Metzger ist jetzt sauer auf mich.', author: 'Anonymous' },
+                { text: 'Hab gewettet, es schmeckt nicht. Hab verloren.', author: 'Thomas, widerwillig überzeugt' },
+                { text: 'Wenn das pflanzlich ist, dann bin ich Vegetarier.', author: 'Stefan, noch nicht ganz' },
             ],
         },
         sticker: {

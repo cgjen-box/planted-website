@@ -30,11 +30,11 @@ export default {
         },
         ticker: {
             testimonials: [
-                { quote: 'Je ne l\'ai pas dit à mon père. Il n\'a pas remarqué la différence.', attribution: 'Marc, 34 ans, maître du grill' },
-                { quote: 'OK, je l\'admets. C\'est bon.', attribution: 'Carnivore depuis 1978' },
-                { quote: 'Mon boucher m\'en veut maintenant.', attribution: 'Anonyme' },
-                { quote: 'J\'ai parié que ce ne serait pas bon. J\'ai perdu.', attribution: 'Thomas, convaincu à contrecœur' },
-                { quote: 'Si c\'est végétal, alors je suis végétarien.', attribution: 'Stefan, pas encore tout à fait' },
+                { text: 'Je ne l\'ai pas dit à mon père. Il n\'a pas vu la différence.', author: 'Marc, 34 ans, Maître du barbecue' },
+                { text: 'OK, j\'avoue. C\'est bon.', author: 'Carnivore depuis 1978' },
+                { text: 'Mon boucher m\'en veut maintenant.', author: 'Anonyme' },
+                { text: 'J\'avais parié que ce serait pas bon. J\'ai perdu.', author: 'Thomas, convaincu malgré lui' },
+                { text: 'Si c\'est végétal, alors je suis végétarien.', author: 'Stefan, pas encore tout à fait' },
             ],
         },
         sticker: {

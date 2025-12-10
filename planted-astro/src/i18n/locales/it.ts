@@ -30,11 +30,11 @@ export default {
         },
         ticker: {
             testimonials: [
-                { quote: 'Non l\'ho detto a mio padre. Non ha notato la differenza.', attribution: 'Marc, 34 anni, maestro della griglia' },
-                { quote: 'OK, lo ammetto. È buono.', attribution: 'Carnivoro dal 1978' },
-                { quote: 'Il mio macellaio è arrabbiato con me ora.', attribution: 'Anonimo' },
-                { quote: 'Ho scommesso che non sarebbe stato buono. Ho perso.', attribution: 'Thomas, convinto controvoglia' },
-                { quote: 'Se questo è vegetale, allora sono vegetariano.', attribution: 'Stefan, non ancora del tutto' },
+                { text: 'Non l\'ho detto a mio padre. Non ha notato la differenza.', author: 'Marco, 34 anni, Re della griglia' },
+                { text: 'Ok, lo ammetto. È buono.', author: 'Carnivoro dal 1978' },
+                { text: 'Il mio macellaio adesso è arrabbiato con me.', author: 'Anonimo' },
+                { text: 'Avevo scommesso che non fosse buono. Ho perso.', author: 'Tommaso, convinto a malincuore' },
+                { text: 'Se questo è vegetale, allora sono vegetariano.', author: 'Stefano, non ancora del tutto' },
             ],
         },
         sticker: {

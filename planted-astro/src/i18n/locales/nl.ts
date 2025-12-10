@@ -30,11 +30,11 @@ export default {
         },
         ticker: {
             testimonials: [
-                { quote: 'Ik heb het mijn vader niet verteld. Hij merkte het verschil niet.', attribution: 'Marc, 34, grillmeester' },
-                { quote: 'Oké, ik geef het toe. Het is lekker.', attribution: 'Vleeseter sinds 1978' },
-                { quote: 'Mijn slager is nu boos op me.', attribution: 'Anoniem' },
-                { quote: 'Ik wed dat het niet lekker zou zijn. Ik heb verloren.', attribution: 'Thomas, met tegenzin overtuigd' },
-                { quote: 'Als dit plantaardig is, dan ben ik vegetariër.', attribution: 'Stefan, nog niet helemaal' },
+                { text: 'Ik heb het mijn vader niet verteld. Hij merkte het verschil niet.', author: 'Marc, 34, BBQ-koning' },
+                { text: 'Oké, ik geef het toe. Het is lekker.', author: 'Vleeseter sinds 1978' },
+                { text: 'Mijn slager is nu boos op mij.', author: 'Anoniem' },
+                { text: 'Ik wedde dat het niet lekker zou zijn. Ik verloor.', author: 'Thomas, met tegenzin overtuigd' },
+                { text: 'Als dit plantaardig is, dan ben ik vegetariër.', author: 'Stefan, nog niet helemaal' },
             ],
         },
         sticker: {

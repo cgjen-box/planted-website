@@ -30,11 +30,11 @@ export default {
         },
         ticker: {
             testimonials: [
-                { quote: 'No se lo dije a mi padre. No notó la diferencia.', attribution: 'Marc, 34 años, maestro de la parrilla' },
-                { quote: 'Vale, lo admito. Está bueno.', attribution: 'Carnívoro desde 1978' },
-                { quote: 'Mi carnicero está enfadado conmigo ahora.', attribution: 'Anónimo' },
-                { quote: 'Aposté que no estaría bueno. Perdí.', attribution: 'Thomas, convencido a regañadientes' },
-                { quote: 'Si esto es vegetal, entonces soy vegetariano.', attribution: 'Stefan, aún no del todo' },
+                { text: 'No se lo dije a mi padre. No notó la diferencia.', author: 'Marc, 34 años, Maestro de la parrilla' },
+                { text: 'Vale, lo admito. Está bueno.', author: 'Carnívoro desde 1978' },
+                { text: 'Mi carnicero ahora está enfadado conmigo.', author: 'Anónimo' },
+                { text: 'Aposté a que no estaría bueno. Perdí la apuesta.', author: 'Tomás, convencido a regañadientes' },
+                { text: 'Si esto es vegetal, entonces soy vegetariano.', author: 'Esteban, todavía no del todo' },
             ],
         },
         sticker: {
