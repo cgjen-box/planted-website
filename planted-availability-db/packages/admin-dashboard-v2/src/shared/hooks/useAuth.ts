@@ -45,77 +45,120 @@ export function useAuth() {
     loading: true,
     error: null,
   });
-  const redirectHandled = useRef(false);
+  const redirectChecked = useRef(false);
+  const authStateReceived = useRef(false);
 
   useEffect(() => {
     console.log('useAuth: Starting auth initialization');
+    let unsubscribe: (() => void) | null = null;
 
-    // Handle redirect result first (only once)
-    if (!redirectHandled.current) {
-      redirectHandled.current = true;
-      console.log('useAuth: Checking for redirect result...');
-
-      getRedirectResult(auth)
-        .then((result) => {
-          if (result) {
-            console.log('useAuth: Redirect sign-in successful', result.user.email);
-            // onAuthStateChanged will handle the state update
-          } else {
-            console.log('useAuth: No redirect result (normal page load)');
-          }
-        })
-        .catch((error) => {
-          console.error('useAuth: Redirect result error:', error);
-          const authError = error as AuthError;
-          let errorMessage = 'Failed to complete sign-in';
-
-          switch (authError.code) {
-            case 'auth/account-exists-with-different-credential':
-              errorMessage = 'An account already exists with the same email';
-              break;
-            case 'auth/credential-already-in-use':
-              errorMessage = 'This credential is already linked to another account';
-              break;
-            case 'auth/user-disabled':
-              errorMessage = 'This account has been disabled';
-              break;
-            default:
-              errorMessage = authError.message || 'Failed to complete sign-in';
-          }
-
-          setState((prev) => ({
-            ...prev,
-            loading: false,
-            error: errorMessage,
-          }));
-        });
-    }
-
-    // Subscribe to auth state changes
-    const unsubscribe = onAuthStateChanged(
-      auth,
-      (user) => {
-        console.log('useAuth: onAuthStateChanged fired', user ? `user: ${user.email}` : 'no user');
+    // Function to check if we can set loading to false
+    const maybeSetLoadingFalse = (user: User | null, error: string | null = null) => {
+      // Only set loading false after both redirect check AND initial auth state
+      if (redirectChecked.current && authStateReceived.current) {
+        console.log('useAuth: Both checks complete, setting loading false');
         setState({
           user,
           loading: false,
-          error: null,
+          error,
         });
+      }
+    };
+
+    // Subscribe to auth state changes FIRST
+    unsubscribe = onAuthStateChanged(
+      auth,
+      (user) => {
+        console.log('useAuth: onAuthStateChanged fired', user ? `user: ${user.email}` : 'no user');
+        authStateReceived.current = true;
+
+        // If we have a user, update immediately (redirect success case)
+        if (user) {
+          setState({
+            user,
+            loading: false,
+            error: null,
+          });
+        } else {
+          // No user - wait for redirect check to complete before deciding
+          maybeSetLoadingFalse(null, null);
+        }
       },
       (error) => {
         console.error('Auth state change error:', error);
-        setState({
-          user: null,
-          loading: false,
-          error: error.message,
-        });
+        authStateReceived.current = true;
+        maybeSetLoadingFalse(null, error.message);
       }
     );
+
+    // Then check for redirect result
+    console.log('useAuth: Checking for redirect result...');
+    getRedirectResult(auth)
+      .then((result) => {
+        redirectChecked.current = true;
+        if (result) {
+          console.log('useAuth: Redirect sign-in successful', result.user.email);
+          // onAuthStateChanged will handle the state update
+        } else {
+          console.log('useAuth: No redirect result (normal page load)');
+          // If auth state already received with no user, we can set loading false now
+          if (authStateReceived.current) {
+            setState((prev) => ({
+              ...prev,
+              loading: false,
+            }));
+          }
+        }
+      })
+      .catch((error) => {
+        console.error('useAuth: Redirect result error:', error);
+        redirectChecked.current = true;
+        const authError = error as AuthError;
+        let errorMessage = 'Failed to complete sign-in';
+
+        switch (authError.code) {
+          case 'auth/account-exists-with-different-credential':
+            errorMessage = 'An account already exists with the same email';
+            break;
+          case 'auth/credential-already-in-use':
+            errorMessage = 'This credential is already linked to another account';
+            break;
+          case 'auth/user-disabled':
+            errorMessage = 'This account has been disabled';
+            break;
+          default:
+            errorMessage = authError.message || 'Failed to complete sign-in';
+        }
+
+        setState((prev) => ({
+          ...prev,
+          loading: false,
+          error: errorMessage,
+        }));
+      });
+
+    // Safety timeout - if still loading after 5 seconds, something is wrong
+    const timeoutId = setTimeout(() => {
+      setState((prev) => {
+        if (prev.loading) {
+          console.warn('useAuth: Auth initialization timed out after 5 seconds');
+          return {
+            user: null,
+            loading: false,
+            error: null,
+          };
+        }
+        return prev;
+      });
+    }, 5000);
 
     // Cleanup subscription on unmount
     return () => {
       console.log('useAuth: Cleaning up');
-      unsubscribe();
+      clearTimeout(timeoutId);
+      if (unsubscribe) {
+        unsubscribe();
+      }
     };
   }, []);
 
