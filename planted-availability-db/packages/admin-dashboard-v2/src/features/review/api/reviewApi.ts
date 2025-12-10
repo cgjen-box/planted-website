@@ -5,11 +5,12 @@
  */
 
 import { apiClient } from '@/lib/api/client';
+import { API_ENDPOINTS } from '@/lib/api/endpoints';
 import {
   ReviewQueueResponse,
   ReviewQueueFilters,
-  FeedbackRequest,
   ReviewVenue,
+  FeedbackRequest,
 } from '../types';
 
 /**
@@ -37,14 +38,14 @@ function buildQueryString(filters: ReviewQueueFilters): string {
  */
 export async function getReviewQueue(filters: ReviewQueueFilters = {}): Promise<ReviewQueueResponse> {
   const queryString = buildQueryString(filters);
-  return apiClient.get<ReviewQueueResponse>(`/admin/review/queue${queryString}`);
+  return apiClient.get<ReviewQueueResponse>(`${API_ENDPOINTS.REVIEW_QUEUE}${queryString}`);
 }
 
 /**
  * Approve Venue (Full)
  */
 export async function approveVenue(venueId: string): Promise<ReviewVenue> {
-  return apiClient.post<ReviewVenue>(`/admin/review/venues/${venueId}/approve`);
+  return apiClient.post<ReviewVenue>(API_ENDPOINTS.APPROVE_VENUE, { venueId });
 }
 
 /**
@@ -55,7 +56,8 @@ export async function partialApproveVenue(
   feedback: string,
   dishIds?: string[]
 ): Promise<ReviewVenue> {
-  return apiClient.post<ReviewVenue>(`/admin/review/venues/${venueId}/partial-approve`, {
+  return apiClient.post<ReviewVenue>(API_ENDPOINTS.PARTIAL_APPROVE_VENUE, {
+    venueId,
     feedback,
     dishIds,
   });
@@ -65,7 +67,8 @@ export async function partialApproveVenue(
  * Reject Venue
  */
 export async function rejectVenue(venueId: string, reason: string): Promise<ReviewVenue> {
-  return apiClient.post<ReviewVenue>(`/admin/review/venues/${venueId}/reject`, {
+  return apiClient.post<ReviewVenue>(API_ENDPOINTS.REJECT_VENUE, {
+    venueId,
     reason,
   });
 }
@@ -74,7 +77,7 @@ export async function rejectVenue(venueId: string, reason: string): Promise<Revi
  * Bulk Approve Venues
  */
 export async function bulkApproveVenues(venueIds: string[]): Promise<{ success: number; failed: number }> {
-  return apiClient.post<{ success: number; failed: number }>('/admin/review/bulk/approve', {
+  return apiClient.post<{ success: number; failed: number }>(API_ENDPOINTS.BULK_APPROVE, {
     venueIds,
   });
 }
@@ -86,7 +89,7 @@ export async function bulkRejectVenues(
   venueIds: string[],
   reason: string
 ): Promise<{ success: number; failed: number }> {
-  return apiClient.post<{ success: number; failed: number }>('/admin/review/bulk/reject', {
+  return apiClient.post<{ success: number; failed: number }>(API_ENDPOINTS.BULK_REJECT, {
     venueIds,
     reason,
   });
@@ -96,12 +99,19 @@ export async function bulkRejectVenues(
  * Submit AI Feedback
  */
 export async function submitFeedback(request: FeedbackRequest): Promise<void> {
-  return apiClient.post<void>('/admin/feedback/submit', request);
+  return apiClient.post<void>(API_ENDPOINTS.FEEDBACK_SUBMIT, request);
 }
 
 /**
  * Get Venue by ID
+ * Note: This uses the review queue endpoint with a filter
  */
 export async function getVenueById(venueId: string): Promise<ReviewVenue> {
-  return apiClient.get<ReviewVenue>(`/admin/review/venues/${venueId}`);
+  const response = await apiClient.get<ReviewQueueResponse>(
+    `${API_ENDPOINTS.REVIEW_QUEUE}?venueId=${encodeURIComponent(venueId)}`
+  );
+  if (response.items && response.items.length > 0) {
+    return response.items[0];
+  }
+  throw new Error('Venue not found');
 }

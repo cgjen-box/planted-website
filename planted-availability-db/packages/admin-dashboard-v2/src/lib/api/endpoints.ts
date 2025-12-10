@@ -1,69 +1,72 @@
 /**
  * API Endpoint Configuration
  *
- * Centralized configuration for all API endpoints.
- * Base URL is configured via VITE_API_URL environment variable.
+ * Firebase Cloud Functions use flat function names, not REST-style paths.
+ * The base URL is the Cloud Functions region URL.
  */
 
 // Get API base URL from environment or use default
-export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/get-planted-db/europe-west6';
 
 /**
  * API Endpoints
+ *
+ * These map to the exported function names in packages/api/src/index.ts
+ * Firebase Cloud Functions URL format: {BASE_URL}/{functionName}
  */
 export const API_ENDPOINTS = {
-  // Health & Status
-  HEALTH: '/admin/health',
+  // Health & Status (no auth)
+  HEALTH_CHECK: '/adminHealthCheck',
 
-  // Dashboard
-  DASHBOARD_STATS: '/admin/dashboard/stats',
+  // Dashboard / Stats
+  PLATFORM_HEALTH: '/adminPlatformHealth',
 
-  // Scrape Control (Legacy)
-  SCRAPE_STATUS: '/admin/scrape/status',
-  SCRAPE_START: '/admin/scrape/start',
-  SCRAPE_STOP: '/admin/scrape/stop',
-  SCRAPE_LOGS: '/admin/scrape/logs',
+  // Scrapers
+  SCRAPERS_AVAILABLE: '/adminAvailableScrapers',
+  SCRAPERS_START_DISCOVERY: '/adminStartDiscovery',
+  SCRAPERS_START_EXTRACTION: '/adminStartExtraction',
+  SCRAPERS_STREAM: '/adminScraperStream',
+  SCRAPERS_CANCEL: '/adminCancelScraper',
 
-  // Scrapers (New)
-  SCRAPERS_DISCOVERY_START: '/admin/scrapers/discovery/start',
-  SCRAPERS_EXTRACTION_START: '/admin/scrapers/extraction/start',
-  SCRAPERS_RUN_STREAM: (runId: string) => `/admin/scrapers/runs/${runId}/stream`,
-  SCRAPERS_RUN_CANCEL: (runId: string) => `/admin/scrapers/runs/${runId}/cancel`,
-  SCRAPERS_AVAILABLE: '/admin/scrapers/available',
-  // Note: Recent runs are included in SCRAPERS_AVAILABLE response
-  BUDGET_STATUS: '/admin/budget/status',
+  // Budget
+  BUDGET_STATUS: '/adminBudgetStatus',
 
   // Review Queue
-  REVIEW_QUEUE: '/admin/review/queue',
-  REVIEW_APPROVE: '/admin/review/approve',
-  REVIEW_REJECT: '/admin/review/reject',
-  REVIEW_BULK: '/admin/review/bulk',
+  REVIEW_QUEUE: '/adminReviewQueue',
+  APPROVE_VENUE: '/adminApproveVenue',
+  PARTIAL_APPROVE_VENUE: '/adminPartialApproveVenue',
+  REJECT_VENUE: '/adminRejectVenue',
+  BULK_APPROVE: '/adminBulkApprove',
+  BULK_REJECT: '/adminBulkReject',
 
-  // Sync to Website
-  SYNC_STATUS: '/admin/sync/status',
-  SYNC_START: '/admin/sync/start',
-  SYNC_HISTORY: '/admin/sync/history',
+  // Sync
+  SYNC_PREVIEW: '/adminSyncPreview',
+  SYNC_EXECUTE: '/adminSyncExecute',
+  SYNC_HISTORY: '/adminSyncHistory',
 
-  // Venue Browser
-  VENUES: '/admin/venues',
-  VENUE_BY_ID: (id: string) => `/admin/venues/${id}`,
-  VENUE_UPDATE: (id: string) => `/admin/venues/${id}`,
-  VENUE_DELETE: (id: string) => `/admin/venues/${id}`,
+  // Analytics
+  ANALYTICS_KPIS: '/adminAnalyticsKpis',
+  ANALYTICS_COSTS: '/adminAnalyticsCosts',
+  ANALYTICS_REJECTIONS: '/adminAnalyticsRejections',
 
-  // Live on Website
-  LIVE_VENUES: '/admin/live-venues',
+  // Feedback
+  FEEDBACK_SUBMIT: '/adminFeedbackSubmit',
+  FEEDBACK_PROCESS: '/adminFeedbackProcess',
 
-  // Cost Monitor
-  COST_STATS: '/admin/costs/stats',
-  COST_HISTORY: '/admin/costs/history',
-  COST_BREAKDOWN: '/admin/costs/breakdown',
+  // Legacy (from original exports)
+  VENUES: '/adminVenues',
+  DISHES: '/adminDishes',
+  DISCOVERED_VENUES: '/adminDiscoveredVenues',
 } as const;
 
 /**
  * Helper function to build full API URL
  */
 export function buildApiUrl(endpoint: string): string {
-  return `${API_BASE_URL}${endpoint}`;
+  // If endpoint already starts with /, just append to base URL
+  // Otherwise, add a / prefix
+  const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  return `${API_BASE_URL}${path}`;
 }
 
 /**

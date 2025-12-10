@@ -5,7 +5,7 @@
  */
 
 import { apiClient } from '@/lib/api/client';
-import { API_BASE_URL } from '@/lib/api/endpoints';
+import { API_BASE_URL, API_ENDPOINTS } from '@/lib/api/endpoints';
 import { auth } from '@/lib/firebase';
 import type {
   DiscoveryConfig,
@@ -26,7 +26,7 @@ import type {
 export async function startDiscovery(
   config: DiscoveryConfig
 ): Promise<StartScraperResponse> {
-  return apiClient.post('/admin/scrapers/discovery/start', config);
+  return apiClient.post(API_ENDPOINTS.SCRAPERS_START_DISCOVERY, config);
 }
 
 /**
@@ -35,7 +35,7 @@ export async function startDiscovery(
 export async function startExtraction(
   config: ExtractionConfig
 ): Promise<StartScraperResponse> {
-  return apiClient.post('/admin/scrapers/extraction/start', config);
+  return apiClient.post(API_ENDPOINTS.SCRAPERS_START_EXTRACTION, config);
 }
 
 /**
@@ -44,22 +44,21 @@ export async function startExtraction(
 export async function cancelScraperRun(
   runId: string
 ): Promise<CancelScraperResponse> {
-  return apiClient.post(`/admin/scrapers/runs/${runId}/cancel`);
+  return apiClient.post(API_ENDPOINTS.SCRAPERS_CANCEL, { runId });
 }
 
 /**
  * Get Available Scrapers
  */
 export async function getAvailableScrapers(): Promise<AvailableScrapersResponse> {
-  return apiClient.get('/admin/scrapers/available');
+  return apiClient.get(API_ENDPOINTS.SCRAPERS_AVAILABLE);
 }
 
 /**
  * Get Recent Scraper Runs
- * Uses /admin/scrapers/available endpoint which includes recentRuns
+ * Uses /adminAvailableScrapers endpoint which includes recentRuns
  */
 export async function getRecentRuns(limit = 10): Promise<RecentRunsResponse> {
-  // Use /admin/scrapers/available which already includes recentRuns
   const response = await apiClient.get<{
     recentRuns?: Array<{
       id: string;
@@ -72,7 +71,7 @@ export async function getRecentRuns(limit = 10): Promise<RecentRunsResponse> {
       costs?: { searchQueries: number; aiCalls: number; estimated: number };
       config?: Record<string, unknown>;
     }>;
-  }>('/admin/scrapers/available');
+  }>(API_ENDPOINTS.SCRAPERS_AVAILABLE);
 
   // Transform to expected format
   const runs: ScraperProgress[] = (response.recentRuns || []).slice(0, limit).map(run => ({
@@ -102,7 +101,7 @@ export async function getRecentRuns(limit = 10): Promise<RecentRunsResponse> {
  * Get Budget Status
  */
 export async function getBudgetStatus(): Promise<BudgetStatus> {
-  return apiClient.get('/admin/budget/status');
+  return apiClient.get(API_ENDPOINTS.BUDGET_STATUS);
 }
 
 /**
@@ -123,7 +122,7 @@ export async function createScraperProgressStream(
 
   // Create EventSource with auth token
   // Note: EventSource doesn't support custom headers directly, so we pass token as query param
-  const url = `${API_BASE_URL}/admin/scrapers/runs/${runId}/stream?token=${encodeURIComponent(token)}`;
+  const url = `${API_BASE_URL}${API_ENDPOINTS.SCRAPERS_STREAM}?runId=${encodeURIComponent(runId)}&token=${encodeURIComponent(token)}`;
 
   const eventSource = new EventSource(url, {
     withCredentials: true,
