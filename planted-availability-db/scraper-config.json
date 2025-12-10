@@ -1,14 +1,14 @@
 {
   "$schema": "./scraper-config.schema.json",
-  "description": "Local scraper configuration - edit this file to control scraping runs",
+  "description": "MASSIVE RUN - Target 1000 new venues for website",
 
   "discovery": {
-    "enabled": false,
+    "enabled": true,
     "mode": "explore",
-    "platforms": ["uber-eats", "just-eat", "lieferando", "wolt", "smood"],
-    "countries": ["CH", "DE", "AT"],
+    "platforms": ["uber-eats", "just-eat", "lieferando", "wolt", "smood", "deliveroo"],
+    "countries": ["CH", "DE", "AT", "NL", "UK", "FR"],
     "chains": [],
-    "maxQueries": 20,
+    "maxQueries": 200,
     "searchProvider": "google",
     "dryRun": false
   },
@@ -19,11 +19,11 @@
     "target": "all",
     "chainId": null,
     "venueIds": [],
-    "countries": ["CH", "DE", "AT"],
+    "countries": ["CH", "DE", "AT", "NL", "UK", "FR"],
     "platforms": [],
-    "maxVenues": 50,
+    "maxVenues": 500,
     "dryRun": false,
-    "learn": false
+    "learn": true
   },
 
   "review": {

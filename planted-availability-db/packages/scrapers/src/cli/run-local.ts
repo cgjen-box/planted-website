@@ -275,16 +275,17 @@ async function runDiscovery(config: DiscoveryConfig, verbose: boolean): Promise<
       searchProvider = new GoogleSearchProvider();
   }
 
-  // Create and run agent
-  const agent = new SmartDiscoveryAgent({
-    searchProvider,
+  // Create agent with (searchProvider, config) signature
+  const agent = new SmartDiscoveryAgent(searchProvider, {
     aiProvider: 'gemini',
     maxQueriesPerRun: config.maxQueries,
     dryRun: config.dryRun,
     verbose,
   });
 
-  const result = await agent.run({
+  // Initialize and run
+  await agent.initialize();
+  const result = await agent.runDiscovery({
     mode: config.mode,
     countries: config.countries,
     platforms: config.platforms,
@@ -292,11 +293,12 @@ async function runDiscovery(config: DiscoveryConfig, verbose: boolean): Promise<
   });
 
   console.log('\n📊 Discovery Results:');
-  console.log(`   Venues Found:    ${result.stats.venuesFound}`);
-  console.log(`   Venues Saved:    ${result.stats.venuesSaved}`);
-  console.log(`   Queries Used:    ${result.stats.queriesUsed}`);
-  console.log(`   AI Calls:        ${result.stats.aiCallsMade}`);
-  console.log(`   Errors:          ${result.stats.errors}`);
+  console.log(`   Queries Executed: ${result.stats.queries_executed}`);
+  console.log(`   Queries Successful: ${result.stats.queries_successful}`);
+  console.log(`   Venues Discovered: ${result.stats.venues_discovered}`);
+  console.log(`   Venues Verified: ${result.stats.venues_verified}`);
+  console.log(`   Chains Detected: ${result.stats.chains_detected}`);
+  console.log(`   Dishes Extracted: ${result.stats.dishes_extracted}`);
 }
 
 async function runExtraction(config: ExtractionConfig, verbose: boolean): Promise<void> {
