@@ -602,3 +602,320 @@ export const adminAssignChainHandler = onRequest(functionOptions, async (req: Re
     }
   });
 });
+
+/**
+ * Known chain name patterns mapped to standardized chain identifiers.
+ * Used for high-confidence automatic chain suggestions.
+ */
+const KNOWN_CHAIN_PATTERNS: Record<string, string> = {
+  // Dean & David variations
+  'dean&david': 'Dean & David',
+  'dean & david': 'Dean & David',
+  'dean david': 'Dean & David',
+  'deanddavid': 'Dean & David',
+
+  // Birdie Birdie
+  'birdie birdie': 'Birdie Birdie',
+  'birdiebirdie': 'Birdie Birdie',
+  'birdie-birdie': 'Birdie Birdie',
+
+  // Beets & Roots variations
+  'beets&roots': 'Beets & Roots',
+  'beets & roots': 'Beets & Roots',
+  'beets and roots': 'Beets & Roots',
+  'beetsandroots': 'Beets & Roots',
+
+  // Green Club
+  'green club': 'Green Club',
+  'greenclub': 'Green Club',
+
+  // Nooch
+  'nooch asian kitchen': 'Nooch',
+  'nooch asian': 'Nooch',
+  'nooch': 'Nooch',
+
+  // Rice Up
+  'rice up': 'Rice Up',
+  'rice up!': 'Rice Up',
+  'riceup': 'Rice Up',
+
+  // Smash Bro
+  'smash bro': 'Smash Bro',
+  'smashbro': 'Smash Bro',
+
+  // Doen Doen
+  'doen doen': 'Doen Doen',
+  'doendoen': 'Doen Doen',
+
+  // Hiltl
+  'hiltl': 'Hiltl',
+  'haus hiltl': 'Hiltl',
+
+  // Tibits
+  'tibits': 'Tibits',
+
+  // Kaimug
+  'kaimug': 'Kaimug',
+
+  // Stadtsalat
+  'stadtsalat': 'Stadtsalat',
+
+  // Råbowls
+  'råbowls': 'Råbowls',
+  'rabowls': 'Råbowls',
+
+  // Chidoba
+  'chidoba': 'Chidoba',
+
+  // Hans im Glück
+  'hans im glück': 'Hans im Glück',
+  'hans im glueck': 'Hans im Glück',
+
+  // Vapiano
+  'vapiano': 'Vapiano',
+
+  // Cotidiano
+  'cotidiano': 'Cotidiano',
+
+  // Yardbird
+  'yardbird': 'Yardbird',
+
+  // Brezelkönig
+  'brezelkönig': 'Brezelkönig',
+  'brezelkoenig': 'Brezelkönig',
+  'brezelkonig': 'Brezelkönig',
+};
+
+/**
+ * Find matching chain pattern for a venue name
+ */
+function findChainMatch(venueName: string): { canonicalName: string; pattern: string } | null {
+  const lowerName = venueName.toLowerCase();
+
+  // Sort patterns by length (longest first) to match most specific patterns first
+  const sortedPatterns = Object.entries(KNOWN_CHAIN_PATTERNS)
+    .sort((a, b) => b[0].length - a[0].length);
+
+  for (const [pattern, canonicalName] of sortedPatterns) {
+    if (lowerName.includes(pattern)) {
+      return { canonicalName, pattern };
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Admin Auto-Assign Chains
+ * POST /adminAutoAssignChains
+ * Automatically assigns chains to all discovered venues that match known patterns
+ * but don't currently have a chain_id assigned.
+ */
+export const adminAutoAssignChainsHandler = onRequest(functionOptions, async (req: Request, res: Response) => {
+  await withAdminAuth(req, res, async (authReq, authRes) => {
+    if (authReq.method !== 'POST') {
+      authRes.status(405).json({ error: 'Method not allowed' });
+      return;
+    }
+
+    try {
+      const { dryRun = false } = authReq.body;
+
+      // Get all discovered venues without a chain_id
+      const allVenues = await discoveredVenues.getAll();
+      const venuesWithoutChain = allVenues.filter(v => !v.chain_id);
+
+      console.log(`Found ${venuesWithoutChain.length} venues without chain assignment`);
+
+      // Load all existing chains
+      const allChains = await chains.query({});
+      const chainsByName = new Map(
+        allChains.map(c => [c.name.toLowerCase(), c])
+      );
+
+      // Track results
+      const results: {
+        matched: Array<{
+          venueId: string;
+          venueName: string;
+          chainName: string;
+          chainId: string;
+          pattern: string;
+          isNewChain: boolean;
+        }>;
+        created: Array<{ chainId: string; chainName: string }>;
+        errors: Array<{ venueId: string; venueName: string; error: string }>;
+      } = {
+        matched: [],
+        created: [],
+        errors: [],
+      };
+
+      // Track chains that need to be created
+      const chainsToCreate = new Map<string, string[]>(); // canonicalName -> venueIds
+
+      // First pass: find all matches and identify chains to create
+      for (const venue of venuesWithoutChain) {
+        const match = findChainMatch(venue.name);
+        if (match) {
+          const existingChain = chainsByName.get(match.canonicalName.toLowerCase());
+          if (existingChain) {
+            results.matched.push({
+              venueId: venue.id,
+              venueName: venue.name,
+              chainName: existingChain.name,
+              chainId: existingChain.id,
+              pattern: match.pattern,
+              isNewChain: false,
+            });
+          } else {
+            // Chain needs to be created
+            if (!chainsToCreate.has(match.canonicalName)) {
+              chainsToCreate.set(match.canonicalName, []);
+            }
+            chainsToCreate.get(match.canonicalName)!.push(venue.id);
+            results.matched.push({
+              venueId: venue.id,
+              venueName: venue.name,
+              chainName: match.canonicalName,
+              chainId: '', // Will be filled after creation
+              pattern: match.pattern,
+              isNewChain: true,
+            });
+          }
+        }
+      }
+
+      // If dry run, return what would happen without making changes
+      if (dryRun) {
+        authRes.json({
+          dryRun: true,
+          summary: {
+            totalVenuesWithoutChain: venuesWithoutChain.length,
+            venuesMatched: results.matched.length,
+            existingChainsToUse: results.matched.filter(m => !m.isNewChain).length,
+            newChainsToCreate: chainsToCreate.size,
+          },
+          matches: results.matched,
+          chainsToCreate: Array.from(chainsToCreate.entries()).map(([name, venueIds]) => ({
+            chainName: name,
+            venueCount: venueIds.length,
+          })),
+        });
+        return;
+      }
+
+      // Second pass: create new chains
+      for (const [chainName] of chainsToCreate) {
+        try {
+          const newChain = await chains.create({
+            name: chainName,
+            type: 'restaurant',
+            markets: [],
+          });
+
+          // Update our lookup map
+          chainsByName.set(chainName.toLowerCase(), newChain);
+
+          results.created.push({
+            chainId: newChain.id,
+            chainName: newChain.name,
+          });
+
+          await changeLogs.log({
+            action: 'created',
+            collection: 'chains',
+            document_id: newChain.id,
+            changes: [{ field: '*', before: null, after: newChain }],
+            source: { type: 'auto', user_id: authReq.user?.uid },
+            reason: 'Auto-created chain during batch chain assignment',
+          });
+
+          // Update the matched results with the new chain ID
+          for (const match of results.matched) {
+            if (match.chainName === chainName && match.isNewChain) {
+              match.chainId = newChain.id;
+            }
+          }
+        } catch (error) {
+          console.error(`Failed to create chain ${chainName}:`, error);
+          // Mark all venues for this chain as errors
+          const venueIds = chainsToCreate.get(chainName) || [];
+          for (const venueId of venueIds) {
+            const venue = venuesWithoutChain.find(v => v.id === venueId);
+            results.errors.push({
+              venueId,
+              venueName: venue?.name || 'Unknown',
+              error: `Failed to create chain ${chainName}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+            });
+          }
+          // Remove from matched
+          results.matched = results.matched.filter(m => m.chainName !== chainName || !m.isNewChain);
+        }
+      }
+
+      // Third pass: update all matched venues with their chain IDs
+      let updatedCount = 0;
+      for (const match of results.matched) {
+        if (!match.chainId) continue; // Skip if chain creation failed
+
+        try {
+          const venue = await discoveredVenues.getById(match.venueId);
+          if (!venue) {
+            results.errors.push({
+              venueId: match.venueId,
+              venueName: match.venueName,
+              error: 'Venue not found',
+            });
+            continue;
+          }
+
+          await discoveredVenues.update(match.venueId, {
+            chain_id: match.chainId,
+            chain_name: match.chainName,
+            is_chain: true,
+          });
+
+          await changeLogs.log({
+            action: 'updated',
+            collection: 'discovered_venues',
+            document_id: match.venueId,
+            changes: [
+              { field: 'chain_id', before: venue.chain_id, after: match.chainId },
+              { field: 'chain_name', before: venue.chain_name, after: match.chainName },
+              { field: 'is_chain', before: venue.is_chain, after: true },
+            ],
+            source: { type: 'auto', user_id: authReq.user?.uid },
+            reason: `Auto-assigned to chain "${match.chainName}" (pattern: "${match.pattern}")`,
+          });
+
+          updatedCount++;
+        } catch (error) {
+          console.error(`Failed to update venue ${match.venueId}:`, error);
+          results.errors.push({
+            venueId: match.venueId,
+            venueName: match.venueName,
+            error: error instanceof Error ? error.message : 'Unknown error',
+          });
+        }
+      }
+
+      authRes.json({
+        success: true,
+        summary: {
+          totalVenuesWithoutChain: venuesWithoutChain.length,
+          venuesMatched: results.matched.length,
+          venuesUpdated: updatedCount,
+          chainsCreated: results.created.length,
+          errors: results.errors.length,
+        },
+        created: results.created,
+        matched: results.matched,
+        errors: results.errors.length > 0 ? results.errors : undefined,
+      });
+    } catch (error) {
+      console.error('Admin auto-assign chains error:', error);
+      authRes.status(500).json({ error: 'Internal server error' });
+    }
+  });
+});

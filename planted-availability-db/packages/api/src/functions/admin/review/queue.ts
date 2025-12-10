@@ -430,13 +430,17 @@ function buildHierarchy(venues: ReviewVenue[]): CountryGroup[] {
   const countryGroups: CountryGroup[] = [];
 
   for (const [country, countryVenues] of Array.from(countryMap)) {
-    // Separate chains and independent venues
+    // Separate venues into three groups:
+    // 1. Already assigned to chains (have chainId)
+    // 2. Suggested chains (no chainId but have suggestedChainId)
+    // 3. Independent (no chainId and no suggestion)
     const chainVenues = countryVenues.filter(v => v.chainId);
-    const independentVenues = countryVenues.filter(v => !v.chainId);
+    const suggestedChainVenues = countryVenues.filter(v => !v.chainId && v.suggestedChainId);
+    const independentVenues = countryVenues.filter(v => !v.chainId && !v.suggestedChainId);
 
     const venueTypes: VenueTypeGroup[] = [];
 
-    // Build chain groups
+    // Build assigned chain groups
     if (chainVenues.length > 0) {
       const chainMap = new Map<string, ReviewVenue[]>();
 
@@ -448,9 +452,9 @@ function buildHierarchy(venues: ReviewVenue[]): CountryGroup[] {
         chainMap.get(chainId)!.push(venue);
       }
 
-      const chains: ChainGroup[] = [];
+      const chainsArray: ChainGroup[] = [];
       for (const [chainId, venues] of Array.from(chainMap)) {
-        chains.push({
+        chainsArray.push({
           chainId,
           chainName: venues[0].chainName || 'Unknown Chain',
           venues,
@@ -459,16 +463,49 @@ function buildHierarchy(venues: ReviewVenue[]): CountryGroup[] {
       }
 
       // Sort chains by total venues descending
-      chains.sort((a, b) => b.totalVenues - a.totalVenues);
+      chainsArray.sort((a, b) => b.totalVenues - a.totalVenues);
 
       venueTypes.push({
         type: 'chain',
-        chains,
+        chains: chainsArray,
         totalVenues: chainVenues.length,
       });
     }
 
-    // Add independent venues
+    // Build suggested chain groups (venues that SHOULD be linked to chains)
+    if (suggestedChainVenues.length > 0) {
+      const suggestedMap = new Map<string, ReviewVenue[]>();
+
+      for (const venue of suggestedChainVenues) {
+        // Group by suggested chain name (since suggestedChainId might be empty for new chains)
+        const key = venue.suggestedChainName || 'Unknown';
+        if (!suggestedMap.has(key)) {
+          suggestedMap.set(key, []);
+        }
+        suggestedMap.get(key)!.push(venue);
+      }
+
+      const suggestedChains: ChainGroup[] = [];
+      for (const [chainName, venues] of Array.from(suggestedMap)) {
+        suggestedChains.push({
+          chainId: venues[0].suggestedChainId || '', // May be empty if chain needs to be created
+          chainName,
+          venues,
+          totalVenues: venues.length,
+        });
+      }
+
+      // Sort by total venues descending
+      suggestedChains.sort((a, b) => b.totalVenues - a.totalVenues);
+
+      venueTypes.push({
+        type: 'suggested',
+        chains: suggestedChains,
+        totalVenues: suggestedChainVenues.length,
+      });
+    }
+
+    // Add truly independent venues (no chain and no suggestion)
     if (independentVenues.length > 0) {
       venueTypes.push({
         type: 'independent',
@@ -527,6 +564,11 @@ async function calculateStats(
     high: filteredVenues.filter(v => v.confidence_score >= 70).length,
   };
 
+  // Count chain assignment status
+  const withChain = filteredVenues.filter(v => v.chain_id).length;
+  const withoutChain = filteredVenues.filter(v => !v.chain_id).length;
+  const markedAsChain = filteredVenues.filter(v => v.is_chain && !v.chain_id).length; // Marked as chain but not assigned
+
   return {
     pending: byStatus.pending,
     verified: byStatus.verified,
@@ -535,6 +577,11 @@ async function calculateStats(
     stale: byStatus.stale,
     byCountry,
     byConfidence,
+    chainAssignment: {
+      assigned: withChain,
+      unassigned: withoutChain,
+      needsAssignment: markedAsChain, // These are likely chain venues without chain_id
+    },
     total: filteredVenues.length,
   };
 }

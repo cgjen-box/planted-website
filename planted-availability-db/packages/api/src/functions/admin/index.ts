@@ -4,6 +4,7 @@ export {
   adminPromotionsHandler,
   adminChainsHandler,
   adminAssignChainHandler,
+  adminAutoAssignChainsHandler,
 } from './crud.js';
 
 export {
