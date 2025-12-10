@@ -10,7 +10,8 @@ This is a monorepo using pnpm workspaces and Turborepo, containing:
 - **@pad/database** - Firestore collections and CRUD operations
 - **@pad/api** - Firebase Cloud Functions for the REST API
 - **@pad/scrapers** - Data collection scrapers with change detection
-- **@pad/admin-dashboard** - React admin interface
+- **@pad/admin-dashboard** - React admin interface (Legacy v1)
+- **@pad/admin-dashboard-v2** - Modern workflow-focused admin dashboard (New)
 - **@pad/client-sdk** - SDK for integrating with the planted-website
 
 ## Getting Started
@@ -49,16 +50,31 @@ pnpm run serve
 ```
 planted-availability-db/
 ├── packages/
-│   ├── core/           # Types, schemas, utilities
-│   ├── database/       # Firestore collections
-│   ├── api/            # Cloud Functions
-│   ├── scrapers/       # Data collection
-│   ├── admin-dashboard/# Admin UI
-│   └── client-sdk/     # Website integration SDK
-├── firebase.json       # Firebase configuration
-├── firestore.rules     # Security rules
+│   ├── core/               # Types, schemas, utilities
+│   ├── database/           # Firestore collections
+│   ├── api/                # Cloud Functions
+│   ├── scrapers/           # Data collection
+│   ├── admin-dashboard/    # Admin UI (Legacy v1)
+│   ├── admin-dashboard-v2/ # Admin UI (New v2 - workflow-focused)
+│   └── client-sdk/         # Website integration SDK
+├── firebase.json           # Firebase configuration
+├── firestore.rules         # Security rules
 ├── firestore.indexes.json
-└── .github/workflows/  # CI/CD pipelines
+└── .github/workflows/      # CI/CD pipelines
+```
+
+### Admin Dashboards
+
+**v2 (Recommended)** - Modern workflow-focused dashboard:
+```bash
+cd packages/admin-dashboard-v2
+pnpm install && pnpm dev    # http://localhost:5175
+```
+
+**v1 (Legacy)** - Original dashboard:
+```bash
+cd packages/admin-dashboard
+npm install && npm run dev  # http://localhost:5173
 ```
 
 ## API Endpoints
@@ -158,6 +174,10 @@ pnpm --filter @pad/scrapers run cli health
 
 ## Documentation
 
+- [Technical Documentation](./TECHNICAL-DOCUMENTATION.md) - Complete system architecture
+- [User Guide](./USER-GUIDE.md) - How to use the system
+- [Admin Dashboard v2 README](./packages/admin-dashboard-v2/README.md) - v2 dashboard setup
+- [Admin Dashboard v2 Plan](./ADMIN-DASHBOARD-2.0-PLAN.md) - v2 design & implementation plan
 - [API Documentation](./docs/api.md)
 - [Scraper Guide](./docs/scrapers.md)
 - [Runbooks](./docs/runbooks/README.md)

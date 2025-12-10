@@ -62,7 +62,81 @@ The website is automatically deployed to GitHub Pages on push to `main` branch.
 
 ## 2. Running the Admin Dashboard
 
-### Development Mode
+There are two versions of the admin dashboard available:
+- **v1 (Legacy)**: Original dashboard at port 5173
+- **v2 (New)**: Modern workflow-focused dashboard at port 5175
+
+### Admin Dashboard v2 (Recommended)
+
+The new dashboard provides a workflow-first experience with enhanced stability.
+
+#### Development Mode
+
+```bash
+cd planted-availability-db/packages/admin-dashboard-v2
+pnpm install
+pnpm dev
+```
+
+The v2 dashboard will be available at `http://localhost:5175`
+
+#### Login
+
+1. Navigate to `http://localhost:5175/login`
+2. Sign in with your Firebase-authenticated account
+3. Your account must have admin claims set in Firebase
+
+#### Navigation Sections
+
+The v2 dashboard is organized into workflow sections:
+
+**Workflow Section** - Main operational flow:
+| Page | URL | Description |
+|------|-----|-------------|
+| Dashboard | `/` | Pipeline overview, quick actions, running operations |
+| Scrape Control | `/scrape-control` | Trigger discovery and extraction |
+| Review Queue | `/review-queue` | Review and approve discovered venues |
+| Sync to Website | `/sync` | Push approved data to production |
+
+**Browser Section** - Data exploration:
+| Page | URL | Description |
+|------|-----|-------------|
+| Venue Browser | `/venues` | Browse all venues with hierarchy |
+| Live on Website | `/live-venues` | View published venues |
+
+**Operations Section** - Monitoring:
+| Page | URL | Description |
+|------|-----|-------------|
+| Cost Monitor | `/costs` | Track API costs and budget |
+
+#### Key Features
+
+1. **Workflow Pipeline** - Visual pipeline showing: Scraping → Extraction → Review → Website Sync
+2. **Hierarchical Review** - Venues organized by Country → Chain → Location
+3. **Bulk Operations** - Approve or reject multiple venues at once
+4. **AI Feedback** - Provide feedback that improves AI accuracy
+5. **Real-time Progress** - Live status updates for running operations
+6. **Error Recovery** - Automatic retries with exponential backoff
+7. **Budget Tracking** - Monitor daily/monthly API costs
+
+#### Keyboard Shortcuts (Review Queue)
+
+| Key | Action |
+|-----|--------|
+| `j` / `k` | Navigate up/down |
+| `a` | Approve current venue |
+| `r` | Reject current venue |
+| `e` | Edit current venue |
+| `p` | Partial approve |
+| `?` | Show help |
+
+---
+
+### Admin Dashboard v1 (Legacy)
+
+The original dashboard is still available for specific operations.
+
+#### Development Mode
 
 ```bash
 cd planted-availability-db/packages/admin-dashboard
@@ -70,15 +144,15 @@ npm install
 npm run dev
 ```
 
-The admin dashboard will be available at `http://localhost:5173`
+The v1 dashboard will be available at `http://localhost:5173`
 
-### Login
+#### Login
 
 1. Navigate to `http://localhost:5173/login`
 2. Sign in with your Firebase-authenticated account
 3. Your account must have admin claims set in Firebase
 
-### Available Pages
+#### Available Pages (v1)
 
 | Page | URL | Description |
 |------|-----|-------------|
@@ -299,11 +373,30 @@ pnpm run review-dishes --batch 20
 | `q` / `quit` | Exit review session |
 | `?` / `help` | Show help |
 
-### Admin Dashboard Review
+### Admin Dashboard v2 Review (Recommended)
 
-Use the Discovery Review page in the admin dashboard for a visual interface:
+Use the Review Queue page in Admin Dashboard v2 for a modern visual interface:
 
-1. Navigate to `/discovery-review`
+1. Navigate to `http://localhost:5175/review-queue`
+2. **Filter**: Use sidebar filters for country, confidence, status
+3. **Browse**: Navigate the hierarchical tree (Country → Chain → Venue)
+4. **Review**: View venue details, delivery platforms, and dishes
+5. **Approve**:
+   - Full Approve - Everything correct
+   - Partial Approve - Correct with minor fixes + feedback
+6. **Reject**: Mark as false positive with reason
+7. **Bulk Actions**: Select multiple venues for bulk approve/reject
+
+**Approval Workflow States:**
+```
+DISCOVERED → VERIFIED/REJECTED → READY FOR SYNC → LIVE ON WEBSITE
+```
+
+### Admin Dashboard v1 Review (Legacy)
+
+Use the Discovery Review page in the v1 admin dashboard:
+
+1. Navigate to `http://localhost:5173/discovery-review`
 2. Filter by country, confidence, or platform
 3. Click "Verify All" to approve venue + dishes
 4. Click "Edit & Verify" to correct data before approving
@@ -491,7 +584,15 @@ Check console output when running CLI tools with `--verbose` flag.
 
 ## 9. Daily Operations
 
-### Recommended Workflow
+### Recommended Workflow (Dashboard v2)
+
+1. **Morning:** Open Dashboard (`http://localhost:5175`) - check pipeline status and overnight discoveries
+2. **Review:** Navigate to Review Queue - process pending venues with bulk actions
+3. **Monitor:** Check Cost Monitor for budget usage and API costs
+4. **Sync:** Use Sync to Website page to push approved venues live
+5. **Verify:** Check Live on Website to confirm data is published
+
+### Recommended Workflow (Dashboard v1 - Legacy)
 
 1. **Morning:** Check admin dashboard for overnight discoveries
 2. **Review:** Process pending venues in Discovery Review
@@ -632,14 +733,24 @@ pnpm run review --sequential --batch 20
 pnpm run review-dishes --chain dean-david --batch 15
 ```
 
-### Admin Dashboard Shortcuts
+### Admin Dashboard v2 Shortcuts
 
 | Page | URL | Purpose |
 |------|-----|---------|
-| Quick Stats | `/` | Daily overview |
-| Review Queue | `/discovery-review` | Process discoveries |
-| Cost Monitor | `/budget` | Track query costs |
-| Data Import | `/import` | Bulk data upload |
+| Dashboard | `http://localhost:5175/` | Pipeline overview |
+| Review Queue | `http://localhost:5175/review-queue` | Process discoveries |
+| Sync | `http://localhost:5175/sync` | Push to website |
+| Cost Monitor | `http://localhost:5175/costs` | Track API costs |
+| Venue Browser | `http://localhost:5175/venues` | Browse all data |
+
+### Admin Dashboard v1 Shortcuts (Legacy)
+
+| Page | URL | Purpose |
+|------|-----|---------|
+| Quick Stats | `http://localhost:5173/` | Daily overview |
+| Review Queue | `http://localhost:5173/discovery-review` | Process discoveries |
+| Cost Monitor | `http://localhost:5173/budget` | Track query costs |
+| Data Import | `http://localhost:5173/import` | Bulk data upload |
 
 ---
 

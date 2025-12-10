@@ -265,8 +265,8 @@ pnpm run review-dishes --batch 10 --chain dean-david
 pnpm run search-pool stats
 ```
 
-#### @pad/admin-dashboard
-React-based admin interface.
+#### @pad/admin-dashboard (Legacy v1)
+React-based admin interface (original version).
 
 **Technology Stack:**
 | Component | Technology | Version |
@@ -292,6 +292,86 @@ React-based admin interface.
 | Analytics | `/analytics` | Analytics dashboard |
 | Import | `/import` | Batch data import |
 | Login | `/login` | Authentication |
+
+#### @pad/admin-dashboard-v2 (New)
+Modern workflow-focused admin dashboard with enhanced stability and features.
+
+**Technology Stack:**
+| Component | Technology | Version |
+|-----------|------------|---------|
+| Framework | React | 18.x |
+| Routing | React Router | 7.x |
+| State | TanStack Query + Zustand | 5.x |
+| Build | Vite | 6.x |
+| Auth | Firebase Auth | 11.x |
+| UI Components | Shadcn/UI + Radix UI | Latest |
+| Styling | Tailwind CSS | 3.x |
+
+**Key Features:**
+- **Workflow-First Design**: Clear pipeline from scraping → extraction → review → sync
+- **Error Boundary System**: Global error handling with recovery UI
+- **API Client with Retry Logic**: Automatic retries with exponential backoff
+- **Offline Detection**: Connection status awareness
+- **Type-Safe**: Full TypeScript with strict mode
+
+**Project Structure:**
+```
+packages/admin-dashboard-v2/
+├── src/
+│   ├── app/                    # App-level components
+│   │   ├── providers/          # Context providers (Auth, Query)
+│   │   ├── routes/             # Route configuration
+│   │   └── App.tsx             # Root component
+│   ├── features/               # Feature modules (self-contained)
+│   │   ├── scraping/           # Scraper control & monitoring
+│   │   │   ├── components/     # ScraperCard, ScraperProgress, BudgetStatus
+│   │   │   └── hooks/          # useScrapers, useScraperRun, useBudget
+│   │   ├── review/             # Review workflow
+│   │   │   ├── components/     # VenueDetailPanel, DishGrid, ApprovalButtons
+│   │   │   └── hooks/          # useReviewQueue, useApproval, useFeedback
+│   │   ├── browser/            # Data browsing
+│   │   │   ├── components/     # HierarchyTree, VenueTable, FilterBar
+│   │   │   └── hooks/          # useVenueBrowser, useFilters
+│   │   ├── sync/               # Website sync
+│   │   └── analytics/          # KPI & cost monitoring
+│   ├── lib/                    # Core libraries
+│   │   ├── api/                # API client with retries
+│   │   ├── firebase.ts         # Firebase configuration
+│   │   └── utils.ts            # Utility functions
+│   ├── pages/                  # Page components
+│   │   ├── workflow/           # Workflow section pages
+│   │   └── browser/            # Browser section pages
+│   ├── shared/                 # Shared components
+│   │   ├── components/         # Layout, ErrorBoundary, LoadingState
+│   │   ├── hooks/              # Shared hooks
+│   │   └── ui/                 # UI components (Button, Card, Dialog)
+│   └── types/                  # Global types
+└── package.json
+```
+
+**Navigation Sections:**
+
+| Section | Pages | Description |
+|---------|-------|-------------|
+| **Workflow** | Dashboard, Scrape Control, Review Queue, Sync to Website | Main operational workflow |
+| **Browser** | Venue Browser, Live on Website | Data exploration |
+| **Operations** | Cost Monitor | System monitoring |
+
+**Pages (v2):**
+| Page | URL | Description |
+|------|-----|-------------|
+| Dashboard | `/` | Workflow overview with pipeline status |
+| Scrape Control | `/scrape-control` | Trigger and monitor scraping operations |
+| Review Queue | `/review-queue` | Review and approve discovered venues |
+| Sync to Website | `/sync` | Push approved data to production website |
+| Venue Browser | `/venues` | Browse all venue data |
+| Live on Website | `/live-venues` | View published venues |
+| Cost Monitor | `/costs` | Track API costs and budget |
+| Login | `/login` | Firebase authentication |
+
+**Port Configuration:**
+- v1 Dashboard: `http://localhost:5173` (or 5174)
+- v2 Dashboard: `http://localhost:5175`
 
 ---
 
@@ -802,6 +882,162 @@ Reject a discovered venue.
 }
 ```
 
+### 5.3 Admin API v2 (Dashboard 2.0)
+
+New endpoints for the Admin Dashboard v2 workflow features.
+
+#### Review Workflow APIs
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/admin/review/queue` | GET | Get hierarchical review queue |
+| `/admin/review/venues/:id/approve` | POST | Full venue approval |
+| `/admin/review/venues/:id/partial-approve` | POST | Partial approval with feedback |
+| `/admin/review/venues/:id/reject` | POST | Reject with reason |
+| `/admin/review/bulk/approve` | POST | Bulk approve (max 100) |
+| `/admin/review/bulk/reject` | POST | Bulk reject (max 100) |
+
+#### GET /admin/review/queue
+Get review queue with hierarchical organization.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| status | string | Filter: discovered, verified, rejected |
+| country | string | Filter by country: CH, DE, AT |
+| minConfidence | number | Minimum confidence score (0-100) |
+| search | string | Search in venue names |
+| cursor | string | Pagination cursor |
+| limit | number | Max results (default: 50) |
+
+**Response:**
+```json
+{
+  "items": [...],
+  "hierarchy": {
+    "countries": [
+      {
+        "code": "CH",
+        "name": "Switzerland",
+        "count": 12,
+        "types": [
+          {
+            "type": "restaurant",
+            "count": 8,
+            "chains": [
+              { "id": "dean-david", "name": "Dean & David", "count": 4 }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "stats": {
+    "pending": 47,
+    "verified": 234,
+    "rejected": 23,
+    "byCountry": { "CH": 12, "DE": 23, "AT": 12 }
+  },
+  "pagination": {
+    "cursor": "abc123",
+    "hasMore": true,
+    "total": 47
+  }
+}
+```
+
+#### POST /admin/review/venues/:id/approve
+Fully approve a discovered venue.
+
+**Request Body:**
+```json
+{
+  "dishApprovals": [
+    { "dishId": "dish-123", "approved": true },
+    { "dishId": "dish-456", "approved": false }
+  ]
+}
+```
+
+#### POST /admin/review/venues/:id/partial-approve
+Approve venue with corrections and feedback.
+
+**Request Body:**
+```json
+{
+  "feedback": "Price was incorrect, dish missing",
+  "feedbackTags": ["wrong_price", "missing_dish"],
+  "dishUpdates": [
+    {
+      "dishId": "dish-123",
+      "updates": { "price": 19.90 },
+      "approved": true
+    }
+  ]
+}
+```
+
+#### POST /admin/review/venues/:id/reject
+Reject venue as false positive.
+
+**Request Body:**
+```json
+{
+  "reason": "Not actually serving Planted products",
+  "feedbackTags": ["not_planted_partner"]
+}
+```
+
+#### Feedback & Learning APIs
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/admin/feedback/submit` | POST | Submit AI feedback |
+| `/admin/feedback/process` | POST | Process accumulated feedback |
+
+#### POST /admin/feedback/submit
+Submit feedback for AI learning.
+
+**Request Body:**
+```json
+{
+  "entityType": "venue",
+  "entityId": "venue-123",
+  "feedbackType": "partial",
+  "feedback": "Price was off by CHF 1",
+  "tags": ["wrong_price"],
+  "corrections": [
+    { "field": "price", "expected": 19.90, "actual": 18.90 }
+  ]
+}
+```
+
+#### Scraper Control APIs
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/admin/scrapers/discovery/start` | POST | Trigger venue discovery |
+| `/admin/scrapers/extraction/start` | POST | Trigger dish extraction |
+| `/admin/scrapers/runs/:id/stream` | GET | Real-time progress (SSE) |
+| `/admin/scrapers/runs/:id/cancel` | POST | Cancel running operation |
+
+#### Budget & Analytics APIs
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/admin/budget/status` | GET | Get current budget status |
+| `/admin/analytics/kpis` | GET | Get KPI dashboard data |
+| `/admin/analytics/costs` | GET | Get cost breakdown |
+| `/admin/analytics/rejections` | GET | Get rejection analysis |
+
+#### Sync APIs
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/admin/sync/preview` | GET | Preview pending changes |
+| `/admin/sync/execute` | POST | Execute sync to website |
+| `/admin/sync/history` | GET | Get sync history |
+
 ---
 
 ## Part 6: Deployment
@@ -842,7 +1078,7 @@ firebase deploy --only firestore:rules
 firebase deploy
 ```
 
-### 6.3 Admin Dashboard
+### 6.3 Admin Dashboard (Legacy v1)
 
 ```bash
 cd packages/admin-dashboard
@@ -850,6 +1086,31 @@ npm install
 npm run dev       # Development at http://localhost:5173
 npm run build     # Production build
 ```
+
+### 6.4 Admin Dashboard v2 (New)
+
+```bash
+cd packages/admin-dashboard-v2
+pnpm install
+pnpm dev          # Development at http://localhost:5175
+pnpm build        # Production build
+pnpm preview      # Preview production build
+pnpm typecheck    # Run TypeScript type checking
+```
+
+**Environment Setup:**
+1. Copy `.env.example` to `.env`
+2. Configure Firebase credentials:
+   ```env
+   VITE_FIREBASE_API_KEY=your-api-key
+   VITE_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+   VITE_FIREBASE_PROJECT_ID=your-project-id
+   VITE_API_URL=http://localhost:3000
+   ```
+
+**Port Assignment:**
+- v1 Dashboard: Port 5173/5174
+- v2 Dashboard: Port 5175 (prevents conflicts)
 
 ---
 
