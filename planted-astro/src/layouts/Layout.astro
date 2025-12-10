@@ -200,7 +200,9 @@ const schemaOrg = {
     <!-- End Google Tag Manager (noscript) -->
 
     <Navbar currentPage={currentPage} locale={locale} />
-    <slot />
+    <main class="main-content">
+        <slot />
+    </main>
     <Footer locale={locale} />
     <CookieConsent locale={locale} />
 
@@ -282,5 +284,11 @@ const schemaOrg = {
         // Re-run after View Transitions navigation
         document.addEventListener('astro:page-load', initAnimations);
     </script>
+
+    <style>
+        .main-content {
+            padding-top: 80px; /* Height of fixed navbar */
+        }
+    </style>
 </body>
 </html>

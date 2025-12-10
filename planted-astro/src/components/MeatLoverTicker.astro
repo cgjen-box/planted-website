@@ -12,22 +12,28 @@ const { testimonials } = Astro.props;
 
 <div class="meat-lover-ticker">
     <div class="ticker-track">
-        {testimonials.map((testimonial) => (
-            <div class="ticker-item">
-                <span class="ticker-quote">"{testimonial.text}"</span>
-                {testimonial.author && (
-                    <span class="ticker-author">— {testimonial.author}</span>
-                )}
-            </div>
+        {testimonials.map((testimonial, index) => (
+            <>
+                <div class="ticker-item">
+                    <span class="ticker-quote">"{testimonial.text}"</span>
+                    {testimonial.author && (
+                        <span class="ticker-author">— {testimonial.author}</span>
+                    )}
+                </div>
+                <span class="ticker-separator">•</span>
+            </>
         ))}
         <!-- Duplicate for seamless loop -->
-        {testimonials.map((testimonial) => (
-            <div class="ticker-item">
-                <span class="ticker-quote">"{testimonial.text}"</span>
-                {testimonial.author && (
-                    <span class="ticker-author">— {testimonial.author}</span>
-                )}
-            </div>
+        {testimonials.map((testimonial, index) => (
+            <>
+                <div class="ticker-item">
+                    <span class="ticker-quote">"{testimonial.text}"</span>
+                    {testimonial.author && (
+                        <span class="ticker-author">— {testimonial.author}</span>
+                    )}
+                </div>
+                <span class="ticker-separator">•</span>
+            </>
         ))}
     </div>
 </div>
@@ -36,7 +42,7 @@ const { testimonials } = Astro.props;
     .meat-lover-ticker {
         background: var(--planted-purple);
         overflow: hidden;
-        padding: 1.5rem 0;
+        padding: 12px 0;
         position: relative;
         width: 100%;
     }
@@ -64,7 +70,7 @@ const { testimonials } = Astro.props;
 
     .ticker-track {
         display: flex;
-        gap: 4rem;
+        gap: 0;
         animation: tickerScroll 45s linear infinite;
         will-change: transform;
     }
@@ -88,15 +94,22 @@ const { testimonials } = Astro.props;
     }
 
     .ticker-quote {
-        font-size: 1rem;
+        font-size: 0.9rem;
         font-weight: 500;
         font-style: italic;
     }
 
     .ticker-author {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         opacity: 0.7;
         font-weight: 600;
+    }
+
+    .ticker-separator {
+        color: var(--planted-green);
+        font-size: 1.2rem;
+        padding: 0 24px;
+        flex-shrink: 0;
     }
 
     /* Pause on hover for better readability */
@@ -106,13 +119,13 @@ const { testimonials } = Astro.props;
 
     @media (max-width: 640px) {
         .ticker-quote {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         .ticker-author {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
-        .ticker-track {
-            gap: 2.5rem;
+        .ticker-separator {
+            padding: 0 16px;
         }
     }
 </style>

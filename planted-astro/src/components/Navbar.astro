@@ -34,10 +34,10 @@ const localePath = `/${locale}`;
 
     <div class="nav-right">
         <div class="nav-links">
-            <a href={`${base}${localePath}/products`} class:list={[{ active: currentPage === 'products' }]}>{t.nav.products}</a>
-            <a href={`${base}${localePath}/recipes`} class:list={[{ active: currentPage === 'recipes' }]}>{t.nav.recipes}</a>
-            <a href={`${base}${localePath}/our-mission`} class:list={[{ active: currentPage === 'our-mission' }]}>{t.nav.ourStory}</a>
-            <a href={`${base}${localePath}/#locator`}>{t.nav.findUs}</a>
+            <a href={`${base}${localePath}/products`} class:list={[{ active: currentPage === 'products' }]} data-hover="Das gute Zeug">{t.nav.products}</a>
+            <a href={`${base}${localePath}/recipes`} class:list={[{ active: currentPage === 'recipes' }]} data-hover="Kochen ohne Reue">{t.nav.recipes}</a>
+            <a href={`${base}${localePath}/our-mission`} class:list={[{ active: currentPage === 'our-mission' }]} data-hover="Warum wir das machen">{t.nav.ourStory}</a>
+            <a href={`${base}${localePath}/#locator`} data-hover="Wo du uns findest">{t.nav.findUs}</a>
         </div>
 
         <button class="nav-toggle" id="navToggle" aria-label="Open menu">
@@ -106,11 +106,36 @@ const localePath = `/${locale}`;
     }
 
     .nav-links a {
+        position: relative;
         color: var(--planted-purple);
         text-decoration: none;
         font-weight: 600;
         font-size: 0.95rem;
         transition: opacity 0.3s;
+    }
+
+    .nav-links a::before {
+        content: attr(data-hover);
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 50%;
+        transform: translateX(-50%) translateY(4px);
+        font-size: 0.75rem;
+        color: var(--planted-purple);
+        background: white;
+        padding: 4px 10px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 150ms ease;
+        z-index: 10;
+    }
+
+    .nav-links a:hover::before {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
     }
 
     .nav-links a:hover,
