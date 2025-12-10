@@ -142,12 +142,15 @@ export function HierarchyTree({
     const isVenue = node.type === 'venue';
     const isSelected = isVenue && node.venue?.id === selectedVenueId;
     const isFocused = node.id === focusedNodeId;
+    // Non-venue nodes with children should always be expandable/drillable
+    const isExpandable = hasChildren && !isVenue;
 
     const handleClick = () => {
       setFocusedNodeId(node.id);
       if (isVenue && node.venue) {
         onSelectVenue(node.venue.id);
-      } else if (hasChildren) {
+      } else if (isExpandable) {
+        // Always toggle expansion for non-venue nodes with children
         toggleNode(node.id);
       }
     };
@@ -182,7 +185,7 @@ export function HierarchyTree({
           style={{ paddingLeft: `${depth * 20 + 12}px` }}
           tabIndex={0}
         >
-          {hasChildren && (
+          {isExpandable && (
             <span className="flex-shrink-0">
               {isExpanded ? (
                 <ChevronDown className="h-4 w-4" />
@@ -191,7 +194,7 @@ export function HierarchyTree({
               )}
             </span>
           )}
-          {!hasChildren && <span className="w-4" />}
+          {!isExpandable && <span className="w-4" />}
           <span className="flex-shrink-0">{getNodeIcon()}</span>
           <span className="flex-1 truncate">{node.label}</span>
           <Badge variant="secondary" className="flex-shrink-0 text-xs">

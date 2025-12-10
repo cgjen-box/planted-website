@@ -52,24 +52,16 @@ interface BackendReviewDish {
   status: string;
 }
 
-interface BackendChainGroup {
-  chainId: string;
-  chainName: string;
-  venues: BackendReviewVenue[];
-  totalVenues: number;
-}
-
-interface BackendVenueTypeGroup {
-  type: 'chain' | 'independent';
-  chains?: BackendChainGroup[];
-  venues?: BackendReviewVenue[];
-  totalVenues: number;
-}
-
-interface BackendCountryGroup {
-  country: string;
-  venueTypes: BackendVenueTypeGroup[];
-  totalVenues: number;
+/**
+ * Backend HierarchyNode format (now matches frontend)
+ */
+interface BackendHierarchyNode {
+  id: string;
+  type: 'country' | 'venueType' | 'chain' | 'venue';
+  label: string;
+  count: number;
+  children?: BackendHierarchyNode[];
+  venue?: BackendReviewVenue;
 }
 
 interface BackendStats {
@@ -89,7 +81,7 @@ interface BackendStats {
 
 interface BackendResponse {
   items: BackendReviewVenue[];
-  hierarchy: BackendCountryGroup[];
+  hierarchy: BackendHierarchyNode[];
   stats: BackendStats;
   pagination: {
     cursor?: string;
@@ -141,69 +133,38 @@ function transformDish(backendDish: BackendReviewDish): ReviewDish {
 }
 
 /**
- * Transform backend hierarchy to frontend HierarchyNode format
+ * Transform backend hierarchy node to frontend HierarchyNode format
+ * The backend now returns HierarchyNode[] directly, but venue objects need transformation
  */
-function transformHierarchy(backendHierarchy: BackendCountryGroup[], items: ReviewVenue[]): HierarchyNode[] {
-  const nodes: HierarchyNode[] = [];
+function transformHierarchyNode(node: BackendHierarchyNode, itemsMap: Map<string, ReviewVenue>): HierarchyNode {
+  const result: HierarchyNode = {
+    id: node.id,
+    type: node.type,
+    label: node.label,
+    count: node.count,
+  };
 
-  for (const countryGroup of backendHierarchy) {
-    const countryNode: HierarchyNode = {
-      id: countryGroup.country,
-      type: 'country',
-      label: countryGroup.country,
-      count: countryGroup.totalVenues,
-      children: [],
-    };
-
-    for (const venueTypeGroup of countryGroup.venueTypes) {
-      const venueTypeNode: HierarchyNode = {
-        id: `${countryGroup.country}-${venueTypeGroup.type}`,
-        type: 'venueType',
-        label: venueTypeGroup.type === 'chain' ? 'Chains' : 'Independent',
-        count: venueTypeGroup.totalVenues,
-        children: [],
-      };
-
-      if (venueTypeGroup.type === 'chain' && venueTypeGroup.chains) {
-        for (const chainGroup of venueTypeGroup.chains) {
-          const chainNode: HierarchyNode = {
-            id: chainGroup.chainId,
-            type: 'chain',
-            label: chainGroup.chainName,
-            count: chainGroup.totalVenues,
-            children: chainGroup.venues.map((v) => {
-              const frontendVenue = items.find(item => item.id === v.id);
-              return {
-                id: `venue-${v.id}`,
-                type: 'venue' as const,
-                label: v.name,
-                count: v.dishes.length,
-                venue: frontendVenue,
-              };
-            }),
-          };
-          venueTypeNode.children!.push(chainNode);
-        }
-      } else if (venueTypeGroup.venues) {
-        venueTypeNode.children = venueTypeGroup.venues.map((v) => {
-          const frontendVenue = items.find(item => item.id === v.id);
-          return {
-            id: `venue-${v.id}`,
-            type: 'venue' as const,
-            label: v.name,
-            count: v.dishes.length,
-            venue: frontendVenue,
-          };
-        });
-      }
-
-      countryNode.children!.push(venueTypeNode);
-    }
-
-    nodes.push(countryNode);
+  // If this is a venue node, attach the transformed venue
+  if (node.type === 'venue' && node.venue) {
+    result.venue = itemsMap.get(node.venue.id);
   }
 
-  return nodes;
+  // Recursively transform children
+  if (node.children && node.children.length > 0) {
+    result.children = node.children.map(child => transformHierarchyNode(child, itemsMap));
+  }
+
+  return result;
+}
+
+/**
+ * Transform backend hierarchy to frontend HierarchyNode format
+ */
+function transformHierarchy(backendHierarchy: BackendHierarchyNode[], items: ReviewVenue[]): HierarchyNode[] {
+  // Create a map for quick venue lookup
+  const itemsMap = new Map<string, ReviewVenue>(items.map(item => [item.id, item]));
+
+  return backendHierarchy.map(node => transformHierarchyNode(node, itemsMap));
 }
 
 /**

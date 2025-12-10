@@ -20,12 +20,8 @@ const ALLOWED_ORIGINS: (string | RegExp)[] = [
   /^https:\/\/.*\.planted\.com$/,
   // External
   'https://cgjen-box.github.io',
-  // Development
-  'http://localhost:3000',
-  'http://localhost:5173',
-  'http://localhost:5174',
-  'http://localhost:5175',
-  'http://localhost:4000',
+  // Development (localhost on any port)
+  /^http:\/\/localhost:\d+$/,
 ];
 
 /**

@@ -422,9 +422,22 @@ export const adminReviewQueueHandler = createAdminHandler(
 );
 
 /**
- * Build hierarchical structure: Country → VenueType → Chain → Venue
+ * HierarchyNode for frontend consumption
  */
-function buildHierarchy(venues: ReviewVenue[]): CountryGroup[] {
+interface HierarchyNode {
+  id: string;
+  type: 'country' | 'venueType' | 'chain' | 'venue';
+  label: string;
+  count: number;
+  children?: HierarchyNode[];
+  venue?: ReviewVenue;
+}
+
+/**
+ * Build hierarchical structure: Country → VenueType → Chain → Venue
+ * Returns HierarchyNode[] format for the frontend
+ */
+function buildHierarchy(venues: ReviewVenue[]): HierarchyNode[] {
   const countryMap = new Map<SupportedCountry, ReviewVenue[]>();
 
   // Group by country
@@ -436,8 +449,8 @@ function buildHierarchy(venues: ReviewVenue[]): CountryGroup[] {
     countryMap.get(country)!.push(venue);
   }
 
-  // Build country groups
-  const countryGroups: CountryGroup[] = [];
+  // Build country nodes
+  const countryNodes: HierarchyNode[] = [];
 
   for (const [country, countryVenues] of Array.from(countryMap)) {
     // Separate venues into three groups:
@@ -448,7 +461,7 @@ function buildHierarchy(venues: ReviewVenue[]): CountryGroup[] {
     const suggestedChainVenues = countryVenues.filter(v => !v.chainId && v.suggestedChainId);
     const independentVenues = countryVenues.filter(v => !v.chainId && !v.suggestedChainId);
 
-    const venueTypes: VenueTypeGroup[] = [];
+    const venueTypeNodes: HierarchyNode[] = [];
 
     // Build assigned chain groups
     if (chainVenues.length > 0) {
@@ -462,32 +475,45 @@ function buildHierarchy(venues: ReviewVenue[]): CountryGroup[] {
         chainMap.get(chainId)!.push(venue);
       }
 
-      const chainsArray: ChainGroup[] = [];
-      for (const [chainId, venues] of Array.from(chainMap)) {
-        chainsArray.push({
-          chainId,
-          chainName: venues[0].chainName || 'Unknown Chain',
-          venues,
-          totalVenues: venues.length,
+      const chainNodes: HierarchyNode[] = [];
+      for (const [chainId, chainVenueList] of Array.from(chainMap)) {
+        const chainName = chainVenueList[0].chainName || 'Unknown Chain';
+
+        // Create venue nodes under this chain
+        const venueNodes: HierarchyNode[] = chainVenueList.map(v => ({
+          id: `venue-${v.id}`,
+          type: 'venue' as const,
+          label: v.name,
+          count: v.dishes.length,
+          venue: v,
+        }));
+
+        chainNodes.push({
+          id: `chain-${chainId}`,
+          type: 'chain',
+          label: chainName,
+          count: chainVenueList.length,
+          children: venueNodes,
         });
       }
 
-      // Sort chains by total venues descending
-      chainsArray.sort((a, b) => b.totalVenues - a.totalVenues);
+      // Sort chains by count descending
+      chainNodes.sort((a, b) => b.count - a.count);
 
-      venueTypes.push({
-        type: 'chain',
-        chains: chainsArray,
-        totalVenues: chainVenues.length,
+      venueTypeNodes.push({
+        id: `${country}-chains`,
+        type: 'venueType',
+        label: 'Chains',
+        count: chainVenues.length,
+        children: chainNodes,
       });
     }
 
-    // Build suggested chain groups (venues that SHOULD be linked to chains)
+    // Build suggested chain groups
     if (suggestedChainVenues.length > 0) {
       const suggestedMap = new Map<string, ReviewVenue[]>();
 
       for (const venue of suggestedChainVenues) {
-        // Group by suggested chain name (since suggestedChainId might be empty for new chains)
         const key = venue.suggestedChainName || 'Unknown';
         if (!suggestedMap.has(key)) {
           suggestedMap.set(key, []);
@@ -495,46 +521,73 @@ function buildHierarchy(venues: ReviewVenue[]): CountryGroup[] {
         suggestedMap.get(key)!.push(venue);
       }
 
-      const suggestedChains: ChainGroup[] = [];
-      for (const [chainName, venues] of Array.from(suggestedMap)) {
-        suggestedChains.push({
-          chainId: venues[0].suggestedChainId || '', // May be empty if chain needs to be created
-          chainName,
-          venues,
-          totalVenues: venues.length,
+      const suggestedChainNodes: HierarchyNode[] = [];
+      for (const [chainName, suggestedVenueList] of Array.from(suggestedMap)) {
+        const chainId = suggestedVenueList[0].suggestedChainId || chainName.toLowerCase().replace(/\s+/g, '-');
+
+        // Create venue nodes under this suggested chain
+        const venueNodes: HierarchyNode[] = suggestedVenueList.map(v => ({
+          id: `venue-${v.id}`,
+          type: 'venue' as const,
+          label: v.name,
+          count: v.dishes.length,
+          venue: v,
+        }));
+
+        suggestedChainNodes.push({
+          id: `suggested-${chainId}`,
+          type: 'chain',
+          label: `${chainName} (suggested)`,
+          count: suggestedVenueList.length,
+          children: venueNodes,
         });
       }
 
-      // Sort by total venues descending
-      suggestedChains.sort((a, b) => b.totalVenues - a.totalVenues);
+      // Sort by count descending
+      suggestedChainNodes.sort((a, b) => b.count - a.count);
 
-      venueTypes.push({
-        type: 'suggested',
-        chains: suggestedChains,
-        totalVenues: suggestedChainVenues.length,
+      venueTypeNodes.push({
+        id: `${country}-suggested`,
+        type: 'venueType',
+        label: 'Suggested Chains',
+        count: suggestedChainVenues.length,
+        children: suggestedChainNodes,
       });
     }
 
-    // Add truly independent venues (no chain and no suggestion)
+    // Add truly independent venues
     if (independentVenues.length > 0) {
-      venueTypes.push({
-        type: 'independent',
-        venues: independentVenues,
-        totalVenues: independentVenues.length,
+      // Create venue nodes for independent venues
+      const independentVenueNodes: HierarchyNode[] = independentVenues.map(v => ({
+        id: `venue-${v.id}`,
+        type: 'venue' as const,
+        label: v.name,
+        count: v.dishes.length,
+        venue: v,
+      }));
+
+      venueTypeNodes.push({
+        id: `${country}-independent`,
+        type: 'venueType',
+        label: 'Independent',
+        count: independentVenues.length,
+        children: independentVenueNodes,
       });
     }
 
-    countryGroups.push({
-      country,
-      venueTypes,
-      totalVenues: countryVenues.length,
+    countryNodes.push({
+      id: country,
+      type: 'country',
+      label: country,
+      count: countryVenues.length,
+      children: venueTypeNodes,
     });
   }
 
   // Sort by country name
-  countryGroups.sort((a, b) => a.country.localeCompare(b.country));
+  countryNodes.sort((a, b) => a.label.localeCompare(b.label));
 
-  return countryGroups;
+  return countryNodes;
 }
 
 /**

@@ -6,11 +6,8 @@ const allowedOrigins = [
   'https://www.planted.com',
   'https://cgjen-box.github.io',
   /^https:\/\/.*\.planted\.com$/,
-  // Development origins
-  'http://localhost:3000',
-  'http://localhost:5173',
-  'http://localhost:5174',
-  'http://localhost:4000',
+  // Development origins (localhost on any port)
+  /^http:\/\/localhost:\d+$/,
 ];
 
 export const corsMiddleware = cors({
@@ -30,7 +27,8 @@ export const corsMiddleware = cors({
     });
 
     if (isAllowed) {
-      callback(null, true);
+      // Pass the origin back to set Access-Control-Allow-Origin header
+      callback(null, origin);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
