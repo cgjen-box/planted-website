@@ -100,7 +100,7 @@ export function Sidebar() {
           Admin Dashboard
         </h1>
         <p className="text-xs text-muted-foreground mt-1">
-          v2.0
+          v3.0.0-build1210a
         </p>
       </div>
 
