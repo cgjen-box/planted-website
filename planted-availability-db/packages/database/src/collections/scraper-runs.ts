@@ -30,6 +30,16 @@ export class ScraperRunsCollection {
       stats: data.stats,
       errors: data.errors,
       next_run: data.next_run ? timestampToDate(data.next_run) : undefined,
+      progress: data.progress,
+      costs: data.costs,
+      logs: data.logs ? data.logs.map((log: any) => ({
+        timestamp: timestampToDate(log.timestamp),
+        level: log.level,
+        message: log.message,
+      })) : undefined,
+      cancelledAt: data.cancelledAt ? timestampToDate(data.cancelledAt) : undefined,
+      cancelledBy: data.cancelledBy,
+      config: data.config,
     };
   }
 
@@ -45,6 +55,16 @@ export class ScraperRunsCollection {
     }
     if (data.next_run) {
       result.next_run = createTimestamp(data.next_run);
+    }
+    if (data.logs) {
+      result.logs = data.logs.map((log) => ({
+        timestamp: createTimestamp(log.timestamp),
+        level: log.level,
+        message: log.message,
+      }));
+    }
+    if (data.cancelledAt) {
+      result.cancelledAt = createTimestamp(data.cancelledAt);
     }
 
     return result;
@@ -416,6 +436,122 @@ export class ScraperRunsCollection {
     return Array.from(byDate.entries())
       .map(([date, stats]) => ({ date, ...stats }))
       .sort((a, b) => a.date.localeCompare(b.date));
+  }
+
+  /**
+   * Update progress for a scraper run
+   */
+  async updateProgress(id: string, current: number, total: number): Promise<void> {
+    const percentage = total > 0 ? Math.round((current / total) * 100) : 0;
+    await this.collection.doc(id).update({
+      progress: { current, total, percentage },
+    });
+  }
+
+  /**
+   * Update costs for a scraper run
+   */
+  async updateCosts(id: string, searchQueries: number, aiCalls: number, estimated: number): Promise<void> {
+    await this.collection.doc(id).update({
+      costs: { searchQueries, aiCalls, estimated },
+    });
+  }
+
+  /**
+   * Add log entry to a scraper run
+   */
+  async addLog(id: string, level: 'info' | 'warn' | 'error', message: string): Promise<void> {
+    const docRef = this.collection.doc(id);
+    const doc = await docRef.get();
+
+    if (!doc.exists) {
+      throw new Error(`Scraper run ${id} not found`);
+    }
+
+    const data = doc.data()!;
+    const logs = data.logs || [];
+    logs.push({
+      timestamp: createTimestamp(new Date()),
+      level,
+      message,
+    });
+
+    // Keep only last 100 logs to avoid document size issues
+    const recentLogs = logs.slice(-100);
+
+    await docRef.update({ logs: recentLogs });
+  }
+
+  /**
+   * Cancel a scraper run
+   */
+  async cancel(id: string, cancelledBy: string): Promise<void> {
+    const now = new Date();
+    await this.collection.doc(id).update({
+      status: 'cancelled',
+      cancelledAt: createTimestamp(now),
+      cancelledBy,
+      completed_at: createTimestamp(now),
+    });
+  }
+
+  /**
+   * Check if a scraper run has been cancelled
+   */
+  async isCancelled(id: string): Promise<boolean> {
+    const doc = await this.collection.doc(id).get();
+    if (!doc.exists) {
+      return false;
+    }
+    const data = doc.data()!;
+    return data.status === 'cancelled';
+  }
+
+  /**
+   * Start a new scraper run with config
+   */
+  async startWithConfig(scraperId: string, config: Record<string, any>): Promise<ScraperRun> {
+    const id = generateId(this.collectionName);
+    const now = new Date();
+
+    const run: ScraperRun = {
+      id,
+      scraper_id: scraperId,
+      started_at: now,
+      status: 'pending',
+      stats: {
+        venues_checked: 0,
+        venues_updated: 0,
+        dishes_found: 0,
+        dishes_updated: 0,
+        errors: 0,
+      },
+      progress: {
+        current: 0,
+        total: 0,
+        percentage: 0,
+      },
+      costs: {
+        searchQueries: 0,
+        aiCalls: 0,
+        estimated: 0,
+      },
+      logs: [],
+      config,
+    };
+
+    await this.collection.doc(id).set(this.toFirestore(run));
+
+    return run;
+  }
+
+  /**
+   * Update status to running
+   */
+  async markAsRunning(id: string): Promise<void> {
+    await this.collection.doc(id).update({
+      status: 'running',
+    });
   }
 }
 

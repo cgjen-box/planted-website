@@ -19,6 +19,8 @@ export * from './dish-extraction-runs.js';
 export * from './discovered-dishes.js';
 export * from './dish-feedback.js';
 export * from './ai-feedback.js';
+export * from './budgetTracking.js';
+export * from './syncHistory.js';
 
 // Export collection instances for convenience
 export { venues } from './venues.js';
@@ -41,3 +43,5 @@ export { dishExtractionRuns } from './dish-extraction-runs.js';
 export { discoveredDishes } from './discovered-dishes.js';
 export { dishFeedback } from './dish-feedback.js';
 export { aiFeedback } from './ai-feedback.js';
+export { budgetTracking } from './budgetTracking.js';
+export { syncHistory } from './syncHistory.js';

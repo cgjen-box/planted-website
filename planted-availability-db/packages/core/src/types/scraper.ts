@@ -1,4 +1,4 @@
-export type ScraperStatus = 'running' | 'completed' | 'failed' | 'partial';
+export type ScraperStatus = 'pending' | 'running' | 'completed' | 'failed' | 'partial' | 'cancelled';
 
 export interface ScraperStats {
   venues_checked: number;
@@ -14,6 +14,24 @@ export interface ScraperError {
   stack?: string;
 }
 
+export interface ScraperProgress {
+  current: number;
+  total: number;
+  percentage: number;
+}
+
+export interface ScraperCosts {
+  searchQueries: number;
+  aiCalls: number;
+  estimated: number;
+}
+
+export interface ScraperLogEntry {
+  timestamp: Date;
+  level: 'info' | 'warn' | 'error';
+  message: string;
+}
+
 export interface ScraperRun {
   id: string;
   scraper_id: string;
@@ -23,6 +41,12 @@ export interface ScraperRun {
   stats: ScraperStats;
   errors?: ScraperError[];
   next_run?: Date;
+  progress?: ScraperProgress;
+  costs?: ScraperCosts;
+  logs?: ScraperLogEntry[];
+  cancelledAt?: Date;
+  cancelledBy?: string;
+  config?: Record<string, any>; // Store the configuration used for this run
 }
 
 export interface ScraperConfig {
