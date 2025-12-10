@@ -377,15 +377,21 @@ pnpm run review-dishes --batch 20
 
 Use the Review Queue page in Admin Dashboard v2 for a modern visual interface:
 
-1. Navigate to `http://localhost:5175/review-queue`
+1. Navigate to `https://get-planted-db.web.app/review-queue` (production) or `http://localhost:5175/review-queue` (dev)
 2. **Filter**: Use sidebar filters for country, confidence, status
 3. **Browse**: Navigate the hierarchical tree (Country → Chain → Venue)
-4. **Review**: View venue details, delivery platforms, and dishes
+4. **Review**: View venue details, delivery platforms, and **dishes with product types**
 5. **Approve**:
    - Full Approve - Everything correct
    - Partial Approve - Correct with minor fixes + feedback
 6. **Reject**: Mark as false positive with reason
 7. **Bulk Actions**: Select multiple venues for bulk approve/reject
+
+**What You'll See:**
+- Venue name and address
+- Delivery platform links (Uber Eats, Wolt, etc.)
+- **Dishes**: Name, product type (e.g., planted.chicken), price, confidence score
+- Confidence factors explaining why this venue was discovered
 
 **Approval Workflow States:**
 ```
@@ -586,8 +592,10 @@ Check console output when running CLI tools with `--verbose` flag.
 
 ### Recommended Workflow (Dashboard v2)
 
-1. **Morning:** Open Dashboard (`http://localhost:5175`) - check pipeline status and overnight discoveries
+1. **Morning:** Open Dashboard (`https://get-planted-db.web.app`) - check pipeline status and overnight discoveries
 2. **Review:** Navigate to Review Queue - process pending venues with bulk actions
+   - Each venue shows its **dishes** with product types, prices, and confidence scores
+   - Use Partial Approve to provide feedback on incorrect data
 3. **Monitor:** Check Cost Monitor for budget usage and API costs
 4. **Sync:** Use Sync to Website page to push approved venues live
 5. **Verify:** Check Live on Website to confirm data is published

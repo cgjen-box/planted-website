@@ -13,7 +13,6 @@ import { z } from 'zod';
 import {
   initializeFirestore,
   discoveredVenues,
-  discoveredDishes,
 } from '@pad/database';
 import { createAdminHandler } from '../../../middleware/adminHandler.js';
 import type { SupportedCountry, DiscoveredVenueStatus } from '@pad/core';
@@ -146,42 +145,42 @@ export const adminReviewQueueHandler = createAdminHandler(
     const hasMore = startIndex + limit < venues.length;
     const nextCursor = hasMore ? paginatedVenues[paginatedVenues.length - 1]?.id : undefined;
 
-    // Fetch dishes for each venue
-    const venuesWithDishes = await Promise.all(
-      paginatedVenues.map(async (venue) => {
-        const venueDishes = await discoveredDishes.getByVenue(venue.id);
+    // Map venues to ReviewVenue format with embedded dishes
+    const venuesWithDishes = paginatedVenues.map((venue) => {
+      // Use embedded dishes from the venue document
+      // These are populated by SmartDiscoveryAgent during discovery
+      const embeddedDishes = venue.dishes || [];
 
-        const reviewDishes: ReviewDish[] = venueDishes.map(dish => ({
-          id: dish.id,
-          name: dish.name,
-          description: dish.description,
-          product: dish.planted_product,
-          confidence: dish.confidence_score,
-          price: dish.price_by_country[venue.address.country],
-          imageUrl: dish.image_url,
-          status: dish.status,
-        }));
+      const reviewDishes: ReviewDish[] = embeddedDishes.map((dish, index) => ({
+        id: `${venue.id}-dish-${index}`,  // Generate ID (embedded dishes don't have IDs)
+        name: dish.name,
+        description: dish.description,
+        product: dish.planted_product,
+        confidence: dish.confidence,       // Embedded uses 'confidence' (0-100)
+        price: dish.price,                 // Simple string like "CHF 18.90"
+        imageUrl: undefined,               // Embedded dishes don't have images
+        status: 'discovered',              // Embedded dishes don't track status
+      }));
 
-        const reviewVenue: ReviewVenue = {
-          id: venue.id,
-          name: venue.name,
-          chainId: venue.chain_id,
-          chainName: venue.chain_name,
-          address: {
-            street: venue.address.street,
-            city: venue.address.city,
-            postalCode: venue.address.postal_code,
-            country: venue.address.country,
-          },
-          confidenceScore: venue.confidence_score,
-          status: venue.status,
-          createdAt: venue.created_at,
-          dishes: reviewDishes,
-        };
+      const reviewVenue: ReviewVenue = {
+        id: venue.id,
+        name: venue.name,
+        chainId: venue.chain_id,
+        chainName: venue.chain_name,
+        address: {
+          street: venue.address.street,
+          city: venue.address.city,
+          postalCode: venue.address.postal_code,
+          country: venue.address.country,
+        },
+        confidenceScore: venue.confidence_score,
+        status: venue.status,
+        createdAt: venue.created_at,
+        dishes: reviewDishes,
+      };
 
-        return reviewVenue;
-      })
-    );
+      return reviewVenue;
+    });
 
     // Build hierarchical structure
     const hierarchy = buildHierarchy(venuesWithDishes);

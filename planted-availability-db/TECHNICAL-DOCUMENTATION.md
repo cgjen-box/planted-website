@@ -595,6 +595,24 @@ ENABLE_QUERY_CACHE=true    # Enable/disable caching
 
 ## Part 4: Data Models
 
+### 4.0 Data Architecture Notes
+
+#### Dish Storage: Embedded vs Separate Collection
+
+Dishes are stored in **TWO places** depending on the discovery workflow:
+
+1. **Embedded in `discovered_venues.dishes[]`** - Simple dish objects stored directly in the venue document
+   - Created by: `SmartDiscoveryAgent` during venue discovery
+   - Fields: `name`, `description`, `price`, `planted_product`, `confidence`
+   - No individual IDs (generated as `${venueId}-dish-${index}`)
+
+2. **Separate `discovered_dishes` collection** - Full dish documents with `venue_id` reference
+   - Created by: `SmartDishFinderAgent` during dish extraction
+   - Fields: Full `ExtractedDish` type with pricing, confidence factors, status tracking
+   - Individual document IDs
+
+**Important:** The Review Queue API (`/adminReviewQueue`) uses **embedded dishes** from `venue.dishes[]`, not the separate collection. This ensures dishes are always displayed with their parent venue.
+
 ### 4.1 DiscoveredVenue
 
 ```typescript
@@ -888,14 +906,16 @@ New endpoints for the Admin Dashboard v2 workflow features.
 
 #### Review Workflow APIs
 
+Firebase Cloud Functions use flat function names, not REST-style paths:
+
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/admin/review/queue` | GET | Get hierarchical review queue |
-| `/admin/review/venues/:id/approve` | POST | Full venue approval |
-| `/admin/review/venues/:id/partial-approve` | POST | Partial approval with feedback |
-| `/admin/review/venues/:id/reject` | POST | Reject with reason |
-| `/admin/review/bulk/approve` | POST | Bulk approve (max 100) |
-| `/admin/review/bulk/reject` | POST | Bulk reject (max 100) |
+| `/adminReviewQueue` | GET | Get hierarchical review queue |
+| `/adminApproveVenue` | POST | Full venue approval (venueId in body) |
+| `/adminPartialApproveVenue` | POST | Partial approval with feedback (venueId in body) |
+| `/adminRejectVenue` | POST | Reject with reason (venueId in body) |
+| `/adminBulkApprove` | POST | Bulk approve (max 100) |
+| `/adminBulkReject` | POST | Bulk reject (max 100) |
 
 #### GET /admin/review/queue
 Get review queue with hierarchical organization.
@@ -946,12 +966,13 @@ Get review queue with hierarchical organization.
 }
 ```
 
-#### POST /admin/review/venues/:id/approve
+#### POST /adminApproveVenue
 Fully approve a discovered venue.
 
 **Request Body:**
 ```json
 {
+  "venueId": "venue-123",
   "dishApprovals": [
     { "dishId": "dish-123", "approved": true },
     { "dishId": "dish-456", "approved": false }
@@ -959,12 +980,13 @@ Fully approve a discovered venue.
 }
 ```
 
-#### POST /admin/review/venues/:id/partial-approve
+#### POST /adminPartialApproveVenue
 Approve venue with corrections and feedback.
 
 **Request Body:**
 ```json
 {
+  "venueId": "venue-123",
   "feedback": "Price was incorrect, dish missing",
   "feedbackTags": ["wrong_price", "missing_dish"],
   "dishUpdates": [
@@ -977,12 +999,13 @@ Approve venue with corrections and feedback.
 }
 ```
 
-#### POST /admin/review/venues/:id/reject
+#### POST /adminRejectVenue
 Reject venue as false positive.
 
 **Request Body:**
 ```json
 {
+  "venueId": "venue-123",
   "reason": "Not actually serving Planted products",
   "feedbackTags": ["not_planted_partner"]
 }

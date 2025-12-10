@@ -25,30 +25,23 @@ initializeFirestore();
 
 // Validation schema for partial approve request body
 const partialApproveBodySchema = z.object({
+  venueId: z.string().min(1),
   feedback: z.string(),
-  feedbackTags: z.array(z.string()),
+  feedbackTags: z.array(z.string()).optional().default([]),
   dishUpdates: z.array(z.object({
     dishId: z.string(),
     updates: z.record(z.unknown()),
     approved: z.boolean(),
   })).optional(),
+  dishIds: z.array(z.string()).optional(), // For simple partial approval (which dishes to include)
 });
 
 /**
- * Handler for POST /admin/review/venues/:id/partial-approve
+ * Handler for POST /adminPartialApproveVenue
  */
 export const adminPartialApproveVenueHandler = createAdminHandler(
   async (req, res) => {
-    // Extract venue ID from path
-    const pathParts = req.path.split('/').filter(Boolean);
-    const venueId = pathParts[pathParts.length - 2]; // .../venues/:id/partial-approve
-
-    if (!venueId) {
-      res.status(400).json({ error: 'Venue ID required' });
-      return;
-    }
-
-    // Validate request body
+    // Validate request body (venueId now comes from body)
     const validation = partialApproveBodySchema.safeParse(req.body);
     if (!validation.success) {
       res.status(400).json({
@@ -58,7 +51,7 @@ export const adminPartialApproveVenueHandler = createAdminHandler(
       return;
     }
 
-    const { feedback, feedbackTags, dishUpdates } = validation.data;
+    const { venueId, feedback, feedbackTags, dishUpdates } = validation.data;
 
     // Get the venue
     const venue = await discoveredVenues.getById(venueId);

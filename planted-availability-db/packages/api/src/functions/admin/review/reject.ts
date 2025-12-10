@@ -23,25 +23,17 @@ initializeFirestore();
 
 // Validation schema for reject request body
 const rejectBodySchema = z.object({
+  venueId: z.string().min(1),
   reason: z.string().min(1, 'Rejection reason is required'),
   feedbackTags: z.array(z.string()).optional(),
 });
 
 /**
- * Handler for POST /admin/review/venues/:id/reject
+ * Handler for POST /adminRejectVenue
  */
 export const adminRejectVenueHandler = createAdminHandler(
   async (req, res) => {
-    // Extract venue ID from path
-    const pathParts = req.path.split('/').filter(Boolean);
-    const venueId = pathParts[pathParts.length - 2]; // .../venues/:id/reject
-
-    if (!venueId) {
-      res.status(400).json({ error: 'Venue ID required' });
-      return;
-    }
-
-    // Validate request body
+    // Validate request body (venueId now comes from body)
     const validation = rejectBodySchema.safeParse(req.body);
     if (!validation.success) {
       res.status(400).json({
@@ -51,7 +43,7 @@ export const adminRejectVenueHandler = createAdminHandler(
       return;
     }
 
-    const { reason, feedbackTags } = validation.data;
+    const { venueId, reason, feedbackTags } = validation.data;
 
     // Get the venue
     const venue = await discoveredVenues.getById(venueId);

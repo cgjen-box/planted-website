@@ -24,6 +24,7 @@ initializeFirestore();
 
 // Validation schema for approve request body
 const approveBodySchema = z.object({
+  venueId: z.string().min(1),
   dishApprovals: z.array(z.object({
     dishId: z.string(),
     approved: z.boolean(),
@@ -31,20 +32,11 @@ const approveBodySchema = z.object({
 });
 
 /**
- * Handler for POST /admin/review/venues/:id/approve
+ * Handler for POST /adminApproveVenue
  */
 export const adminApproveVenueHandler = createAdminHandler(
   async (req, res) => {
-    // Extract venue ID from path
-    const pathParts = req.path.split('/').filter(Boolean);
-    const venueId = pathParts[pathParts.length - 2]; // .../venues/:id/approve
-
-    if (!venueId) {
-      res.status(400).json({ error: 'Venue ID required' });
-      return;
-    }
-
-    // Validate request body
+    // Validate request body (venueId now comes from body)
     const validation = approveBodySchema.safeParse(req.body);
     if (!validation.success) {
       res.status(400).json({
@@ -54,7 +46,7 @@ export const adminApproveVenueHandler = createAdminHandler(
       return;
     }
 
-    const { dishApprovals } = validation.data;
+    const { venueId, dishApprovals } = validation.data;
 
     // Get the venue
     const venue = await discoveredVenues.getById(venueId);

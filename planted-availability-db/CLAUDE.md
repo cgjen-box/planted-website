@@ -54,8 +54,28 @@ This is a monorepo with the following packages:
 - `packages/api` - Firebase Cloud Functions
 - `packages/scrapers` - Discovery agents
 - `packages/admin-dashboard` - Legacy admin UI (v1)
-- `packages/admin-dashboard-v2` - New workflow-focused admin UI
+- `packages/admin-dashboard-v2` - New workflow-focused admin UI (deployed at https://get-planted-db.web.app)
 - `packages/client-sdk` - Public SDK
+
+## Key Architecture Notes
+
+### Firebase Cloud Functions Naming
+Firebase Cloud Functions use **flat function names**, not REST-style paths:
+- `/adminReviewQueue` (not `/admin/review/queue`)
+- `/adminApproveVenue` (not `/admin/review/venues/:id/approve`)
+- All approval/reject endpoints accept `venueId` in the request body
+
+### Dish Storage (Dual Architecture)
+Dishes exist in **TWO places**:
+1. **Embedded in `discovered_venues.dishes[]`** - Simple objects, created by SmartDiscoveryAgent
+2. **Separate `discovered_dishes` collection** - Full documents, created by SmartDishFinderAgent
+
+**Important:** The Review Queue uses **embedded dishes** from venue documents. When fixing dish-related issues, check `venue.dishes` first.
+
+### Authentication
+- Uses Firebase Auth with Google Sign-In (redirect flow)
+- The `useAuth` hook relies solely on `onAuthStateChanged` - Firebase handles redirect results internally
+- No manual `getRedirectResult()` calls needed
 
 ## Development Commands
 
