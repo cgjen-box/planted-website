@@ -13,7 +13,6 @@ import { LoadingState } from '@/shared/components/LoadingState';
 import { ErrorState } from '@/shared/components/ErrorState';
 import { useSyncPreview, useSyncStats } from '@/features/sync/hooks/useSyncPreview';
 import { useSync } from '@/features/sync/hooks/useSync';
-import { cn } from '@/lib/utils';
 import {
   Upload,
   Globe,
@@ -31,7 +30,7 @@ export function LiveWebsitePage() {
   const [syncing, setSyncing] = useState(false);
   const { data: preview, isLoading: previewLoading, error: previewError, refetch: refetchPreview } = useSyncPreview();
   const { data: stats, isLoading: statsLoading } = useSyncStats();
-  const { executeSync } = useSync();
+  const syncMutation = useSync();
 
   const handleSyncAll = async () => {
     if (!preview) return;
@@ -53,7 +52,7 @@ export function LiveWebsitePage() {
 
     setSyncing(true);
     try {
-      const result = await executeSync({ itemIds: allItemIds });
+      const result = await syncMutation.mutateAsync({ itemIds: allItemIds });
       if (result.success) {
         alert(`Sync completed successfully! ${result.itemsSucceeded} items synced.`);
         refetchPreview();

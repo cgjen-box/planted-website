@@ -13,17 +13,10 @@ import { useBudget } from '@/features/scraping/hooks/useBudget';
 import { useReviewQueue } from '@/features/review/hooks/useReviewQueue';
 import { useStrategyStats } from '@/hooks/useStrategyStats';
 import { BudgetStatus } from '@/features/scraping/components/BudgetStatus';
-import { cn } from '@/lib/utils';
 import {
   BarChart3,
   TrendingUp,
   TrendingDown,
-  CheckCircle,
-  XCircle,
-  Clock,
-  Zap,
-  Target,
-  AlertTriangle,
   Activity,
 } from 'lucide-react';
 
@@ -103,29 +96,12 @@ export function StatsPage() {
                 </p>
               </div>
               <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">Promoted</p>
+                <p className="text-sm text-muted-foreground">Total</p>
                 <p className="text-3xl font-bold text-blue-600">
-                  {stats?.promoted || 0}
+                  {stats?.total || 0}
                 </p>
               </div>
             </div>
-
-            {/* Flagged Stats */}
-            {stats?.flagged && stats.flagged.total > 0 && (
-              <div className="pt-4 border-t">
-                <p className="text-sm font-medium mb-2">Flagged for Priority</p>
-                <div className="flex gap-4">
-                  <Badge variant="outline" className="gap-1">
-                    <Zap className="h-3 w-3" />
-                    Dish Extraction: {stats.flagged.dish_extraction}
-                  </Badge>
-                  <Badge variant="outline" className="gap-1">
-                    <Target className="h-3 w-3" />
-                    Re-verification: {stats.flagged.re_verification}
-                  </Badge>
-                </div>
-              </div>
-            )}
 
             {/* By Country */}
             {stats?.byCountry && (

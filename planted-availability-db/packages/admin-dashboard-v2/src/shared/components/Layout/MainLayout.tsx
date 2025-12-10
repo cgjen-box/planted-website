@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuthContext } from '@/app/providers/AuthProvider';
 import { cn } from '@/lib/utils';
 import { LogOut, CheckCircle, Globe, BarChart3 } from 'lucide-react';
-import { Button } from '@/shared/ui/button';
+import { Button } from '@/shared/ui/Button';
 
 interface MainLayoutProps {
   children: ReactNode;

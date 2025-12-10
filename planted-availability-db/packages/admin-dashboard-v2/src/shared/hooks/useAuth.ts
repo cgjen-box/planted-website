@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import {
   User,
   signInWithEmailAndPassword,
-  signInWithRedirect,
+  signInWithPopup,
   GoogleAuthProvider,
   signOut as firebaseSignOut,
   onAuthStateChanged,
@@ -119,19 +119,15 @@ export function useAuth() {
   /**
    * Sign In with Google
    *
-   * Uses redirect flow. After redirect:
-   * 1. Page reloads
-   * 2. Firebase processes the redirect result internally
-   * 3. onAuthStateChanged fires with the user
+   * Uses popup flow for better localhost compatibility.
    */
   const signInWithGoogle = async (): Promise<void> => {
     setError(null);
-    // Don't set loading=true here - the page will redirect away
-    // and when it returns, loading starts as true anyway
+    setLoading(true);
 
     try {
-      await signInWithRedirect(auth, googleProvider);
-      // Code after this won't execute - page redirects to Google
+      await signInWithPopup(auth, googleProvider);
+      // onAuthStateChanged will handle the state update
     } catch (err) {
       const authError = err as AuthError;
       let errorMessage = 'Failed to sign in with Google';
@@ -149,10 +145,14 @@ export function useAuth() {
         case 'auth/unauthorized-domain':
           errorMessage = 'This domain is not authorized for OAuth';
           break;
+        case 'auth/popup-closed-by-user':
+          errorMessage = 'Sign-in popup was closed';
+          break;
         default:
           errorMessage = authError.message || 'Failed to sign in with Google';
       }
 
+      setLoading(false);
       setError(errorMessage);
       throw new Error(errorMessage);
     }

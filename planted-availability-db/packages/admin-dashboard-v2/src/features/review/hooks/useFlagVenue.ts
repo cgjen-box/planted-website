@@ -5,7 +5,7 @@
  */
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { adminApiClient } from '@/lib/adminApiClient';
+import { post } from '@/lib/api/client';
 import { reviewQueueKeys } from './useReviewQueue';
 
 interface FlagVenueParams {
@@ -28,7 +28,7 @@ interface FlagVenueResponse {
 }
 
 async function flagVenue(params: FlagVenueParams): Promise<FlagVenueResponse> {
-  return adminApiClient.post<FlagVenueResponse>('/adminFlagVenue', params);
+  return post<FlagVenueResponse>('/adminFlagVenue', params);
 }
 
 /**
