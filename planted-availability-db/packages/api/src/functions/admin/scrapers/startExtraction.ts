@@ -8,8 +8,6 @@ import { initializeFirestore, scraperRuns } from '@pad/database';
 import { createAdminHandler } from '../../../middleware/adminHandler.js';
 import { shouldThrottle, estimateScraperCost } from '../../../services/budgetThrottle.js';
 import { z } from 'zod';
-import { spawn } from 'child_process';
-import * as path from 'path';
 
 // Initialize Firestore
 initializeFirestore();
@@ -111,37 +109,12 @@ export const adminStartExtractionHandler = createAdminHandler(
 
     const run = await scraperRuns.startWithConfig(scraperId, config);
 
-    // Spawn background process to run the extraction
-    // In production, this would be a Cloud Run job or similar
-    const scraperPath = path.join(process.cwd(), 'packages', 'scrapers', 'dist', 'cli.js');
+    // NOTE: Cloud Functions cannot spawn background processes
+    // The extraction scraper needs to be run manually via CLI or Cloud Run Jobs
+    // For now, we just create the run record and return - manual execution required
 
-    const args = [
-      'dish-extraction',
-      '--mode', body.mode,
-      '--target', body.target,
-    ];
-
-    if (body.chainId) {
-      args.push('--chain-id', body.chainId);
-    }
-
-    if (body.venueId) {
-      args.push('--venue-id', body.venueId);
-    }
-
-    if (body.maxVenues) {
-      args.push('--max-venues', body.maxVenues.toString());
-    }
-
-    args.push('--run-id', run.id);
-
-    // Spawn the process in detached mode
-    const child = spawn('node', [scraperPath, ...args], {
-      detached: true,
-      stdio: 'ignore',
-    });
-
-    child.unref(); // Allow parent to exit independently
+    // Mark the run as pending manual execution
+    await scraperRuns.addLog(run.id, 'warn', 'Extraction requires manual execution via CLI. Cloud Functions cannot run long-running scrapers.');
 
     // Log the start
     const targetDesc = body.target === 'venue'
@@ -159,9 +132,10 @@ export const adminStartExtractionHandler = createAdminHandler(
       runId: run.id,
       statusUrl,
       status: 'pending',
-      message: 'Extraction scraper started successfully',
+      message: 'Extraction run created. Note: Scraper requires manual CLI execution (Cloud Functions limitation).',
       config,
       estimatedCost,
+      warning: 'Cloud Functions cannot run long-running scrapers. Run the scraper manually via CLI.',
     });
   },
   {
