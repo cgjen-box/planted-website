@@ -173,6 +173,34 @@ When implementing a new feature, add use cases following this format:
 **Expected Result:** Tree nodes expand/collapse correctly
 **Test Type:** unit
 
+## UC-RQ-014: Hierarchy Drill-Down Always Available
+**Preconditions:** Queue has venues organized hierarchically (Country > VenueType > Chain/Independent > Venue)
+**Steps:**
+1. Click on a country node (e.g., "Austria" showing "3 independent")
+2. Observe that chevron icon is visible
+3. Click to expand the country
+4. Click to expand venue type (e.g., "Independent")
+5. Click on individual venue to select it
+**Expected Result:**
+- All non-venue nodes with children show expand/collapse chevron
+- Clicking expands to show children (venueType nodes, chain nodes, or venue nodes)
+- Venue nodes (leaf nodes) do NOT show chevron but can be clicked to select
+- The count badge shows number of items at each level
+**Test Type:** unit, integration
+
+## UC-RQ-015: Hierarchy Structure Correctness
+**Preconditions:** Queue returns venues with different chain assignments
+**Steps:**
+1. Load review queue with mixed venues (chain, suggested chain, independent)
+2. Expand a country node
+**Expected Result:**
+- "Chains" group contains venues already assigned to chains
+- "Suggested Chains" group contains venues with auto-detected chain matches (not yet assigned)
+- "Independent" group contains venues with no chain and no suggestion
+- Each chain shows its venues as expandable children
+- Venue count at each level is accurate
+**Test Type:** integration
+
 ## 2.3 Filtering
 
 ## UC-RQ-020: Filter by Status
@@ -528,6 +556,104 @@ When implementing a new feature, add use cases following this format:
 
 ---
 
+# 8. Build & Deployment
+
+## UC-BUILD-001: TypeScript Build Success
+**Preconditions:** Code changes have been made
+**Steps:**
+1. Run `pnpm build` in dashboard package
+**Expected Result:** Build completes with no TypeScript errors
+**Test Type:** automated
+**Common Issues:**
+- Test files included in build causing errors (should be excluded in tsconfig.json)
+- Import casing mismatches (e.g., `@/shared/ui/button` vs `@/shared/ui/Button`)
+- Missing module paths (e.g., importing from non-existent path)
+- Unused variables/imports in production code
+
+## UC-BUILD-002: Test File Exclusion
+**Preconditions:** Project has test files in `__tests__` directories
+**Steps:**
+1. Ensure tsconfig.json has: `"exclude": ["src/**/__tests__/**", "src/**/*.test.ts", "src/**/*.test.tsx", "src/test/**"]`
+2. Run `pnpm build`
+**Expected Result:** Build succeeds without test files causing TypeScript errors
+**Test Type:** automated
+
+## UC-BUILD-003: Import Path Consistency
+**Preconditions:** UI components exist with specific casing
+**Steps:**
+1. Check all imports for consistent casing
+2. Example: If file is `Button.tsx`, import must be `@/shared/ui/Button` NOT `@/shared/ui/button`
+**Expected Result:** No casing mismatch errors on case-sensitive systems
+**Test Type:** automated
+
+## UC-BUILD-004: API Client Imports
+**Preconditions:** Hooks use API client for data fetching
+**Steps:**
+1. Verify API client imports use correct path: `@/lib/api/client`
+2. Not deprecated paths like `@/lib/adminApiClient`
+**Expected Result:** All API imports resolve correctly
+**Test Type:** automated
+
+## UC-BUILD-005: React Query Mutation Usage
+**Preconditions:** Component uses React Query mutations
+**Steps:**
+1. Verify mutation usage follows correct pattern
+2. Use `mutation.mutateAsync()` or `mutation.mutate()`, not destructured methods
+**Expected Result:** Mutations work correctly at runtime
+**Test Type:** unit, integration
+**Example Fix:**
+```typescript
+// WRONG - destructuring non-existent property
+const { executeSync } = useSync();
+
+// CORRECT - use the mutation object
+const syncMutation = useSync();
+await syncMutation.mutateAsync({ itemIds });
+```
+
+---
+
+# 9. API-Frontend Contract
+
+## UC-API-001: Hierarchy Response Format
+**Preconditions:** API returns review queue data
+**Steps:**
+1. Call `/adminReviewQueue` endpoint
+2. Verify `hierarchy` field structure
+**Expected Result:** Hierarchy returns `HierarchyNode[]` format:
+```typescript
+interface HierarchyNode {
+  id: string;
+  type: 'country' | 'venueType' | 'chain' | 'venue';
+  label: string;
+  count: number;
+  children?: HierarchyNode[];
+  venue?: ReviewVenue; // Only for venue nodes
+}
+```
+**Test Type:** integration
+
+## UC-API-002: Frontend Hierarchy Transformation
+**Preconditions:** Frontend receives hierarchy from API
+**Steps:**
+1. Frontend transforms backend hierarchy nodes
+2. Venue nodes have `venue` property populated from `items` array
+**Expected Result:** Each venue node has full venue data for display
+**Test Type:** unit, integration
+
+## UC-API-003: Stats Response Properties
+**Preconditions:** API returns stats
+**Steps:**
+1. Verify stats response matches frontend type expectations
+2. Check for optional vs required properties
+**Expected Result:** No `undefined` property access errors
+**Test Type:** unit
+**Common Issues:**
+- Frontend expecting `stats.promoted` but API doesn't send it
+- Frontend expecting `stats.flagged` sub-object but API structure differs
+
+---
+
 # Test Execution Checklist
 
 When completing a feature, run through this checklist:
@@ -538,6 +664,19 @@ When completing a feature, run through this checklist:
 - [ ] No TypeScript errors (`pnpm build` succeeds)
 - [ ] No ESLint errors (`pnpm lint` passes)
 
+## Build Verification (CRITICAL - Run Before Deploy)
+- [ ] `pnpm build` succeeds in dashboard package
+- [ ] No import path errors (check casing)
+- [ ] No missing module errors
+- [ ] Test files properly excluded from build
+- [ ] No unused variable/import errors in production code
+
+## API-Frontend Contract
+- [ ] Response types match frontend expectations
+- [ ] Hierarchy structure is drillable (all parent nodes have children array)
+- [ ] Venue nodes contain full venue data
+- [ ] Optional fields handled with fallbacks
+
 ## Manual Verification (for UI changes)
 - [ ] Visual appearance matches design
 - [ ] Responsive on mobile viewports
@@ -546,6 +685,7 @@ When completing a feature, run through this checklist:
 - [ ] Loading states shown appropriately
 - [ ] Error states handled gracefully
 - [ ] Console has no errors/warnings
+- [ ] **Hierarchy drill-down works** (can expand countries, chains, see venues)
 
 ## Regression Tests
 After bug fixes, run ALL related use cases to ensure no regressions.
