@@ -420,9 +420,42 @@ export class QueryPrioritizer {
   private async planExperimentalQueries(budget: number): Promise<string[]> {
     void budget; // Budget used to limit patterns below
 
-    // Experimental query patterns to test
+    // Platform-specific product searches (high-value patterns)
+    // These search for Planted products on specific delivery platforms
+    const platformProductSearches = [
+      // Just Eat Switzerland - kebab & general
+      'site:just-eat.ch "planted kebab"',
+      'site:just-eat.ch "planted chicken"',
+      'site:just-eat.ch planted vegan',
+      'site:just-eat.ch planted döner',
+
+      // Uber Eats Switzerland
+      'site:ubereats.com/ch "planted kebab"',
+      'site:ubereats.com/ch "planted chicken"',
+
+      // Uber Eats Germany
+      'site:ubereats.com/de "planted chicken"',
+      'site:ubereats.com/de "planted kebab"',
+      'site:ubereats.com/de "planted schnitzel"',
+
+      // Lieferando Germany
+      'site:lieferando.de "planted chicken"',
+      'site:lieferando.de "planted kebab"',
+      'site:lieferando.de planted döner',
+      'site:lieferando.de "planted burger"',
+
+      // Wolt Germany
+      'site:wolt.com/de "planted chicken"',
+      'site:wolt.com/de "planted kebab"',
+
+      // Smood Switzerland
+      'site:smood.ch "planted chicken"',
+      'site:smood.ch planted vegan',
+    ];
+
+    // General experimental patterns
     const experimentalPatterns = [
-      // Product-specific searches
+      // Product-specific searches (non-platform)
       'planted.kebab vegan delivery zurich',
       'planted.chicken burger delivery berlin',
       'planted.schnitzel delivery munich',
@@ -456,8 +489,11 @@ export class QueryPrioritizer {
       'planted protein bowl delivery',
     ];
 
-    // Take up to budget amount from experimental patterns
-    return experimentalPatterns.slice(0, budget);
+    // Combine platform-specific searches (higher priority) with experimental patterns
+    const allPatterns = [...platformProductSearches, ...experimentalPatterns];
+
+    // Take up to budget amount from patterns
+    return allPatterns.slice(0, budget);
   }
 
   // =============================================================================

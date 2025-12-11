@@ -335,9 +335,10 @@ export class GeminiClient {
     strategySuccessRate: number
   ): Promise<ConfidenceScore> {
     const prompt = fillPromptTemplate(CONFIDENCE_SCORING_PROMPT, {
-      venue: JSON.stringify(venueData, null, 2),
+      venue_data: JSON.stringify(venueData, null, 2),
       query,
       strategy_success_rate: strategySuccessRate.toString(),
+      verification_history: [],
     });
 
     const response = await this.chat(SYSTEM_PROMPT, prompt);

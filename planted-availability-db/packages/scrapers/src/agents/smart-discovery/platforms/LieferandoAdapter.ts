@@ -29,6 +29,10 @@ export class LieferandoAdapter extends BasePlatformAdapter {
     }
   }
 
+  override getSearchDomain(country: SupportedCountry): string {
+    return country === 'AT' ? 'lieferando.at' : 'lieferando.de';
+  }
+
   buildSearchUrl(query: string, country: SupportedCountry, city?: string): string {
     const domain = country === 'AT' ? 'lieferando.at' : 'lieferando.de';
     const encodedQuery = encodeURIComponent(query);

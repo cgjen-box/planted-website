@@ -30,6 +30,11 @@ export class WoltAdapter extends BasePlatformAdapter {
     }
   }
 
+  override getSearchDomain(country: SupportedCountry): string {
+    const countryPath = this.getCountryPath(country);
+    return `wolt.com/${countryPath}`;
+  }
+
   buildSearchUrl(query: string, country: SupportedCountry, city?: string): string {
     const countryPath = this.getCountryPath(country);
     const encodedQuery = encodeURIComponent(query);

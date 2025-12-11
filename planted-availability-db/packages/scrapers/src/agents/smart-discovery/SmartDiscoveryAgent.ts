@@ -29,6 +29,8 @@ import { type AIClient, type AIProvider, getAIClient } from './AIClient.js';
 import { DishFinderAIClient } from '../smart-dish-finder/DishFinderAIClient.js';
 import { getQueryCache, type QueryCache } from './QueryCache.js';
 import { getSearchEnginePool, type SearchEnginePool } from './SearchEnginePool.js';
+import { getCountryFromUrl } from './country_url_util.js';
+import { platformAdapters } from './platforms/index.js';
 
 export interface DiscoveryAgentConfig {
   maxQueriesPerRun?: number;
@@ -562,6 +564,14 @@ export class SmartDiscoveryAgent {
       return;
     }
 
+    // Detect actual country from URL (more accurate than config)
+    const urlCountry = getCountryFromUrl(venue.url);
+    const actualCountry = urlCountry || country;  // Use detected country, fallback to config
+
+    if (urlCountry && urlCountry !== country) {
+      this.log(`Venue ${venue.name}: Using detected country (${urlCountry}) from URL instead of expected (${country})`);
+    }
+
     // Check for verified chain - use known products
     const knownProducts = this.getVerifiedChainProducts(venue.name);
 
@@ -590,7 +600,7 @@ export class SmartDiscoveryAgent {
         venue.url,
         venue.name,
         platform,
-        country,
+        actualCountry,
         knownProducts !== null // Pass true if this is a known chain
       );
 
@@ -609,7 +619,7 @@ export class SmartDiscoveryAgent {
       chain_confidence: venue.is_likely_chain ? venue.confidence : (knownProducts ? 95 : undefined),
       address: {
         city: venue.city || 'Unknown',
-        country,
+        country: actualCountry,
       },
       delivery_platforms: [
         {
@@ -768,8 +778,12 @@ export class SmartDiscoveryAgent {
     for (const chainName of config.target_chains) {
       for (const platform of config.platforms) {
         for (const country of config.countries) {
+          // Get the correct search domain for this platform/country combo
+          const adapter = platformAdapters[platform];
+          const searchDomain = adapter?.getSearchDomain(country) || platform;
+
           // Search for the chain
-          const query = `site:${platform} "${chainName}" ${country}`;
+          const query = `site:${searchDomain} "${chainName}"`;
           await this.executeQuery(query, platform, country);
           await this.delay(this.config.rateLimitMs);
         }

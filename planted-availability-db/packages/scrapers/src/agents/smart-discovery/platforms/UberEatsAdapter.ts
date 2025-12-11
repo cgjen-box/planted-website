@@ -25,6 +25,11 @@ export class UberEatsAdapter extends BasePlatformAdapter {
     return country.toLowerCase();
   }
 
+  override getSearchDomain(country: SupportedCountry): string {
+    const countryPath = this.getCountryPath(country);
+    return `ubereats.com/${countryPath}`;
+  }
+
   buildSearchUrl(query: string, country: SupportedCountry, city?: string): string {
     const countryPath = this.getCountryPath(country);
     const encodedQuery = encodeURIComponent(query);

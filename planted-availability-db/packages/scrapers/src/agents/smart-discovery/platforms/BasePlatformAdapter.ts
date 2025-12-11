@@ -70,6 +70,19 @@ export abstract class BasePlatformAdapter {
   }
 
   /**
+   * Get the domain to use for site: searches (e.g., "just-eat.ch" for Just Eat)
+   */
+  getSearchDomain(_country: SupportedCountry): string {
+    // Default: extract domain from baseUrl
+    try {
+      const url = new URL(this.baseUrl);
+      return url.hostname.replace('www.', '');
+    } catch {
+      return this.baseUrl.replace(/^https?:\/\/(www\.)?/, '').replace(/\/.*$/, '');
+    }
+  }
+
+  /**
    * Build search URL for the platform
    */
   abstract buildSearchUrl(query: string, country: SupportedCountry, city?: string): string;

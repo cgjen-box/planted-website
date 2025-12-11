@@ -15,30 +15,67 @@ import {
 
 export class JustEatAdapter extends BasePlatformAdapter {
   platform = 'just-eat' as const;
-  supportedCountries: SupportedCountry[] = ['CH'];
+  supportedCountries: SupportedCountry[] = ['CH', 'UK', 'FR', 'ES', 'IT', 'NL', 'BE', 'PL'];
   baseUrl = 'https://www.just-eat.ch';
 
-  buildSearchUrl(query: string, _country: SupportedCountry, city?: string): string {
-    // Just Eat doesn't have a public search API, use site: search
-    const encodedQuery = encodeURIComponent(query);
-    if (city) {
-      return `site:just-eat.ch ${encodedQuery} ${city}`;
-    }
-    return `site:just-eat.ch ${encodedQuery}`;
+  /**
+   * Get the domain for a specific country
+   */
+  private getDomainForCountry(country: SupportedCountry): string {
+    const domainMap: Partial<Record<SupportedCountry, string>> = {
+      CH: 'just-eat.ch',
+      UK: 'just-eat.co.uk',
+      FR: 'just-eat.fr',
+      ES: 'just-eat.es',
+      IT: 'just-eat.it',
+      NL: 'just-eat.nl',
+      BE: 'just-eat.be',
+      PL: 'pyszne.pl', // Just Eat brand in Poland
+    };
+    return domainMap[country] || 'just-eat.ch';
   }
 
-  buildVenueUrl(venueIdOrSlug: string, _country: SupportedCountry): string {
+  override getSearchDomain(country: SupportedCountry): string {
+    return this.getDomainForCountry(country);
+  }
+
+  buildSearchUrl(query: string, country: SupportedCountry, city?: string): string {
+    // Just Eat doesn't have a public search API, use site: search
+    const domain = this.getDomainForCountry(country);
+    const encodedQuery = encodeURIComponent(query);
+    if (city) {
+      return `site:${domain} ${encodedQuery} ${city}`;
+    }
+    return `site:${domain} ${encodedQuery}`;
+  }
+
+  buildVenueUrl(venueIdOrSlug: string, country: SupportedCountry): string {
+    const domain = this.getDomainForCountry(country);
+    const baseUrl = `https://www.${domain}`;
+
     // Handle both full slugs and simple IDs
     const slug = venueIdOrSlug.startsWith('/')
       ? venueIdOrSlug
       : `/en/menu/${venueIdOrSlug}`;
-    return `${this.baseUrl}${slug}`;
+    return `${baseUrl}${slug}`;
   }
 
   extractVenueId(url: string): string | null {
-    // Extract from: https://www.just-eat.ch/en/menu/restaurant-slug
-    const match = url.match(/just-eat\.ch\/(?:en\/)?menu\/([^/?]+)/);
-    return match ? match[1] : null;
+    // Extract from various Just Eat domains:
+    // https://www.just-eat.ch/en/menu/restaurant-slug
+    // https://www.just-eat.co.uk/restaurants-restaurant-slug/menu
+    // https://www.pyszne.pl/menu/restaurant-slug
+    const patterns = [
+      /just-eat\.[a-z.]+\/(?:en\/)?menu\/([^/?#]+)/,
+      /just-eat\.[a-z.]+\/restaurants-([^/?#]+)/,
+      /pyszne\.pl\/menu\/([^/?#]+)/,
+    ];
+
+    for (const pattern of patterns) {
+      const match = url.match(pattern);
+      if (match) return match[1];
+    }
+    return null;
   }
 
   parseSearchResults(html: string): PlatformSearchResult[] {
