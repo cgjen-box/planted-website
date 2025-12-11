@@ -5,24 +5,24 @@ export default {
         products: 'Prodotti',
         recipes: 'Ricette',
         about: 'Chi siamo',
-        findUs: 'Dove trovarci',
+        findUs: 'Dove si trova?',
         selectCountry: 'Seleziona paese',
         sustainability: 'Sostenibilità',
         gastronomy: 'Gastronomia',
         news: 'News',
-        ourStory: 'La nostra storia',
+        ourStory: 'La nostra missione',
     },
 
     // Home page
     home: {
         hero: {
-            title: 'Facciamo carne.',
-            subtitle: 'Solo senza l\'animale.',
-            cta: 'Dove la trovo?',
+            title: 'Carne. Da piselli.',
+            subtitle: 'Sembra strano. Sa di pollo. Non sappiamo spiegarlo neanche noi.',
+            cta: 'Dove si trova?',
             badge: 'Certificato B Corp',
-            whisper: '(Sembra facile. Ma dopo 6 anni di perfezionamento, anche i carnivori hanno approvato.)',
-            proofRestaurants: 'Ristoranti',
-            proofCountries: 'Paesi',
+            whisper: '(Sembra più facile di quanto sia. Ma dopo 6 anni di tentativi, l\'hanno approvato persino gli amanti della carne.)',
+            proofRestaurants: 'hanno osato',
+            proofCountries: '(finora)',
             proofChampion: 'Campione di lotta',
             evidenceLabel: 'Prova A',
             annotationText: 'Sì, ti stiamo mostrando un video di cibo sfrigolante. È praticamente manipolazione. Ma è anche solo la verità.',
@@ -47,9 +47,9 @@ export default {
             countries: '6 paesi',
         },
         mission: {
-            title: 'Crediamo che la carne non debba venire dagli animali.',
-            highlight: 'Deve solo avere un sapore incredibile.',
-            text: 'Made in Switzerland. Certificato B Corp. E onestamente? È davvero, davvero buono.',
+            title: 'Facciamo carne da piante. Sì, suona come una contraddizione. Ma assaggia il nostro pollo e poi vieni a dirci che non sa di pollo.',
+            highlight: '(Aspettiamo.)',
+            text: 'Made in Svizzera. Certificato B Corp. E sì—l\'abbiamo assaggiato prima di venderlo.',
         },
         intro: {
             label: 'Swiss-made',
@@ -63,9 +63,10 @@ export default {
             },
         },
         products: {
-            title: 'I Nostri Prodotti',
+            title: 'La Gamma',
             subtitle: 'Dal pollo al pulled pork, abbiamo tutto ciò di cui hai bisogno.',
             viewAll: 'Vedi tutti i prodotti',
+            viewAllLink: '→ Guarda tutto (e non diminuisce)',
             scrollHint: 'Trascina per scoprire',
             highlights: 'I nostri preferiti',
             allProducts: 'Tutti i prodotti',
@@ -94,9 +95,9 @@ export default {
             },
         },
         recipes: {
-            title: 'Cosa cucini stasera?',
+            title: 'Idee. Se non ne hai.',
             subtitle: 'Tranquillo, abbiamo qualche idea. Tutte sotto i 45 minuti.',
-            viewAll: 'Vedi tutte le ricette',
+            viewAll: 'Altre →',
             getCooking: 'Ai fornelli',
             allRecipes: 'Tutte le 150+ ricette',
         },
@@ -113,18 +114,18 @@ export default {
             button: 'Cerca',
         },
         impact: {
-            badge: 'OK, diventiamo seri per un momento.',
+            badge: 'Un po\' di numeri, perché li abbiamo',
             badgeSubtitle: '(Tranquilli, solo 30 secondi, poi torniamo simpatici.)',
             lessCO2: 'di CO₂ in meno',
             lessWater: 'di acqua in meno',
-            animalsHarmed: 'Animali',
-            vsCow: 'vs. manzo',
-            ever: 'zero, niente, nada',
-            tagline: 'Stesso gusto. Meglio per il pianeta.',
-            source: 'Fonte: Analisi del ciclo di vita indipendente. Non l\'abbiamo inventata noi.',
-            seeHow: 'Leggi l\'analisi completa',
-            co2Context: 'Equivale a circa 12 viaggi in auto da Zurigo a Berna. Per confezione. L\'hanno calcolato gli scienziati, non noi.',
-            waterContext: 'Abbastanza per 47 docce. Non che tu debba fare meno docce. Per favore.',
+            animalsHarmed: 'Animali che hanno dovuto alzarsi per questo',
+            vsCow: 'rispetto alla carne bovina. Le mucche non sono arrabbiate, non lo sanno.',
+            ever: 'Zero. Sempre.',
+            tagline: 'Sa di carne. Causa meno fine del mondo.',
+            source: 'Numeri verificati da persone che non abbiamo pagato. Beh, sì, ma solo per verificarli.',
+            seeHow: 'Tutta la storia',
+            co2Context: 'Equivale a circa 12 viaggi in auto da Zurigo a Berna. Per confezione. Non l\'abbiamo inventato noi, l\'hanno calcolato gli scienziati.',
+            waterContext: 'Abbastanza per circa 12.000 docce. O una molto lunga.',
             animalsContext: 'Sembra semplice. Lo è. Nessuna nota nascosta. Promesso.',
         },
         business: {
@@ -132,11 +133,11 @@ export default {
             getSamples: 'Richiedi campioni',
         },
         ambassador: {
-            badge: 'Ambasciatore',
-            approvedBy: 'Approvato da',
+            badge: 'Campione di lotta. Amante della carne. Gli piace planted.',
+            approvedBy: 'Cosa mangia:',
             surprise: 'Sì, davvero. IL Christian Stucki.',
-            context: 'Un campione di lotta di 150 chili che mangia vegetale. Se questa non è una prova, non sappiamo cosa lo sia.',
-            favoriteLabel: 'Il preferito di Christian:',
+            context: 'Un campione di lotta di 150 chili che mangia vegetale. Se questa non è una prova, non sappiamo cos\'altro.',
+            favoriteLabel: 'Cosa mangia:',
             favoriteProduct: 'planted.steak',
         },
         delivery: {
@@ -300,7 +301,8 @@ export default {
             button: 'Iscriviti',
         },
         copyright: '© 2025 planted. Tutti i diritti riservati.',
-        tagline: 'A base vegetale. Made in Svizzera.',
+        tagline: 'Carne da piante. Made in Svizzera.',
+        aiDisclaimer: 'Questo sito non è stato scritto da un\'IA. Cioè, non del tutto. Ok, un po\' sì.',
     },
 
     // Common
@@ -339,8 +341,8 @@ export default {
         pageTitle: 'Gastronomia',
         badge: 'Per le aziende',
         hero: {
-            title: 'Carne vegetale per cucine professionali',
-            subtitle: 'Arricchisci il tuo menu con planted',
+            title: 'Per cucine che fanno sul serio',
+            subtitle: 'I tuoi ospiti chiedono vegetale? Abbiamo quello che ti serve.',
         },
         stats: {
             restaurants: '8.000+',
@@ -349,9 +351,9 @@ export default {
             countriesLabel: 'Paesi',
         },
         trusted: 'Scelto dai migliori',
-        builtFor: 'Progettato per le cucine',
+        builtFor: 'Fatto per le cucine',
         cta: {
-            samples: 'Richiedi campioni',
+            samples: 'Ordina pacchetto di prova →',
             contact: 'Contattaci',
         },
     },
@@ -410,9 +412,9 @@ export default {
 
     // Store Locator component
     storeLocator: {
-        title: 'Trovaci',
-        subtitle: 'Scopri dove trovare la tua dose di planted.',
-        detecting: 'Ricerca della tua posizione...',
+        title: 'Dove lo trovi?',
+        subtitle: 'Inserisci il CAP. Ti diciamo dove c\'è planted.',
+        detecting: 'Rilevamento posizione...',
         showingResults: 'Risultati per',
         change: 'Modifica',
         tabs: {
@@ -420,10 +422,14 @@ export default {
             restaurants: 'Ristoranti',
         },
         noResults: {
-            retail: 'Nessun partner retail trovato nella tua zona.',
-            foodservice: 'Nessun ristorante partner ancora. Resta sintonizzato!',
+            retail: 'Nessun partner retail nella tua zona.',
+            foodservice: 'Nessun ristorante partner ancora. Resta connesso!',
         },
-        foodserviceIntro: 'Siamo orgogliosi di collaborare con ristoranti e fornitori di ristorazione che condividono la nostra passione per il cibo delizioso e sostenibile.',
+        emptyState: {
+            title: 'Non hai ancora inserito un CAP?',
+            text: 'Cerca qui sopra. Troveremo qualcosa.',
+        },
+        foodserviceIntro: 'Queste cucine cucinano con planted. Alcune hanno stelle. Tutte hanno gusto.',
         availableProducts: 'Prodotti disponibili:',
         online: {
             badge: 'Non trovi un negozio?',

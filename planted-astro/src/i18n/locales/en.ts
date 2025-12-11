@@ -5,7 +5,7 @@ export default {
         products: 'Products',
         recipes: 'Recipes',
         about: 'About',
-        findUs: 'Find Us',
+        findUs: 'Where is it?',
         selectCountry: 'Select Country',
         sustainability: 'Sustainability',
         gastronomy: 'Gastronomy',
@@ -16,13 +16,13 @@ export default {
     // Home page
     home: {
         hero: {
-            title: 'We make meat.',
-            subtitle: 'Just without the animal.',
-            cta: 'Where can I get it?',
+            title: 'Meat. From Peas.',
+            subtitle: 'Sounds weird. Tastes like chicken. We can\'t explain it either.',
+            cta: 'Where is it?',
             badge: 'B Corp Certified',
             whisper: '(Sounds easy. But after 6 years of tinkering, even meat lovers approved.)',
-            proofRestaurants: 'Restaurants',
-            proofCountries: 'Countries',
+            proofRestaurants: 'took the leap',
+            proofCountries: '(so far)',
             proofChampion: 'Wrestling Champion',
             evidenceLabel: 'Exhibit A',
             annotationText: 'Yes, we\'re showing you a video of sizzling food. That\'s basically manipulation. But it\'s also just the truth.',
@@ -47,9 +47,9 @@ export default {
             countries: '6 countries',
         },
         mission: {
-            title: 'We believe meat doesn\'t have to come from animals.',
-            highlight: 'It just has to taste incredible.',
-            text: 'Made in Switzerland. B Corp certified. And honestly? It\'s really, really good.',
+            title: 'We make meat from plants. Yes, that sounds like a contradiction. But try our chicken and tell us it doesn\'t taste like chicken.',
+            highlight: '(We\'ll wait.)',
+            text: 'Made in Switzerland. B Corp certified. And yes—we tried it before we sold it.',
         },
         intro: {
             label: 'Swiss-made',
@@ -63,9 +63,10 @@ export default {
             },
         },
         products: {
-            title: 'Our Products',
+            title: 'The Range',
             subtitle: 'From chicken to pulled pork, we\'ve got you covered.',
-            viewAll: 'View All Products',
+            viewAll: 'Show me everything',
+            viewAllLink: '→ See it all (there\'s quite a bit)',
             scrollHint: 'Drag to explore',
             highlights: 'Our highlights',
             allProducts: 'All Products',
@@ -94,9 +95,9 @@ export default {
             },
         },
         recipes: {
-            title: 'What\'s for dinner tonight?',
+            title: 'Ideas. In case you\'re stuck.',
             subtitle: 'Don\'t worry, we\'ve got ideas. All under 45 minutes.',
-            viewAll: 'View All Recipes',
+            viewAll: 'More of these →',
             getCooking: 'Get cooking',
             allRecipes: 'All 150+ recipes',
         },
@@ -113,18 +114,18 @@ export default {
             button: 'Search',
         },
         impact: {
-            badge: 'Okay, time to get serious for a moment.',
+            badge: 'A few numbers, because we have them',
             badgeSubtitle: '(Don\'t worry, just 30 seconds, then we\'ll be funny again.)',
             lessCO2: 'less CO₂',
             lessWater: 'less water',
-            animalsHarmed: 'Animals',
-            vsCow: 'vs. beef',
-            ever: 'zero, zilch, none',
-            tagline: 'Same taste. Better for the planet.',
-            source: 'Source: Independent Life Cycle Assessment. We didn\'t make this up.',
-            seeHow: 'Read the whole nerdy analysis',
+            animalsHarmed: 'Animals that had to get up for this',
+            vsCow: 'than beef. The cows aren\'t mad, they don\'t know.',
+            ever: 'Zero. Always.',
+            tagline: 'Tastes like meat. Causes less apocalypse.',
+            source: 'Numbers verified by people we didn\'t pay. Well, we did, but only for the verification.',
+            seeHow: 'The full story',
             co2Context: 'That\'s about 12 car trips from Zurich to Bern. Per package. Scientists calculated this, not us.',
-            waterContext: 'Enough to shower 47 times. Not that you should shower less. Please don\'t.',
+            waterContext: 'That\'s enough for about 12,000 showers. Or one very long one.',
             animalsContext: 'Sounds simple. It is. No hidden footnotes. Promise.',
         },
         business: {
@@ -132,11 +133,11 @@ export default {
             getSamples: 'Get Samples',
         },
         ambassador: {
-            badge: 'Brand Ambassador',
-            approvedBy: 'Approved by',
+            badge: 'Wrestling champ. Meat lover. Likes planted.',
+            approvedBy: 'What he eats:',
             surprise: 'Yes, really. THE Christian Stucki.',
             context: 'A 150-kilo wrestling champion eating plant-based. If that\'s not proof, we don\'t know what is.',
-            favoriteLabel: 'Christian\'s favorite:',
+            favoriteLabel: 'What he eats:',
             favoriteProduct: 'planted.steak',
         },
         delivery: {
@@ -300,7 +301,8 @@ export default {
             button: 'Subscribe',
         },
         copyright: '© 2025 planted. All rights reserved.',
-        tagline: 'Plant-based. Swiss-made.',
+        tagline: 'Meat from plants. Made in Switzerland.',
+        aiDisclaimer: 'This website was not written by an AI. Well, not entirely. Okay, a little bit.',
     },
 
     // Common
@@ -339,8 +341,8 @@ export default {
         pageTitle: 'Gastronomy',
         badge: 'For Business',
         hero: {
-            title: 'Plant-based meat for professional kitchens',
-            subtitle: 'Elevate your menu with planted',
+            title: 'For kitchens that mean business',
+            subtitle: 'Your guests are asking for plant-based? We\'ve got what you need.',
         },
         stats: {
             restaurants: '8,000+',
@@ -351,7 +353,7 @@ export default {
         trusted: 'Trusted by the best',
         builtFor: 'Built for kitchens',
         cta: {
-            samples: 'Get Samples',
+            samples: 'Order a sample kit →',
             contact: 'Contact Us',
         },
     },
@@ -507,8 +509,8 @@ export default {
 
     // Store Locator component
     storeLocator: {
-        title: 'Find Us',
-        subtitle: 'Discover where to get your planted fix.',
+        title: 'Where do you get this?',
+        subtitle: 'Enter your postcode. We\'ll tell you where to find planted.',
         detecting: 'Finding your location...',
         showingResults: 'Showing results for',
         change: 'Change',
@@ -520,7 +522,11 @@ export default {
             retail: 'No retail partners found in your area.',
             foodservice: 'No restaurant partners yet. Stay tuned!',
         },
-        foodserviceIntro: 'We\'re proud to partner with restaurants and foodservice providers who share our passion for delicious, sustainable food.',
+        emptyState: {
+            title: 'No postcode yet?',
+            text: 'Search above. We\'ll find something.',
+        },
+        foodserviceIntro: 'These kitchens cook with planted. Some have Michelin stars. All have great taste.',
         availableProducts: 'Available products:',
         online: {
             badge: 'Can\'t find a store?',
@@ -531,9 +537,9 @@ export default {
 
     // Cookie Consent component
     cookieConsent: {
-        title: 'We use cookies',
-        description: 'We use cookies to improve your experience and analyze site traffic. By clicking "Accept All", you consent to our use of cookies.',
-        acceptAll: 'Accept All',
+        title: 'Cookies. (The digital kind.)',
+        description: 'We use cookies to make the site work and see what\'s popular. We don\'t make the edible kind, unfortunately.',
+        acceptAll: 'Got it',
         necessaryOnly: 'Necessary Only',
         settings: 'Settings',
         saveSettings: 'Save Settings',
@@ -550,11 +556,11 @@ export default {
 
     // Newsletter Signup component
     newsletter: {
-        title: 'Newsletter',
+        title: 'Newsletter. (We don\'t spam. Promise.)',
         subtitle: 'Okay, here comes the newsletter signup.',
-        description: 'You know how this works. We ask for your email. You wonder if we\'ll spam you.',
+        description: 'Recipes. News. The occasional offer. Not 47 emails a week.',
         placeholder: 'your@email.com',
-        button: 'I\'m in',
+        button: 'Yes, I want this',
         consent: 'I agree to receive marketing emails.',
         success: 'Welcome aboard! We\'re excited.',
         promiseTitle: 'Our promise:',
@@ -589,8 +595,9 @@ export default {
 
     // Meta / SEO
     meta: {
-        defaultDescription: 'Plant-based meat that actually tastes like meat. Made in Switzerland. B Corp certified.',
+        defaultDescription: 'Meat from peas, sunflowers, and oats. Sounds weird. Tastes like chicken. Made in Switzerland.',
         titleSuffix: ' | planted',
+        homeTitle: 'Planted – Meat from Plants. Yes, really.',
     },
 
     // FAQ page

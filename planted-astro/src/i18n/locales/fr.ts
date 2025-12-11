@@ -5,7 +5,7 @@ export default {
         products: 'Produits',
         recipes: 'Recettes',
         about: 'À propos',
-        findUs: 'Où nous trouver',
+        findUs: 'Où le trouver ?',
         selectCountry: 'Choisir le pays',
         sustainability: 'Durabilité',
         gastronomy: 'Gastronomie',
@@ -16,13 +16,13 @@ export default {
     // Home page
     home: {
         hero: {
-            title: 'On fait de la viande.',
-            subtitle: 'Juste sans l\'animal.',
-            cta: 'Où la trouver ?',
+            title: 'De la viande. À base de pois.',
+            subtitle: 'Ça semble bizarre. Ça a le goût du poulet. On ne peut pas l\'expliquer non plus.',
+            cta: 'Où le trouver ?',
             badge: 'Certifié B Corp',
             whisper: '(Ça semble simple. Mais après 6 ans de perfectionnement, même les carnivores ont approuvé.)',
-            proofRestaurants: 'Restaurants',
-            proofCountries: 'Pays',
+            proofRestaurants: 'ont osé',
+            proofCountries: '(pour l\'instant)',
             proofChampion: 'Champion de lutte',
             evidenceLabel: 'Pièce à conviction A',
             annotationText: 'Oui, on vous montre une vidéo de nourriture qui grésille. C\'est de la manipulation. Mais c\'est aussi la vérité.',
@@ -47,9 +47,9 @@ export default {
             countries: '6 pays',
         },
         mission: {
-            title: 'Nous croyons que la viande n\'a pas besoin de venir des animaux.',
-            highlight: 'Elle doit juste avoir un goût incroyable.',
-            text: 'Made in Switzerland. Certifié B Corp. Et franchement ? C\'est vraiment, vraiment bon.',
+            title: 'On fait de la viande à partir de plantes. Oui, ça semble contradictoire. Mais goûte notre poulet et dis-nous qu\'il n\'a pas le goût du poulet.',
+            highlight: '(On attend.)',
+            text: 'Fabriqué en Suisse. Certifié B Corp. Et oui—on l\'a goûté avant de le vendre.',
         },
         intro: {
             label: 'Swiss-made',
@@ -63,9 +63,10 @@ export default {
             },
         },
         products: {
-            title: 'Nos Produits',
+            title: 'La Gamme',
             subtitle: 'Du poulet au porc effiloché, nous avons tout ce qu\'il vous faut.',
-            viewAll: 'Voir tous les produits',
+            viewAll: 'Tout voir',
+            viewAllLink: '→ Tout voir (il y en a pas mal)',
             scrollHint: 'Glisser pour découvrir',
             highlights: 'Nos incontournables',
             allProducts: 'Tous les produits',
@@ -94,9 +95,9 @@ export default {
             },
         },
         recipes: {
-            title: 'Qu\'est-ce qu\'on mange ce soir ?',
+            title: 'Des idées. Si t\'en as pas.',
             subtitle: 'Pas de panique, on a des idées. Toutes en moins de 45 minutes.',
-            viewAll: 'Voir toutes les recettes',
+            viewAll: 'Plus de recettes →',
             getCooking: 'En cuisine',
             allRecipes: 'Toutes les 150+ recettes',
         },
@@ -113,18 +114,18 @@ export default {
             button: 'Rechercher',
         },
         impact: {
-            badge: 'OK, on devient sérieux un instant.',
+            badge: 'Quelques chiffres, puisqu\'on les a',
             badgeSubtitle: '(Pas d\'inquiétude, juste 30 secondes, et on redevient drôles.)',
             lessCO2: 'de CO₂ en moins',
             lessWater: 'd\'eau en moins',
-            animalsHarmed: 'Animaux',
-            vsCow: 'vs. bœuf',
-            ever: 'zéro, nada, aucun',
-            tagline: 'Même goût. Meilleur pour la planète.',
-            source: 'Source : Analyse du cycle de vie indépendante. On n\'a pas inventé ça.',
-            seeHow: 'Lire l\'analyse complète',
+            animalsHarmed: 'Animaux qui ont dû se lever pour ça',
+            vsCow: 'que le bœuf. Les vaches ne sont pas fâchées, elles ne savent pas.',
+            ever: 'Zéro. Toujours.',
+            tagline: 'Le goût de la viande. Moins d\'apocalypse.',
+            source: 'Chiffres vérifiés par des gens qu\'on n\'a pas payés. Enfin si, mais juste pour la vérification.',
+            seeHow: 'Toute l\'histoire',
             co2Context: 'Cela équivaut à environ 12 trajets en voiture de Zurich à Berne. Par paquet. Des scientifiques l\'ont calculé, pas nous.',
-            waterContext: 'Assez pour prendre 47 douches. Pas que vous devriez moins vous doucher. S\'il vous plaît.',
+            waterContext: 'De quoi prendre environ 12 000 douches. Ou une très longue.',
             animalsContext: 'Ça semble simple. Ça l\'est. Pas de notes cachées. Promis.',
         },
         business: {
@@ -132,11 +133,11 @@ export default {
             getSamples: 'Demander des échantillons',
         },
         ambassador: {
-            badge: 'Ambassadeur',
-            approvedBy: 'Approuvé par',
+            badge: 'Champion de lutte. Carnivore. Aime planted.',
+            approvedBy: 'Ce qu\'il mange :',
             surprise: 'Oui, vraiment. LE Christian Stucki.',
             context: 'Un champion de lutte de 150 kilos qui mange végétal. Si ce n\'est pas une preuve, on ne sait pas ce que c\'est.',
-            favoriteLabel: 'Le favori de Christian :',
+            favoriteLabel: 'Ce qu\'il mange :',
             favoriteProduct: 'planted.steak',
         },
         delivery: {
@@ -300,7 +301,8 @@ export default {
             button: 'S\'abonner',
         },
         copyright: '© 2025 planted. Tous droits réservés.',
-        tagline: 'À base de plantes. Fabriqué en Suisse.',
+        tagline: 'De la viande à base de plantes. Made in Switzerland.',
+        aiDisclaimer: 'Ce site n\'a pas été écrit par une IA. Enfin, pas entièrement. Bon, un peu quand même.',
     },
 
     // Common
@@ -339,8 +341,8 @@ export default {
         pageTitle: 'Gastronomie',
         badge: 'Pour les entreprises',
         hero: {
-            title: 'De la viande végétale pour les cuisines professionnelles',
-            subtitle: 'Enrichissez votre menu avec planted',
+            title: 'Pour les cuisines qui ne plaisantent pas',
+            subtitle: 'Vos clients demandent du végétal ? On a ce qu\'il vous faut.',
         },
         stats: {
             restaurants: '8 000+',
@@ -351,7 +353,7 @@ export default {
         trusted: 'La confiance des meilleurs',
         builtFor: 'Conçu pour les cuisines',
         cta: {
-            samples: 'Demander des échantillons',
+            samples: 'Commander un kit d\'essai →',
             contact: 'Nous contacter',
         },
     },
@@ -410,8 +412,8 @@ export default {
 
     // Store Locator component
     storeLocator: {
-        title: 'Nous trouver',
-        subtitle: 'Découvrez où trouver votre dose de planted.',
+        title: 'Où le trouver ?',
+        subtitle: 'Entre ton code postal. On te dit où trouver planted.',
         detecting: 'Recherche de votre position...',
         showingResults: 'Résultats pour',
         change: 'Modifier',
@@ -423,7 +425,11 @@ export default {
             retail: 'Aucun partenaire de vente au détail trouvé dans votre région.',
             foodservice: 'Pas encore de restaurants partenaires. Restez à l\'écoute !',
         },
-        foodserviceIntro: 'Nous sommes fiers de collaborer avec des restaurants et des prestataires de restauration qui partagent notre passion pour une alimentation délicieuse et durable.',
+        emptyState: {
+            title: 'Pas encore de code postal ?',
+            text: 'Cherche en haut. On trouvera.',
+        },
+        foodserviceIntro: 'Ces cuisines cuisinent avec planted. Certaines ont des étoiles. Toutes ont du goût.',
         availableProducts: 'Produits disponibles :',
         online: {
             badge: 'Vous ne trouvez pas de magasin ?',
@@ -434,11 +440,11 @@ export default {
 
     // Newsletter Signup component
     newsletter: {
-        title: 'Newsletter',
+        title: 'Newsletter. (On ne spamme pas. Promis.)',
         subtitle: 'OK, voici l\'inscription à la newsletter.',
-        description: 'Vous connaissez le principe. On demande votre e-mail. Vous vous demandez si on va vous spammer.',
+        description: 'Des recettes. Des news. De temps en temps une offre. Pas 47 e-mails par semaine.',
         placeholder: 'votre@email.fr',
-        button: 'J\'en suis',
+        button: 'Oui, je veux',
         consent: 'J\'accepte de recevoir des e-mails marketing.',
         success: 'Bienvenue à bord ! On est ravis.',
         promiseTitle: 'Notre promesse :',
@@ -473,15 +479,16 @@ export default {
 
     // Meta / SEO
     meta: {
-        defaultDescription: 'De la viande végétale qui a vraiment le goût de la viande. Fabriqué en Suisse. Certifié B Corp.',
+        defaultDescription: 'De la viande à base de pois, tournesol et avoine. Ça semble bizarre. Ça a le goût du poulet. Made in Switzerland.',
         titleSuffix: ' | planted',
+        homeTitle: 'Planted – De la viande à partir de plantes. Oui, vraiment.',
     },
 
     // Cookie Consent component
     cookieConsent: {
-        title: 'Nous utilisons des cookies',
-        description: 'Nous utilisons des cookies pour améliorer votre expérience et analyser le trafic du site. En cliquant sur "Tout accepter", vous consentez à notre utilisation des cookies.',
-        acceptAll: 'Tout accepter',
+        title: 'Des cookies. (Les numériques.)',
+        description: 'On utilise des cookies pour que le site fonctionne et pour savoir ce qui plaît. Les cookies comestibles, on n\'en fait pas, malheureusement.',
+        acceptAll: 'C\'est bon',
         necessaryOnly: 'Nécessaires uniquement',
         settings: 'Paramètres',
         saveSettings: 'Enregistrer',

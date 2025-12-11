@@ -94,11 +94,11 @@ export const adminSyncExecuteHandler = createAdminHandler(
     let venuesAdded = 0;
     let dishesAdded = 0;
 
-    // Sync venues
+    // Sync venues (including their embedded dishes)
     for (const discoveredVenue of venuesToSync) {
       try {
         // Use a transaction to ensure atomicity
-        await db.runTransaction(async (transaction) => {
+        const embeddedDishCount = await db.runTransaction(async (transaction) => {
           // Create production venue
           const venueRef = db.collection('venues').doc();
           const productionVenue = {
@@ -141,6 +141,34 @@ export const adminSyncExecuteHandler = createAdminHandler(
 
           transaction.set(venueRef, productionVenue);
 
+          // Also create production dishes from embedded dishes array
+          let embeddedDishesCreated = 0;
+          if (discoveredVenue.dishes && discoveredVenue.dishes.length > 0) {
+            for (const embeddedDish of discoveredVenue.dishes) {
+              const dishRef = db.collection('dishes').doc();
+              const productionDish = {
+                venue_id: venueRef.id,
+                name: embeddedDish.name,
+                description: embeddedDish.description || '',
+                category: embeddedDish.category || 'main',
+                product_sku: embeddedDish.planted_product || embeddedDish.product_sku || '',
+                is_vegan: embeddedDish.is_vegan ?? true,
+                dietary_tags: embeddedDish.dietary_tags || [],
+                price: embeddedDish.price || '',
+                image_url: embeddedDish.image_url || '',
+                source: {
+                  type: 'discovered' as const,
+                  partner_id: 'smart-discovery-agent',
+                },
+                status: 'active' as const,
+                created_at: new Date(),
+                updated_at: new Date(),
+              };
+              transaction.set(dishRef, productionDish);
+              embeddedDishesCreated++;
+            }
+          }
+
           // Update discovered venue to mark as promoted
           const discoveredVenueRef = db.collection('discovered_venues').doc(discoveredVenue.id);
           transaction.update(discoveredVenueRef, {
@@ -149,10 +177,13 @@ export const adminSyncExecuteHandler = createAdminHandler(
             promoted_at: new Date(),
             updated_at: new Date(),
           });
+
+          return embeddedDishesCreated;
         });
 
         syncedVenueIds.push(discoveredVenue.id);
         venuesAdded++;
+        dishesAdded += embeddedDishCount;
       } catch (error) {
         const errorMsg = error instanceof Error ? error.message : String(error);
         errors.push({
