@@ -41,6 +41,11 @@ export interface ConfidenceFactor {
 }
 
 /**
+ * Dish Status
+ */
+export type DishStatus = 'pending' | 'approved' | 'rejected';
+
+/**
  * Review Dish
  */
 export interface ReviewDish {
@@ -53,6 +58,7 @@ export interface ReviewDish {
   productMatch: ProductType;
   confidence: number;
   confidenceFactors?: ConfidenceFactor[];
+  status: DishStatus;
 }
 
 /**

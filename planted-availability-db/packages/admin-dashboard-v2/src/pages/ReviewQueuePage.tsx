@@ -33,13 +33,13 @@ import {
   useRejectVenue,
   useBulkApprove,
   useBulkReject,
+  useUpdateDishStatus,
 } from '@/features/review/hooks/useApproval';
 import { useUpdateCountry } from '@/features/review/hooks/useUpdateCountry';
 import { useUpdateAddress } from '@/features/review/hooks/useUpdateAddress';
 import { HierarchyTree } from '@/features/review/components/HierarchyTree';
 import { VenueDetailPanel } from '@/features/review/components/VenueDetailPanel';
 import { DishGrid } from '@/features/review/components/DishGrid';
-import { ApprovalButtons } from '@/features/review/components/ApprovalButtons';
 import { FeedbackForm } from '@/features/review/components/FeedbackForm';
 import { BulkActionsBar } from '@/features/review/components/BulkActionsBar';
 import { FilterBar } from '@/features/review/components/FilterBar';
@@ -65,6 +65,7 @@ export function ReviewQueuePage() {
   const [showHelpDialog, setShowHelpDialog] = useState(false);
   const [showBulkRejectDialog, setShowBulkRejectDialog] = useState(false);
   const [showChainDialog, setShowChainDialog] = useState(false);
+  const [loadingDishId, setLoadingDishId] = useState<string | null>(null);
 
   // Fetch review queue
   const { data, isLoading, error, refetch } = useReviewQueue(filters, {
@@ -107,6 +108,14 @@ export function ReviewQueuePage() {
 
   const updateCountryMutation = useUpdateCountry();
   const updateAddressMutation = useUpdateAddress();
+  const updateDishStatusMutation = useUpdateDishStatus({
+    onSuccess: () => {
+      setLoadingDishId(null);
+    },
+    onError: () => {
+      setLoadingDishId(null);
+    },
+  });
 
   // Get selected venue
   const selectedVenue = data?.items.find((v) => v.id === selectedVenueId);
@@ -187,6 +196,34 @@ export function ReviewQueuePage() {
       await updateAddressMutation.mutateAsync({ venueId, ...address });
     },
     [updateAddressMutation]
+  );
+
+  // Handle dish approval
+  const handleApproveDish = useCallback(
+    (dishId: string) => {
+      if (!selectedVenueId) return;
+      setLoadingDishId(dishId);
+      updateDishStatusMutation.mutate({
+        venueId: selectedVenueId,
+        dishId,
+        status: 'approved',
+      });
+    },
+    [selectedVenueId, updateDishStatusMutation]
+  );
+
+  // Handle dish rejection
+  const handleRejectDish = useCallback(
+    (dishId: string) => {
+      if (!selectedVenueId) return;
+      setLoadingDishId(dishId);
+      updateDishStatusMutation.mutate({
+        venueId: selectedVenueId,
+        dishId,
+        status: 'rejected',
+      });
+    },
+    [selectedVenueId, updateDishStatusMutation]
   );
 
   // Keyboard shortcuts
@@ -371,6 +408,14 @@ export function ReviewQueuePage() {
                 isUpdatingCountry={updateCountryMutation.isPending}
                 onUpdateAddress={handleUpdateAddress}
                 isUpdatingAddress={updateAddressMutation.isPending}
+                onFullyApprove={handleApprove}
+                onApproveWithFixes={handlePartialApprove}
+                onReject={handleReject}
+                isApprovingVenue={
+                  approveMutation.isPending ||
+                  partialApproveMutation.isPending ||
+                  rejectMutation.isPending
+                }
               />
 
               {/* Dishes */}
@@ -379,22 +424,13 @@ export function ReviewQueuePage() {
                   <h3 className="text-xl font-semibold">Dishes</h3>
                   <Badge variant="secondary">{selectedVenue.dishes.length}</Badge>
                 </div>
-                <DishGrid dishes={selectedVenue.dishes} />
-              </Card>
-
-              {/* Approval Actions */}
-              {selectedVenue.status === 'pending' && (
-                <ApprovalButtons
-                  onApprove={handleApprove}
-                  onPartialApprove={handlePartialApprove}
-                  onReject={handleReject}
-                  isLoading={
-                    approveMutation.isPending ||
-                    partialApproveMutation.isPending ||
-                    rejectMutation.isPending
-                  }
+                <DishGrid
+                  dishes={selectedVenue.dishes}
+                  onApproveDish={handleApproveDish}
+                  onRejectDish={handleRejectDish}
+                  loadingDishId={loadingDishId || undefined}
                 />
-              )}
+              </Card>
             </>
           ) : (
             <EmptyState

@@ -265,6 +265,8 @@ export interface DiscoveredDeliveryLink {
   review_count?: number;
 }
 
+export type DiscoveredDishStatus = 'discovered' | 'verified' | 'rejected';
+
 export interface DiscoveredDish {
   name: string;
   description?: string;
@@ -273,6 +275,7 @@ export interface DiscoveredDish {
   planted_product: string; // e.g., 'planted.chicken'
   is_vegan?: boolean;
   confidence: number; // 0-100
+  status?: DiscoveredDishStatus; // Review status of the dish
 }
 
 export interface ConfidenceFactor {

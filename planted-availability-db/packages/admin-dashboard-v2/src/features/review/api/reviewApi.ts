@@ -120,6 +120,15 @@ function transformVenue(backendVenue: BackendReviewVenue): ReviewVenue {
  * Transform backend dish to frontend dish
  */
 function transformDish(backendDish: BackendReviewDish): ReviewDish {
+  // Map backend status to frontend DishStatus
+  let status: ReviewDish['status'] = 'pending';
+  if (backendDish.status === 'verified') {
+    status = 'approved';
+  } else if (backendDish.status === 'rejected') {
+    status = 'rejected';
+  }
+  // 'discovered' and any other status maps to 'pending'
+
   return {
     id: backendDish.id,
     name: backendDish.name,
@@ -129,6 +138,7 @@ function transformDish(backendDish: BackendReviewDish): ReviewDish {
     imageUrl: backendDish.imageUrl,
     productMatch: (backendDish.product || 'planted.other') as ReviewDish['productMatch'],
     confidence: backendDish.confidence / 100, // Normalize to 0-1
+    status,
   };
 }
 
@@ -394,4 +404,15 @@ export async function updateVenueAddress(
   address: { street?: string; city?: string }
 ): Promise<{ success: boolean; venue: { id: string; name: string; address: { street: string; city: string; country: string } } }> {
   return apiClient.post(API_ENDPOINTS.UPDATE_VENUE_ADDRESS, { venueId, ...address });
+}
+
+/**
+ * Update Dish Status
+ */
+export async function updateDishStatus(
+  venueId: string,
+  dishId: string,
+  status: 'verified' | 'rejected'
+): Promise<{ success: boolean; dish: { id: string; name: string; status: string }; venue: { id: string; name: string } }> {
+  return apiClient.post(API_ENDPOINTS.UPDATE_DISH_STATUS, { venueId, dishId, status });
 }

@@ -1,21 +1,37 @@
 /**
  * DishGrid Component
  *
- * Grid of dish cards with images, prices, and individual approve/reject actions.
+ * Grid of dish cards with images, prices, status badges, and individual approve/reject actions.
  */
 
-import { Check, X, ImageOff } from 'lucide-react';
+import { Check, X, ImageOff, Loader2 } from 'lucide-react';
 import { Card, CardContent } from '@/shared/ui/Card';
 import { Button } from '@/shared/ui/Button';
 import { Badge } from '@/shared/ui/Badge';
 import { cn } from '@/lib/utils';
-import { ReviewDish, PRODUCT_LABELS } from '../types';
+import { ReviewDish, PRODUCT_LABELS, DishStatus } from '../types';
 
 interface DishGridProps {
   dishes: ReviewDish[];
   onApproveDish?: (dishId: string) => void;
   onRejectDish?: (dishId: string) => void;
+  loadingDishId?: string; // ID of dish currently being updated
   className?: string;
+}
+
+/**
+ * Get badge variant and text for dish status
+ */
+function getDishStatusBadge(status: DishStatus): { variant: 'warning' | 'success' | 'destructive'; text: string } {
+  switch (status) {
+    case 'approved':
+      return { variant: 'success', text: 'Approved' };
+    case 'rejected':
+      return { variant: 'destructive', text: 'Rejected' };
+    case 'pending':
+    default:
+      return { variant: 'warning', text: 'Pending' };
+  }
 }
 
 /**
@@ -25,10 +41,12 @@ function DishCard({
   dish,
   onApprove,
   onReject,
+  isLoading,
 }: {
   dish: ReviewDish;
   onApprove?: (dishId: string) => void;
   onReject?: (dishId: string) => void;
+  isLoading?: boolean;
 }) {
   const confidencePercentage = Math.round(dish.confidence * 100);
   const getConfidenceColor = () => {
@@ -37,8 +55,14 @@ function DishCard({
     return 'text-red-600';
   };
 
+  const statusBadge = getDishStatusBadge(dish.status);
+  const isPending = dish.status === 'pending';
+
   return (
-    <Card className="overflow-hidden">
+    <Card className={cn('overflow-hidden', {
+      'opacity-60': dish.status === 'rejected',
+      'ring-2 ring-green-200': dish.status === 'approved',
+    })}>
       {/* Image */}
       <div className="aspect-video bg-muted relative overflow-hidden">
         {dish.imageUrl ? (
@@ -56,6 +80,12 @@ function DishCard({
             <ImageOff className="h-12 w-12 text-muted-foreground" />
           </div>
         )}
+        {/* Status Badge Overlay */}
+        <div className="absolute top-2 right-2">
+          <Badge variant={statusBadge.variant} className="text-xs">
+            {statusBadge.text}
+          </Badge>
+        </div>
       </div>
 
       <CardContent className="p-4 space-y-3">
@@ -99,8 +129,8 @@ function DishCard({
           </div>
         </div>
 
-        {/* Actions */}
-        {(onApprove || onReject) && (
+        {/* Actions - only show for pending dishes */}
+        {isPending && (onApprove || onReject) && (
           <div className="flex gap-2 pt-2">
             {onApprove && (
               <Button
@@ -108,8 +138,13 @@ function DishCard({
                 variant="outline"
                 className="flex-1 border-green-500 text-green-600 hover:bg-green-50"
                 onClick={() => onApprove(dish.id)}
+                disabled={isLoading}
               >
-                <Check className="h-4 w-4 mr-1" />
+                {isLoading ? (
+                  <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                ) : (
+                  <Check className="h-4 w-4 mr-1" />
+                )}
                 Approve
               </Button>
             )}
@@ -119,8 +154,13 @@ function DishCard({
                 variant="outline"
                 className="flex-1 border-red-500 text-red-600 hover:bg-red-50"
                 onClick={() => onReject(dish.id)}
+                disabled={isLoading}
               >
-                <X className="h-4 w-4 mr-1" />
+                {isLoading ? (
+                  <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                ) : (
+                  <X className="h-4 w-4 mr-1" />
+                )}
                 Reject
               </Button>
             )}
@@ -134,7 +174,7 @@ function DishCard({
 /**
  * DishGrid Component
  */
-export function DishGrid({ dishes, onApproveDish, onRejectDish, className }: DishGridProps) {
+export function DishGrid({ dishes, onApproveDish, onRejectDish, loadingDishId, className }: DishGridProps) {
   if (dishes.length === 0) {
     return (
       <div className={cn('text-center py-8 text-muted-foreground', className)}>
@@ -151,6 +191,7 @@ export function DishGrid({ dishes, onApproveDish, onRejectDish, className }: Dis
           dish={dish}
           onApprove={onApproveDish}
           onReject={onRejectDish}
+          isLoading={loadingDishId === dish.id}
         />
       ))}
     </div>

@@ -65,6 +65,9 @@ export const API_ENDPOINTS = {
   // Venue edit
   UPDATE_VENUE_COUNTRY: '/adminUpdateVenueCountry',
   UPDATE_VENUE_ADDRESS: '/adminUpdateVenueAddress',
+
+  // Dish status
+  UPDATE_DISH_STATUS: '/adminUpdateDishStatus',
 } as const;
 
 /**

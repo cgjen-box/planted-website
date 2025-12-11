@@ -12,6 +12,7 @@ import { Badge } from '@/shared/ui/Badge';
 import { Button } from '@/shared/ui/Button';
 import { cn } from '@/lib/utils';
 import { ReviewVenue, PLATFORM_LABELS, VENUE_TYPE_LABELS, COUNTRY_EMOJIS } from '../types';
+import { VenueApprovalButtons } from './VenueApprovalButtons';
 
 interface VenueDetailPanelProps {
   venue: ReviewVenue;
@@ -21,6 +22,11 @@ interface VenueDetailPanelProps {
   isUpdatingCountry?: boolean;
   onUpdateAddress?: (venueId: string, address: { street?: string; city?: string }) => Promise<void>;
   isUpdatingAddress?: boolean;
+  // Venue approval actions
+  onFullyApprove?: () => void;
+  onApproveWithFixes?: () => void;
+  onReject?: () => void;
+  isApprovingVenue?: boolean;
 }
 
 /**
@@ -77,6 +83,10 @@ export function VenueDetailPanel({
   isUpdatingCountry,
   onUpdateAddress,
   isUpdatingAddress,
+  onFullyApprove,
+  onApproveWithFixes,
+  onReject,
+  isApprovingVenue,
 }: VenueDetailPanelProps) {
   const [isEditingCountry, setIsEditingCountry] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(venue.countryCode);
@@ -425,6 +435,18 @@ export function VenueDetailPanel({
           <div className="space-y-2 p-3 bg-destructive/10 rounded-md border border-destructive/20">
             <h4 className="text-sm font-semibold text-destructive">Rejection Reason</h4>
             <p className="text-sm text-muted-foreground">{venue.rejectionReason}</p>
+          </div>
+        )}
+
+        {/* Venue Approval Buttons - only for pending venues */}
+        {venue.status === 'pending' && onFullyApprove && onApproveWithFixes && onReject && (
+          <div className="pt-4 border-t">
+            <VenueApprovalButtons
+              onFullyApprove={onFullyApprove}
+              onApproveWithFixes={onApproveWithFixes}
+              onReject={onReject}
+              isLoading={isApprovingVenue}
+            />
           </div>
         )}
       </CardContent>

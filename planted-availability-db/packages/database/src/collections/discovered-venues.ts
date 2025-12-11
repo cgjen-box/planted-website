@@ -374,6 +374,54 @@ class DiscoveredVenuesCollection extends BaseCollection<DiscoveredVenueDoc> {
   }
 
   /**
+   * Update venue address (street and/or city)
+   */
+  async updateAddress(venueId: string, address: { street?: string; city?: string }): Promise<DiscoveredVenueDoc> {
+    const venue = await this.getById(venueId);
+    if (!venue) {
+      throw new Error(`Venue ${venueId} not found`);
+    }
+
+    return this.update(venueId, {
+      address: {
+        ...venue.address,
+        ...(address.street !== undefined && { street: address.street }),
+        ...(address.city !== undefined && { city: address.city }),
+      },
+    });
+  }
+
+  /**
+   * Update the status of an embedded dish within a venue
+   * @param venueId The venue ID
+   * @param dishIndex The index of the dish in the dishes array
+   * @param status The new status for the dish ('verified' or 'rejected')
+   */
+  async updateEmbeddedDishStatus(
+    venueId: string,
+    dishIndex: number,
+    status: 'verified' | 'rejected'
+  ): Promise<DiscoveredVenueDoc> {
+    const venue = await this.getById(venueId);
+    if (!venue) {
+      throw new Error(`Venue ${venueId} not found`);
+    }
+
+    if (!venue.dishes || dishIndex < 0 || dishIndex >= venue.dishes.length) {
+      throw new Error(`Invalid dish index ${dishIndex} for venue ${venueId}`);
+    }
+
+    // Update the specific dish's status
+    const updatedDishes = [...venue.dishes];
+    updatedDishes[dishIndex] = {
+      ...updatedDishes[dishIndex],
+      status,
+    };
+
+    return this.update(venueId, { dishes: updatedDishes });
+  }
+
+  /**
    * Get venues flagged for a specific purpose, sorted by priority
    */
   async getFlaggedVenues(flagType?: VenueFlagType): Promise<DiscoveredVenueDoc[]> {

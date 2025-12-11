@@ -47,6 +47,8 @@ export {
   // Venue edit endpoints
   adminUpdateVenueCountryHandler as adminUpdateVenueCountry,
   adminUpdateVenueAddressHandler as adminUpdateVenueAddress,
+  // Dish status endpoint
+  adminUpdateDishStatusHandler as adminUpdateDishStatus,
   // Feedback endpoints
   adminFeedbackSubmitHandler as adminFeedbackSubmit,
   adminFeedbackProcessHandler as adminFeedbackProcess,

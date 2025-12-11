@@ -11,8 +11,9 @@ import {
   rejectVenue,
   bulkApproveVenues,
   bulkRejectVenues,
+  updateDishStatus,
 } from '../api/reviewApi';
-import { ReviewVenue, ReviewQueueResponse } from '../types';
+import { ReviewVenue, ReviewQueueResponse, DishStatus } from '../types';
 import { reviewQueueKeys } from './useReviewQueue';
 
 /**
@@ -229,6 +230,86 @@ export function useBulkReject(options?: ApprovalMutationOptions): UseMutationRes
     },
     onError: (error) => {
       options?.onError?.(error);
+    },
+  });
+}
+
+/**
+ * useUpdateDishStatus Hook
+ *
+ * Updates the status of an individual dish within a venue.
+ */
+interface UpdateDishStatusParams {
+  venueId: string;
+  dishId: string;
+  status: 'approved' | 'rejected'; // Frontend uses 'approved', backend uses 'verified'
+}
+
+interface UpdateDishStatusResult {
+  success: boolean;
+  dish: { id: string; name: string; status: string };
+  venue: { id: string; name: string };
+}
+
+export function useUpdateDishStatus(options?: ApprovalMutationOptions): UseMutationResult<
+  UpdateDishStatusResult,
+  Error,
+  UpdateDishStatusParams
+> {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ venueId, dishId, status }: UpdateDishStatusParams) => {
+      // Map frontend status to backend status
+      const backendStatus = status === 'approved' ? 'verified' : 'rejected';
+      return updateDishStatus(venueId, dishId, backendStatus);
+    },
+    onMutate: async ({ venueId, dishId, status }) => {
+      // Cancel outgoing refetches
+      await queryClient.cancelQueries({ queryKey: reviewQueueKeys.lists() });
+
+      // Snapshot previous value
+      const previousData = queryClient.getQueriesData({ queryKey: reviewQueueKeys.lists() });
+
+      // Optimistically update the dish status
+      queryClient.setQueriesData<ReviewQueueResponse>(
+        { queryKey: reviewQueueKeys.lists() },
+        (old) => {
+          if (!old) return old;
+          return {
+            ...old,
+            items: old.items.map((venue) => {
+              if (venue.id !== venueId) return venue;
+              return {
+                ...venue,
+                dishes: venue.dishes.map((dish) =>
+                  dish.id === dishId
+                    ? { ...dish, status: status as DishStatus }
+                    : dish
+                ),
+              };
+            }),
+          };
+        }
+      );
+
+      return { previousData };
+    },
+    onError: (error, _, context) => {
+      // Rollback on error
+      if (context?.previousData) {
+        context.previousData.forEach(([queryKey, data]) => {
+          queryClient.setQueryData(queryKey, data);
+        });
+      }
+      options?.onError?.(error);
+    },
+    onSuccess: () => {
+      options?.onSuccess?.();
+    },
+    onSettled: () => {
+      // Refetch to sync with server
+      queryClient.invalidateQueries({ queryKey: reviewQueueKeys.lists() });
     },
   });
 }
