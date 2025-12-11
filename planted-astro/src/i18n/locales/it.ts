@@ -376,7 +376,7 @@ export default {
         allNews: 'Tutte le news',
     },
 
-    // Our Story page
+    // Our Story page (legacy)
     ourStory: {
         pageTitle: 'La nostra storia',
         hero: {
@@ -400,6 +400,103 @@ export default {
         cta: {
             ready: 'Pronto a provare?',
             find: 'Trova vicino a te',
+        },
+    },
+
+    // Our Mission page (new)
+    mission: {
+        pageTitle: 'La nostra missione',
+        hero: {
+            badge: 'La nostra missione',
+            title: 'Dimostriamo che la carne non deve venire dagli animali.',
+            subtitle: 'Stesso piacere. Una frazione dell\'impatto.',
+        },
+        problem: {
+            title: 'Il mondo ama la carne.',
+            text1: 'E lo capiamo. Il sfrigolio, la consistenza, la soddisfazione—la carne è radicata nel nostro modo di mangiare, celebrare e stare insieme.',
+            text2: 'Ma il modo in cui produciamo carne oggi sta costando al pianeta. Abbiamo pensato: e se potessimo fare tutto ciò che ami della carne dalle piante?',
+        },
+        origin: {
+            title: 'È iniziato con quattro amici e una domanda.',
+            text1: 'Nel 2019, Pascal, Eric, Christoph e Lukas—scienziati alimentari e imprenditori—hanno iniziato a sperimentare in un piccolo laboratorio a Zurigo.',
+            text2: 'Non volevano convertire i vegetariani. Volevano convincere gli amanti della carne. Creare qualcosa di così buono che scegliere le piante non sembrasse una rinuncia.',
+            text3: 'Questa ossessione per il gusto—non il compromesso—ha guidato ogni prodotto che abbiamo fatto da allora.',
+        },
+        statement: {
+            quote: 'Non facciamo alternative alla carne. Facciamo carne. Da piante.',
+            explanation: 'Non si tratta di togliere qualcosa. Si tratta di dare alle persone una scelta migliore—una che ha un sapore incredibile e lascia il pianeta in condizioni migliori.',
+        },
+        timeline: {
+            title: 'Come siamo arrivati qui',
+            subtitle: 'Dal laboratorio al piatto, tappa dopo tappa.',
+            y2019: {
+                title: 'L\'inizio',
+                desc: 'Quattro scienziati alimentari e imprenditori—Pascal Bieri, Eric Stirnemann, Christoph Jenny e Lukas Böni—iniziano a sperimentare con proteine vegetali in un piccolo laboratorio ETH a Zurigo.',
+            },
+            y2020: {
+                title: 'Lancio di planted.chicken',
+                desc: 'Il primo planted.chicken arriva sugli scaffali svizzeri. Esaurito in pochi giorni. Si sparge la voce: ha un sapore diverso. Migliore.',
+            },
+            y2021: {
+                title: 'Certificazione B Corp',
+                desc: 'Diventiamo ufficialmente una B Corporation—parte di una comunità globale che usa il business come forza per il bene.',
+            },
+            y2022: {
+                title: 'Espansione europea',
+                desc: 'Dalla Svizzera a Germania, Austria e oltre. L\'appetito per alternative alla carne migliori non conosce confini.',
+            },
+            y2023: {
+                title: 'planted.steak',
+                desc: 'Lanciamo la prima bistecca whole-cut fermentata a base vegetale al mondo. Una svolta in consistenza e sapore.',
+            },
+            y2024: {
+                title: 'CHF 70 mio. & 8.000+ ristoranti',
+                desc: 'Un grande round di finanziamento accelera la nostra missione. Da ristoranti stellati a mense, planted viene servito in oltre 8.000 location.',
+            },
+            y2025: {
+                title: 'Il più grande impianto d\'Europa',
+                desc: 'Apre il nostro impianto di Memmingen—la struttura di produzione di carne vegetale più moderna d\'Europa. 100% energia rinnovabile.',
+            },
+        },
+        values: {
+            title: 'Cosa ci guida',
+            taste: {
+                title: 'Il gusto prima di tutto. Sempre.',
+                desc: 'Se gli amanti della carne non chiedono il bis, torniamo in laboratorio. Nessuna eccezione.',
+            },
+            simple: {
+                title: 'Ingredienti semplici.',
+                desc: 'Proteina di piselli. Acqua. Olio di colza. Olio di girasole. Cose che riconosci. Niente di strano.',
+            },
+            planet: {
+                title: 'Il pianeta prima del profitto.',
+                desc: 'Certificati B Corp. Ogni decisione considera l\'impatto. Non perché è di moda—perché è necessario.',
+            },
+            science: {
+                title: 'La scienza incontra la cucina.',
+                desc: 'Innovazione food-tech abbinata a maestria culinaria. Siamo a casa tanto in laboratorio quanto in una cucina stellata.',
+            },
+        },
+        bcorp: {
+            title: 'Business come forza per il bene',
+            text1: 'Nel 2021 siamo diventati una B Corporation certificata. Non è un badge di marketing—è responsabilità.',
+            text2: 'Ogni anno veniamo misurati su come trattiamo dipendenti, comunità, clienti e il pianeta. Pubblichiamo i risultati.',
+        },
+        future: {
+            title: 'Dove stiamo andando',
+            text1: 'Stiamo appena iniziando. Nuovi prodotti, nuovi mercati, nuovi modi per rendere la scelta vegetale la scelta facile.',
+            text2: 'Il nostro obiettivo non è essere l\'azienda plant-based più grande. Ma quella che finalmente convince i carnivori a cambiare—perché vogliono, non perché devono.',
+        },
+        founders: {
+            title: 'Il team',
+            subtitle: 'Le persone dietro planted.',
+            niceToMeet: 'Piacere di conoscerti!',
+            leadershipText: 'Questi sono Judith, Chris, Pascal, Lukas, Marion, David, Rasmus e Joanna—i primi quattro sono i fondatori di Planted, e l\'intero gruppo forma il nostro Senior Leadership Team. Guidano i nostri team con l\'obiettivo di ispirare le persone a passare definitivamente a proteine migliori—ovunque mangino. Planted è molto più di un prodotto (molto) buono—è una mentalità. Danno potere al nostro team ogni giorno per prendere decisioni importanti, evolvere e raggiungere il loro pieno potenziale. Siamo tutti convinti che possiamo raggiungere i nostri obiettivi ambiziosi solo con il miglior team.',
+            gangTitle: 'Incontra alcune facce della nostra gang!',
+        },
+        cta: {
+            title: 'Pronto ad assaggiare la differenza?',
+            subtitle: 'Trova planted vicino a te e scopri cosa può essere davvero la carne vegetale.',
         },
     },
 
@@ -440,16 +537,16 @@ export default {
 
     // Newsletter Signup component
     newsletter: {
-        title: 'Newsletter',
+        title: 'Newsletter. (Non ti spammiamo. Promesso.)',
         subtitle: 'OK, ecco l\'iscrizione alla newsletter.',
-        description: 'Sai come funziona. Ti chiediamo l\'email. Tu ti chiedi se ti spammeremo.',
+        description: 'Ricette. Novità. Ogni tanto un\'offerta. Niente 47 email a settimana.',
         placeholder: 'la@tua.email.it',
-        button: 'Ci sto',
+        button: 'Sì, voglio',
         consent: 'Accetto di ricevere email di marketing.',
         success: 'Benvenuto a bordo! Siamo felici.',
         promiseTitle: 'La nostra promessa:',
         promiseRecipes: 'Ricette che funzionano davvero',
-        promiseProducts: 'Nuovi prodotti prima di tutti',
+        promiseProducts: 'Prodotti nuovi prima che arrivino in negozio',
         promiseJokes: 'Ogni tanto una battuta pessima',
         promiseNoSpam: 'Niente email quotidiane. Abbiamo altro da fare.',
         finePrint: 'Puoi cancellarti in qualsiasi momento. Piangeremo in silenzio, ma ti lasceremo in pace.',
@@ -479,15 +576,116 @@ export default {
 
     // Meta / SEO
     meta: {
-        defaultDescription: 'Carne vegetale che ha davvero il sapore della carne. Made in Svizzera. Certificato B Corp.',
+        defaultDescription: 'Carne da piselli, girasole e avena. Sembra strano. Sa di pollo. Made in Svizzera.',
         titleSuffix: ' | planted',
+        homeTitle: 'Planted – Carne da piante. Sì, davvero.',
+    },
+
+    // Press page
+    press: {
+        pageTitle: 'Stampa & Media',
+        hero: {
+            badge: 'Stampa & Media',
+            title: 'News da Planted',
+            subtitle: 'Risorse per giornalisti e professionisti dei media.',
+        },
+        contact: {
+            title: 'Contatto stampa',
+            subtitle: 'Per richieste stampa, interviste e collaborazioni media:',
+        },
+        facts: {
+            title: 'L\'azienda in sintesi',
+            founded: 'Fondata',
+            headquarters: 'Sede centrale',
+            employees: 'Dipendenti',
+            markets: 'Mercati',
+            productsCount: 'Prodotti',
+            restaurantPartners: 'Ristoranti partner',
+        },
+        resources: {
+            title: 'Risorse media',
+            subtitle: 'Asset ufficiali del brand e materiali scaricabili.',
+            logos: 'Pacchetto loghi',
+            logosDesc: 'Loghi ufficiali Planted in vari formati (SVG, PNG, EPS) per stampa e digitale.',
+            brand: 'Linee guida brand',
+            brandDesc: 'Guida completa di stile del brand con colori, tipografia e linee guida d\'uso.',
+            images: 'Immagini prodotti',
+            imagesDesc: 'Foto prodotti ad alta risoluzione, immagini packaging e scatti lifestyle.',
+            video: 'Materiale video',
+            videoDesc: 'Materiale B-Roll, video prodotti e contenuti dietro le quinte.',
+            bios: 'Biografie executive',
+            biosDesc: 'Biografie e foto ritratti dei dirigenti e fondatori di Planted.',
+            data: 'Dati sostenibilità',
+            dataDesc: 'Report LCA, dati impatto ambientale e prove di sostenibilità.',
+            contact: 'Contatto press@eatplanted.com',
+        },
+        news: {
+            title: 'News recenti',
+            subtitle: 'Ultimi annunci e aggiornamenti aziendali.',
+            viewAll: 'Vedi tutte le news',
+        },
+        about: {
+            title: 'Su Planted',
+            boilerplate: 'Questo testo può essere usato nei materiali stampa.',
+            description1: 'Planted è un\'azienda svizzera di tecnologia alimentare che sta rivoluzionando il modo in cui pensiamo alla carne. Fondata nel 2019 a Zurigo, l\'azienda sviluppa prodotti di carne vegetale con tecnologia di fermentazione innovativa e ingredienti semplici e riconoscibili. I prodotti Planted sono venduti nei principali negozi al dettaglio in tutta Europa e serviti in oltre 8.000 ristoranti.',
+            description2: 'L\'azienda è certificata B Corp e si impegna ai più alti standard di prestazione sociale e ambientale. La missione di Planted è rendere accessibile a tutti cibo delizioso e sostenibile, dimostrando che grande gusto e responsabilità ambientale possono andare di pari passo.',
+        },
+        social: {
+            title: 'Segui Planted',
+        },
+    },
+
+    // FAQ page
+    faq: {
+        pageTitle: 'FAQ',
+        hero: {
+            badge: 'Centro assistenza',
+            title: 'Domande frequenti',
+            subtitle: 'Tutto quello che devi sapere sui prodotti Planted.',
+        },
+        categories: {
+            general: 'Generale',
+            ingredients: 'Ingredienti',
+            sustainability: 'Sostenibilità',
+            gastronomy: 'Gastronomia & B2B',
+        },
+        contact: {
+            title: 'Altre domande?',
+            subtitle: 'Non trovi quello che cerchi? Il nostro team è felice di aiutarti.',
+            button: 'Contattaci',
+            business: 'Per richieste business',
+        },
+    },
+
+    // Legal pages
+    legal: {
+        privacy: {
+            title: 'Informativa sulla privacy',
+            lastUpdated: 'Ultimo aggiornamento',
+        },
+        terms: {
+            title: 'Termini e condizioni',
+            lastUpdated: 'Ultimo aggiornamento',
+        },
+        imprint: {
+            title: 'Imprint',
+            subtitle: 'Informazioni legali',
+            company: 'Informazioni aziendali',
+            registration: 'Registrazione',
+            contact: 'Contatto',
+            management: 'Direzione',
+            contentResponsibility: 'Responsabile del contenuto',
+            disclaimer: 'Disclaimer',
+            copyright: 'Copyright',
+            disputes: 'Risoluzione controversie online',
+        },
     },
 
     // Cookie Consent component
     cookieConsent: {
-        title: 'Utilizziamo i cookie',
-        description: 'Utilizziamo i cookie per migliorare la tua esperienza e analizzare il traffico del sito. Cliccando su "Accetta tutto", acconsenti al nostro utilizzo dei cookie.',
-        acceptAll: 'Accetta tutto',
+        title: 'Cookie. (Quelli digitali.)',
+        description: 'Usiamo i cookie perché il sito funzioni e per sapere cosa piace. Quelli commestibili purtroppo non li facciamo.',
+        acceptAll: 'Tutto ok',
         necessaryOnly: 'Solo necessari',
         settings: 'Impostazioni',
         saveSettings: 'Salva impostazioni',

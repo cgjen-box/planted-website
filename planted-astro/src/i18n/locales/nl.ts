@@ -376,7 +376,7 @@ export default {
         allNews: 'Al het nieuws',
     },
 
-    // Our Story page
+    // Our Story page (legacy)
     ourStory: {
         pageTitle: 'Ons verhaal',
         hero: {
@@ -400,6 +400,103 @@ export default {
         cta: {
             ready: 'Klaar om te proberen?',
             find: 'Vind bij jou in de buurt',
+        },
+    },
+
+    // Our Mission page (new)
+    mission: {
+        pageTitle: 'Onze Missie',
+        hero: {
+            badge: 'Onze Missie',
+            title: 'We bewijzen dat vlees niet van dieren hoeft te komen.',
+            subtitle: 'Hetzelfde genot. Een fractie van de voetafdruk.',
+        },
+        problem: {
+            title: 'De wereld houdt van vlees.',
+            text1: 'En dat snappen we. Het gesis, de textuur, de bevrediging – vlees zit diep geworteld in hoe we eten, vieren en samenkomen.',
+            text2: 'Maar de manier waarop we vandaag vlees produceren, kost ons de planeet. We dachten: wat als je alles wat je aan vlees liefhebt, van planten kon maken?',
+        },
+        origin: {
+            title: 'Het begon met vier vrienden en een vraag.',
+            text1: 'In 2019 begonnen Pascal, Eric, Christoph en Lukas – voedselwetenschappers en ondernemers – te experimenteren in een klein lab in Zürich.',
+            text2: 'Ze wilden geen vegetariërs bekeren. Ze wilden vleesliefhebbers overtuigen. Iets zo goeds maken dat de keuze voor planten niet als opoffering zou voelen.',
+            text3: 'Die obsessie met smaak – geen compromis – heeft elk product aangedreven dat we sindsdien hebben gemaakt.',
+        },
+        statement: {
+            quote: 'We maken geen vleesvervanger. We maken vlees. Van planten.',
+            explanation: 'Het gaat niet om iets afpakken. Het gaat om mensen een betere keuze geven – eentje die ongelooflijk smaakt en de planeet er beter op laat staan.',
+        },
+        timeline: {
+            title: 'Hoe we hier kwamen',
+            subtitle: 'Van lab naar bord, mijlpaal na mijlpaal.',
+            y2019: {
+                title: 'Het begin',
+                desc: 'Vier voedselwetenschappers en ondernemers – Pascal Bieri, Eric Stirnemann, Christoph Jenny en Lukas Böni – beginnen met experimenteren met plantaardige eiwitten in een klein ETH-lab in Zürich.',
+            },
+            y2020: {
+                title: 'planted.chicken lanceert',
+                desc: 'De eerste planted.chicken komt in de Zwitserse schappen. Binnen dagen uitverkocht. Het spreekt zich rond: dit smaakt anders. Beter.',
+            },
+            y2021: {
+                title: 'B Corp gecertificeerd',
+                desc: 'We worden officieel een B Corporation – onderdeel van een wereldwijde gemeenschap die business als kracht voor goed gebruikt.',
+            },
+            y2022: {
+                title: 'Europese expansie',
+                desc: 'Van Zwitserland naar Duitsland, Oostenrijk en verder. De honger naar betere vleesalternatieven kent geen grenzen.',
+            },
+            y2023: {
+                title: 'planted.steak',
+                desc: 'We lanceren \'s werelds eerste gefermenteerde plantaardige whole-cut steak. Een doorbraak in textuur en smaak.',
+            },
+            y2024: {
+                title: 'CHF 70 mio. & 8.000+ restaurants',
+                desc: 'Grote financieringsronde versnelt onze missie. Van sterrenrestaurants tot kantines, planted wordt geserveerd op meer dan 8.000 locaties.',
+            },
+            y2025: {
+                title: 'Europa\'s grootste fabriek',
+                desc: 'Onze Memmingen-fabriek opent – de modernste productiefaciliteit voor plantaardig vlees in Europa. 100% hernieuwbare energie.',
+            },
+        },
+        values: {
+            title: 'Wat ons drijft',
+            taste: {
+                title: 'Smaak eerst. Altijd.',
+                desc: 'Als vleesliefhebbers niet meteen een tweede portie pakken, gaan we terug naar het lab. Geen uitzonderingen.',
+            },
+            simple: {
+                title: 'Simpele ingrediënten.',
+                desc: 'Erwteneiwit. Water. Koolzaadolie. Zonnebloemolie. Dingen die je herkent. Niets raars.',
+            },
+            planet: {
+                title: 'Planeet boven winst.',
+                desc: 'B Corp gecertificeerd. Elke beslissing houdt rekening met de impact. Niet omdat het hip is – omdat het nodig is.',
+            },
+            science: {
+                title: 'Wetenschap ontmoet keuken.',
+                desc: 'Food-tech innovatie gecombineerd met culinair vakmanschap. We zijn net zo thuis in het lab als in de sterrenkeuken.',
+            },
+        },
+        bcorp: {
+            title: 'Business als kracht voor goed',
+            text1: 'In 2021 werden we een gecertificeerde B Corporation. Dat is geen marketing-badge – dat is verantwoordelijkheid.',
+            text2: 'Elk jaar worden we beoordeeld op hoe we medewerkers, gemeenschappen, klanten en de planeet behandelen. We publiceren de resultaten.',
+        },
+        future: {
+            title: 'Waar we naartoe gaan',
+            text1: 'We zijn nog maar net begonnen. Nieuwe producten, nieuwe markten, nieuwe manieren om de keuze voor planten de makkelijke keuze te maken.',
+            text2: 'Ons doel is niet om het grootste plantaardige bedrijf te zijn. Maar het bedrijf dat vleseters eindelijk laat omschakelen – omdat ze het willen, niet omdat ze het moeten.',
+        },
+        founders: {
+            title: 'Het team',
+            subtitle: 'De mensen achter planted.',
+            niceToMeet: 'Leuk je te ontmoeten!',
+            leadershipText: 'Dit zijn Judith, Chris, Pascal, Lukas, Marion, David, Rasmus en Joanna – de eerste vier zijn oprichters van Planted, en de hele groep vormt ons Senior Leadership Team. Ze leiden onze teams met het doel om mensen te inspireren om blijvend over te schakelen op beter eiwit – waar ze ook eten. Planted is zoveel meer dan alleen een (heel) lekker product – het is een mindset. Ze stellen ons team elke dag in staat om belangrijke beslissingen te nemen, zich te ontwikkelen en hun volledige potentieel te bereiken. We zijn er allemaal van overtuigd dat we onze ambitieuze doelen alleen kunnen bereiken met het beste team.',
+            gangTitle: 'Ontmoet een paar gezichten van onze gang!',
+        },
+        cta: {
+            title: 'Klaar om het verschil te proeven?',
+            subtitle: 'Vind planted bij jou in de buurt en ervaar wat plantaardig vlees echt kan zijn.',
         },
     },
 
@@ -479,8 +576,9 @@ export default {
 
     // Meta / SEO
     meta: {
-        defaultDescription: 'Plantaardig vlees dat echt naar vlees smaakt. Made in Switzerland. B Corp gecertificeerd.',
+        defaultDescription: 'Vlees van erwten, zonnebloemen en haver. Klinkt raar. Smaakt naar kip. Made in Switzerland.',
         titleSuffix: ' | planted',
+        homeTitle: 'Planted – Vlees van planten. Ja, echt.',
     },
 
     // Cookie Consent component

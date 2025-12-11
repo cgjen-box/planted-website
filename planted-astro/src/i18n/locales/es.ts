@@ -403,6 +403,103 @@ export default {
         },
     },
 
+    // Our Mission page (new)
+    mission: {
+        pageTitle: 'Nuestra Misión',
+        hero: {
+            badge: 'Nuestra Misión',
+            title: 'Demostramos que la carne no tiene que venir de animales.',
+            subtitle: 'Mismo placer. Una fracción de la huella.',
+        },
+        problem: {
+            title: 'El mundo ama la carne.',
+            text1: 'Y lo entendemos. El chisporroteo, la textura, la satisfacción—la carne está arraigada en nuestra forma de comer, celebrar y reunirnos.',
+            text2: 'Pero la forma en que producimos carne hoy nos está costando el planeta. Pensamos: ¿y si pudiéramos hacer todo lo que amas de la carne a partir de plantas?',
+        },
+        origin: {
+            title: 'Empezó con cuatro amigos y una pregunta.',
+            text1: 'En 2019, Pascal, Eric, Christoph y Lukas—científicos de alimentos y emprendedores—comenzaron a experimentar en un pequeño laboratorio de Zúrich.',
+            text2: 'No querían convertir vegetarianos. Querían convencer a amantes de la carne. Crear algo tan bueno que elegir plantas no se sintiera como un sacrificio.',
+            text3: 'Esta obsesión con el sabor—no el compromiso—ha impulsado cada producto que hemos hecho desde entonces.',
+        },
+        statement: {
+            quote: 'No hacemos alternativas a la carne. Hacemos carne. De plantas.',
+            explanation: 'No se trata de quitar algo. Se trata de dar a la gente una mejor opción—una que sepa increíble y deje al planeta mejor.',
+        },
+        timeline: {
+            title: 'Cómo llegamos aquí',
+            subtitle: 'Del laboratorio al plato, hito a hito.',
+            y2019: {
+                title: 'El comienzo',
+                desc: 'Cuatro científicos de alimentos y emprendedores—Pascal Bieri, Eric Stirnemann, Christoph Jenny y Lukas Böni—empiezan a experimentar con proteínas vegetales en un pequeño laboratorio de la ETH en Zúrich.',
+            },
+            y2020: {
+                title: 'planted.chicken se lanza',
+                desc: 'El primer planted.chicken llega a los estantes suizos. Agotado en días. Se corre la voz: esto sabe diferente. Mejor.',
+            },
+            y2021: {
+                title: 'Certificado B Corp',
+                desc: 'Nos convertimos oficialmente en una B Corporation—parte de una comunidad global que usa los negocios como fuerza para el bien.',
+            },
+            y2022: {
+                title: 'Expansión europea',
+                desc: 'De Suiza a Alemania, Austria y más allá. El apetito por mejores alternativas de carne no conoce fronteras.',
+            },
+            y2023: {
+                title: 'planted.steak',
+                desc: 'Lanzamos el primer filete fermentado whole-cut de base vegetal del mundo. Un avance en textura y sabor.',
+            },
+            y2024: {
+                title: 'CHF 70M & 8.000+ restaurantes',
+                desc: 'Gran ronda de financiación acelera nuestra misión. De restaurantes con estrellas a comedores, planted se sirve en más de 8.000 locales.',
+            },
+            y2025: {
+                title: 'Mayor planta de Europa',
+                desc: 'Nuestra planta de Memmingen abre—la instalación de producción de carne vegetal más avanzada de Europa. 100% energía renovable.',
+            },
+        },
+        values: {
+            title: 'Qué nos impulsa',
+            taste: {
+                title: 'Sabor primero. Siempre.',
+                desc: 'Si los amantes de la carne no repiten, volvemos al laboratorio. Sin excepciones.',
+            },
+            simple: {
+                title: 'Ingredientes simples.',
+                desc: 'Proteína de guisante. Agua. Aceite de colza. Aceite de girasol. Cosas que reconoces. Nada raro.',
+            },
+            planet: {
+                title: 'Planeta antes que beneficio.',
+                desc: 'Certificado B Corp. Cada decisión considera el impacto. No porque esté de moda—porque es necesario.',
+            },
+            science: {
+                title: 'Ciencia encuentra cocina.',
+                desc: 'Innovación food-tech emparejada con artesanía culinaria. Estamos tan cómodos en el laboratorio como en cocinas con estrellas.',
+            },
+        },
+        bcorp: {
+            title: 'Negocios como fuerza para el bien',
+            text1: 'En 2021 nos convertimos en una B Corporation certificada. Esto no es un badge de marketing—es responsabilidad.',
+            text2: 'Cada año se nos mide por cómo tratamos a empleados, comunidades, clientes y el planeta. Publicamos los resultados.',
+        },
+        future: {
+            title: 'Hacia dónde vamos',
+            text1: 'Apenas estamos empezando. Nuevos productos, nuevos mercados, nuevas formas de hacer que elegir plantas sea la opción fácil.',
+            text2: 'Nuestro objetivo no es ser la empresa plant-based más grande. Es ser la que finalmente hace que los carnívoros cambien—porque quieren, no porque deban.',
+        },
+        founders: {
+            title: 'El Equipo',
+            subtitle: 'Las personas detrás de planted.',
+            niceToMeet: 'Encantado de conocerte!',
+            leadershipText: 'Estos son Judith, Chris, Pascal, Lukas, Marion, David, Rasmus y Joanna—los primeros cuatro son fundadores de Planted, y todo el grupo forma nuestro Equipo de Liderazgo Senior. Lideran nuestros equipos con el objetivo de inspirar a la gente a cambiar permanentemente a mejor proteína—dondequiera que coman. Planted es mucho más que un producto (muy) sabroso—es una mentalidad. Empoderan a nuestro equipo cada día para tomar decisiones importantes, crecer y alcanzar su máximo potencial. Todos creemos que solo podemos lograr nuestros objetivos ambiciosos con el mejor equipo.',
+            gangTitle: 'Conoce algunas caras de nuestra banda!',
+        },
+        cta: {
+            title: '¿Listo para probar la diferencia?',
+            subtitle: 'Encuentra planted cerca de ti y descubre lo que la carne vegetal realmente puede ser.',
+        },
+    },
+
     // 404 page
     notFound: {
         title: 'Página no encontrada',
@@ -479,8 +576,9 @@ export default {
 
     // Meta / SEO
     meta: {
-        defaultDescription: 'Carne vegetal que realmente sabe a carne. Hecho en Suiza. Certificado B Corp.',
+        defaultDescription: 'Carne de guisantes, girasoles y avena. Suena raro. Sabe a pollo. Made in Switzerland.',
         titleSuffix: ' | planted',
+        homeTitle: 'Planted – Carne de plantas. Sí, en serio.',
     },
 
     // Cookie Consent component
@@ -499,6 +597,106 @@ export default {
             analyticsDesc: 'Nos ayudan a entender cómo los visitantes interactúan con nuestra web.',
             marketing: 'Marketing',
             marketingDesc: 'Se utilizan para ofrecer anuncios personalizados.',
+        },
+    },
+
+    // Press page
+    press: {
+        pageTitle: 'Prensa & Medios',
+        hero: {
+            badge: 'Prensa & Medios',
+            title: 'Noticias de Planted',
+            subtitle: 'Recursos para periodistas y profesionales de medios.',
+        },
+        contact: {
+            title: 'Contacto de prensa',
+            subtitle: 'Para consultas de prensa, solicitudes de entrevista y colaboraciones con medios:',
+        },
+        facts: {
+            title: 'La empresa de un vistazo',
+            founded: 'Fundada',
+            headquarters: 'Sede',
+            employees: 'Empleados',
+            markets: 'Mercados',
+            productsCount: 'Productos',
+            restaurantPartners: 'Socios restaurantes',
+        },
+        resources: {
+            title: 'Recursos de medios',
+            subtitle: 'Assets oficiales de marca y materiales para descargar.',
+            logos: 'Pack de logos',
+            logosDesc: 'Logos oficiales de Planted en varios formatos (SVG, PNG, EPS) para impresión y digital.',
+            brand: 'Directrices de marca',
+            brandDesc: 'Guía de estilo de marca completa con colores, tipografía y directrices de uso.',
+            images: 'Imágenes de producto',
+            imagesDesc: 'Fotos de producto en alta resolución, imágenes de packaging y fotos de lifestyle.',
+            video: 'Material de vídeo',
+            videoDesc: 'Material B-Roll, vídeos de producto y contenido detrás de cámaras.',
+            bios: 'Biografías de ejecutivos',
+            biosDesc: 'Biografías y fotos de retrato de líderes y fundadores de Planted.',
+            data: 'Datos de sostenibilidad',
+            dataDesc: 'Informes LCA, datos de impacto ambiental y comprobantes de sostenibilidad.',
+            contact: 'Contacto press@eatplanted.com',
+        },
+        news: {
+            title: 'Noticias actuales',
+            subtitle: 'Últimos anuncios y actualizaciones de la empresa.',
+            viewAll: 'Ver todas las noticias',
+        },
+        about: {
+            title: 'Sobre Planted',
+            boilerplate: 'Este texto se puede usar en materiales de prensa.',
+            description1: 'Planted es una empresa suiza de tecnología alimentaria que está revolucionando la forma en que pensamos sobre la carne. Fundada en 2019 en Zúrich, la empresa desarrolla productos de carne vegetal usando tecnología de fermentación innovadora e ingredientes simples y reconocibles. Los productos de Planted se venden en grandes tiendas minoristas por toda Europa y se sirven en más de 8.000 restaurantes.',
+            description2: 'La empresa está certificada B Corp y comprometida con los más altos estándares de rendimiento social y ambiental. La misión de Planted es hacer la comida deliciosa y sostenible accesible para todos y demostrar que el gran sabor y la responsabilidad ambiental pueden ir de la mano.',
+        },
+        social: {
+            title: 'Sigue a Planted',
+        },
+    },
+
+    // FAQ page
+    faq: {
+        pageTitle: 'FAQ',
+        hero: {
+            badge: 'Centro de ayuda',
+            title: 'Preguntas frecuentes',
+            subtitle: 'Todo lo que necesitas saber sobre los productos Planted.',
+        },
+        categories: {
+            general: 'General',
+            ingredients: 'Ingredientes',
+            sustainability: 'Sostenibilidad',
+            gastronomy: 'Gastronomía & B2B',
+        },
+        contact: {
+            title: '¿Más preguntas?',
+            subtitle: '¿No encuentras lo que buscas? Nuestro equipo estará encantado de ayudar.',
+            button: 'Contáctanos',
+            business: 'Para consultas comerciales',
+        },
+    },
+
+    // Legal pages
+    legal: {
+        privacy: {
+            title: 'Política de privacidad',
+            lastUpdated: 'Última actualización',
+        },
+        terms: {
+            title: 'Términos y condiciones',
+            lastUpdated: 'Última actualización',
+        },
+        imprint: {
+            title: 'Aviso legal',
+            subtitle: 'Información legal',
+            company: 'Información de la empresa',
+            registration: 'Registro',
+            contact: 'Contacto',
+            management: 'Gestión',
+            contentResponsibility: 'Responsable del contenido',
+            disclaimer: 'Exención de responsabilidad',
+            copyright: 'Derechos de autor',
+            disputes: 'Resolución de disputas online',
         },
     },
 } as const;
