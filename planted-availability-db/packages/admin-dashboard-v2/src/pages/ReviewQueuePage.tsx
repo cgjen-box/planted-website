@@ -35,6 +35,7 @@ import {
   useBulkReject,
 } from '@/features/review/hooks/useApproval';
 import { useUpdateCountry } from '@/features/review/hooks/useUpdateCountry';
+import { useUpdateAddress } from '@/features/review/hooks/useUpdateAddress';
 import { HierarchyTree } from '@/features/review/components/HierarchyTree';
 import { VenueDetailPanel } from '@/features/review/components/VenueDetailPanel';
 import { DishGrid } from '@/features/review/components/DishGrid';
@@ -105,6 +106,7 @@ export function ReviewQueuePage() {
   });
 
   const updateCountryMutation = useUpdateCountry();
+  const updateAddressMutation = useUpdateAddress();
 
   // Get selected venue
   const selectedVenue = data?.items.find((v) => v.id === selectedVenueId);
@@ -177,6 +179,14 @@ export function ReviewQueuePage() {
       await updateCountryMutation.mutateAsync({ venueId, country });
     },
     [updateCountryMutation]
+  );
+
+  // Handle address update
+  const handleUpdateAddress = useCallback(
+    async (venueId: string, address: { street?: string; city?: string }) => {
+      await updateAddressMutation.mutateAsync({ venueId, ...address });
+    },
+    [updateAddressMutation]
   );
 
   // Keyboard shortcuts
@@ -359,6 +369,8 @@ export function ReviewQueuePage() {
                 onAssignChain={() => setShowChainDialog(true)}
                 onUpdateCountry={handleUpdateCountry}
                 isUpdatingCountry={updateCountryMutation.isPending}
+                onUpdateAddress={handleUpdateAddress}
+                isUpdatingAddress={updateAddressMutation.isPending}
               />
 
               {/* Dishes */}

@@ -19,6 +19,8 @@ interface VenueDetailPanelProps {
   onAssignChain?: () => void;
   onUpdateCountry?: (venueId: string, country: string) => Promise<void>;
   isUpdatingCountry?: boolean;
+  onUpdateAddress?: (venueId: string, address: { street?: string; city?: string }) => Promise<void>;
+  isUpdatingAddress?: boolean;
 }
 
 /**
@@ -73,9 +75,15 @@ export function VenueDetailPanel({
   onAssignChain,
   onUpdateCountry,
   isUpdatingCountry,
+  onUpdateAddress,
+  isUpdatingAddress,
 }: VenueDetailPanelProps) {
   const [isEditingCountry, setIsEditingCountry] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(venue.countryCode);
+  const [isEditingStreet, setIsEditingStreet] = useState(false);
+  const [editedStreet, setEditedStreet] = useState(venue.address);
+  const [isEditingCity, setIsEditingCity] = useState(false);
+  const [editedCity, setEditedCity] = useState(venue.city);
 
   const formattedDate = new Date(venue.scrapedAt).toLocaleString();
   const mapUrl = venue.coordinates
@@ -91,9 +99,37 @@ export function VenueDetailPanel({
     setIsEditingCountry(false);
   };
 
-  const handleCancelEdit = () => {
+  const handleCancelCountryEdit = () => {
     setSelectedCountry(venue.countryCode);
     setIsEditingCountry(false);
+  };
+
+  const handleStreetChange = async () => {
+    if (!onUpdateAddress || editedStreet === venue.address) {
+      setIsEditingStreet(false);
+      return;
+    }
+    await onUpdateAddress(venue.id, { street: editedStreet });
+    setIsEditingStreet(false);
+  };
+
+  const handleCancelStreetEdit = () => {
+    setEditedStreet(venue.address);
+    setIsEditingStreet(false);
+  };
+
+  const handleCityChange = async () => {
+    if (!onUpdateAddress || editedCity === venue.city) {
+      setIsEditingCity(false);
+      return;
+    }
+    await onUpdateAddress(venue.id, { city: editedCity });
+    setIsEditingCity(false);
+  };
+
+  const handleCancelCityEdit = () => {
+    setEditedCity(venue.city);
+    setIsEditingCity(false);
   };
 
   return (
@@ -142,13 +178,120 @@ export function VenueDetailPanel({
         {/* Location */}
         <div className="space-y-2">
           <h4 className="text-sm font-semibold text-foreground">Location</h4>
-          <div className="space-y-1 text-sm text-muted-foreground">
+          <div className="space-y-2 text-sm text-muted-foreground">
+            {/* Street Address */}
             <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4 flex-shrink-0" />
-              <span>{venue.address}</span>
+              {isEditingStreet ? (
+                <div className="flex items-center gap-1 flex-1">
+                  <input
+                    type="text"
+                    value={editedStreet}
+                    onChange={(e) => setEditedStreet(e.target.value)}
+                    className={cn(
+                      'h-7 flex-1 rounded-md border border-input bg-background px-2 py-0.5 text-sm',
+                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+                    )}
+                    disabled={isUpdatingAddress}
+                    autoFocus
+                  />
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 w-7 p-0"
+                    onClick={handleStreetChange}
+                    disabled={isUpdatingAddress}
+                  >
+                    {isUpdatingAddress ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Check className="h-4 w-4 text-green-600" />
+                    )}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 w-7 p-0"
+                    onClick={handleCancelStreetEdit}
+                    disabled={isUpdatingAddress}
+                  >
+                    <X className="h-4 w-4 text-red-600" />
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1">
+                  <span>{venue.address || '(no street)'}</span>
+                  {onUpdateAddress && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 w-6 p-0 ml-1"
+                      onClick={() => setIsEditingStreet(true)}
+                      title="Edit street address"
+                    >
+                      <Pencil className="h-3 w-3 text-muted-foreground hover:text-foreground" />
+                    </Button>
+                  )}
+                </div>
+              )}
             </div>
+            {/* City */}
             <div className="flex items-center gap-2 ml-6">
-              <span>{venue.city},</span>
+              {isEditingCity ? (
+                <div className="flex items-center gap-1">
+                  <input
+                    type="text"
+                    value={editedCity}
+                    onChange={(e) => setEditedCity(e.target.value)}
+                    className={cn(
+                      'h-7 w-40 rounded-md border border-input bg-background px-2 py-0.5 text-sm',
+                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+                    )}
+                    disabled={isUpdatingAddress}
+                    autoFocus
+                  />
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 w-7 p-0"
+                    onClick={handleCityChange}
+                    disabled={isUpdatingAddress}
+                  >
+                    {isUpdatingAddress ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Check className="h-4 w-4 text-green-600" />
+                    )}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 w-7 p-0"
+                    onClick={handleCancelCityEdit}
+                    disabled={isUpdatingAddress}
+                  >
+                    <X className="h-4 w-4 text-red-600" />
+                  </Button>
+                  <span>,</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1">
+                  <span>{venue.city || '(no city)'}</span>
+                  {onUpdateAddress && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 w-6 p-0"
+                      onClick={() => setIsEditingCity(true)}
+                      title="Edit city"
+                    >
+                      <Pencil className="h-3 w-3 text-muted-foreground hover:text-foreground" />
+                    </Button>
+                  )}
+                  <span>,</span>
+                </div>
+              )}
+              {/* Country */}
               {isEditingCountry ? (
                 <div className="flex items-center gap-1">
                   <select
@@ -183,7 +326,7 @@ export function VenueDetailPanel({
                     variant="ghost"
                     size="sm"
                     className="h-7 w-7 p-0"
-                    onClick={handleCancelEdit}
+                    onClick={handleCancelCountryEdit}
                     disabled={isUpdatingCountry}
                   >
                     <X className="h-4 w-4 text-red-600" />

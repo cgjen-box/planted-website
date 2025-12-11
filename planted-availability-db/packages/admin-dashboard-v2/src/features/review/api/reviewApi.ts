@@ -385,3 +385,13 @@ export async function updateVenueCountry(
 ): Promise<{ success: boolean; venue: { id: string; name: string; previousCountry: string; country: string } }> {
   return apiClient.post(API_ENDPOINTS.UPDATE_VENUE_COUNTRY, { venueId, country });
 }
+
+/**
+ * Update Venue Address (street and/or city)
+ */
+export async function updateVenueAddress(
+  venueId: string,
+  address: { street?: string; city?: string }
+): Promise<{ success: boolean; venue: { id: string; name: string; address: { street: string; city: string; country: string } } }> {
+  return apiClient.post(API_ENDPOINTS.UPDATE_VENUE_ADDRESS, { venueId, ...address });
+}

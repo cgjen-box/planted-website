@@ -46,6 +46,7 @@ export {
   adminFlaggedVenuesHandler as adminFlaggedVenues,
   // Venue edit endpoints
   adminUpdateVenueCountryHandler as adminUpdateVenueCountry,
+  adminUpdateVenueAddressHandler as adminUpdateVenueAddress,
   // Feedback endpoints
   adminFeedbackSubmitHandler as adminFeedbackSubmit,
   adminFeedbackProcessHandler as adminFeedbackProcess,
