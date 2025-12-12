@@ -171,10 +171,16 @@ const translationsJson = JSON.stringify(t);
 (function() {
   'use strict';
 
+  var locatorV2Initialized = false;
+
   // Wait for DOM
   function init() {
+    if (locatorV2Initialized) return;
+
     var locator = document.getElementById('locatorV2');
     if (!locator) return;
+
+    locatorV2Initialized = true;
 
     // Get data from attributes
     var chainLocations = JSON.parse(locator.dataset.chainData || '[]');
@@ -207,6 +213,18 @@ const translationsJson = JSON.stringify(t);
     var resultsCount = document.getElementById('resultsCount');
     var resultsLocationText = document.getElementById('resultsLocationText');
     var resultsTabs = document.getElementById('resultsTabs');
+    var scrollProgressBar = document.getElementById('scrollProgressBar');
+
+    // Setup scroll progress tracking
+    if (resultsGrid && scrollProgressBar) {
+      resultsGrid.addEventListener('scroll', function() {
+        var scrollHeight = resultsGrid.scrollHeight - resultsGrid.clientHeight;
+        if (scrollHeight > 0) {
+          var progress = (resultsGrid.scrollTop / scrollHeight) * 100;
+          scrollProgressBar.style.width = progress + '%';
+        }
+      });
+    }
 
     // Check for reduced motion
     var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -473,10 +491,12 @@ const translationsJson = JSON.stringify(t);
         if (zipSubtitle) zipSubtitle.textContent = translations.retailZipSubtitle;
       }
 
+      // Immediately update state classes for test reliability
+      zipView.classList.add('active');
+      zipView.setAttribute('aria-hidden', 'false');
+
       if (prefersReducedMotion || typeof gsap === 'undefined') {
         splitView.style.display = 'none';
-        zipView.classList.add('active');
-        zipView.setAttribute('aria-hidden', 'false');
         if (zipInput) zipInput.focus();
         return;
       }
@@ -519,15 +539,14 @@ const translationsJson = JSON.stringify(t);
         }, 0.1);
       }
 
-      // Show ZIP view
+      // Prepare ZIP view for animation
+      gsap.set('#zipView .zip-content', { opacity: 0, y: 50 });
+      gsap.set('#zipView .zip-back', { opacity: 0, x: -30 });
+      gsap.set('#zipView .zip-icon', { filter: 'blur(30px)', scale: 0.3, opacity: 0 });
+
+      // Hide split view during transition
       tl.add(function() {
-        // Hide split view now that transition is happening
         splitView.style.display = 'none';
-        zipView.classList.add('active');
-        zipView.setAttribute('aria-hidden', 'false');
-        gsap.set('#zipView .zip-content', { opacity: 0, y: 50 });
-        gsap.set('#zipView .zip-back', { opacity: 0, x: -30 });
-        gsap.set('#zipView .zip-icon', { filter: 'blur(30px)', scale: 0.3, opacity: 0 });
       }, 0.4);
 
       // Apple-style icon reveal: blur -> sharp
@@ -560,6 +579,9 @@ const translationsJson = JSON.stringify(t);
 
     function transitionToSplit() {
       if (!zipView || !splitView) return;
+
+      // Unlock body scroll (in case coming from results)
+      document.body.classList.remove('locator-results-active');
 
       if (prefersReducedMotion || typeof gsap === 'undefined') {
         zipView.classList.remove('active');
@@ -629,6 +651,9 @@ const translationsJson = JSON.stringify(t);
     function transitionToResults() {
       if (!zipView || !resultsView) return;
 
+      // Lock body scroll
+      document.body.classList.add('locator-results-active');
+
       // Configure results
       var isRestaurant = state.path === 'restaurant';
       if (isRestaurant) {
@@ -639,14 +664,16 @@ const translationsJson = JSON.stringify(t);
         if (resultsTabs) resultsTabs.style.display = 'none';
       }
 
+      // Immediately update state classes for test reliability
+      zipView.classList.remove('active');
+      zipView.setAttribute('aria-hidden', 'true');
+      resultsView.classList.add('active');
+      resultsView.setAttribute('aria-hidden', 'false');
+
       // Render results
       renderResults();
 
       if (prefersReducedMotion || typeof gsap === 'undefined') {
-        zipView.classList.remove('active');
-        zipView.setAttribute('aria-hidden', 'true');
-        resultsView.classList.add('active');
-        resultsView.setAttribute('aria-hidden', 'false');
         return;
       }
 
@@ -658,13 +685,6 @@ const translationsJson = JSON.stringify(t);
         duration: 0.3,
         ease: 'power2.in'
       }, 0);
-
-      tl.add(function() {
-        zipView.classList.remove('active');
-        zipView.setAttribute('aria-hidden', 'true');
-        resultsView.classList.add('active');
-        resultsView.setAttribute('aria-hidden', 'false');
-      }, 0.3);
 
       // Animate results header
       tl.fromTo('#resultsView .results-header',
@@ -695,14 +715,24 @@ const translationsJson = JSON.stringify(t);
     function transitionBackToZip() {
       if (!zipView || !resultsView) return;
 
+      // Unlock body scroll
+      document.body.classList.remove('locator-results-active');
+
+      // Immediately update state classes for test reliability
+      resultsView.classList.remove('active');
+      resultsView.setAttribute('aria-hidden', 'true');
+      zipView.classList.add('active');
+      zipView.setAttribute('aria-hidden', 'false');
+
       if (prefersReducedMotion || typeof gsap === 'undefined') {
-        resultsView.classList.remove('active');
-        resultsView.setAttribute('aria-hidden', 'true');
-        zipView.classList.add('active');
-        zipView.setAttribute('aria-hidden', 'false');
         if (zipInput) zipInput.focus();
         return;
       }
+
+      // Prepare ZIP view for animation
+      gsap.set('#zipView .zip-content', { opacity: 0, y: 30 });
+      gsap.set('#zipView .zip-back', { opacity: 0, x: -20 });
+      gsap.set('#zipView .zip-icon', { filter: 'blur(15px)', scale: 0.7 });
 
       var tl = gsap.timeline();
 
@@ -719,16 +749,6 @@ const translationsJson = JSON.stringify(t);
         duration: 0.25,
         ease: 'power2.in'
       }, 0);
-
-      tl.add(function() {
-        resultsView.classList.remove('active');
-        resultsView.setAttribute('aria-hidden', 'true');
-        zipView.classList.add('active');
-        zipView.setAttribute('aria-hidden', 'false');
-        gsap.set('#zipView .zip-content', { opacity: 0, y: 30 });
-        gsap.set('#zipView .zip-back', { opacity: 0, x: -20 });
-        gsap.set('#zipView .zip-icon', { filter: 'blur(15px)', scale: 0.7 });
-      }, 0.3);
 
       tl.to('#zipView .zip-icon', {
         filter: 'blur(0px)',
@@ -827,8 +847,95 @@ const translationsJson = JSON.stringify(t);
       resultsLocationText.textContent = countryName + ' · ' + cityName;
       resultsCount.textContent = filteredLocations.length + ' ' + translations.restaurantsInZip + ' ' + state.zip;
 
-      // 5. Render cards
-      renderRestaurantCards(filteredLocations.slice(0, state.visibleCount), filteredLocations.length);
+      // 5. Adaptive Display Strategy based on venue count
+      applyAdaptiveDisplayStrategy(filteredLocations, coords);
+    }
+
+    /**
+     * Adaptive Display Strategy
+     * 1-6 venues:   Simple grid (current)
+     * 7-15 venues:  Grid + filters + "Show more"
+     * 16-30 venues: Grid + filters + map toggle
+     * 31+ venues:   Map-first + carousel + filters
+     */
+    function applyAdaptiveDisplayStrategy(filteredLocations, coords) {
+      var totalCount = filteredLocations.length;
+      var filterWrapper = document.getElementById('filterPillsWrapper');
+      var mapWrapper = document.getElementById('mapViewWrapper');
+      var carouselWrapper = document.getElementById('carouselViewWrapper');
+
+      console.log('[DEBUG] Applying adaptive strategy for', totalCount, 'venues');
+
+      // Hide all optional components first
+      if (filterWrapper) filterWrapper.style.display = 'none';
+      if (mapWrapper) mapWrapper.style.display = 'none';
+      if (carouselWrapper) carouselWrapper.style.display = 'none';
+
+      if (totalCount <= 6) {
+        // Strategy 1: Simple grid (1-6 venues)
+        console.log('[DEBUG] Strategy 1: Simple grid');
+        renderRestaurantCards(filteredLocations, totalCount);
+      } else if (totalCount <= 15) {
+        // Strategy 2: Grid + filters + "Show more" (7-15 venues)
+        console.log('[DEBUG] Strategy 2: Grid + filters');
+        if (filterWrapper) filterWrapper.style.display = 'block';
+
+        // Initialize filters
+        document.dispatchEvent(new CustomEvent('filter-init', {
+          detail: { venues: filteredLocations },
+          bubbles: true
+        }));
+
+        state.visibleCount = 6;
+        renderRestaurantCards(filteredLocations.slice(0, state.visibleCount), totalCount);
+      } else if (totalCount <= 30) {
+        // Strategy 3: Grid + filters + map toggle (16-30 venues)
+        console.log('[DEBUG] Strategy 3: Grid + filters + map toggle');
+        if (filterWrapper) filterWrapper.style.display = 'block';
+        if (mapWrapper) mapWrapper.style.display = 'block';
+
+        // Initialize filters
+        document.dispatchEvent(new CustomEvent('filter-init', {
+          detail: { venues: filteredLocations },
+          bubbles: true
+        }));
+
+        // Initialize map
+        document.dispatchEvent(new CustomEvent('map-init', {
+          detail: { venues: filteredLocations, userCoords: coords },
+          bubbles: true
+        }));
+
+        state.visibleCount = 6;
+        renderRestaurantCards(filteredLocations.slice(0, state.visibleCount), totalCount);
+      } else {
+        // Strategy 4: Map-first + carousel + filters (31+ venues)
+        console.log('[DEBUG] Strategy 4: Map-first + carousel + filters');
+        if (filterWrapper) filterWrapper.style.display = 'block';
+        if (mapWrapper) mapWrapper.style.display = 'block';
+        if (carouselWrapper) carouselWrapper.style.display = 'block';
+
+        // Initialize filters
+        document.dispatchEvent(new CustomEvent('filter-init', {
+          detail: { venues: filteredLocations },
+          bubbles: true
+        }));
+
+        // Initialize map (shown by default for 31+)
+        document.dispatchEvent(new CustomEvent('map-init', {
+          detail: { venues: filteredLocations, userCoords: coords },
+          bubbles: true
+        }));
+
+        // Initialize carousel
+        document.dispatchEvent(new CustomEvent('carousel-init', {
+          detail: { venues: filteredLocations, translations: translations },
+          bubbles: true
+        }));
+
+        // Hide traditional grid by default, show carousel
+        if (resultsGrid) resultsGrid.style.display = 'none';
+      }
     }
 
     function renderRestaurantCards(locations, totalCount) {
@@ -1279,6 +1386,16 @@ const translationsJson = JSON.stringify(t);
       // Reset detected country so ZIP-based detection is used
       state.detectedCountry = null;
       state.coordinates = null;
+      // Reset tab to 'restaurants' for fresh ZIP search
+      state.tab = 'restaurants';
+      // Reset the tab UI
+      if (resultsTabs) {
+        resultsTabs.querySelectorAll('.tab-btn').forEach(function(btn) {
+          var isRestaurants = btn.dataset.tab === 'restaurants';
+          btn.classList.toggle('active', isRestaurants);
+          btn.setAttribute('aria-selected', isRestaurants ? 'true' : 'false');
+        });
+      }
       transitionToResults();
     });
 
@@ -1338,6 +1455,92 @@ const translationsJson = JSON.stringify(t);
           );
         }
       });
+    });
+
+    // ==========================================
+    // NEW EVENT HANDLERS FOR MAP/CAROUSEL/FILTERS
+    // ==========================================
+
+    // View toggle (Map/List)
+    document.addEventListener('locator-view-change', function(e) {
+      var view = e.detail.view;
+      var mapWrapper = document.getElementById('mapViewWrapper');
+      var carouselWrapper = document.getElementById('carouselViewWrapper');
+
+      if (view === 'map') {
+        // Show map + carousel, hide grid
+        if (mapWrapper) mapWrapper.style.display = 'block';
+        if (carouselWrapper) carouselWrapper.style.display = 'block';
+        if (resultsGrid) resultsGrid.style.display = 'none';
+      } else {
+        // Show grid, hide map + carousel
+        if (mapWrapper) mapWrapper.style.display = 'none';
+        if (carouselWrapper) carouselWrapper.style.display = 'none';
+        if (resultsGrid) resultsGrid.style.display = 'block';
+
+        // Re-render grid if not already shown
+        if (state.allFilteredLocations && state.allFilteredLocations.length > 0) {
+          renderRestaurantCards(
+            state.allFilteredLocations.slice(0, state.visibleCount),
+            state.allFilteredLocations.length
+          );
+        }
+      }
+    });
+
+    // Filter change handler
+    document.addEventListener('filter-change', function(e) {
+      var filteredVenues = e.detail.filteredVenues;
+      var filteredCount = e.detail.filteredCount;
+
+      // Update stored filtered locations
+      state.allFilteredLocations = filteredVenues;
+      state.visibleCount = 6;
+
+      // Update results count
+      if (resultsCount) {
+        resultsCount.textContent = filteredCount + ' ' + translations.restaurantsInZip + ' ' + state.zip;
+      }
+
+      // Update map markers
+      document.dispatchEvent(new CustomEvent('map-update-markers', {
+        detail: { venues: filteredVenues },
+        bubbles: true
+      }));
+
+      // Update carousel
+      document.dispatchEvent(new CustomEvent('carousel-init', {
+        detail: { venues: filteredVenues, translations: translations },
+        bubbles: true
+      }));
+
+      // Update grid (if visible)
+      if (resultsGrid && resultsGrid.style.display !== 'none') {
+        renderRestaurantCards(filteredVenues.slice(0, state.visibleCount), filteredCount);
+      }
+
+      // Animate the update
+      if (!prefersReducedMotion && typeof gsap !== 'undefined') {
+        gsap.fromTo(['.card', '.carousel-card'],
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: 'power3.out' }
+        );
+      }
+    });
+
+    // Carousel "Show All" button
+    document.addEventListener('carousel-show-all', function() {
+      // Switch to list view
+      var listToggleBtn = document.getElementById('listToggleBtn');
+      if (listToggleBtn) {
+        listToggleBtn.click();
+      }
+
+      // Expand all venues
+      if (state.allFilteredLocations) {
+        state.visibleCount = state.allFilteredLocations.length;
+        renderRestaurantCards(state.allFilteredLocations, state.allFilteredLocations.length);
+      }
     });
 
     console.log('LocatorV2 initialized');

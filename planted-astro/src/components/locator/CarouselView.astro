@@ -1,0 +1,598 @@
+---
+/**
+ * CarouselView Component
+ * Horizontal swipeable card carousel (iOS App Store style)
+ * For high-density venue results (16+ venues)
+ */
+
+interface Props {
+  translations: {
+    showAll: string;
+    of: string;
+    restaurants: string;
+  };
+}
+
+const { translations } = Astro.props;
+---
+
+<div class="carousel-view" id="carouselView" role="region" aria-label="Restaurant carousel">
+  <!-- Carousel Container -->
+  <div class="carousel-container" id="carouselContainer">
+    <div class="carousel-track" id="carouselTrack" role="list">
+      <!-- Cards will be dynamically inserted here -->
+    </div>
+  </div>
+
+  <!-- Pagination Dots -->
+  <div class="carousel-pagination" id="carouselPagination" role="tablist" aria-label="Carousel navigation">
+    <!-- Dots will be dynamically generated -->
+  </div>
+
+  <!-- Show All Button -->
+  <div class="carousel-footer">
+    <button class="show-all-btn" id="showAllBtn" type="button">
+      <span class="show-all-icon">📋</span>
+      <span class="show-all-text">{translations.showAll}</span>
+    </button>
+  </div>
+</div>
+
+<style>
+  /* Carousel View */
+  .carousel-view {
+    position: relative;
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  /* Carousel Container */
+  .carousel-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+
+  .carousel-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Carousel Card */
+  :global(.carousel-card) {
+    flex: 0 0 85%;
+    scroll-snap-align: start;
+    background: white;
+    border-radius: 1.25rem;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.3s ease,
+                opacity 0.3s ease;
+    will-change: transform;
+  }
+
+  @media (min-width: 640px) {
+    :global(.carousel-card) {
+      flex: 0 0 70%;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    :global(.carousel-card) {
+      flex: 0 0 45%;
+    }
+  }
+
+  /* Peek effect - slightly blur cards not in focus */
+  :global(.carousel-card:not(.in-view)) {
+    opacity: 0.6;
+    transform: scale(0.95);
+  }
+
+  :global(.carousel-card.in-view) {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+  }
+
+  /* Pagination Dots */
+  .carousel-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem;
+  }
+
+  :global(.carousel-dot) {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+  }
+
+  :global(.carousel-dot:hover) {
+    background: rgba(255,255,255,0.5);
+    transform: scale(1.2);
+  }
+
+  :global(.carousel-dot:focus) {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.4);
+  }
+
+  :global(.carousel-dot.active) {
+    background: white;
+    width: 24px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  /* Dot groups for large counts */
+  :global(.carousel-dot-group) {
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+  }
+
+  :global(.carousel-dot-ellipsis) {
+    color: rgba(255,255,255,0.5);
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 0 0.3rem;
+  }
+
+  /* Show All Button */
+  .carousel-footer {
+    display: flex;
+    justify-content: center;
+    padding: 0 1rem;
+  }
+
+  .show-all-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 100px;
+    color: white;
+    font-family: 'Galano Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+
+  .show-all-btn:hover {
+    background: rgba(255,255,255,0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  }
+
+  .show-all-btn:active {
+    transform: translateY(0) scale(0.97);
+  }
+
+  .show-all-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.4);
+  }
+
+  .show-all-icon {
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  /* Loading State */
+  .carousel-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    color: white;
+    font-weight: 700;
+  }
+
+  .carousel-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-right: 1rem;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .carousel-track {
+      scroll-behavior: auto;
+    }
+
+    :global(.carousel-card),
+    :global(.carousel-dot),
+    .show-all-btn {
+      transition: none;
+    }
+
+    .carousel-spinner {
+      animation: none;
+    }
+  }
+
+  /* Accessibility - Focus styles */
+  :global(.carousel-card:focus-within) {
+    outline: 3px solid rgba(255,255,255,0.6);
+    outline-offset: 4px;
+  }
+</style>
+
+<script is:inline>
+(function() {
+  'use strict';
+
+  var currentIndex = 0;
+  var totalCards = 0;
+  var carouselTrack = null;
+  var carouselPagination = null;
+  var intersectionObserver = null;
+
+  /**
+   * Initialize carousel
+   */
+  function initCarousel(venues, translations) {
+    carouselTrack = document.getElementById('carouselTrack');
+    carouselPagination = document.getElementById('carouselPagination');
+    var showAllBtn = document.getElementById('showAllBtn');
+
+    if (!carouselTrack || !venues) return;
+
+    totalCards = venues.length;
+
+    // Render cards
+    renderCarouselCards(venues, translations);
+
+    // Render pagination
+    renderPagination(totalCards);
+
+    // Setup intersection observer for "in-view" effect
+    setupIntersectionObserver();
+
+    // Setup scroll listener for pagination sync
+    setupScrollListener();
+
+    // Show all button
+    if (showAllBtn) {
+      showAllBtn.addEventListener('click', function() {
+        document.dispatchEvent(new CustomEvent('carousel-show-all', { bubbles: true }));
+      });
+    }
+  }
+
+  /**
+   * Render carousel cards
+   */
+  function renderCarouselCards(venues, translations) {
+    if (!carouselTrack) return;
+
+    var html = '';
+
+    venues.forEach(function(venue, index) {
+      html += '<article class="carousel-card card" role="listitem" data-index="' + index + '">';
+      html += '<div class="card-header"><div>';
+      html += '<h3 class="card-name">' + (venue.chainName || venue.name);
+      if (venue.rating) {
+        html += ' <span class="card-rating"><span class="star">★</span> ' + venue.rating + '</span>';
+      }
+      html += '</h3>';
+      html += '<div class="card-meta"><span>📍 ' + (venue.city || venue.location) + '</span>';
+      if (venue.category) {
+        html += '<span class="card-category">' + venue.category + '</span>';
+      }
+      html += '</div></div>';
+
+      // Distance badge
+      if (venue.calculatedDistance !== null && venue.calculatedDistance !== undefined) {
+        html += '<span class="card-distance">' + formatDistance(venue.calculatedDistance) + '</span>';
+      }
+      html += '</div>';
+
+      // Dishes
+      if (venue.dishes && venue.dishes.length > 0) {
+        html += '<div class="card-dishes">';
+        venue.dishes.slice(0, 2).forEach(function(dish) {
+          html += '<div class="dish"><div class="dish-info">';
+          html += '<div class="dish-name">' + dish.name;
+          if (dish.isVegan !== false) {
+            html += ' <span class="dish-badge">' + (translations.vegan || 'VEGAN') + '</span>';
+          }
+          html += '</div>';
+          if (dish.description) {
+            html += '<div class="dish-desc">' + dish.description + '</div>';
+          }
+          html += '</div>';
+          if (dish.price || (dish.priceByCountry && dish.priceByCountry.ch)) {
+            var price = dish.price || dish.priceByCountry.ch;
+            html += '<div class="dish-price">' + price + '</div>';
+          }
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+
+      // Products
+      if (venue.plantedProducts && venue.plantedProducts.length > 0) {
+        html += '<div class="card-products">';
+        venue.plantedProducts.forEach(function(product) {
+          html += '<span class="product-tag">' + product + '</span>';
+        });
+        html += '</div>';
+      }
+
+      // Order links
+      if (venue.deliveryPlatforms && venue.deliveryPlatforms.length > 0) {
+        html += '<div class="card-actions">';
+        venue.deliveryPlatforms.forEach(function(link) {
+          var platformClass = link.platform || link.name || '';
+          var label = link.displayName || link.label || platformClass;
+          html += '<a href="' + link.url + '" class="order-btn ' + platformClass + '" target="_blank" rel="noopener noreferrer">' + label + ' ↗</a>';
+        });
+        html += '</div>';
+      }
+
+      html += '</article>';
+    });
+
+    carouselTrack.innerHTML = html;
+
+    // Add click handlers to sync with map
+    var cards = carouselTrack.querySelectorAll('.carousel-card');
+    cards.forEach(function(card, index) {
+      card.addEventListener('click', function() {
+        scrollToCard(index);
+        document.dispatchEvent(new CustomEvent('carousel-card-click', {
+          detail: { index: index, venue: venues[index] },
+          bubbles: true
+        }));
+      });
+    });
+  }
+
+  /**
+   * Format distance
+   */
+  function formatDistance(km) {
+    if (km < 1) {
+      return Math.round(km * 1000) + ' m';
+    }
+    if (km < 10) {
+      return km.toFixed(1) + ' km';
+    }
+    return Math.round(km) + ' km';
+  }
+
+  /**
+   * Render pagination dots
+   * Smart pagination: show first, last, current, and neighbors
+   */
+  function renderPagination(total) {
+    if (!carouselPagination || total === 0) return;
+
+    var html = '';
+
+    if (total <= 10) {
+      // Show all dots
+      for (var i = 0; i < total; i++) {
+        html += '<button class="carousel-dot' + (i === 0 ? ' active' : '') + '" ' +
+                'data-index="' + i + '" ' +
+                'role="tab" ' +
+                'aria-label="Slide ' + (i + 1) + ' of ' + total + '" ' +
+                'aria-selected="' + (i === 0 ? 'true' : 'false') + '"></button>';
+      }
+    } else {
+      // Smart pagination with ellipsis
+      html += '<div class="carousel-dot-group">';
+
+      // First 3 dots
+      for (var j = 0; j < 3; j++) {
+        html += '<button class="carousel-dot' + (j === 0 ? ' active' : '') + '" ' +
+                'data-index="' + j + '" ' +
+                'role="tab"></button>';
+      }
+
+      html += '<span class="carousel-dot-ellipsis">•••</span>';
+
+      // Last 3 dots
+      for (var k = total - 3; k < total; k++) {
+        html += '<button class="carousel-dot" data-index="' + k + '" role="tab"></button>';
+      }
+
+      html += '</div>';
+    }
+
+    carouselPagination.innerHTML = html;
+
+    // Add click handlers
+    var dots = carouselPagination.querySelectorAll('.carousel-dot');
+    dots.forEach(function(dot) {
+      dot.addEventListener('click', function() {
+        var index = parseInt(this.dataset.index, 10);
+        scrollToCard(index);
+      });
+    });
+  }
+
+  /**
+   * Setup intersection observer for "in-view" effect
+   */
+  function setupIntersectionObserver() {
+    if (!carouselTrack) return;
+
+    intersectionObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+        } else {
+          entry.target.classList.remove('in-view');
+        }
+      });
+    }, {
+      root: carouselTrack,
+      threshold: 0.7
+    });
+
+    var cards = carouselTrack.querySelectorAll('.carousel-card');
+    cards.forEach(function(card) {
+      intersectionObserver.observe(card);
+    });
+  }
+
+  /**
+   * Setup scroll listener for pagination sync
+   */
+  function setupScrollListener() {
+    if (!carouselTrack) return;
+
+    var scrollTimeout;
+    carouselTrack.addEventListener('scroll', function() {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(function() {
+        updatePaginationFromScroll();
+      }, 100);
+    });
+  }
+
+  /**
+   * Update pagination based on scroll position
+   */
+  function updatePaginationFromScroll() {
+    if (!carouselTrack || !carouselPagination) return;
+
+    var cards = carouselTrack.querySelectorAll('.carousel-card');
+    var trackRect = carouselTrack.getBoundingClientRect();
+    var centerX = trackRect.left + trackRect.width / 2;
+
+    var closestIndex = 0;
+    var closestDistance = Infinity;
+
+    cards.forEach(function(card, index) {
+      var cardRect = card.getBoundingClientRect();
+      var cardCenterX = cardRect.left + cardRect.width / 2;
+      var distance = Math.abs(centerX - cardCenterX);
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = index;
+      }
+    });
+
+    currentIndex = closestIndex;
+    updatePaginationDots(closestIndex);
+
+    // Dispatch slide change event
+    document.dispatchEvent(new CustomEvent('carousel-slide-change', {
+      detail: { index: closestIndex },
+      bubbles: true
+    }));
+  }
+
+  /**
+   * Update pagination dots
+   */
+  function updatePaginationDots(activeIndex) {
+    if (!carouselPagination) return;
+
+    var dots = carouselPagination.querySelectorAll('.carousel-dot');
+    dots.forEach(function(dot, index) {
+      var dotIndex = parseInt(dot.dataset.index, 10);
+      if (dotIndex === activeIndex) {
+        dot.classList.add('active');
+        dot.setAttribute('aria-selected', 'true');
+      } else {
+        dot.classList.remove('active');
+        dot.setAttribute('aria-selected', 'false');
+      }
+    });
+  }
+
+  /**
+   * Scroll to specific card
+   */
+  function scrollToCard(index) {
+    if (!carouselTrack) return;
+
+    var cards = carouselTrack.querySelectorAll('.carousel-card');
+    if (cards[index]) {
+      cards[index].scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'start'
+      });
+    }
+  }
+
+  /**
+   * Keyboard navigation
+   */
+  function setupKeyboardNav() {
+    if (!carouselTrack) return;
+
+    document.addEventListener('keydown', function(e) {
+      if (!document.getElementById('carouselView')) return;
+
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        scrollToCard(Math.max(0, currentIndex - 1));
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        scrollToCard(Math.min(totalCards - 1, currentIndex + 1));
+      }
+    });
+  }
+
+  // Event listeners
+  document.addEventListener('carousel-init', function(e) {
+    var venues = e.detail.venues;
+    var translations = e.detail.translations;
+    initCarousel(venues, translations);
+    setupKeyboardNav();
+  });
+
+  document.addEventListener('map-marker-click', function(e) {
+    scrollToCard(e.detail.venueIndex);
+  });
+
+  // Cleanup
+  window.addEventListener('beforeunload', function() {
+    if (intersectionObserver) {
+      intersectionObserver.disconnect();
+    }
+  });
+})();
+</script>

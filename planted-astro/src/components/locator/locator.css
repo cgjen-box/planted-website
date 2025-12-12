@@ -425,6 +425,16 @@
 }
 
 /* ============================================
+   BODY SCROLL LOCK
+   ============================================ */
+body.locator-results-active {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+/* ============================================
    RESULTS OVERLAY
    ============================================ */
 .results-overlay {
@@ -434,8 +444,10 @@
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  overflow-y: auto;
-  overflow-x: hidden;
+  /* Flex column for scroll containment */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .results-overlay.active {
@@ -456,8 +468,7 @@
 }
 
 .results-header {
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: 50;
   padding: 1.25rem 2rem;
   display: flex;
@@ -466,6 +477,7 @@
   background: var(--locator-purple);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  flex-shrink: 0;
 }
 
 .results-overlay.green .results-header {
@@ -549,6 +561,12 @@
   justify-content: center;
   gap: 0.5rem;
   padding: 0.5rem 2rem 1.5rem;
+  flex-shrink: 0;
+  background: var(--locator-purple);
+}
+
+.results-overlay.green .results-tabs {
+  background: var(--locator-green);
 }
 
 .tab-btn {
@@ -587,13 +605,19 @@
   color: var(--locator-green-dark);
 }
 
-/* Grid */
+/* Grid - Scrollable Container */
 .results-grid {
   position: relative;
   z-index: 1;
   padding: 0 2rem 4rem;
   max-width: 1400px;
   margin: 0 auto;
+  /* Scroll containment */
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .results-subtitle {
@@ -1072,5 +1096,261 @@
 
   .panel:hover .panel-cta .arrow {
     transform: none;
+  }
+}
+
+/* ============================================
+   SCROLL PROGRESS INDICATOR
+   ============================================ */
+.scroll-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.scroll-progress-bar {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.6);
+  width: 0%;
+  transition: width 0.1s ease-out;
+}
+
+/* Hide scrollbar on results grid for cleaner look */
+.results-grid::-webkit-scrollbar {
+  width: 6px;
+}
+
+.results-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.results-grid::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.results-grid::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* Firefox scrollbar */
+.results-grid {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+/* ============================================
+   NEW COMPONENTS - MAP/CAROUSEL/FILTERS
+   ============================================ */
+
+/* Wrapper Visibility */
+.map-view-wrapper,
+.carousel-view-wrapper,
+.filter-pills-wrapper {
+  width: 100%;
+}
+
+/* Map + Carousel Split Layout (Desktop) */
+@media (min-width: 1024px) {
+  .map-view-wrapper.desktop-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .map-view-wrapper.desktop-split + .carousel-view-wrapper {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+
+/* Loading States */
+.loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+/* Mobile First - Enhanced for New Components */
+@media (max-width: 767px) {
+  /* Carousel takes priority on mobile for 31+ venues */
+  .carousel-view-wrapper {
+    order: -1; /* Show first */
+  }
+
+  .map-view-wrapper {
+    height: 350px;
+  }
+
+  /* Filter pills scroll horizontally */
+  .filter-pills-wrapper {
+    margin-left: -1rem;
+    margin-right: -1rem;
+  }
+
+  /* Adjust results grid padding */
+  .results-grid {
+    padding: 0 1rem 4rem;
+  }
+
+  /* Stack cards in single column on very small screens */
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .map-view-wrapper {
+    height: 450px;
+  }
+
+  /* 2-column grid for cards */
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Map and carousel side-by-side if both shown */
+  .results-overlay.has-both-views {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+  }
+
+  .results-overlay.has-both-views .map-view-wrapper {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  /* Full-height map option for 31+ venues */
+  .results-overlay.map-mode .map-view-wrapper {
+    height: calc(100vh - 250px);
+    max-height: 700px;
+  }
+
+  /* Side-by-side layout */
+  .results-overlay.desktop-split {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2rem;
+    padding: 0 2rem;
+  }
+
+  .results-overlay.desktop-split .map-view-wrapper {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    position: sticky;
+    top: 1rem;
+    align-self: start;
+  }
+
+  .results-overlay.desktop-split .carousel-view-wrapper,
+  .results-overlay.desktop-split .results-grid {
+    grid-column: 2;
+  }
+
+  /* 3-column grid for traditional view */
+  .cards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1440px) {
+  .cards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  }
+
+  .results-overlay.desktop-split {
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================ */
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .filter-pill,
+  .toggle-btn,
+  .carousel-dot {
+    border-width: 2px;
+  }
+
+  .filter-pill.active,
+  .toggle-btn.active {
+    border-color: var(--planted-purple);
+    box-shadow: 0 0 0 3px var(--planted-purple);
+  }
+}
+
+/* Reduced Transparency for Better Readability */
+@media (prefers-reduced-transparency: reduce) {
+  .filter-pill,
+  .toggle-btn,
+  .results-back,
+  .results-change,
+  .zip-back,
+  .zip-detect {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--planted-purple);
+  }
+}
+
+/* Focus Visible for Keyboard Navigation */
+.filter-pill:focus-visible,
+.toggle-btn:focus-visible,
+.carousel-dot:focus-visible,
+.show-all-btn:focus-visible {
+  outline: 3px solid white;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(97, 38, 158, 0.4);
+}
+
+/* Print Styles */
+@media print {
+  .map-view-wrapper,
+  .carousel-view-wrapper,
+  .filter-pills-wrapper,
+  .results-tabs,
+  .results-back,
+  .results-change {
+    display: none;
+  }
+
+  .results-grid {
+    display: block !important;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 }

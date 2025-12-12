@@ -1,0 +1,571 @@
+---
+/**
+ * MapView Component
+ * Interactive map with clustered venue pins (Apple Maps style)
+ * Uses Leaflet.js for lightweight, performant map rendering
+ */
+
+interface Props {
+  translations: {
+    mapView: string;
+    listView: string;
+    showingVenues: string;
+    nearYou: string;
+  };
+}
+
+const { translations } = Astro.props;
+---
+
+<!-- Map Container -->
+<div class="map-view-container" id="mapViewContainer" role="region" aria-label="Interactive map">
+  <!-- Map/List Toggle -->
+  <div class="view-toggle" id="viewToggle" role="tablist">
+    <button
+      class="toggle-btn active"
+      data-view="map"
+      role="tab"
+      aria-selected="true"
+      aria-controls="mapCanvas"
+      id="mapToggleBtn"
+    >
+      <span class="toggle-icon">🗺️</span>
+      <span class="toggle-text">{translations.mapView}</span>
+    </button>
+    <button
+      class="toggle-btn"
+      data-view="list"
+      role="tab"
+      aria-selected="false"
+      aria-controls="resultsGrid"
+      id="listToggleBtn"
+    >
+      <span class="toggle-icon">📋</span>
+      <span class="toggle-text">{translations.listView}</span>
+    </button>
+  </div>
+
+  <!-- Map Canvas (Leaflet renders here) -->
+  <div class="map-canvas" id="mapCanvas" role="tabpanel">
+    <!-- Leaflet map will be initialized here -->
+    <div class="map-skeleton" id="mapSkeleton">
+      <div class="skeleton-pulse"></div>
+      <p class="skeleton-text">Loading map...</p>
+    </div>
+  </div>
+
+  <!-- Venue Counter Badge -->
+  <div class="venue-counter" id="venueCounter" aria-live="polite">
+    <span class="counter-icon">📍</span>
+    <span class="counter-text" id="venueCountText">0 {translations.showingVenues}</span>
+  </div>
+</div>
+
+<style>
+  /* Map View Container */
+  .map-view-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    background: rgba(255,255,255,0.1);
+    margin-bottom: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .map-view-container {
+      height: 500px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .map-view-container {
+      height: 600px;
+    }
+  }
+
+  /* View Toggle (Map/List) */
+  .view-toggle {
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 400;
+    display: flex;
+    gap: 0.5rem;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 100px;
+    padding: 0.35rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  }
+
+  .toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 100px;
+    background: transparent;
+    color: white;
+    font-family: 'Galano Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .toggle-btn.active {
+    background: white;
+    color: var(--planted-purple, #61269E);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .toggle-btn:hover:not(.active) {
+    background: rgba(255,255,255,0.1);
+  }
+
+  .toggle-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.4);
+  }
+
+  .toggle-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+
+  .toggle-text {
+    display: none;
+  }
+
+  @media (min-width: 480px) {
+    .toggle-text {
+      display: inline;
+    }
+  }
+
+  /* Map Canvas */
+  .map-canvas {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  /* Skeleton Loading State */
+  .map-skeleton {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(97, 38, 158, 0.1) 0%, rgba(139, 197, 63, 0.1) 100%);
+  }
+
+  .skeleton-pulse {
+    width: 120px;
+    height: 120px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+    margin-bottom: 1rem;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+  }
+
+  .skeleton-text {
+    color: white;
+    font-weight: 700;
+    font-size: 0.95rem;
+    opacity: 0.8;
+  }
+
+  /* Venue Counter Badge */
+  .venue-counter {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 400;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.2rem;
+    background: white;
+    border-radius: 100px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: var(--planted-purple, #61269E);
+  }
+
+  .counter-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+
+  /* Leaflet Custom Styles (when map loads) */
+  :global(.leaflet-container) {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.25rem;
+    background: #f0f0f0;
+  }
+
+  /* Custom Marker Styles */
+  :global(.venue-marker) {
+    width: 40px;
+    height: 40px;
+    background: var(--planted-purple, #61269E);
+    border: 3px solid white;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    font-size: 1.2rem;
+  }
+
+  :global(.venue-marker:hover) {
+    transform: scale(1.15);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    z-index: 1000;
+  }
+
+  :global(.venue-marker.active) {
+    background: var(--planted-green, #8BC53F);
+    transform: scale(1.2);
+    box-shadow: 0 8px 20px rgba(139, 197, 63, 0.5);
+  }
+
+  /* Cluster Marker */
+  :global(.venue-cluster) {
+    width: 50px;
+    height: 50px;
+    background: var(--planted-purple, #61269E);
+    border: 3px solid white;
+    border-radius: 50%;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    color: white;
+    font-weight: 800;
+    font-size: 1rem;
+  }
+
+  :global(.venue-cluster:hover) {
+    transform: scale(1.15);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+
+  /* Custom Popup Styles */
+  :global(.leaflet-popup-content-wrapper) {
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    padding: 0;
+    overflow: hidden;
+  }
+
+  :global(.leaflet-popup-content) {
+    margin: 0;
+    min-width: 200px;
+  }
+
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .skeleton-pulse {
+      animation: none;
+    }
+
+    .toggle-btn,
+    :global(.venue-marker),
+    :global(.venue-cluster) {
+      transition: none;
+    }
+  }
+</style>
+
+<script is:inline>
+(function() {
+  'use strict';
+
+  var mapInitialized = false;
+  var mapInstance = null;
+  var markersLayer = null;
+
+  /**
+   * Initialize map view toggle
+   */
+  function initMapViewToggle() {
+    var viewToggle = document.getElementById('viewToggle');
+    var mapToggleBtn = document.getElementById('mapToggleBtn');
+    var listToggleBtn = document.getElementById('listToggleBtn');
+    var mapCanvas = document.getElementById('mapCanvas');
+    var resultsGrid = document.getElementById('resultsGrid');
+
+    if (!viewToggle || !mapToggleBtn || !listToggleBtn) return;
+
+    viewToggle.addEventListener('click', function(e) {
+      var target = e.target.closest('.toggle-btn');
+      if (!target) return;
+
+      var view = target.dataset.view;
+
+      // Update toggle states
+      [mapToggleBtn, listToggleBtn].forEach(function(btn) {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+      });
+
+      target.classList.add('active');
+      target.setAttribute('aria-selected', 'true');
+
+      // Dispatch view change event
+      document.dispatchEvent(new CustomEvent('locator-view-change', {
+        detail: { view: view },
+        bubbles: true
+      }));
+    });
+  }
+
+  /**
+   * Initialize Leaflet map
+   * Only loads when needed (lazy loading)
+   */
+  function initLeafletMap(venues, userCoords) {
+    if (mapInitialized || !window.L) return;
+
+    var mapCanvas = document.getElementById('mapCanvas');
+    var mapSkeleton = document.getElementById('mapSkeleton');
+
+    if (!mapCanvas) return;
+
+    // Hide skeleton
+    if (mapSkeleton) {
+      mapSkeleton.style.display = 'none';
+    }
+
+    // Calculate map center and bounds
+    var center = userCoords || calculateCenter(venues);
+
+    // Initialize map
+    mapInstance = L.map(mapCanvas, {
+      center: [center.lat, center.lng],
+      zoom: 13,
+      zoomControl: true,
+      scrollWheelZoom: true,
+      dragging: true,
+      tap: true
+    });
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors',
+      maxZoom: 19
+    }).addTo(mapInstance);
+
+    // Create markers layer
+    markersLayer = L.layerGroup().addTo(mapInstance);
+
+    // Add venue markers
+    addVenueMarkers(venues);
+
+    mapInitialized = true;
+  }
+
+  /**
+   * Calculate center point from venues
+   */
+  function calculateCenter(venues) {
+    if (!venues || venues.length === 0) {
+      return { lat: 47.3769, lng: 8.5417 }; // Default: Zürich
+    }
+
+    var sumLat = 0;
+    var sumLng = 0;
+
+    venues.forEach(function(v) {
+      sumLat += v.coordinates.lat;
+      sumLng += v.coordinates.lng;
+    });
+
+    return {
+      lat: sumLat / venues.length,
+      lng: sumLng / venues.length
+    };
+  }
+
+  /**
+   * Add venue markers to map
+   */
+  function addVenueMarkers(venues) {
+    if (!mapInstance || !markersLayer) return;
+
+    // Clear existing markers
+    markersLayer.clearLayers();
+
+    var bounds = [];
+
+    venues.forEach(function(venue, index) {
+      var coords = venue.coordinates;
+      if (!coords || !coords.lat || !coords.lng) return;
+
+      var marker = L.marker([coords.lat, coords.lng], {
+        icon: L.divIcon({
+          className: 'venue-marker',
+          html: '🍽️',
+          iconSize: [40, 40]
+        })
+      });
+
+      // Popup with venue info
+      var popupContent = '<div style="padding: 1rem;">' +
+        '<h4 style="margin: 0 0 0.5rem; font-weight: 800; color: #1a1a1a;">' + venue.name + '</h4>' +
+        '<p style="margin: 0; font-size: 0.85rem; color: #666;">' +
+        '📍 ' + (venue.calculatedDistance ? formatDistance(venue.calculatedDistance) : venue.location) +
+        '</p>' +
+        '</div>';
+
+      marker.bindPopup(popupContent);
+
+      // Click handler - sync with carousel
+      marker.on('click', function() {
+        document.dispatchEvent(new CustomEvent('map-marker-click', {
+          detail: { venueIndex: index, venue: venue },
+          bubbles: true
+        }));
+      });
+
+      marker.addTo(markersLayer);
+      bounds.push([coords.lat, coords.lng]);
+    });
+
+    // Fit map to show all markers
+    if (bounds.length > 0) {
+      mapInstance.fitBounds(bounds, { padding: [50, 50] });
+    }
+
+    // Update venue counter
+    updateVenueCounter(venues.length);
+  }
+
+  /**
+   * Format distance for display
+   */
+  function formatDistance(km) {
+    if (km < 1) {
+      return Math.round(km * 1000) + ' m';
+    }
+    if (km < 10) {
+      return km.toFixed(1) + ' km';
+    }
+    return Math.round(km) + ' km';
+  }
+
+  /**
+   * Update venue counter badge
+   */
+  function updateVenueCounter(count) {
+    var venueCountText = document.getElementById('venueCountText');
+    if (venueCountText) {
+      var text = count + ' ' + (count === 1 ? 'Restaurant' : 'Restaurants');
+      venueCountText.textContent = text;
+    }
+  }
+
+  /**
+   * Highlight marker by index
+   */
+  function highlightMarker(index) {
+    if (!markersLayer) return;
+
+    var markers = [];
+    markersLayer.eachLayer(function(layer) {
+      markers.push(layer);
+    });
+
+    markers.forEach(function(marker, i) {
+      var icon = marker.getElement();
+      if (icon) {
+        if (i === index) {
+          icon.classList.add('active');
+        } else {
+          icon.classList.remove('active');
+        }
+      }
+    });
+  }
+
+  // Event listeners
+  document.addEventListener('map-init', function(e) {
+    var venues = e.detail.venues;
+    var userCoords = e.detail.userCoords;
+
+    // Lazy load Leaflet if not already loaded
+    if (!window.L) {
+      loadLeaflet().then(function() {
+        initLeafletMap(venues, userCoords);
+      });
+    } else {
+      initLeafletMap(venues, userCoords);
+    }
+  });
+
+  document.addEventListener('map-update-markers', function(e) {
+    if (mapInitialized && e.detail.venues) {
+      addVenueMarkers(e.detail.venues);
+    }
+  });
+
+  document.addEventListener('carousel-slide-change', function(e) {
+    highlightMarker(e.detail.index);
+  });
+
+  /**
+   * Lazy load Leaflet library
+   */
+  function loadLeaflet() {
+    return new Promise(function(resolve, reject) {
+      // Load CSS
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      document.head.appendChild(link);
+
+      // Load JS
+      var script = document.createElement('script');
+      script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+  }
+
+  // Initialize on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMapViewToggle);
+  } else {
+    initMapViewToggle();
+  }
+
+  document.addEventListener('astro:page-load', initMapViewToggle);
+})();
+</script>

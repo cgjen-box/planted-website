@@ -1,4 +1,8 @@
 ---
+import MapView from './MapView.astro';
+import CarouselView from './CarouselView.astro';
+import FilterPills from './FilterPills.astro';
+
 interface Props {
   translations: {
     changeZip: string;
@@ -14,14 +18,58 @@ interface Props {
     vegan: string;
     route: string;
     buyOnline: string;
+    // New translations for map/carousel/filters
+    mapView?: string;
+    listView?: string;
+    showingVenues?: string;
+    nearYou?: string;
+    showAll?: string;
+    of?: string;
+    restaurants?: string;
+    allVenues?: string;
+    topRated?: string;
+    newVenues?: string;
+    sortBy?: string;
+    distance?: string;
+    rating?: string;
+    price?: string;
   };
 }
 
 const { translations } = Astro.props;
+
+// Default translations for new features
+const defaultMapTranslations = {
+  mapView: 'Map',
+  listView: 'List',
+  showingVenues: 'restaurants',
+  nearYou: 'near you'
+};
+
+const defaultCarouselTranslations = {
+  showAll: 'Show all',
+  of: 'of',
+  restaurants: 'restaurants'
+};
+
+const defaultFilterTranslations = {
+  allVenues: 'All',
+  topRated: 'Top Rated',
+  newVenues: 'New',
+  sortBy: 'Sort by',
+  distance: 'Distance',
+  rating: 'Rating',
+  price: 'Price'
+};
 ---
 
 <div class="results-overlay" id="resultsView" aria-hidden="true">
   <div class="results-bg"></div>
+
+  <!-- Scroll progress indicator -->
+  <div class="scroll-progress" id="scrollProgress">
+    <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+  </div>
 
   <header class="results-header">
     <button
@@ -62,6 +110,43 @@ const { translations } = Astro.props;
     >🛵 {translations.deliveryTab}</button>
   </nav>
 
+  <!-- Filter Pills (shown for 7+ venues) -->
+  <div class="filter-pills-wrapper" id="filterPillsWrapper" style="display: none;">
+    <FilterPills translations={{
+      ...defaultFilterTranslations,
+      allVenues: translations.allVenues || defaultFilterTranslations.allVenues,
+      vegan: translations.vegan,
+      topRated: translations.topRated || defaultFilterTranslations.topRated,
+      newVenues: translations.newVenues || defaultFilterTranslations.newVenues,
+      sortBy: translations.sortBy || defaultFilterTranslations.sortBy,
+      distance: translations.distance || defaultFilterTranslations.distance,
+      rating: translations.rating || defaultFilterTranslations.rating,
+      price: translations.price || defaultFilterTranslations.price
+    }} />
+  </div>
+
+  <!-- Map View (shown for 16+ venues) -->
+  <div class="map-view-wrapper" id="mapViewWrapper" style="display: none;">
+    <MapView translations={{
+      ...defaultMapTranslations,
+      mapView: translations.mapView || defaultMapTranslations.mapView,
+      listView: translations.listView || defaultMapTranslations.listView,
+      showingVenues: translations.showingVenues || defaultMapTranslations.showingVenues,
+      nearYou: translations.nearYou || defaultMapTranslations.nearYou
+    }} />
+  </div>
+
+  <!-- Carousel View (shown for 16+ venues, alternative to traditional grid) -->
+  <div class="carousel-view-wrapper" id="carouselViewWrapper" style="display: none;">
+    <CarouselView translations={{
+      ...defaultCarouselTranslations,
+      showAll: translations.showAll || defaultCarouselTranslations.showAll,
+      of: translations.of || defaultCarouselTranslations.of,
+      restaurants: translations.restaurants || defaultCarouselTranslations.restaurants
+    }} />
+  </div>
+
+  <!-- Traditional Grid View (always available, shown based on adaptive strategy) -->
   <div class="results-grid" id="resultsGrid" role="tabpanel">
     <!-- Content will be dynamically rendered -->
   </div>
@@ -71,13 +156,19 @@ const { translations } = Astro.props;
 (function() {
   'use strict';
 
+  var initialized = false;
+
   function initResultsView() {
+    if (initialized) return;
+
     var resultsView = document.getElementById('resultsView');
     var resultsBack = document.getElementById('resultsBack');
     var resultsChange = document.getElementById('resultsChange');
     var resultsTabs = document.getElementById('resultsTabs');
 
     if (!resultsView || !resultsBack || !resultsChange) return;
+
+    initialized = true;
 
     // Back button
     resultsBack.addEventListener('click', function() {
@@ -86,6 +177,7 @@ const { translations } = Astro.props;
 
     // Change ZIP button
     resultsChange.addEventListener('click', function() {
+      console.log('[DEBUG] resultsChange clicked');
       resultsView.dispatchEvent(new CustomEvent('results-change-zip', { bubbles: true }));
     });
 

@@ -1,0 +1,562 @@
+---
+/**
+ * FilterPills Component
+ * Horizontal swipeable filter pills for smart venue filtering
+ * Filters: Distance, Vegan, Rating, Category
+ */
+
+interface Props {
+  translations: {
+    allVenues: string;
+    vegan: string;
+    topRated: string;
+    newVenues: string;
+    sortBy: string;
+    distance: string;
+    rating: string;
+    price: string;
+  };
+}
+
+const { translations } = Astro.props;
+---
+
+<div class="filter-pills-container" id="filterPillsContainer" role="region" aria-label="Filter options">
+  <!-- Filter Pills -->
+  <div class="filter-pills" id="filterPills" role="group">
+    <button
+      class="filter-pill active"
+      data-filter="all"
+      data-value="all"
+      role="button"
+      aria-pressed="true"
+    >
+      <span class="pill-icon">✨</span>
+      <span class="pill-text">{translations.allVenues}</span>
+    </button>
+
+    <button
+      class="filter-pill"
+      data-filter="vegan"
+      data-value="true"
+      role="button"
+      aria-pressed="false"
+    >
+      <span class="pill-icon">🌱</span>
+      <span class="pill-text">{translations.vegan}</span>
+    </button>
+
+    <button
+      class="filter-pill"
+      data-filter="distance"
+      data-value="0.5"
+      role="button"
+      aria-pressed="false"
+    >
+      <span class="pill-icon">📍</span>
+      <span class="pill-text">&lt;500m</span>
+    </button>
+
+    <button
+      class="filter-pill"
+      data-filter="distance"
+      data-value="1"
+      role="button"
+      aria-pressed="false"
+    >
+      <span class="pill-icon">📍</span>
+      <span class="pill-text">&lt;1km</span>
+    </button>
+
+    <button
+      class="filter-pill"
+      data-filter="distance"
+      data-value="5"
+      role="button"
+      aria-pressed="false"
+    >
+      <span class="pill-icon">📍</span>
+      <span class="pill-text">&lt;5km</span>
+    </button>
+
+    <button
+      class="filter-pill"
+      data-filter="rating"
+      data-value="4.5"
+      role="button"
+      aria-pressed="false"
+    >
+      <span class="pill-icon">⭐</span>
+      <span class="pill-text">{translations.topRated}</span>
+    </button>
+  </div>
+
+  <!-- Active Filter Badge -->
+  <div class="active-filter-badge" id="activeFilterBadge" style="display: none;">
+    <span class="badge-text" id="badgeText"></span>
+    <button class="badge-clear" id="badgeClear" aria-label="Clear filter">✕</button>
+  </div>
+</div>
+
+<style>
+  /* Filter Pills Container */
+  .filter-pills-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Filter Pills */
+  .filter-pills {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0.75rem 1rem;
+    margin: 0 -1rem;
+  }
+
+  .filter-pills::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Individual Filter Pill */
+  .filter-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.3rem;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 100px;
+    color: white;
+    font-family: 'Galano Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    min-height: 44px; /* Touch target */
+  }
+
+  .filter-pill:hover {
+    background: rgba(255,255,255,0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  .filter-pill:active {
+    transform: translateY(0) scale(0.97);
+  }
+
+  .filter-pill:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.4);
+  }
+
+  .filter-pill.active {
+    background: white;
+    color: var(--planted-purple, #61269E);
+    border-color: white;
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+
+  .filter-pill.active:hover {
+    transform: scale(1.05) translateY(-2px);
+  }
+
+  /* Pill Icon & Text */
+  .pill-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+
+  .pill-text {
+    font-size: 0.9rem;
+  }
+
+  /* Active Filter Badge */
+  .active-filter-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 1rem 0.6rem 1.3rem;
+    background: white;
+    color: var(--planted-purple, #61269E);
+    border-radius: 100px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    margin: 0 1rem 0.75rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .badge-text {
+    flex: 1;
+  }
+
+  .badge-clear {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: none;
+    background: var(--planted-purple, #61269E);
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .badge-clear:hover {
+    background: var(--planted-purple-dark, #4A1D7A);
+    transform: scale(1.1);
+  }
+
+  .badge-clear:active {
+    transform: scale(0.95);
+  }
+
+  .badge-clear:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(97, 38, 158, 0.3);
+  }
+
+  /* Gradient fade for scroll hint */
+  .filter-pills::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    background: linear-gradient(to left, var(--locator-purple, #61269E), transparent);
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  /* Green mode */
+  .results-overlay.green .filter-pills::after {
+    background: linear-gradient(to left, var(--locator-green, #8BC53F), transparent);
+  }
+
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .filter-pill {
+      transition: none;
+    }
+
+    .active-filter-badge {
+      animation: none;
+    }
+  }
+
+  /* Responsive */
+  @media (min-width: 1024px) {
+    .filter-pills {
+      overflow-x: visible;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .filter-pills::after {
+      display: none;
+    }
+  }
+</style>
+
+<script is:inline>
+(function() {
+  'use strict';
+
+  var activeFilters = {
+    vegan: false,
+    distance: null,
+    rating: null
+  };
+
+  var allVenues = [];
+  var currentVenuesCallback = null;
+
+  /**
+   * Initialize filter pills
+   */
+  function initFilterPills() {
+    var filterPills = document.getElementById('filterPills');
+    var activeFilterBadge = document.getElementById('activeFilterBadge');
+    var badgeClear = document.getElementById('badgeClear');
+
+    if (!filterPills) return;
+
+    // Click handler for pills
+    filterPills.addEventListener('click', function(e) {
+      var pill = e.target.closest('.filter-pill');
+      if (!pill) return;
+
+      var filter = pill.dataset.filter;
+      var value = pill.dataset.value;
+
+      if (filter === 'all') {
+        clearAllFilters();
+      } else {
+        toggleFilter(filter, value);
+      }
+
+      updatePillStates();
+      updateActiveBadge();
+      applyFilters();
+    });
+
+    // Clear filter badge
+    if (badgeClear) {
+      badgeClear.addEventListener('click', function() {
+        clearAllFilters();
+        updatePillStates();
+        updateActiveBadge();
+        applyFilters();
+      });
+    }
+  }
+
+  /**
+   * Toggle filter on/off
+   */
+  function toggleFilter(filter, value) {
+    if (filter === 'vegan') {
+      activeFilters.vegan = !activeFilters.vegan;
+    } else if (filter === 'distance') {
+      var numValue = parseFloat(value);
+      if (activeFilters.distance === numValue) {
+        activeFilters.distance = null;
+      } else {
+        activeFilters.distance = numValue;
+      }
+    } else if (filter === 'rating') {
+      var ratingValue = parseFloat(value);
+      if (activeFilters.rating === ratingValue) {
+        activeFilters.rating = null;
+      } else {
+        activeFilters.rating = ratingValue;
+      }
+    }
+  }
+
+  /**
+   * Clear all filters
+   */
+  function clearAllFilters() {
+    activeFilters = {
+      vegan: false,
+      distance: null,
+      rating: null
+    };
+  }
+
+  /**
+   * Update pill active states
+   */
+  function updatePillStates() {
+    var pills = document.querySelectorAll('.filter-pill');
+    var hasActiveFilter = activeFilters.vegan || activeFilters.distance !== null || activeFilters.rating !== null;
+
+    pills.forEach(function(pill) {
+      var filter = pill.dataset.filter;
+      var value = pill.dataset.value;
+
+      if (filter === 'all') {
+        if (!hasActiveFilter) {
+          pill.classList.add('active');
+          pill.setAttribute('aria-pressed', 'true');
+        } else {
+          pill.classList.remove('active');
+          pill.setAttribute('aria-pressed', 'false');
+        }
+      } else if (filter === 'vegan') {
+        if (activeFilters.vegan) {
+          pill.classList.add('active');
+          pill.setAttribute('aria-pressed', 'true');
+        } else {
+          pill.classList.remove('active');
+          pill.setAttribute('aria-pressed', 'false');
+        }
+      } else if (filter === 'distance') {
+        if (activeFilters.distance === parseFloat(value)) {
+          pill.classList.add('active');
+          pill.setAttribute('aria-pressed', 'true');
+        } else {
+          pill.classList.remove('active');
+          pill.setAttribute('aria-pressed', 'false');
+        }
+      } else if (filter === 'rating') {
+        if (activeFilters.rating === parseFloat(value)) {
+          pill.classList.add('active');
+          pill.setAttribute('aria-pressed', 'true');
+        } else {
+          pill.classList.remove('active');
+          pill.setAttribute('aria-pressed', 'false');
+        }
+      }
+    });
+  }
+
+  /**
+   * Update active filter badge
+   */
+  function updateActiveBadge() {
+    var badge = document.getElementById('activeFilterBadge');
+    var badgeText = document.getElementById('badgeText');
+
+    if (!badge || !badgeText) return;
+
+    var filterDescriptions = [];
+
+    if (activeFilters.vegan) {
+      filterDescriptions.push('🌱 Vegan only');
+    }
+
+    if (activeFilters.distance !== null) {
+      if (activeFilters.distance < 1) {
+        filterDescriptions.push('📍 < ' + (activeFilters.distance * 1000) + 'm');
+      } else {
+        filterDescriptions.push('📍 < ' + activeFilters.distance + 'km');
+      }
+    }
+
+    if (activeFilters.rating !== null) {
+      filterDescriptions.push('⭐ ' + activeFilters.rating + '+ rating');
+    }
+
+    if (filterDescriptions.length > 0) {
+      badgeText.textContent = filterDescriptions.join(' • ');
+      badge.style.display = 'flex';
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+
+  /**
+   * Apply filters to venues
+   */
+  function applyFilters() {
+    if (!allVenues || allVenues.length === 0) return;
+
+    var filtered = allVenues.filter(function(venue) {
+      // Vegan filter
+      if (activeFilters.vegan) {
+        var hasVeganDish = false;
+        if (venue.dishes && venue.dishes.length > 0) {
+          hasVeganDish = venue.dishes.some(function(dish) {
+            return dish.isVegan !== false;
+          });
+        }
+        if (!hasVeganDish) return false;
+      }
+
+      // Distance filter
+      if (activeFilters.distance !== null) {
+        if (venue.calculatedDistance === null || venue.calculatedDistance === undefined) {
+          return false;
+        }
+        if (venue.calculatedDistance > activeFilters.distance) {
+          return false;
+        }
+      }
+
+      // Rating filter
+      if (activeFilters.rating !== null) {
+        if (!venue.rating || venue.rating < activeFilters.rating) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+
+    // Dispatch filter change event
+    document.dispatchEvent(new CustomEvent('filter-change', {
+      detail: {
+        filteredVenues: filtered,
+        activeFilters: activeFilters,
+        totalCount: allVenues.length,
+        filteredCount: filtered.length
+      },
+      bubbles: true
+    }));
+
+    // Announce to screen readers
+    announceFilterResults(filtered.length, allVenues.length);
+  }
+
+  /**
+   * Announce filter results for accessibility
+   */
+  function announceFilterResults(filteredCount, totalCount) {
+    var announcement = 'Showing ' + filteredCount + ' of ' + totalCount + ' restaurants';
+    var liveRegion = document.getElementById('resultsCount');
+    if (liveRegion) {
+      liveRegion.textContent = announcement;
+    }
+  }
+
+  /**
+   * Set venues data
+   */
+  function setVenues(venues) {
+    allVenues = venues || [];
+  }
+
+  /**
+   * Reset filters
+   */
+  function resetFilters() {
+    clearAllFilters();
+    updatePillStates();
+    updateActiveBadge();
+  }
+
+  // Event listeners
+  document.addEventListener('filter-init', function(e) {
+    setVenues(e.detail.venues);
+    resetFilters();
+  });
+
+  document.addEventListener('filter-reset', function() {
+    resetFilters();
+    if (allVenues.length > 0) {
+      applyFilters();
+    }
+  });
+
+  // Initialize
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFilterPills);
+  } else {
+    initFilterPills();
+  }
+
+  document.addEventListener('astro:page-load', initFilterPills);
+})();
+</script>
