@@ -12,6 +12,8 @@ import type {
   UpdateVenueStatusRequest,
   UpdateVenueStatusResponse,
   VenueDishesResponse,
+  FindDuplicatesResponse,
+  DeleteDuplicatesResponse,
 } from '../types';
 
 /**
@@ -74,4 +76,20 @@ export async function reactivateVenue(venueId: string): Promise<UpdateVenueStatu
  */
 export async function getVenueDishes(venueId: string): Promise<VenueDishesResponse> {
   return apiClient.get<VenueDishesResponse>(`${API_ENDPOINTS.VENUE_DISHES}?venueId=${venueId}`);
+}
+
+/**
+ * Find duplicate venues (same address)
+ */
+export async function findDuplicateVenues(): Promise<FindDuplicatesResponse> {
+  return apiClient.get<FindDuplicatesResponse>(API_ENDPOINTS.FIND_DUPLICATE_VENUES);
+}
+
+/**
+ * Delete duplicate venues and their associated dishes
+ */
+export async function deleteDuplicateVenues(venueIds: string[]): Promise<DeleteDuplicatesResponse> {
+  return apiClient.post<DeleteDuplicatesResponse>(API_ENDPOINTS.DELETE_DUPLICATE_VENUES, {
+    venueIds,
+  });
 }

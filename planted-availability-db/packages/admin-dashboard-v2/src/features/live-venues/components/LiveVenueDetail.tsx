@@ -63,6 +63,23 @@ export function LiveVenueDetail({
 
   const daysSinceVerified = getDaysSinceVerified();
 
+  /**
+   * Format address as a single line: "Street, PostalCode City, Country"
+   */
+  const formatFullAddress = (address: LiveVenue['address']) => {
+    const parts: string[] = [];
+    if (address.street) {
+      parts.push(address.street);
+    }
+    const cityPart = [address.postalCode, address.city].filter(Boolean).join(' ');
+    if (cityPart) {
+      parts.push(cityPart);
+    }
+    const countryName = COUNTRY_LABELS[address.country] || address.country;
+    parts.push(countryName);
+    return parts.join(', ');
+  };
+
   return (
     <Card className={cn('h-full overflow-auto', className)}>
       <CardHeader className="pb-4">
@@ -97,20 +114,15 @@ export function LiveVenueDetail({
           />
         </div>
 
-        {/* Location */}
+        {/* Location - Full Address */}
         <div className="space-y-2">
           <h3 className="text-sm font-medium flex items-center gap-2">
             <MapPin className="h-4 w-4" />
             Location
           </h3>
-          <div className="text-sm text-muted-foreground pl-6 space-y-1">
-            {venue.address.street && <p>{venue.address.street}</p>}
-            <p>
-              {venue.address.postalCode && `${venue.address.postalCode} `}
-              {venue.address.city}
-            </p>
-            <p>{COUNTRY_LABELS[venue.address.country] || venue.address.country}</p>
-          </div>
+          <p className="text-sm text-muted-foreground pl-6">
+            {formatFullAddress(venue.address)}
+          </p>
         </div>
 
         {/* Verification Info */}

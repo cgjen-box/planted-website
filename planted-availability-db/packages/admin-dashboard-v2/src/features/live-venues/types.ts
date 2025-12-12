@@ -200,3 +200,68 @@ export interface VenueDishesResponse {
   dishes: VenueDish[];
   total: number;
 }
+
+/**
+ * Duplicate venue for display
+ */
+export interface DuplicateVenue {
+  id: string;
+  name: string;
+  type: string;
+  chainId?: string;
+  chainName?: string;
+  address: {
+    street?: string;
+    city: string;
+    postalCode?: string;
+    country: string;
+  };
+  status: string;
+  lastVerified: string;
+  createdAt: string;
+  dishCount: number;
+}
+
+/**
+ * Group of duplicate venues with same address
+ */
+export interface DuplicateGroup {
+  addressKey: string;
+  formattedAddress: string;
+  venues: DuplicateVenue[];
+}
+
+/**
+ * Response from find duplicates API
+ */
+export interface FindDuplicatesResponse {
+  duplicateGroups: DuplicateGroup[];
+  totalDuplicateGroups: number;
+  totalDuplicateVenues: number;
+  stats: {
+    byCountry: Record<string, number>;
+    totalVenuesScanned: number;
+  };
+}
+
+/**
+ * Request to delete duplicate venues
+ */
+export interface DeleteDuplicatesRequest {
+  venueIds: string[];
+}
+
+/**
+ * Response from delete duplicates API
+ */
+export interface DeleteDuplicatesResponse {
+  success: boolean;
+  message: string;
+  deletedVenues: number;
+  deletedDishes: number;
+  details: {
+    venueId: string;
+    venueName: string;
+    dishesDeleted: number;
+  }[];
+}

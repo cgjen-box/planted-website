@@ -6,9 +6,11 @@
  */
 
 import { useState } from 'react';
+import { Copy } from 'lucide-react';
 import { LoadingState } from '@/shared/components/LoadingState';
 import { ErrorState } from '@/shared/components/ErrorState';
 import { EmptyState } from '@/shared/components/EmptyState';
+import { Button } from '@/shared/ui/Button';
 import {
   useLiveVenues,
   useMarkVenueStale,
@@ -18,6 +20,7 @@ import {
   LiveVenueFilters,
   LiveVenueStats,
   LiveVenueDetail,
+  DuplicatesPanel,
 } from '@/features/live-venues';
 import type { LiveVenuesFilters, LiveVenue } from '@/features/live-venues';
 
@@ -30,6 +33,9 @@ export function LiveVenuesPage() {
 
   // Selected venue state - store full venue object from hierarchy
   const [selectedVenue, setSelectedVenue] = useState<LiveVenue | undefined>();
+
+  // Duplicates panel state
+  const [showDuplicates, setShowDuplicates] = useState(false);
 
   // Fetch data
   const { data, isLoading, isError, error, refetch } = useLiveVenues(filters);
@@ -106,8 +112,21 @@ export function LiveVenuesPage() {
     <div className="flex flex-col h-full">
         {/* Stats Bar */}
         <div className="p-4 border-b">
-          <LiveVenueStats stats={data.stats} />
+          <div className="flex items-center gap-4">
+            <LiveVenueStats stats={data.stats} className="flex-1" />
+            <Button
+              variant="outline"
+              onClick={() => setShowDuplicates(true)}
+              className="flex items-center gap-2"
+            >
+              <Copy className="h-4 w-4" />
+              Find Duplicates
+            </Button>
+          </div>
         </div>
+
+        {/* Duplicates Panel */}
+        <DuplicatesPanel open={showDuplicates} onOpenChange={setShowDuplicates} />
 
         {/* Filter Bar */}
         <div className="p-4 border-b bg-muted/30">

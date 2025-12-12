@@ -17,6 +17,7 @@ export {
   useArchiveVenue,
   useReactivateVenue,
 } from './hooks/useLiveVenueActions';
+export { useDuplicates, useDeleteDuplicates } from './hooks/useDuplicates';
 
 // Components
 export * from './components';

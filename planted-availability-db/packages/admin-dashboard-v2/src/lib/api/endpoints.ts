@@ -73,6 +73,10 @@ export const API_ENDPOINTS = {
   LIVE_VENUES: '/adminLiveVenues',
   UPDATE_VENUE_STATUS: '/adminUpdateVenueStatus',
   VENUE_DISHES: '/adminVenueDishes',
+
+  // Duplicate detection
+  FIND_DUPLICATE_VENUES: '/adminFindDuplicateVenues',
+  DELETE_DUPLICATE_VENUES: '/adminDeleteDuplicateVenues',
 } as const;
 
 /**

@@ -7,3 +7,4 @@ export { LiveVenueFilters } from './LiveVenueFilters';
 export { LiveVenueStats } from './LiveVenueStats';
 export { LiveVenueDetail } from './LiveVenueDetail';
 export { LiveVenueActions } from './LiveVenueActions';
+export { DuplicatesPanel } from './DuplicatesPanel';
