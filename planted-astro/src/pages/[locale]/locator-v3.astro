@@ -1,0 +1,198 @@
+---
+/**
+ * Locator V3 Test Page
+ * Demonstrates the cream-themed V3 locator results view
+ */
+import Layout from '../../layouts/Layout.astro';
+import LocatorResultsV3 from '../../components/locator/LocatorResultsV3.astro';
+import { allLocales, type LocaleCode } from '../../i18n/config';
+import { getTranslations } from '../../i18n/index';
+import type { VenueV3 } from '../../components/locator/VenueCardV3.astro';
+
+export async function getStaticPaths() {
+  return allLocales.map((locale) => ({
+    params: { locale },
+    props: { locale },
+  }));
+}
+
+const { locale } = Astro.props as { locale: LocaleCode };
+const t = getTranslations(locale);
+
+// Sample dish images (placeholder URLs)
+const dishImages = [
+  'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&h=400&fit=crop',
+  'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&h=400&fit=crop',
+  'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop',
+  'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=600&h=400&fit=crop',
+  'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600&h=400&fit=crop',
+];
+
+// Sample venues based on HTML prototype
+const sampleVenues: VenueV3[] = [
+  {
+    id: '1',
+    name: 'dean&david',
+    location: 'Zürich',
+    category: 'Healthy Bowls',
+    rating: 4.4,
+    reviewCount: 118,
+    distance: '468 m',
+    distanceMeters: 468,
+    products: ['planted.chicken', 'planted.duck'],
+    dishes: [
+      { name: 'Tuscany Chicken Salad', price: 'CHF 16.90', isVegan: true, description: 'planted.chicken mit italienischen Aromen, getrockneten Tomaten, Pinienkernen', image: dishImages[0] },
+      { name: 'Planted Power Bowl', price: 'CHF 18.50', isVegan: true, description: 'Jasminreis, planted.chicken, Edamame, Avocado, Sesam-Dressing', image: dishImages[1] },
+      { name: 'Asian Fusion Bowl', price: 'CHF 17.90', isVegan: true, description: 'planted.duck mit Pak Choi, Shiitake, Teriyaki-Glasur', image: dishImages[2] }
+    ],
+    iconType: 'bowl',
+    deliveryPartners: [
+      { name: 'Uber Eats', url: 'https://www.ubereats.com/ch/store/dean-david-zurich', icon: 'uber-eats' },
+      { name: 'eat.ch', url: 'https://www.eat.ch/dean-david-zurich', icon: 'eat-ch' }
+    ]
+  },
+  {
+    id: '2',
+    name: 'Veganitas',
+    location: 'Zürich',
+    category: 'Vegan Fine Dining',
+    rating: 4.8,
+    reviewCount: 67,
+    distance: '468 m',
+    distanceMeters: 468,
+    products: ['planted.steak'],
+    dishes: [
+      { name: 'planted.steak Classic', price: 'CHF 38.00', isVegan: true, description: 'Trüffelrahmsauce, confierte Champignons, Selleriepüree', image: dishImages[3] },
+      { name: 'Steak Chimichurri', price: 'CHF 36.00', isVegan: true, description: 'Argentinische Chimichurri-Sauce, gegrilltes Gemüse', image: dishImages[4] }
+    ],
+    iconType: 'restaurant',
+    deliveryPartners: [
+      { name: 'Website', url: 'https://veganitas.ch/reservation', icon: 'website' }
+    ]
+  },
+  {
+    id: '3',
+    name: 'Rice Up!',
+    location: 'Zürich',
+    category: 'Asian Bowls',
+    rating: 4.2,
+    reviewCount: 234,
+    distance: '520 m',
+    distanceMeters: 520,
+    products: ['planted.chicken'],
+    dishes: [
+      { name: 'Teriyaki Bowl', price: 'CHF 15.90', isVegan: true, description: 'planted.chicken Teriyaki, Jasminreis, Edamame', image: dishImages[0] },
+      { name: 'Spicy Thai Bowl', price: 'CHF 16.50', isVegan: true, description: 'planted.chicken mit Thai-Curry, Kokosmilch, Gemüse', image: dishImages[1] }
+    ],
+    iconType: 'bowl',
+    deliveryPartners: [
+      { name: 'Uber Eats', url: 'https://www.ubereats.com/ch/store/rice-up-zurich', icon: 'uber-eats' },
+      { name: 'eat.ch', url: 'https://www.eat.ch/rice-up-zurich', icon: 'eat-ch' },
+      { name: 'Wolt', url: 'https://wolt.com/en/che/zurich/restaurant/rice-up', icon: 'wolt' }
+    ]
+  },
+  {
+    id: '4',
+    name: 'Hiltl',
+    location: 'Zürich',
+    category: 'Vegetarisches Restaurant',
+    rating: 4.6,
+    reviewCount: 512,
+    distance: '750 m',
+    distanceMeters: 750,
+    products: ['planted.chicken', 'planted.pulled'],
+    dishes: [
+      { name: 'Planted Schnitzel', price: 'CHF 28.00', isVegan: true, description: 'Paniertes planted.chicken, Zitrone, Kartoffelsalat', image: dishImages[2] },
+      { name: 'Pulled Sandwich', price: 'CHF 19.00', isVegan: true, description: 'planted.pulled BBQ, Coleslaw, hausgemachte Brioche', image: dishImages[3] },
+      { name: 'Buddha Bowl Deluxe', price: 'CHF 24.00', isVegan: true, description: 'planted.chicken, Quinoa, Hummus, Gemüse der Saison', image: dishImages[4] }
+    ],
+    iconType: 'restaurant',
+    deliveryPartners: [
+      { name: 'Uber Eats', url: 'https://www.ubereats.com/ch/store/hiltl', icon: 'uber-eats' },
+      { name: 'eat.ch', url: 'https://www.eat.ch/hiltl', icon: 'eat-ch' },
+      { name: 'Website', url: 'https://hiltl.ch/lieferung', icon: 'website' }
+    ]
+  },
+  {
+    id: '5',
+    name: 'doen doen kebap',
+    location: 'Zürich',
+    category: 'Vegan Kebab',
+    rating: 4.7,
+    reviewCount: 156,
+    distance: '1.2 km',
+    distanceMeters: 1200,
+    products: ['planted.kebab'],
+    dishes: [
+      { name: 'Planted Kebap Döner', price: 'CHF 8.90', isVegan: true, description: 'Veganer Döner mit planted.kebab, frischem Salat, gegrilltem Gemüse', image: dishImages[0] },
+      { name: 'Planted Kebap Dürüm', price: 'CHF 9.50', isVegan: true, description: 'Wrap mit planted.kebab, Salatmix, Joghurt-Sauce', image: dishImages[1] }
+    ],
+    iconType: 'kebab',
+    deliveryPartners: [
+      { name: 'Wolt', url: 'https://wolt.com/en/che/zurich/restaurant/doen-doen-kebap', icon: 'wolt' }
+    ]
+  },
+  {
+    id: '6',
+    name: 'Tibits',
+    location: 'Zürich HB',
+    category: 'Vegetarisches Buffet',
+    rating: 4.3,
+    reviewCount: 389,
+    distance: '1.4 km',
+    distanceMeters: 1400,
+    products: ['planted.chicken', 'planted.kebab'],
+    dishes: [
+      { name: 'Planted Curry', price: 'nach Gewicht', isVegan: true, description: 'planted.chicken in hausgemachter Curry-Sauce', image: dishImages[2] },
+      { name: 'Kebab Teller', price: 'nach Gewicht', isVegan: true, description: 'planted.kebab mit Reis und Salat', image: dishImages[3] }
+    ],
+    iconType: 'restaurant'
+    // No delivery partners - will show "Direkt im Restaurant verfügbar"
+  }
+];
+
+// V3-specific translations
+const v3Translations = {
+  headerTitle: '{count} Restaurants mit planted.',
+  resultsNearYou: 'Restaurants in deiner Nähe',
+  dishesFound: '{count} Gerichte gefunden',
+  loadMore: 'Mehr laden',
+  viewAllDishes: 'Alle Gerichte ansehen',
+  dishes: 'Gerichte',
+  vegan: 'Vegan',
+  all: 'Alle',
+  under500m: '<500m',
+  under1km: '<1km',
+  topRated: 'Top Rated',
+  products: 'planted. Produkte',
+  dishesWithPlanted: 'Gerichte mit planted.',
+  orderFrom: 'Bestellen bei',
+  close: 'Schliessen',
+  noResults: 'Keine Ergebnisse',
+  noResultsMessage: 'Keine Restaurants in deiner Nähe gefunden.',
+};
+---
+
+<Layout title="Locator V3 - planted." locale={locale}>
+  <LocatorResultsV3
+    locale={locale}
+    country="Schweiz"
+    city="Zürich"
+    postalCode="8001"
+    venues={sampleVenues}
+    translations={v3Translations}
+  />
+</Layout>
+
+<style is:global>
+  /* Override Layout default to work with cream theme */
+  body {
+    background: #FDF9F4;
+  }
+
+  /* Hide header/footer for standalone locator test */
+  header.site-header,
+  footer.site-footer {
+    display: none;
+  }
+</style>

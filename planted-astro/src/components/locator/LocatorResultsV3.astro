@@ -1,0 +1,288 @@
+---
+/**
+ * LocatorResultsV3 - Main container for the cream-themed V3 locator
+ * Displays restaurant results with filter bar, cards grid, and detail panel
+ */
+import VenueCardV3, { type VenueV3 } from './VenueCardV3.astro';
+import VenueDetailPanelV3 from './VenueDetailPanelV3.astro';
+import IconsV3 from './icons/IconsV3.astro';
+import './locator.css';
+
+export interface Props {
+  locale?: string;
+  country?: string;
+  city?: string;
+  postalCode?: string;
+  venues?: VenueV3[];
+  translations?: {
+    headerTitle: string;
+    resultsNearYou: string;
+    dishesFound: string;
+    loadMore: string;
+    viewAllDishes: string;
+    dishes: string;
+    vegan: string;
+    all: string;
+    under500m: string;
+    under1km: string;
+    topRated: string;
+    products: string;
+    dishesWithPlanted: string;
+    orderFrom: string;
+    close: string;
+    noResults: string;
+    noResultsMessage: string;
+  };
+}
+
+const {
+  locale = 'de',
+  country = 'Schweiz',
+  city = 'Zürich',
+  postalCode = '8001',
+  venues = [],
+  translations = {
+    headerTitle: '{count} Restaurants mit planted.',
+    resultsNearYou: 'Restaurants in deiner Nähe',
+    dishesFound: '{count} Gerichte gefunden',
+    loadMore: 'Mehr laden',
+    viewAllDishes: 'Alle Gerichte ansehen',
+    dishes: 'Gerichte',
+    vegan: 'Vegan',
+    all: 'Alle',
+    under500m: '<500m',
+    under1km: '<1km',
+    topRated: 'Top Rated',
+    products: 'planted. Produkte',
+    dishesWithPlanted: 'Gerichte mit planted.',
+    orderFrom: 'Bestellen bei',
+    close: 'Schliessen',
+    noResults: 'Keine Ergebnisse',
+    noResultsMessage: 'Keine Restaurants in deiner Nähe gefunden.',
+  }
+} = Astro.props;
+
+// Calculate total dishes
+const totalDishes = venues.reduce((sum, v) => sum + v.dishes.length, 0);
+
+// Get unique products for filter chips
+const allProducts = [...new Set(venues.flatMap(v => v.products))].slice(0, 3);
+
+// Format header title
+const headerTitle = translations.headerTitle.replace('{count}', String(venues.length));
+const dishesFoundText = translations.dishesFound.replace('{count}', String(totalDishes));
+---
+
+<div class="locator-v3" id="locatorV3">
+  <!-- Header -->
+  <header class="v3-header">
+    <div class="v3-header-inner">
+      <button class="v3-back-btn" id="v3BackBtn" type="button" aria-label="Zurück">
+        <IconsV3 name="arrow-left" />
+      </button>
+      <div class="v3-header-info">
+        <div class="v3-header-location">
+          <IconsV3 name="location" />
+          {country} · {postalCode} {city}
+        </div>
+        <div class="v3-header-title">{headerTitle}</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Filters Bar -->
+  <div class="v3-filters-bar">
+    <div class="v3-filters-inner">
+      <button class="v3-filter-chip active" data-filter="all">
+        <IconsV3 name="star" />
+        {translations.all}
+      </button>
+      <button class="v3-filter-chip" data-filter="distance-500">
+        <IconsV3 name="location" />
+        {translations.under500m}
+      </button>
+      <button class="v3-filter-chip" data-filter="distance-1000">
+        <IconsV3 name="location" />
+        {translations.under1km}
+      </button>
+      <button class="v3-filter-chip" data-filter="top-rated">
+        <IconsV3 name="star" />
+        {translations.topRated}
+      </button>
+      {allProducts.map((product) => (
+        <button class="v3-filter-chip" data-filter={`product-${product}`}>
+          {product}
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="v3-main-content">
+    <div class="v3-results-header">
+      <div class="v3-results-title">{translations.resultsNearYou}</div>
+      <div class="v3-results-count">{dishesFoundText}</div>
+    </div>
+
+    {venues.length > 0 ? (
+      <>
+        <div class="v3-card-grid" id="v3CardGrid">
+          {venues.map((venue) => (
+            <VenueCardV3
+              venue={venue}
+              translations={{
+                viewAllDishes: translations.viewAllDishes,
+                dishes: translations.dishes,
+                vegan: translations.vegan,
+              }}
+            />
+          ))}
+        </div>
+
+        <div class="v3-load-more" id="v3LoadMore" style="display: none;">
+          <button class="v3-load-more-btn" type="button">
+            {translations.loadMore}
+          </button>
+        </div>
+      </>
+    ) : (
+      <div class="v3-no-results">
+        <div class="v3-no-results-icon">
+          <IconsV3 name="restaurant" />
+        </div>
+        <h3>{translations.noResults}</h3>
+        <p>{translations.noResultsMessage}</p>
+      </div>
+    )}
+  </main>
+
+  <!-- Detail Panel Overlay -->
+  <VenueDetailPanelV3
+    translations={{
+      products: translations.products,
+      dishesWithPlanted: translations.dishesWithPlanted,
+      orderFrom: translations.orderFrom,
+      vegan: translations.vegan,
+      close: translations.close,
+    }}
+  />
+</div>
+
+<script define:vars={{ venues }}>
+  // Store venues data globally for detail panel access
+  window.__v3Venues = venues;
+</script>
+
+<script>
+  // Filter and interaction controller
+  class V3LocatorController {
+    private filterChips: NodeListOf<HTMLElement>;
+    private cardGrid: HTMLElement | null;
+    private allVenues: any[];
+
+    constructor() {
+      this.filterChips = document.querySelectorAll('.v3-filter-chip');
+      this.cardGrid = document.getElementById('v3CardGrid');
+      this.allVenues = (window as any).__v3Venues || [];
+
+      this.init();
+    }
+
+    private init() {
+      // Filter chip clicks
+      this.filterChips.forEach(chip => {
+        chip.addEventListener('click', () => this.handleFilterClick(chip));
+      });
+
+      // Back button
+      const backBtn = document.getElementById('v3BackBtn');
+      backBtn?.addEventListener('click', () => this.handleBack());
+    }
+
+    private handleFilterClick(chip: HTMLElement) {
+      // Update active state
+      this.filterChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+
+      const filter = chip.getAttribute('data-filter');
+      this.applyFilter(filter);
+    }
+
+    private applyFilter(filter: string | null) {
+      if (!this.cardGrid) return;
+
+      const cards = this.cardGrid.querySelectorAll('.v3-venue-card');
+
+      cards.forEach((card) => {
+        const venueId = card.getAttribute('data-venue-id');
+        const venue = this.allVenues.find((v: any) => v.id === venueId);
+
+        if (!venue) {
+          (card as HTMLElement).style.display = '';
+          return;
+        }
+
+        let show = true;
+
+        switch (filter) {
+          case 'all':
+            show = true;
+            break;
+          case 'distance-500':
+            show = (venue.distanceMeters || 0) <= 500;
+            break;
+          case 'distance-1000':
+            show = (venue.distanceMeters || 0) <= 1000;
+            break;
+          case 'top-rated':
+            show = (venue.rating || 0) >= 4.5;
+            break;
+          default:
+            // Product filter
+            if (filter?.startsWith('product-')) {
+              const product = filter.replace('product-', '');
+              show = venue.products.includes(product);
+            }
+        }
+
+        (card as HTMLElement).style.display = show ? '' : 'none';
+      });
+
+      // Re-animate visible cards
+      this.reAnimateCards();
+    }
+
+    private reAnimateCards() {
+      if (!this.cardGrid) return;
+
+      const visibleCards = this.cardGrid.querySelectorAll('.v3-venue-card:not([style*="display: none"])');
+      visibleCards.forEach((card, index) => {
+        (card as HTMLElement).style.animation = 'none';
+        (card as HTMLElement).offsetHeight; // Trigger reflow
+        (card as HTMLElement).style.animation = '';
+        (card as HTMLElement).style.animationDelay = `${0.05 * (index + 1)}s`;
+      });
+    }
+
+    private handleBack() {
+      // Dispatch custom event for parent component to handle
+      const event = new CustomEvent('v3-locator-back', { bubbles: true });
+      document.dispatchEvent(event);
+
+      // If no handler, try to navigate back in history
+      if (window.history.length > 1) {
+        window.history.back();
+      }
+    }
+  }
+
+  // Initialize controller
+  document.addEventListener('DOMContentLoaded', () => {
+    new V3LocatorController();
+  });
+
+  // Also initialize on astro:page-load for client-side navigation
+  document.addEventListener('astro:page-load', () => {
+    new V3LocatorController();
+  });
+</script>

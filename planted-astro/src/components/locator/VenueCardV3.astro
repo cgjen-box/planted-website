@@ -1,0 +1,102 @@
+---
+/**
+ * VenueCardV3 - Restaurant card for the cream-themed V3 locator
+ * Shows venue info, products, dishes preview, and triggers detail panel
+ */
+import IconsV3 from './icons/IconsV3.astro';
+
+export interface VenueV3Dish {
+  name: string;
+  price: string;
+  description?: string;
+  image?: string;
+  isVegan?: boolean;
+  plantedProduct?: string;
+}
+
+export interface DeliveryPartner {
+  name: string;
+  url: string;
+  icon?: 'uber-eats' | 'just-eat' | 'lieferando' | 'wolt' | 'doordash' | 'deliveroo' | 'eat-ch' | 'website';
+}
+
+export interface VenueV3 {
+  id: string;
+  name: string;
+  location: string;
+  category: string;
+  rating?: number;
+  reviewCount?: number;
+  distance: string;
+  distanceMeters?: number;
+  products: string[];
+  dishes: VenueV3Dish[];
+  iconType?: 'restaurant' | 'bowl' | 'burger' | 'kebab';
+  heroImage?: string;
+  deliveryPartners?: DeliveryPartner[];
+}
+
+export interface Props {
+  venue: VenueV3;
+  translations: {
+    viewAllDishes: string;
+    dishes: string;
+    vegan: string;
+  };
+}
+
+const { venue, translations } = Astro.props;
+
+// Limit dishes shown in preview to 2
+const previewDishes = venue.dishes.slice(0, 2);
+const dishCount = venue.dishes.length;
+const iconType = venue.iconType || 'restaurant';
+---
+
+<article class="v3-venue-card" data-venue-id={venue.id}>
+  <div class="v3-card-header">
+    <div class="v3-venue-icon">
+      <IconsV3 name={iconType} />
+    </div>
+    <div class="v3-venue-info">
+      <h3 class="v3-venue-name">{venue.name}</h3>
+      <div class="v3-venue-meta">
+        {venue.rating && (
+          <span class="v3-venue-rating">
+            <IconsV3 name="star" />
+            {venue.rating.toFixed(1)}
+          </span>
+        )}
+        <span>{venue.location}</span>
+        <span>{venue.category}</span>
+      </div>
+    </div>
+    <span class="v3-venue-distance">{venue.distance}</span>
+  </div>
+
+  <div class="v3-product-tags">
+    {venue.products.map((product) => (
+      <span class="v3-product-tag">{product}</span>
+    ))}
+  </div>
+
+  <div class="v3-dishes-list">
+    {previewDishes.map((dish) => (
+      <div class="v3-dish-item">
+        <span class="v3-dish-name">
+          {dish.name}
+          {dish.isVegan && <span class="v3-dish-badge">{translations.vegan}</span>}
+        </span>
+        <span class="v3-dish-price">{dish.price}</span>
+      </div>
+    ))}
+  </div>
+
+  <footer class="v3-card-footer">
+    <button class="v3-view-details-btn" type="button">
+      {translations.viewAllDishes}
+      <IconsV3 name="arrow-right" />
+    </button>
+    <span class="v3-dish-count">{dishCount} {translations.dishes}</span>
+  </footer>
+</article>
