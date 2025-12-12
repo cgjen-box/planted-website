@@ -80,6 +80,54 @@ const { translations } = Astro.props;
                 box-shadow 0.3s ease,
                 opacity 0.3s ease;
     will-change: transform;
+    overflow: hidden;
+  }
+
+  /* Hero Dish Image */
+  :global(.card-hero-image) {
+    width: 100%;
+    height: 240px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+  }
+
+  @media (min-width: 640px) {
+    :global(.card-hero-image) {
+      height: 280px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    :global(.card-hero-image) {
+      height: 320px;
+    }
+  }
+
+  :global(.card-image-overlay) {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.3) 100%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 1rem;
+  }
+
+  :global(.card-distance-overlay) {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 0.5rem 1rem;
+    border-radius: 100px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: var(--planted-purple, #61269E);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+
+  :global(.card-content) {
+    padding: 1.25rem;
   }
 
   @media (min-width: 640px) {
@@ -296,7 +344,7 @@ const { translations } = Astro.props;
   }
 
   /**
-   * Render carousel cards
+   * Render carousel cards with hero dish images
    */
   function renderCarouselCards(venues, translations) {
     if (!carouselTrack) return;
@@ -305,6 +353,24 @@ const { translations } = Astro.props;
 
     venues.forEach(function(venue, index) {
       html += '<article class="carousel-card card" role="listitem" data-index="' + index + '">';
+
+      // Hero Dish Image (if available)
+      var heroImage = getHeroDishImage(venue);
+      if (heroImage) {
+        html += '<div class="card-hero-image" style="background-image: url(\'' + heroImage + '\');">';
+        html += '<div class="card-image-overlay">';
+
+        // Distance badge overlay
+        if (venue.calculatedDistance !== null && venue.calculatedDistance !== undefined) {
+          html += '<span class="card-distance-overlay">' + formatDistance(venue.calculatedDistance) + '</span>';
+        }
+
+        html += '</div>';
+        html += '</div>';
+      }
+
+      // Card Content
+      html += '<div class="card-content">';
       html += '<div class="card-header"><div>';
       html += '<h3 class="card-name">' + (venue.chainName || venue.name);
       if (venue.rating) {
@@ -317,13 +383,13 @@ const { translations } = Astro.props;
       }
       html += '</div></div>';
 
-      // Distance badge
-      if (venue.calculatedDistance !== null && venue.calculatedDistance !== undefined) {
+      // Distance badge (fallback if no image)
+      if (!heroImage && venue.calculatedDistance !== null && venue.calculatedDistance !== undefined) {
         html += '<span class="card-distance">' + formatDistance(venue.calculatedDistance) + '</span>';
       }
       html += '</div>';
 
-      // Dishes
+      // Dishes (show top 2)
       if (venue.dishes && venue.dishes.length > 0) {
         html += '<div class="card-dishes">';
         venue.dishes.slice(0, 2).forEach(function(dish) {
@@ -345,6 +411,7 @@ const { translations } = Astro.props;
         });
         html += '</div>';
       }
+      html += '</div>'; // End card-content
 
       // Products
       if (venue.plantedProducts && venue.plantedProducts.length > 0) {
@@ -382,6 +449,34 @@ const { translations } = Astro.props;
         }));
       });
     });
+  }
+
+  /**
+   * Get hero dish image from venue
+   * Prioritize: dish.image > venue.dishImages[0] > venue.image > fallback
+   */
+  function getHeroDishImage(venue) {
+    // Check if any dish has an image
+    if (venue.dishes && venue.dishes.length > 0) {
+      for (var i = 0; i < venue.dishes.length; i++) {
+        if (venue.dishes[i].image) {
+          return venue.dishes[i].image;
+        }
+      }
+    }
+
+    // Check venue-level dish images
+    if (venue.dishImages && venue.dishImages.length > 0) {
+      return venue.dishImages[0];
+    }
+
+    // Check venue image
+    if (venue.image) {
+      return venue.image;
+    }
+
+    // No image available
+    return null;
   }
 
   /**

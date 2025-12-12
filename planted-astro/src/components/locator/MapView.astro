@@ -59,29 +59,45 @@ const { translations } = Astro.props;
     <span class="counter-icon">📍</span>
     <span class="counter-text" id="venueCountText">0 {translations.showingVenues}</span>
   </div>
+
+  <!-- Map Expand/Collapse Button -->
+  <button class="map-expand-btn" id="mapExpandBtn" type="button" aria-label="Expand map">
+    <span class="expand-icon" id="expandIcon">⬆️</span>
+  </button>
 </div>
 
 <style>
-  /* Map View Container */
+  /* Map View Container - COMPACT (dish photos are the hero) */
   .map-view-container {
     position: relative;
     width: 100%;
-    height: 400px;
+    height: 200px; /* Much smaller - map is secondary */
     border-radius: 1.25rem;
     overflow: hidden;
     background: rgba(255,255,255,0.1);
     margin-bottom: 1.5rem;
+    transition: height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .map-view-container.expanded {
+    height: 400px; /* Expanded when user interacts */
   }
 
   @media (min-width: 768px) {
     .map-view-container {
-      height: 500px;
+      height: 220px;
+    }
+    .map-view-container.expanded {
+      height: 450px;
     }
   }
 
   @media (min-width: 1024px) {
     .map-view-container {
-      height: 600px;
+      height: 240px;
+    }
+    .map-view-container.expanded {
+      height: 500px;
     }
   }
 
@@ -217,6 +233,46 @@ const { translations } = Astro.props;
     line-height: 1;
   }
 
+  /* Map Expand/Collapse Button */
+  .map-expand-btn {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .map-expand-btn:hover {
+    transform: translateX(-50%) scale(1.1);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  }
+
+  .map-expand-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.6), 0 4px 20px rgba(0,0,0,0.15);
+  }
+
+  .expand-icon {
+    font-size: 1.2rem;
+    line-height: 1;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .map-view-container.expanded .expand-icon {
+    transform: rotate(180deg);
+  }
+
   /* Leaflet Custom Styles (when map loads) */
   :global(.leaflet-container) {
     width: 100%;
@@ -310,6 +366,31 @@ const { translations } = Astro.props;
   var mapInitialized = false;
   var mapInstance = null;
   var markersLayer = null;
+
+  /**
+   * Initialize map expand/collapse button
+   */
+  function initMapExpandButton() {
+    var mapContainer = document.getElementById('mapContainer');
+    var mapExpandBtn = document.getElementById('mapExpandBtn');
+
+    if (!mapContainer || !mapExpandBtn) return;
+
+    mapExpandBtn.addEventListener('click', function() {
+      mapContainer.classList.toggle('expanded');
+
+      // Update ARIA label
+      var isExpanded = mapContainer.classList.contains('expanded');
+      mapExpandBtn.setAttribute('aria-label', isExpanded ? 'Collapse map' : 'Expand map');
+
+      // Invalidate map size after expansion animation
+      setTimeout(function() {
+        if (mapInstance) {
+          mapInstance.invalidateSize();
+        }
+      }, 350); // Match CSS transition duration
+    });
+  }
 
   /**
    * Initialize map view toggle
@@ -560,12 +641,17 @@ const { translations } = Astro.props;
   }
 
   // Initialize on load
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initMapViewToggle);
-  } else {
+  function init() {
     initMapViewToggle();
+    initMapExpandButton();
   }
 
-  document.addEventListener('astro:page-load', initMapViewToggle);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  document.addEventListener('astro:page-load', init);
 })();
 </script>
