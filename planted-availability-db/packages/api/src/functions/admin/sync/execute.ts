@@ -67,7 +67,39 @@ const executeBodySchema = z.object({
   venueIds: z.array(z.string()).optional(),
   dishIds: z.array(z.string()).optional(),
   syncAll: z.boolean().optional().default(false),
+  skipAddressValidation: z.boolean().optional().default(false), // For backfill scenarios
 });
+
+/**
+ * Validation result for address completeness
+ */
+interface AddressValidationResult {
+  valid: boolean;
+  errors: string[];
+}
+
+/**
+ * Validate that a venue has complete address data
+ * Returns validation result with any issues found
+ */
+function validateVenueAddress(venue: { name: string; address: { street?: string; city: string; postal_code?: string; country: string } }): AddressValidationResult {
+  const errors: string[] = [];
+
+  if (!venue.address.street || venue.address.street.trim() === '') {
+    errors.push('Missing street address');
+  }
+  if (!venue.address.city || venue.address.city.trim() === '' || venue.address.city === 'Unknown') {
+    errors.push('Missing or invalid city');
+  }
+  if (!venue.address.country || venue.address.country.trim() === '') {
+    errors.push('Missing country');
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors,
+  };
+}
 
 /**
  * Handler for POST /admin/sync/execute
@@ -84,7 +116,7 @@ export const adminSyncExecuteHandler = createAdminHandler(
       return;
     }
 
-    const { venueIds, dishIds, syncAll } = validation.data;
+    const { venueIds, dishIds, syncAll, skipAddressValidation } = validation.data;
 
     // Get entities to sync
     let venuesToSync = [];
@@ -135,7 +167,24 @@ export const adminSyncExecuteHandler = createAdminHandler(
     let dishesAdded = 0;
 
     // Sync venues (including their embedded dishes)
+    let skippedForValidation = 0;
     for (const discoveredVenue of venuesToSync) {
+      // Validate address completeness unless explicitly skipped
+      if (!skipAddressValidation) {
+        const addressValidation = validateVenueAddress(discoveredVenue);
+        if (!addressValidation.valid) {
+          const errorMsg = `Address validation failed: ${addressValidation.errors.join(', ')}`;
+          console.warn(`[Sync] Skipping venue "${discoveredVenue.name}": ${errorMsg}`);
+          errors.push({
+            entityId: discoveredVenue.id,
+            entityType: 'venue',
+            error: errorMsg,
+          });
+          skippedForValidation++;
+          continue; // Skip to next venue
+        }
+      }
+
       try {
         // Use a transaction to ensure atomicity
         const embeddedDishCount = await db.runTransaction(async (transaction) => {
@@ -366,6 +415,7 @@ export const adminSyncExecuteHandler = createAdminHandler(
           venues: venuesToSync.length - venuesAdded,
           dishes: dishesToSync.length - dishesAdded,
         },
+        skippedForValidation,
       },
     });
   },

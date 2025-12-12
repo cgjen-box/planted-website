@@ -31,7 +31,7 @@ import { DishFinderAIClient } from '../smart-dish-finder/DishFinderAIClient.js';
 import { getQueryCache, type QueryCache } from './QueryCache.js';
 import { getSearchEnginePool, type SearchEnginePool } from './SearchEnginePool.js';
 import { getCountryFromUrl } from './country_url_util.js';
-import { platformAdapters } from './platforms/index.js';
+import { platformAdapters, type VenuePageData } from './platforms/index.js';
 
 export interface DiscoveryAgentConfig {
   maxQueriesPerRun?: number;
@@ -594,6 +594,9 @@ export class SmartDiscoveryAgent {
       products = [];
     }
 
+    // Extract venue page data (including address) from the venue URL
+    const venuePageData = await this.extractVenuePageData(venue.url, platform);
+
     // Extract dishes inline if enabled
     let dishes: DiscoveredDish[] = [];
     if (this.config.extractDishesInline) {
@@ -612,16 +615,30 @@ export class SmartDiscoveryAgent {
       }
     }
 
-    // Create the discovered venue with dishes
+    // Build address from extracted page data, falling back to search result data
+    const extractedAddress = venuePageData?.address;
+    const venueAddress = {
+      street: extractedAddress?.street,
+      postal_code: extractedAddress?.postal_code,
+      city: extractedAddress?.city || venue.city || 'Unknown',
+      country: extractedAddress?.country || actualCountry,
+    };
+
+    // Build coordinates from extracted page data
+    const venueCoordinates = venuePageData?.coordinates ? {
+      latitude: venuePageData.coordinates.latitude,
+      longitude: venuePageData.coordinates.longitude,
+      accuracy: venuePageData.coordinates.accuracy || 'exact' as const,
+    } : undefined;
+
+    // Create the discovered venue with dishes and full address
     const discoveredVenue = await discoveredVenues.createVenue({
       discovery_run_id: this.currentRun?.id || 'manual',
-      name: venue.name,
+      name: venuePageData?.name || venue.name,
       is_chain: venue.is_likely_chain || knownProducts !== null,
       chain_confidence: venue.is_likely_chain ? venue.confidence : (knownProducts ? 95 : undefined),
-      address: {
-        city: venue.city || 'Unknown',
-        country: actualCountry,
-      },
+      address: venueAddress,
+      coordinates: venueCoordinates,
       delivery_platforms: [
         {
           platform,
@@ -639,7 +656,13 @@ export class SmartDiscoveryAgent {
     });
 
     this.stats.venues_discovered++;
-    this.log(`Discovered venue: ${venue.name}`, { id: discoveredVenue.id, products, dishCount: dishes.length });
+    this.log(`Discovered venue: ${venue.name}`, {
+      id: discoveredVenue.id,
+      products,
+      dishCount: dishes.length,
+      address: venueAddress.street ? `${venueAddress.street}, ${venueAddress.city}` : venueAddress.city,
+      hasCoordinates: !!venueCoordinates,
+    });
   }
 
   /**
@@ -722,6 +745,55 @@ export class SmartDiscoveryAgent {
     this.log(`[DISH] Failed to extract dishes for ${venueName} after ${maxRetries + 1} attempts: ${lastError?.message}`);
     this.stats.dish_extraction_failures++;
     return [];
+  }
+
+  /**
+   * Extract venue page data (including address) from a URL using platform adapter
+   */
+  private async extractVenuePageData(
+    url: string,
+    platform: DeliveryPlatform
+  ): Promise<VenuePageData | null> {
+    this.log(`[ADDRESS] Extracting venue page data from ${url}...`);
+
+    try {
+      // Fetch the venue page
+      const response = await fetch(url, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+        },
+      });
+
+      if (!response.ok) {
+        this.log(`[ADDRESS] Failed to fetch URL: ${response.status} ${response.statusText}`);
+        return null;
+      }
+
+      const html = await response.text();
+
+      // Get the adapter for this platform
+      const adapter = platformAdapters[platform];
+      if (!adapter) {
+        this.log(`[ADDRESS] No adapter found for platform: ${platform}`);
+        return null;
+      }
+
+      // Parse the venue page to extract address and other data
+      const venuePageData = adapter.parseVenuePage(html);
+
+      if (venuePageData.address?.street) {
+        this.log(`[ADDRESS] Extracted address: ${venuePageData.address.street}, ${venuePageData.address.city}`);
+      } else {
+        this.log(`[ADDRESS] No street address found in page data`);
+      }
+
+      return venuePageData;
+    } catch (error) {
+      this.log(`[ADDRESS] Failed to extract venue page data: ${error}`);
+      return null;
+    }
   }
 
   /**
