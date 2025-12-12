@@ -35,6 +35,7 @@ import {
   DISH_SEED_STRATEGIES,
   CURRENCY_BY_COUNTRY,
   PLANTED_PRODUCT_SKUS,
+  SUPPORTED_COUNTRIES,
 } from '@pad/core';
 import { PuppeteerFetcher, getPuppeteerFetcher, closePuppeteerFetcher } from './PuppeteerFetcher.js';
 
@@ -352,6 +353,35 @@ export class SmartDishFinderAgent {
   private async getVenuesToProcess(config: DishExtractionRunConfig): Promise<VenueToProcess[]> {
     const venues: VenueToProcess[] = [];
 
+    // If process_flagged is set, get venues flagged for dish_extraction
+    if (config.process_flagged) {
+      this.log('Getting venues flagged for dish_extraction...');
+      const flaggedVenues = await discoveredVenues.getFlaggedVenues('dish_extraction');
+      this.log(`Found ${flaggedVenues.length} flagged venues`);
+
+      for (const venue of flaggedVenues) {
+        // Filter by config
+        const relevantPlatforms = venue.delivery_platforms
+          .filter((dp) => !config.platforms || config.platforms.includes(dp.platform))
+          .filter(() => !config.countries || config.countries.includes(venue.address.country));
+
+        if (relevantPlatforms.length > 0) {
+          venues.push({
+            id: venue.id,
+            name: venue.name,
+            chain_id: venue.chain_id,
+            chain_name: venue.chain_name,
+            delivery_urls: relevantPlatforms.map((dp) => ({
+              platform: dp.platform,
+              url: dp.url,
+              country: venue.address.country,
+            })),
+          });
+        }
+      }
+      return venues;
+    }
+
     // If specific venues requested
     if (config.target_venues && config.target_venues.length > 0) {
       for (const venueId of config.target_venues) {
@@ -477,12 +507,20 @@ export class SmartDishFinderAgent {
         for (const dish of extracted.dishes) {
           allExtractedDishes.push(dish);
 
+          // Currency validation - log mismatch and auto-correct
+          const expectedCurrency = CURRENCY_BY_COUNTRY[country];
+          let dishCurrency = dish.currency || expectedCurrency;
+          if (dish.currency && dish.currency !== expectedCurrency) {
+            this.log(`Currency mismatch for "${dish.name}": ${dish.currency} vs expected ${expectedCurrency}, correcting`);
+            dishCurrency = expectedCurrency;
+          }
+
           const priceEntry: PriceEntry = {
             country,
             platform,
             price: parseFloat(dish.price) || 0,
-            currency: dish.currency || CURRENCY_BY_COUNTRY[country],
-            formatted: this.formatPrice(dish.price, dish.currency || CURRENCY_BY_COUNTRY[country]),
+            currency: dishCurrency,
+            formatted: this.formatPrice(dish.price, dishCurrency),
             last_seen: new Date(),
           };
 
@@ -550,6 +588,23 @@ export class SmartDishFinderAgent {
 
     this.log(`Storing ${uniqueDishes.size} unique dishes for ${venue.name}`);
 
+    // If no dishes were found, flag venue for manual review
+    if (uniqueDishes.size === 0 && !this.config.dryRun) {
+      this.log(`No dishes found for ${venue.name}, flagging for manual review`);
+      try {
+        await discoveredVenues.flagVenue(
+          venue.id,
+          'manual_review',
+          'normal',
+          'system',
+          'Dish extraction failed - no dishes found on platform'
+        );
+      } catch (error) {
+        this.log(`Failed to flag venue ${venue.name}: ${error}`);
+      }
+      return;
+    }
+
     for (const [key, dish] of uniqueDishes) {
       // Check if dish already exists
       const existing = await discoveredDishes.findByNameAndVenue(dish.name, venue.id);
@@ -559,7 +614,7 @@ export class SmartDishFinderAgent {
 
       // Calculate price_by_country
       const priceByCountry: Partial<Record<SupportedCountry, string>> = {};
-      for (const country of ['CH', 'DE', 'AT'] as SupportedCountry[]) {
+      for (const country of SUPPORTED_COUNTRIES) {
         const countryPrices = prices.filter((p) => p.country === country);
         if (countryPrices.length > 0) {
           // Sort by last_seen, pick most recent
@@ -623,6 +678,33 @@ export class SmartDishFinderAgent {
       // Track prices and images
       if (prices.length > 0) this.stats.prices_found++;
       if (dish.image_url) this.stats.images_found++;
+    }
+
+    // Also update embedded dishes in the venue document
+    // This is needed because the website reads from venue.dishes, not the discovered_dishes collection
+    if (!this.config.dryRun && uniqueDishes.size > 0) {
+      const embeddedDishes = Array.from(uniqueDishes.values()).map(dish => {
+        const prices = pricesByDish.get(dish.name.toLowerCase()) || [];
+        const latestPrice = prices.length > 0 ? prices[0] : null;
+
+        return {
+          name: dish.name,
+          description: dish.description,
+          price: latestPrice?.formatted || dish.price,
+          currency: latestPrice?.currency || CURRENCY_BY_COUNTRY[venue.delivery_urls[0]?.country || 'CH'],
+          planted_product: this.validateProduct(dish.planted_product_guess),
+          is_vegan: dish.is_vegan,
+          confidence: dish.product_confidence || 50,
+          status: 'discovered' as const,
+        };
+      });
+
+      try {
+        await discoveredVenues.update(venue.id, { dishes: embeddedDishes });
+        this.log(`Updated embedded dishes for ${venue.name}`);
+      } catch (error) {
+        this.log(`Failed to update embedded dishes for ${venue.name}: ${error}`);
+      }
     }
   }
 

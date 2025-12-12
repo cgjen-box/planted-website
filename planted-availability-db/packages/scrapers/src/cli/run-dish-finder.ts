@@ -71,6 +71,7 @@ interface CLIOptions {
   learn: boolean;
   stats: boolean;
   help: boolean;
+  flagged: boolean;
 }
 
 function parseArgs(args: string[]): CLIOptions {
@@ -82,6 +83,7 @@ function parseArgs(args: string[]): CLIOptions {
     learn: false,
     stats: false,
     help: false,
+    flagged: false,
   };
 
   for (let i = 0; i < args.length; i++) {
@@ -163,6 +165,10 @@ function parseArgs(args: string[]): CLIOptions {
       case '-h':
         options.help = true;
         break;
+
+      case '--flagged':
+        options.flagged = true;
+        break;
     }
   }
 
@@ -190,6 +196,7 @@ Options:
   --countries, -c <list>   Country codes: CH,DE,AT
   --platforms, -p <list>   Platforms: uber-eats,lieferando,wolt,just-eat,smood
   --max-venues <n>         Maximum venues to process (default: 50)
+  --flagged                Process venues flagged for dish_extraction
   --dry-run                Don't save to database
   --verbose, -v            Verbose output
   --learn                  Run learning process after extraction
@@ -202,6 +209,9 @@ Examples:
 
   # Refresh prices for Swiss venues
   pnpm run dish-finder --mode refresh --countries CH --max-venues 20
+
+  # Process flagged venues
+  pnpm run dish-finder --mode enrich --flagged --max-venues 50
 
   # Verify dishes on Uber Eats
   pnpm run dish-finder --mode verify --platforms uber-eats
@@ -272,6 +282,7 @@ async function main(): Promise<void> {
     if (options.chains) console.log(`  Chains: ${options.chains.join(', ')}`);
     if (options.countries) console.log(`  Countries: ${options.countries.join(', ')}`);
     if (options.platforms) console.log(`  Platforms: ${options.platforms.join(', ')}`);
+    if (options.flagged) console.log(`  Processing flagged venues: yes`);
     console.log(`  Max venues: ${options.maxVenues}`);
     console.log(`  Dry run: ${options.dryRun}`);
     console.log('');
@@ -286,6 +297,7 @@ async function main(): Promise<void> {
       countries: options.countries,
       platforms: options.platforms,
       max_venues: options.maxVenues,
+      process_flagged: options.flagged,
     });
 
     // Show results

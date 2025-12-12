@@ -1,0 +1,946 @@
+---
+import SplitView from './SplitView.astro';
+import ZipOverlay from './ZipOverlay.astro';
+import ResultsView from './ResultsView.astro';
+import './locator.css';
+
+// Import data sources
+import { allChainLocations, chains, getDishPrice, type ChainLocation, type ChainDish } from '../../data/chainRestaurants';
+import { deliveryRestaurants, type DeliveryRestaurant } from '../../data/deliveryRestaurants';
+import { getCollection } from 'astro:content';
+
+interface Translations {
+  // Split View
+  letItCook: string;
+  doItYourself: string;
+  restaurantSubtitle: string;
+  retailSubtitle: string;
+  findRestaurants: string;
+  findStores: string;
+  // ZIP Overlay
+  whereAreYou: string;
+  restaurantZipSubtitle: string;
+  retailZipSubtitle: string;
+  enterZip: string;
+  or: string;
+  useLocation: string;
+  detecting: string;
+  // Results View
+  changeZip: string;
+  restaurantsTab: string;
+  deliveryTab: string;
+  restaurantsSubtitle: string;
+  deliveryTitle: string;
+  deliverySubtitle: string;
+  retailOnlineTitle: string;
+  retailOnlineSubtitle: string;
+  retailStoresSubtitle: string;
+  plantedShop: string;
+  vegan: string;
+  route: string;
+  buyOnline: string;
+  // Results count
+  restaurantsInZip: string;
+  storesAndOnline: string;
+}
+
+interface Props {
+  translations?: Partial<Translations>;
+  locale?: string;
+}
+
+const { translations: customTranslations = {}, locale = 'de' } = Astro.props;
+
+// Default German translations
+const defaultTranslations: Translations = {
+  // Split View
+  letItCook: 'Lass es dir kochen',
+  doItYourself: 'Selber machen',
+  restaurantSubtitle: '8.000+ Restaurants servieren planted.\nJemand anderes macht die Arbeit.',
+  retailSubtitle: 'Pack auf. Pfanne. 6 Minuten.\nSo einfach ist das.',
+  findRestaurants: 'Restaurants finden',
+  findStores: 'Laden finden',
+  // ZIP Overlay
+  whereAreYou: 'Wo bist du?',
+  restaurantZipSubtitle: 'Wir zeigen dir Restaurants in deiner Nähe, die planted servieren.',
+  retailZipSubtitle: 'Wir zeigen dir, wo du planted kaufen kannst.',
+  enterZip: 'PLZ eingeben',
+  or: 'oder',
+  useLocation: 'Standort verwenden',
+  detecting: 'Ermittle...',
+  // Results View
+  changeZip: 'PLZ ändern',
+  restaurantsTab: 'Restaurants',
+  deliveryTab: 'Lieferdienste',
+  restaurantsSubtitle: 'Restaurants in deiner Nähe, die planted servieren',
+  deliveryTitle: 'Direkt nach Hause',
+  deliverySubtitle: 'Bestelle bei diesen Lieferdiensten und such nach Restaurants mit planted.',
+  retailOnlineTitle: 'Lieber liefern lassen?',
+  retailOnlineSubtitle: 'Bestelle planted direkt zu dir nach Hause',
+  retailStoresSubtitle: 'Oder im Laden kaufen',
+  plantedShop: 'planted Shop',
+  vegan: 'Vegan',
+  route: 'Route',
+  buyOnline: 'Online kaufen',
+  // Results count
+  restaurantsInZip: 'Restaurants in',
+  storesAndOnline: 'Läden & Online-Shops',
+};
+
+const t: Translations = { ...defaultTranslations, ...customTranslations };
+
+// Get price country code from locale
+const localeToCountry: Record<string, string> = {
+  'ch-de': 'ch', 'ch-fr': 'ch', 'ch-it': 'ch',
+  'de': 'de', 'at': 'at', 'it': 'it', 'fr': 'fr',
+  'nl': 'nl', 'uk': 'uk', 'es': 'es'
+};
+const priceCountry = (localeToCountry[locale] || 'de') as 'ch' | 'de' | 'at' | 'lu' | 'uk' | 'nl';
+
+// Get retailers from content collection
+const retailers = await getCollection('retailers');
+const retailPartners = retailers.filter(r => r.data.type !== 'foodservice');
+
+// Serialize data for client-side use
+const chainDataJson = JSON.stringify(allChainLocations);
+const deliveryDataJson = JSON.stringify(deliveryRestaurants);
+const translationsJson = JSON.stringify(t);
+---
+
+<section class="locator-v2" id="locatorV2"
+  data-chain-data={chainDataJson}
+  data-delivery-data={deliveryDataJson}
+  data-translations={translationsJson}
+  data-price-country={priceCountry}
+>
+  <SplitView translations={{
+    letItCook: t.letItCook,
+    doItYourself: t.doItYourself,
+    restaurantSubtitle: t.restaurantSubtitle,
+    retailSubtitle: t.retailSubtitle,
+    findRestaurants: t.findRestaurants,
+    findStores: t.findStores,
+  }} />
+
+  <ZipOverlay translations={{
+    whereAreYou: t.whereAreYou,
+    restaurantZipSubtitle: t.restaurantZipSubtitle,
+    retailZipSubtitle: t.retailZipSubtitle,
+    enterZip: t.enterZip,
+    or: t.or,
+    useLocation: t.useLocation,
+    detecting: t.detecting,
+  }} />
+
+  <ResultsView translations={{
+    changeZip: t.changeZip,
+    restaurantsTab: t.restaurantsTab,
+    deliveryTab: t.deliveryTab,
+    restaurantsSubtitle: t.restaurantsSubtitle,
+    deliveryTitle: t.deliveryTitle,
+    deliverySubtitle: t.deliverySubtitle,
+    retailOnlineTitle: t.retailOnlineTitle,
+    retailOnlineSubtitle: t.retailOnlineSubtitle,
+    retailStoresSubtitle: t.retailStoresSubtitle,
+    plantedShop: t.plantedShop,
+    vegan: t.vegan,
+    route: t.route,
+    buyOnline: t.buyOnline,
+  }} />
+</section>
+
+<!-- GSAP from CDN - load first -->
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<!-- Main locator script -->
+<script is:inline>
+(function() {
+  'use strict';
+
+  // Wait for DOM
+  function init() {
+    var locator = document.getElementById('locatorV2');
+    if (!locator) return;
+
+    // Get data from attributes
+    var chainLocations = JSON.parse(locator.dataset.chainData || '[]');
+    var deliveryRestaurantsData = JSON.parse(locator.dataset.deliveryData || '[]');
+    var translations = JSON.parse(locator.dataset.translations || '{}');
+    var priceCountry = locator.dataset.priceCountry || 'de';
+
+    // State
+    var state = {
+      path: null,
+      zip: '',
+      coordinates: null,
+      tab: 'restaurants'
+    };
+
+    // DOM Elements
+    var splitView = document.getElementById('splitView');
+    var panelRestaurant = document.getElementById('panelRestaurant');
+    var panelRetail = document.getElementById('panelRetail');
+    var zipView = document.getElementById('zipView');
+    var zipInput = document.getElementById('zipInput');
+    var zipSubtitle = document.getElementById('zipSubtitle');
+    var zipIconRestaurant = document.getElementById('zipIconRestaurant');
+    var zipIconRetail = document.getElementById('zipIconRetail');
+    var resultsView = document.getElementById('resultsView');
+    var resultsGrid = document.getElementById('resultsGrid');
+    var resultsCount = document.getElementById('resultsCount');
+    var resultsLocationText = document.getElementById('resultsLocationText');
+    var resultsTabs = document.getElementById('resultsTabs');
+
+    // Check for reduced motion
+    var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ==========================================
+    // TRANSITIONS
+    // ==========================================
+    function transitionToZip(path) {
+      state.path = path;
+      if (!zipView || !splitView) return;
+
+      // Configure ZIP view colors and icons
+      if (path === 'restaurant') {
+        zipView.classList.remove('green');
+        if (zipIconRestaurant) zipIconRestaurant.style.display = 'block';
+        if (zipIconRetail) zipIconRetail.style.display = 'none';
+        if (zipSubtitle) zipSubtitle.textContent = translations.restaurantZipSubtitle;
+      } else {
+        zipView.classList.add('green');
+        if (zipIconRestaurant) zipIconRestaurant.style.display = 'none';
+        if (zipIconRetail) zipIconRetail.style.display = 'block';
+        if (zipSubtitle) zipSubtitle.textContent = translations.retailZipSubtitle;
+      }
+
+      if (prefersReducedMotion || typeof gsap === 'undefined') {
+        splitView.style.display = 'none';
+        zipView.classList.add('active');
+        zipView.setAttribute('aria-hidden', 'false');
+        if (zipInput) zipInput.focus();
+        return;
+      }
+
+      var selectedPanel = path === 'restaurant' ? panelRestaurant : panelRetail;
+      var otherPanel = path === 'restaurant' ? panelRetail : panelRestaurant;
+      var selectedIcon = selectedPanel ? selectedPanel.querySelector('.icon-main') : null;
+
+      var tl = gsap.timeline();
+
+      // Slide out other panel
+      if (otherPanel) {
+        tl.to(otherPanel, {
+          flex: 0,
+          opacity: 0,
+          duration: 0.45,
+          ease: 'power3.inOut'
+        }, 0);
+      }
+
+      // Icon blur-out explosion
+      if (selectedIcon) {
+        tl.to(selectedIcon, {
+          filter: 'blur(30px)',
+          scale: 2,
+          opacity: 0,
+          duration: 0.5,
+          ease: 'power2.in'
+        }, 0);
+      }
+
+      // Fade content
+      var selectedContent = selectedPanel ? selectedPanel.querySelector('.panel-content') : null;
+      if (selectedContent) {
+        tl.to(selectedContent, {
+          opacity: 0,
+          y: -40,
+          duration: 0.4,
+          ease: 'power2.in'
+        }, 0.1);
+      }
+
+      // Show ZIP view
+      tl.add(function() {
+        // Hide split view now that transition is happening
+        splitView.style.display = 'none';
+        zipView.classList.add('active');
+        zipView.setAttribute('aria-hidden', 'false');
+        gsap.set('#zipView .zip-content', { opacity: 0, y: 50 });
+        gsap.set('#zipView .zip-back', { opacity: 0, x: -30 });
+        gsap.set('#zipView .zip-icon', { filter: 'blur(30px)', scale: 0.3, opacity: 0 });
+      }, 0.4);
+
+      // Apple-style icon reveal: blur -> sharp
+      tl.to('#zipView .zip-icon', {
+        filter: 'blur(0px)',
+        scale: 1,
+        opacity: 1,
+        duration: 0.7,
+        ease: 'power3.out'
+      }, 0.5);
+
+      tl.to('#zipView .zip-content', {
+        opacity: 1,
+        y: 0,
+        duration: 0.55,
+        ease: 'power3.out'
+      }, 0.55);
+
+      tl.to('#zipView .zip-back', {
+        opacity: 1,
+        x: 0,
+        duration: 0.45,
+        ease: 'power2.out'
+      }, 0.5);
+
+      tl.add(function() {
+        if (zipInput) zipInput.focus();
+      }, 0.95);
+    }
+
+    function transitionToSplit() {
+      if (!zipView || !splitView) return;
+
+      if (prefersReducedMotion || typeof gsap === 'undefined') {
+        zipView.classList.remove('active');
+        zipView.setAttribute('aria-hidden', 'true');
+        splitView.style.display = 'flex';
+        if (panelRestaurant) {
+          panelRestaurant.style.flex = '1';
+          panelRestaurant.style.opacity = '1';
+        }
+        if (panelRetail) {
+          panelRetail.style.flex = '1';
+          panelRetail.style.opacity = '1';
+        }
+        // Reset icon states
+        var icons = splitView.querySelectorAll('.icon-main');
+        icons.forEach(function(icon) {
+          icon.style.filter = '';
+          icon.style.transform = '';
+          icon.style.opacity = '';
+        });
+        var contents = splitView.querySelectorAll('.panel-content');
+        contents.forEach(function(content) {
+          content.style.opacity = '';
+          content.style.transform = '';
+        });
+        return;
+      }
+
+      var tl = gsap.timeline();
+
+      tl.to(['#zipView .zip-content', '#zipView .zip-back'], {
+        opacity: 0,
+        y: -30,
+        duration: 0.3,
+        ease: 'power2.in'
+      }, 0);
+
+      tl.add(function() {
+        zipView.classList.remove('active');
+        zipView.setAttribute('aria-hidden', 'true');
+        // Show split view again
+        splitView.style.display = 'flex';
+      }, 0.3);
+
+      tl.to([panelRestaurant, panelRetail], {
+        flex: 1,
+        opacity: 1,
+        duration: 0.55,
+        ease: 'power3.out'
+      }, 0.3);
+
+      // Icons blur-in reveal
+      tl.fromTo('#splitView .icon-main',
+        { filter: 'blur(20px)', scale: 0.5, opacity: 0 },
+        { filter: 'blur(0px) drop-shadow(0 10px 30px rgba(0,0,0,0.2))', scale: 1, opacity: 1, duration: 0.6, ease: 'power3.out' },
+        0.4
+      );
+
+      tl.to('#splitView .panel-content', {
+        opacity: 1,
+        y: 0,
+        duration: 0.45,
+        ease: 'power2.out'
+      }, 0.45);
+    }
+
+    function transitionToResults() {
+      if (!zipView || !resultsView) return;
+
+      // Configure results
+      var isRestaurant = state.path === 'restaurant';
+      if (isRestaurant) {
+        resultsView.classList.remove('green');
+        if (resultsTabs) resultsTabs.style.display = 'flex';
+      } else {
+        resultsView.classList.add('green');
+        if (resultsTabs) resultsTabs.style.display = 'none';
+      }
+
+      // Render results
+      renderResults();
+
+      if (prefersReducedMotion || typeof gsap === 'undefined') {
+        zipView.classList.remove('active');
+        zipView.setAttribute('aria-hidden', 'true');
+        resultsView.classList.add('active');
+        resultsView.setAttribute('aria-hidden', 'false');
+        return;
+      }
+
+      var tl = gsap.timeline();
+
+      tl.to(['.zip-content', '.zip-back'], {
+        opacity: 0,
+        scale: 0.95,
+        duration: 0.3,
+        ease: 'power2.in'
+      }, 0);
+
+      tl.add(function() {
+        zipView.classList.remove('active');
+        zipView.setAttribute('aria-hidden', 'true');
+        resultsView.classList.add('active');
+        resultsView.setAttribute('aria-hidden', 'false');
+      }, 0.3);
+
+      // Animate results header
+      tl.fromTo('#resultsView .results-header',
+        { y: -30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.45, ease: 'power3.out' },
+        0.35
+      );
+
+      // Animate tabs
+      tl.fromTo('#resultsView .results-tabs',
+        { y: -15, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.35, ease: 'power2.out' },
+        0.4
+      );
+
+      // Animate cards with stagger
+      tl.add(function() {
+        var cards = document.querySelectorAll('#resultsView .card');
+        if (cards.length > 0) {
+          gsap.fromTo(cards,
+            { y: 50, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.55, stagger: 0.1, ease: 'power3.out' }
+          );
+        }
+      }, 0.5);
+    }
+
+    function transitionBackToZip() {
+      if (!zipView || !resultsView) return;
+
+      if (prefersReducedMotion || typeof gsap === 'undefined') {
+        resultsView.classList.remove('active');
+        resultsView.setAttribute('aria-hidden', 'true');
+        zipView.classList.add('active');
+        zipView.setAttribute('aria-hidden', 'false');
+        if (zipInput) zipInput.focus();
+        return;
+      }
+
+      var tl = gsap.timeline();
+
+      tl.to('#resultsView .results-grid', {
+        opacity: 0,
+        y: 30,
+        duration: 0.3,
+        ease: 'power2.in'
+      }, 0);
+
+      tl.to(['#resultsView .results-header', '#resultsView .results-tabs'], {
+        opacity: 0,
+        y: -15,
+        duration: 0.25,
+        ease: 'power2.in'
+      }, 0);
+
+      tl.add(function() {
+        resultsView.classList.remove('active');
+        resultsView.setAttribute('aria-hidden', 'true');
+        zipView.classList.add('active');
+        zipView.setAttribute('aria-hidden', 'false');
+        gsap.set('#zipView .zip-content', { opacity: 0, y: 30 });
+        gsap.set('#zipView .zip-back', { opacity: 0, x: -20 });
+        gsap.set('#zipView .zip-icon', { filter: 'blur(15px)', scale: 0.7 });
+      }, 0.3);
+
+      tl.to('#zipView .zip-icon', {
+        filter: 'blur(0px)',
+        scale: 1,
+        duration: 0.55,
+        ease: 'power3.out'
+      }, 0.35);
+
+      tl.to('#zipView .zip-content', {
+        opacity: 1,
+        y: 0,
+        duration: 0.45,
+        ease: 'power3.out'
+      }, 0.38);
+
+      tl.to('#zipView .zip-back', {
+        opacity: 1,
+        x: 0,
+        duration: 0.35,
+        ease: 'power2.out'
+      }, 0.38);
+
+      tl.add(function() {
+        gsap.set(['#resultsView .results-grid', '#resultsView .results-header', '#resultsView .results-tabs'], { opacity: 1, y: 0 });
+        if (zipInput) zipInput.focus();
+      }, 0.55);
+    }
+
+    // ==========================================
+    // RENDER FUNCTIONS
+    // ==========================================
+    function renderResults() {
+      if (!resultsGrid || !resultsCount || !resultsLocationText) return;
+
+      if (state.path === 'restaurant') {
+        if (state.tab === 'restaurants') {
+          renderRestaurants();
+        } else {
+          renderDelivery();
+        }
+      } else {
+        renderRetail();
+      }
+    }
+
+    function renderRestaurants() {
+      if (!resultsGrid || !resultsCount || !resultsLocationText) return;
+
+      var filteredLocations = chainLocations.slice(0, 8);
+
+      resultsLocationText.textContent = 'Deutschland · ' + state.zip;
+      resultsCount.textContent = filteredLocations.length + ' ' + translations.restaurantsInZip + ' ' + state.zip;
+
+      var html = '<p class="results-subtitle">' + translations.restaurantsSubtitle + '</p><div class="cards-grid">';
+
+      filteredLocations.forEach(function(r) {
+        html += '<article class="card"><div class="card-header"><div>';
+        html += '<h3 class="card-name">' + (r.chainName || r.name);
+        if (r.rating) {
+          html += ' <span class="card-rating"><span class="star">★</span> ' + r.rating + '</span>';
+        }
+        html += '</h3>';
+        html += '<div class="card-meta"><span>📍 ' + (r.city || r.location) + '</span>';
+        if (r.category) {
+          html += '<span class="card-category">' + r.category + '</span>';
+        }
+        html += '</div></div>';
+        html += '<span class="card-distance">' + (r.distance || '1.4 km') + '</span></div>';
+
+        if (r.dishes && r.dishes.length > 0) {
+          html += '<div class="card-dishes">';
+          r.dishes.slice(0, 2).forEach(function(d) {
+            html += '<div class="dish"><div class="dish-info">';
+            html += '<div class="dish-name">' + d.name;
+            if (d.isVegan !== false) {
+              html += ' <span class="dish-badge">' + translations.vegan + '</span>';
+            }
+            html += '</div>';
+            if (d.description) {
+              html += '<div class="dish-desc">' + d.description + '</div>';
+            }
+            html += '</div>';
+            var price = d.price || (d.priceByCountry && d.priceByCountry[priceCountry]);
+            if (price) {
+              html += '<div class="dish-price">' + price + '</div>';
+            }
+            html += '</div>';
+          });
+          html += '</div>';
+        }
+
+        if (r.plantedProducts && r.plantedProducts.length > 0) {
+          html += '<div class="card-products">';
+          r.plantedProducts.forEach(function(p) {
+            html += '<span class="product-tag">' + p + '</span>';
+          });
+          html += '</div>';
+        }
+
+        if (r.deliveryPlatforms && r.deliveryPlatforms.length > 0) {
+          html += '<div class="card-actions">';
+          r.deliveryPlatforms.forEach(function(link) {
+            var platformClass = link.platform || link.name || '';
+            var label = link.displayName || link.label || platformClass;
+            html += '<a href="' + link.url + '" class="order-btn ' + platformClass + '" target="_blank" rel="noopener noreferrer">' + label + ' ↗</a>';
+          });
+          html += '</div>';
+        }
+
+        html += '</article>';
+      });
+
+      html += '</div>';
+      resultsGrid.innerHTML = html;
+    }
+
+    function renderDelivery() {
+      if (!resultsGrid) return;
+
+      resultsGrid.innerHTML = '<div class="delivery-card">' +
+        '<h3>🚀 ' + translations.deliveryTitle + '</h3>' +
+        '<p>' + translations.deliverySubtitle + '</p>' +
+        '<div class="delivery-buttons">' +
+        '<a href="https://www.lieferando.de/suche/planted" class="delivery-btn" target="_blank" rel="noopener noreferrer">🍴 Lieferando</a>' +
+        '<a href="https://wolt.com/en/discovery?q=planted" class="delivery-btn secondary" target="_blank" rel="noopener noreferrer">🛵 Wolt</a>' +
+        '<a href="https://www.ubereats.com/search?q=planted" class="delivery-btn secondary" target="_blank" rel="noopener noreferrer">🥡 Uber Eats</a>' +
+        '<a href="https://www.just-eat.com/search?q=planted" class="delivery-btn secondary" target="_blank" rel="noopener noreferrer">🍕 Just Eat</a>' +
+        '</div></div>' +
+        '<p class="results-subtitle">' + translations.restaurantsSubtitle + '</p>';
+    }
+
+    function renderRetail() {
+      if (!resultsGrid || !resultsCount || !resultsLocationText) return;
+
+      var retailStores = [
+        { name: 'REWE', address: 'Alexanderplatz 5', city: 'Berlin', distance: '850 m' },
+        { name: 'EDEKA', address: 'Karl-Marx-Allee 90', city: 'Berlin', distance: '1.2 km' },
+        { name: 'Kaufland', address: 'Landsberger Allee 171', city: 'Berlin', distance: '2.8 km' }
+      ];
+
+      resultsLocationText.textContent = 'Deutschland · ' + state.zip;
+      resultsCount.textContent = retailStores.length + ' ' + translations.storesAndOnline;
+
+      var html = '<div class="delivery-card">' +
+        '<h3>🏠 ' + translations.retailOnlineTitle + '</h3>' +
+        '<p>' + translations.retailOnlineSubtitle + '</p>' +
+        '<div class="delivery-buttons">' +
+        '<a href="https://shop.eatplanted.com" class="delivery-btn" target="_blank" rel="noopener noreferrer">🌱 ' + translations.plantedShop + '</a>' +
+        '<a href="https://www.rewe.de/suche/?search=planted" class="delivery-btn secondary" target="_blank" rel="noopener noreferrer">🛒 REWE Online</a>' +
+        '<a href="https://www.amazon.de/s?k=planted" class="delivery-btn secondary" target="_blank" rel="noopener noreferrer">🛒 Amazon Fresh</a>' +
+        '</div></div>' +
+        '<p class="results-subtitle">' + translations.retailStoresSubtitle + '</p>' +
+        '<div class="cards-grid">';
+
+      retailStores.forEach(function(s) {
+        html += '<article class="card"><div class="card-header"><div>' +
+          '<h3 class="card-name">🛒 ' + s.name + '</h3>' +
+          '<div class="card-meta">' + s.address + ', ' + s.city + '</div>' +
+          '</div><span class="card-distance">' + s.distance + '</span></div>' +
+          '<div class="card-actions">' +
+          '<a href="https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(s.address + ', ' + s.city) + '" class="order-btn" style="background: #f0f0f0; color: #1a1a1a;" target="_blank" rel="noopener noreferrer">📍 ' + translations.route + '</a>' +
+          '<a href="#" class="order-btn" style="background: var(--locator-green); color: white;" target="_blank" rel="noopener noreferrer">🛒 ' + translations.buyOnline + '</a>' +
+          '</div></article>';
+      });
+
+      html += '</div>';
+      resultsGrid.innerHTML = html;
+    }
+
+    // ==========================================
+    // HOVER ANIMATIONS (Apple-style)
+    // ==========================================
+    function appleIconHoverIn(panel) {
+      if (prefersReducedMotion || typeof gsap === 'undefined') return;
+
+      var icon = panel.querySelector('.icon-main');
+      var blurShadow = panel.querySelector('.icon-blur-shadow');
+      var glow1 = panel.querySelector('.icon-glow-1');
+      var glow2 = panel.querySelector('.icon-glow-2');
+      var bg = panel.querySelector('.panel-bg');
+      var content = panel.querySelector('.panel-content');
+      var cta = panel.querySelector('.panel-cta');
+      var otherPanel = panel === panelRestaurant ? panelRetail : panelRestaurant;
+
+      if (!icon || !otherPanel) return;
+
+      // Timeline for Apple-style animation
+      var tl = gsap.timeline();
+
+      // Step 1: Initial blur burst + scale up
+      tl.to(icon, {
+        filter: 'blur(12px) drop-shadow(0 10px 30px rgba(0,0,0,0.2))',
+        scale: 1.25,
+        duration: 0.15,
+        ease: 'power2.out'
+      }, 0);
+
+      // Blur shadow appears
+      if (blurShadow) {
+        tl.to(blurShadow, {
+          opacity: 0.5,
+          scale: 1.35,
+          duration: 0.2,
+          ease: 'power2.out'
+        }, 0);
+      }
+
+      // Step 2: Sharpen while staying scaled
+      tl.to(icon, {
+        filter: 'blur(0px) drop-shadow(0 15px 40px rgba(0,0,0,0.25))',
+        scale: 1.15,
+        rotation: -3,
+        duration: 0.45,
+        ease: 'power3.out'
+      }, 0.15);
+
+      // Blur shadow settles
+      if (blurShadow) {
+        tl.to(blurShadow, {
+          opacity: 0.25,
+          scale: 1.4,
+          duration: 0.4,
+          ease: 'power2.out'
+        }, 0.15);
+      }
+
+      // Glow layers fade in
+      if (glow1) {
+        tl.to(glow1, {
+          opacity: 1,
+          scale: 1.15,
+          duration: 0.6,
+          ease: 'power2.out'
+        }, 0.1);
+      }
+
+      if (glow2) {
+        tl.to(glow2, {
+          opacity: 1,
+          scale: 1.2,
+          duration: 0.8,
+          ease: 'power2.out'
+        }, 0.15);
+      }
+
+      // Panel expand
+      gsap.to(panel, {
+        flex: 1.5,
+        duration: 0.7,
+        ease: 'power3.out'
+      });
+
+      gsap.to(otherPanel, {
+        flex: 0.5,
+        duration: 0.7,
+        ease: 'power3.out'
+      });
+
+      // Background subtle scale
+      if (bg) {
+        gsap.to(bg, {
+          scale: 1.05,
+          duration: 0.9,
+          ease: 'power2.out'
+        });
+      }
+
+      // Content lift
+      if (content) {
+        gsap.to(content, {
+          y: -12,
+          duration: 0.5,
+          ease: 'power2.out'
+        });
+      }
+
+      // CTA pop
+      if (cta) {
+        gsap.to(cta, {
+          scale: 1.05,
+          y: -6,
+          boxShadow: '0 12px 40px rgba(0,0,0,0.2)',
+          duration: 0.4,
+          ease: 'power2.out'
+        });
+      }
+
+      // Dim other panel
+      var otherIcon = otherPanel.querySelector('.icon-main');
+      var otherContent = otherPanel.querySelector('.panel-content');
+
+      if (otherIcon) {
+        gsap.to(otherIcon, {
+          opacity: 0.4,
+          scale: 0.85,
+          filter: 'blur(3px)',
+          duration: 0.5,
+          ease: 'power2.out'
+        });
+      }
+
+      if (otherContent) {
+        gsap.to(otherContent, {
+          opacity: 0.5,
+          duration: 0.5,
+          ease: 'power2.out'
+        });
+      }
+    }
+
+    function appleIconHoverOut() {
+      if (prefersReducedMotion || typeof gsap === 'undefined') return;
+
+      gsap.to('.split-view .icon-main', {
+        filter: 'blur(0px) drop-shadow(0 10px 30px rgba(0,0,0,0.2))',
+        scale: 1,
+        rotation: 0,
+        opacity: 1,
+        duration: 0.5,
+        ease: 'power2.out'
+      });
+
+      gsap.to('.split-view .icon-blur-shadow', {
+        opacity: 0,
+        scale: 1,
+        duration: 0.4,
+        ease: 'power2.out'
+      });
+
+      gsap.to(['.split-view .icon-glow-1', '.split-view .icon-glow-2'], {
+        opacity: 0,
+        scale: 0.8,
+        duration: 0.5,
+        ease: 'power2.out'
+      });
+
+      gsap.to([panelRestaurant, panelRetail], {
+        flex: 1,
+        duration: 0.7,
+        ease: 'power3.out'
+      });
+
+      gsap.to('.split-view .panel-bg', {
+        scale: 1,
+        duration: 0.6,
+        ease: 'power2.out'
+      });
+
+      gsap.to('.split-view .panel-content', {
+        y: 0,
+        opacity: 1,
+        duration: 0.5,
+        ease: 'power2.out'
+      });
+
+      gsap.to('.split-view .panel-cta', {
+        scale: 1,
+        y: 0,
+        boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+        duration: 0.4,
+        ease: 'power2.out'
+      });
+    }
+
+    // ==========================================
+    // EVENT HANDLERS
+    // ==========================================
+
+    // Panel hover events (Apple-style animations)
+    if (panelRestaurant) {
+      panelRestaurant.addEventListener('mouseenter', function() {
+        appleIconHoverIn(panelRestaurant);
+      });
+      panelRestaurant.addEventListener('mouseleave', appleIconHoverOut);
+      panelRestaurant.addEventListener('click', function() {
+        transitionToZip('restaurant');
+      });
+      panelRestaurant.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          transitionToZip('restaurant');
+        }
+      });
+      panelRestaurant.addEventListener('focus', function() {
+        appleIconHoverIn(panelRestaurant);
+      });
+      panelRestaurant.addEventListener('blur', appleIconHoverOut);
+    }
+
+    if (panelRetail) {
+      panelRetail.addEventListener('mouseenter', function() {
+        appleIconHoverIn(panelRetail);
+      });
+      panelRetail.addEventListener('mouseleave', appleIconHoverOut);
+      panelRetail.addEventListener('click', function() {
+        transitionToZip('retail');
+      });
+      panelRetail.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          transitionToZip('retail');
+        }
+      });
+      panelRetail.addEventListener('focus', function() {
+        appleIconHoverIn(panelRetail);
+      });
+      panelRetail.addEventListener('blur', appleIconHoverOut);
+    }
+
+    // ZIP events
+    document.addEventListener('zip-submit', function(e) {
+      state.zip = e.detail.zip;
+      transitionToResults();
+    });
+
+    document.addEventListener('zip-back', function() {
+      transitionToSplit();
+    });
+
+    document.addEventListener('zip-geolocation', function(e) {
+      state.coordinates = { lat: e.detail.lat, lng: e.detail.lng };
+      state.zip = '10115';
+      if (zipInput) zipInput.value = state.zip;
+      transitionToResults();
+    });
+
+    // Results events
+    document.addEventListener('results-back', function() {
+      transitionToSplit();
+    });
+
+    document.addEventListener('results-change-zip', function() {
+      transitionBackToZip();
+    });
+
+    document.addEventListener('results-tab-change', function(e) {
+      state.tab = e.detail.tab;
+
+      if (prefersReducedMotion || typeof gsap === 'undefined') {
+        renderResults();
+        return;
+      }
+
+      var contentElements = document.querySelectorAll('#resultsView .cards-grid, #resultsView .delivery-card');
+      gsap.to(contentElements, {
+        opacity: 0,
+        y: 15,
+        duration: 0.2,
+        ease: 'power2.in',
+        onComplete: function() {
+          renderResults();
+          var newContent = document.querySelectorAll('#resultsView .cards-grid, #resultsView .delivery-card');
+          gsap.fromTo(newContent,
+            { opacity: 0, y: 15 },
+            { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }
+          );
+        }
+      });
+    });
+
+    console.log('LocatorV2 initialized');
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // Re-initialize after Astro page transitions
+  document.addEventListener('astro:page-load', init);
+})();
+</script>

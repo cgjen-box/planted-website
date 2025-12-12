@@ -1033,6 +1033,118 @@ Submit feedback for AI learning.
 | `/admin/sync/execute` | POST | Execute sync to website |
 | `/admin/sync/history` | GET | Get sync history |
 
+#### Live Venues Browser APIs
+
+Endpoints for browsing and managing venues that are live on the production website.
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/adminLiveVenues` | GET | Get live venues with hierarchy |
+| `/adminUpdateVenueStatus` | POST | Update venue status |
+
+#### GET /adminLiveVenues
+Get live venues with hierarchical organization (Country → VenueType → Chain → Venue).
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| country | string | Filter by country: CH, DE, AT |
+| status | string | Filter: active, stale, archived |
+| venueType | string | Filter: restaurant, retail, delivery_kitchen |
+| search | string | Search in venue names/cities |
+| page | number | Page number (default: 1) |
+| pageSize | number | Results per page (default: 100) |
+
+**Response:**
+```json
+{
+  "items": [
+    {
+      "id": "venue-123",
+      "name": "Green Garden Zurich",
+      "slug": "green-garden-zurich",
+      "type": "restaurant",
+      "status": "active",
+      "address": {
+        "street": "Bahnhofstrasse 1",
+        "city": "Zurich",
+        "postalCode": "8001",
+        "country": "CH"
+      },
+      "chain": { "id": "green-garden", "name": "Green Garden" },
+      "dishCount": 5,
+      "lastVerified": "2024-01-15T10:30:00Z",
+      "createdAt": "2024-01-01T08:00:00Z",
+      "updatedAt": "2024-01-15T10:30:00Z"
+    }
+  ],
+  "hierarchy": [
+    {
+      "id": "CH",
+      "name": "Switzerland",
+      "type": "country",
+      "count": 45,
+      "children": [
+        {
+          "id": "CH-restaurant",
+          "name": "Restaurants",
+          "type": "venueType",
+          "count": 30,
+          "children": [...]
+        }
+      ]
+    }
+  ],
+  "stats": {
+    "total": 150,
+    "active": 120,
+    "stale": 25,
+    "archived": 5,
+    "byCountry": { "CH": 45, "DE": 80, "AT": 25 },
+    "byType": { "restaurant": 100, "retail": 40, "delivery_kitchen": 10 },
+    "avgDaysSinceVerification": 12.5
+  },
+  "pagination": {
+    "page": 1,
+    "pageSize": 100,
+    "total": 150,
+    "totalPages": 2,
+    "hasMore": true
+  }
+}
+```
+
+#### POST /adminUpdateVenueStatus
+Update the status of a live venue.
+
+**Request Body:**
+```json
+{
+  "venueId": "venue-123",
+  "status": "stale"
+}
+```
+
+**Valid status values:**
+- `active` - Venue is confirmed and up-to-date
+- `stale` - Venue needs re-verification (e.g., menu may have changed)
+- `archived` - Venue is no longer active (closed, removed Planted from menu)
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Venue status updated from active to stale",
+  "venue": {
+    "id": "venue-123",
+    "name": "Green Garden Zurich",
+    "previousStatus": "active",
+    "status": "stale",
+    "lastVerified": "2024-01-15T10:30:00Z"
+  }
+}
+```
+
 ---
 
 ## Part 6: Deployment

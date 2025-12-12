@@ -235,3 +235,69 @@ Discovery run `boNQ3EtwtBj24qjB6ix1` had 88 venues with corrupted confidence_fac
 - Template variable mismatches are silent failures - the AI receives literal `{placeholder}` text and hallucinates
 
 ---
+
+## 2025-12-11: Restructured Venue and Dish Approval Flow
+
+### Problem
+The admin dashboard's approve queue had a confusing approval workflow:
+- Approval buttons were at the bottom of the page, far from venue info
+- Individual dishes couldn't be approved/rejected separately
+- No way to see dish approval status at a glance
+
+### Solution
+Restructured the approval flow with a cleaner UI:
+
+1. **Venue approval buttons moved below venue info** in `VenueDetailPanel`:
+   - "Fully Approved" (green) - Approves venue and all pending dishes
+   - "Approved with Fixes" (yellow) - Opens feedback dialog for manual corrections
+   - "Reject" (red) - Opens rejection reason dialog
+
+2. **Individual dish approval** in `DishGrid`:
+   - Each dish card shows a status badge (Pending/Approved/Rejected)
+   - Approve/Reject buttons appear only for pending dishes
+   - Approved dishes have green ring, rejected dishes are dimmed
+   - Loading state shows on the specific dish being updated
+
+### Files Changed
+
+**Backend:**
+- `packages/core/src/types/discovery.ts` - Added `DiscoveredDishStatus` type and `status` field to `DiscoveredDish`
+- `packages/database/src/collections/discovered-venues.ts` - Added `updateEmbeddedDishStatus()` method
+- `packages/api/src/functions/admin/review/updateDishStatus.ts` - New endpoint for individual dish status updates
+
+**Frontend:**
+- `packages/admin-dashboard-v2/src/features/review/types.ts` - Added `DishStatus` type
+- `packages/admin-dashboard-v2/src/features/review/api/reviewApi.ts` - Added `updateDishStatus()` API function, updated `transformDish()` to map status
+- `packages/admin-dashboard-v2/src/features/review/hooks/useApproval.ts` - Added `useUpdateDishStatus` hook with optimistic updates
+- `packages/admin-dashboard-v2/src/features/review/components/VenueApprovalButtons.tsx` - New component for venue approval actions
+- `packages/admin-dashboard-v2/src/features/review/components/VenueDetailPanel.tsx` - Added venue approval props and buttons at bottom
+- `packages/admin-dashboard-v2/src/features/review/components/DishGrid.tsx` - Added status badges and per-dish approve/reject buttons
+- `packages/admin-dashboard-v2/src/pages/ReviewQueuePage.tsx` - Wired up dish handlers and venue approval props
+
+### API Endpoint
+**POST /adminUpdateDishStatus**
+```json
+{
+  "venueId": "abc123",
+  "dishId": "abc123-dish-0",
+  "status": "verified" | "rejected"
+}
+```
+
+Dish IDs follow the format `{venueId}-dish-{index}` for embedded dishes.
+
+### UI Flow
+```
+VenueDetailPanel
+├── Venue info (name, badges, chain)
+├── Location (editable street, city, country)
+├── Confidence Score
+├── Platform link
+└── [Venue Approval Buttons]  ← Fully Approved | Approved with Fixes | Reject
+
+DishGrid (separate card)
+├── Dish Card with status badge overlay
+│   └── [Approve] [Reject] (for pending only)
+```
+
+---

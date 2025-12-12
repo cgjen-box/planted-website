@@ -14,7 +14,19 @@
       "Bash(grep:*)",
       "Bash(npx firebase:*)",
       "Bash(node:*)",
-      "Bash(pnpm run local:*)"
+      "Bash(pnpm run local:*)",
+      "Bash(python update_user_guide.py:*)",
+      "Bash(python:*)",
+      "Bash(.claude/commands/writing-documentation.md )",
+      "Bash(.claude/skills/admin-dashboard-qa/SKILL.md )",
+      "Bash(planted-availability-database-project-scope.md )",
+      "Bash(planted-availability-db/CLAUDE.md )",
+      "Bash(planted-availability-db/README.md )",
+      "Bash(planted-availability-db/SYSTEM_OVERVIEW.md )",
+      "Bash(planted-availability-db/TECHNICAL-DOCUMENTATION.md )",
+      "Bash(planted-availability-db/USER-GUIDE.md)",
+      "Bash(cat:*)",
+      "Bash(npx tsx:*)"
     ]
   }
 }

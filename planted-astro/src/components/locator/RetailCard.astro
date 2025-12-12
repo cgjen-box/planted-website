@@ -1,0 +1,106 @@
+---
+interface Props {
+  name: string;
+  chain?: string;
+  address: string;
+  city?: string;
+  postalCode?: string;
+  distance: string;
+  products?: string[];
+  onlineShopUrl?: string;
+  mapsUrl?: string;
+  translations: {
+    route: string;
+    buyOnline: string;
+  };
+}
+
+const {
+  name,
+  chain,
+  address,
+  city,
+  postalCode,
+  distance,
+  products = [],
+  onlineShopUrl,
+  mapsUrl,
+  translations
+} = Astro.props;
+
+// Generate Google Maps directions URL if not provided
+const directionsUrl = mapsUrl || `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${address}${city ? ', ' + city : ''}${postalCode ? ' ' + postalCode : ''}`)}`;
+---
+
+<article class="card retail-card" role="article">
+  <div class="card-header">
+    <div>
+      <h3 class="card-name">
+        🛒 {name}
+        {chain && chain !== name && <span class="card-chain">({chain})</span>}
+      </h3>
+      <div class="card-meta">
+        {address}
+        {city && `, ${city}`}
+        {postalCode && ` ${postalCode}`}
+      </div>
+    </div>
+    <span class="card-distance">{distance}</span>
+  </div>
+
+  {products.length > 0 && (
+    <div class="card-products">
+      {products.map((product) => (
+        <span class="product-tag">{product}</span>
+      ))}
+    </div>
+  )}
+
+  <div class="card-actions">
+    <a
+      href={directionsUrl}
+      class="order-btn route-btn"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      📍 {translations.route}
+    </a>
+    {onlineShopUrl && (
+      <a
+        href={onlineShopUrl}
+        class="order-btn online-btn"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        🛒 {translations.buyOnline}
+      </a>
+    )}
+  </div>
+</article>
+
+<style>
+  .card-chain {
+    font-size: 0.85rem;
+    font-weight: 600;
+    opacity: 0.7;
+    margin-left: 0.25rem;
+  }
+
+  .route-btn {
+    background: #f0f0f0;
+    color: #1a1a1a;
+  }
+
+  .route-btn:hover {
+    background: #e0e0e0;
+  }
+
+  .online-btn {
+    background: var(--locator-green, #8BC53F);
+    color: white;
+  }
+
+  .online-btn:hover {
+    background: var(--locator-green-dark, #6a9a2e);
+  }
+</style>

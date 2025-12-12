@@ -20,6 +20,7 @@
     "review": "tsx src/cli/review-venues.ts",
     "dish-finder": "tsx src/cli/run-dish-finder.ts",
     "review-dishes": "tsx src/cli/review-dishes.ts",
+    "check-dishes": "tsx src/cli/check-dish-coverage.ts",
     "fix-missing-dishes": "tsx src/fix-missing-dishes.ts"
   },
   "dependencies": {

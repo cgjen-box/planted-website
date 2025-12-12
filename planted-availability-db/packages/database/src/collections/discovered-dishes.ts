@@ -8,6 +8,7 @@ import type {
   SupportedCountry,
   ConfidenceFactor,
 } from '@pad/core';
+import { SUPPORTED_COUNTRIES } from '@pad/core';
 
 export interface DiscoveredDishQueryOptions extends QueryOptions {
   status?: ExtractedDishStatus;
@@ -277,7 +278,7 @@ class DiscoveredDishesCollection extends BaseCollection<ExtractedDish> {
 
     // Recalculate price_by_country (pick most recent per country)
     const priceByCountry: Partial<Record<SupportedCountry, string>> = {};
-    for (const country of ['CH', 'DE', 'AT'] as SupportedCountry[]) {
+    for (const country of SUPPORTED_COUNTRIES) {
       const countryPrices = updatedPrices.filter((p) => p.country === country);
       if (countryPrices.length > 0) {
         // Sort by last_seen, pick most recent

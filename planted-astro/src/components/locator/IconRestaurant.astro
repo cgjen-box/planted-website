@@ -1,0 +1,32 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<svg
+  class={className}
+  viewBox="0 0 100 100"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+>
+  <!-- Plate -->
+  <ellipse
+    cx="50" cy="72" rx="38" ry="10"
+    stroke="white" stroke-width="2.5"
+    fill="none" opacity="0.9"
+  />
+  <!-- Steak -->
+  <ellipse cx="50" cy="55" rx="25" ry="12" fill="white" opacity="0.95"/>
+  <!-- Grill marks -->
+  <line x1="35" y1="52" x2="50" y2="60" stroke="#61269E" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="45" y1="48" x2="60" y2="56" stroke="#61269E" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Steam -->
+  <path d="M40 35 Q45 25, 40 15" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+  <path d="M55 32 Q60 22, 55 12" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+  <!-- Herb leaf -->
+  <ellipse cx="70" cy="50" rx="8" ry="5" fill="#8BC53F" transform="rotate(30 70 50)"/>
+</svg>

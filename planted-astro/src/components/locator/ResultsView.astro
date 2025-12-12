@@ -1,0 +1,135 @@
+---
+interface Props {
+  translations: {
+    changeZip: string;
+    restaurantsTab: string;
+    deliveryTab: string;
+    restaurantsSubtitle: string;
+    deliveryTitle: string;
+    deliverySubtitle: string;
+    retailOnlineTitle: string;
+    retailOnlineSubtitle: string;
+    retailStoresSubtitle: string;
+    plantedShop: string;
+    vegan: string;
+    route: string;
+    buyOnline: string;
+  };
+}
+
+const { translations } = Astro.props;
+---
+
+<div class="results-overlay" id="resultsView" aria-hidden="true">
+  <div class="results-bg"></div>
+
+  <header class="results-header">
+    <button
+      class="results-back"
+      id="resultsBack"
+      type="button"
+      aria-label="Go back"
+    >←</button>
+    <div class="results-info">
+      <div class="results-location">
+        <span>📍</span>
+        <span id="resultsLocationText">Deutschland</span>
+      </div>
+      <div class="results-count" id="resultsCount" aria-live="polite"></div>
+    </div>
+    <button
+      class="results-change"
+      id="resultsChange"
+      type="button"
+    >{translations.changeZip}</button>
+  </header>
+
+  <!-- Tabs (restaurant path only) -->
+  <nav class="results-tabs" id="resultsTabs" role="tablist" aria-label="Result categories">
+    <button
+      class="tab-btn active"
+      data-tab="restaurants"
+      role="tab"
+      aria-selected="true"
+      aria-controls="restaurantsPanel"
+    >🍽️ {translations.restaurantsTab}</button>
+    <button
+      class="tab-btn"
+      data-tab="delivery"
+      role="tab"
+      aria-selected="false"
+      aria-controls="deliveryPanel"
+    >🛵 {translations.deliveryTab}</button>
+  </nav>
+
+  <div class="results-grid" id="resultsGrid" role="tabpanel">
+    <!-- Content will be dynamically rendered -->
+  </div>
+</div>
+
+<script is:inline>
+(function() {
+  'use strict';
+
+  function initResultsView() {
+    var resultsView = document.getElementById('resultsView');
+    var resultsBack = document.getElementById('resultsBack');
+    var resultsChange = document.getElementById('resultsChange');
+    var resultsTabs = document.getElementById('resultsTabs');
+
+    if (!resultsView || !resultsBack || !resultsChange) return;
+
+    // Back button
+    resultsBack.addEventListener('click', function() {
+      resultsView.dispatchEvent(new CustomEvent('results-back', { bubbles: true }));
+    });
+
+    // Change ZIP button
+    resultsChange.addEventListener('click', function() {
+      resultsView.dispatchEvent(new CustomEvent('results-change-zip', { bubbles: true }));
+    });
+
+    // Tab switching
+    if (resultsTabs) {
+      resultsTabs.addEventListener('click', function(e) {
+        var target = e.target;
+        var tabBtn = target.closest('.tab-btn');
+        if (!tabBtn) return;
+
+        var tab = tabBtn.dataset.tab;
+        if (!tab) return;
+
+        // Update active states
+        resultsTabs.querySelectorAll('.tab-btn').forEach(function(btn) {
+          btn.classList.remove('active');
+          btn.setAttribute('aria-selected', 'false');
+        });
+        tabBtn.classList.add('active');
+        tabBtn.setAttribute('aria-selected', 'true');
+
+        // Dispatch tab change event
+        resultsView.dispatchEvent(new CustomEvent('results-tab-change', {
+          detail: { tab: tab },
+          bubbles: true
+        }));
+      });
+    }
+
+    // Escape key to go back
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && resultsView.classList.contains('active')) {
+        resultsView.dispatchEvent(new CustomEvent('results-back', { bubbles: true }));
+      }
+    });
+  }
+
+  // Initialize
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initResultsView);
+  } else {
+    initResultsView();
+  }
+
+  document.addEventListener('astro:page-load', initResultsView);
+})();
+</script>

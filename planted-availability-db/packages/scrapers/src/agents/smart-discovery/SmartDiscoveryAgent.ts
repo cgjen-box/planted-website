@@ -25,6 +25,7 @@ import type {
   DiscoveredDish,
   ExtractedDishFromPage,
 } from '@pad/core';
+import { CURRENCY_BY_COUNTRY } from '@pad/core';
 import { type AIClient, type AIProvider, getAIClient } from './AIClient.js';
 import { DishFinderAIClient } from '../smart-dish-finder/DishFinderAIClient.js';
 import { getQueryCache, type QueryCache } from './QueryCache.js';
@@ -675,6 +676,20 @@ export class SmartDiscoveryAgent {
           is_vegan: dish.is_vegan,
           confidence: dish.product_confidence || 50,
         }));
+
+        // Currency validation - ensure currency matches expected country
+        const expectedCurrency = CURRENCY_BY_COUNTRY[country];
+        dishes = dishes.map(dish => {
+          if (dish.currency && dish.currency !== expectedCurrency) {
+            this.log(`[DISH] Currency mismatch for "${dish.name}": ${dish.currency} vs expected ${expectedCurrency}, correcting`);
+            return { ...dish, currency: expectedCurrency };
+          }
+          // Set currency if missing
+          if (!dish.currency) {
+            return { ...dish, currency: expectedCurrency };
+          }
+          return dish;
+        });
 
         // Limit dishes to maxDishesPerVenue
         if (dishes.length > this.config.maxDishesPerVenue) {

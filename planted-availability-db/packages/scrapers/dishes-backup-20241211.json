@@ -1,0 +1,6710 @@
+{
+  "timestamp": "2025-12-11T22:21:44.931Z",
+  "count": 173,
+  "dishes": [
+    {
+      "id": "08B8zbiQtrwbBw6RaQaT",
+      "venue_id": "qF4Uz4r5GVPkdmUeNNlP",
+      "name": "Salads",
+      "description": "Salads featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051015,
+        "_nanoseconds": 970000000
+      },
+      "created_at": {
+        "_seconds": 1765051015,
+        "_nanoseconds": 970000000
+      },
+      "last_verified": {
+        "_seconds": 1765051015,
+        "_nanoseconds": 970000000
+      }
+    },
+    {
+      "id": "0g1AzmGE598UpyfTUR8d",
+      "venue_id": "8o1ECtPGofSFEXNd8E8w",
+      "name": "Reef & Beef with Planted.Chicken",
+      "description": "Mixed leaves, grilled prawns, Planted.Chicken, cherry tomatoes, carrots, spring onion, Grana Padano & Rocket-Mustard dressing",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434643,
+        "_nanoseconds": 663000000
+      },
+      "updated_at": {
+        "_seconds": 1765488783,
+        "_nanoseconds": 120000000
+      },
+      "price": {
+        "amount": 16.95,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434643,
+        "_nanoseconds": 663000000
+      }
+    },
+    {
+      "id": "0hjOKBBWD58uGPLeyjpv",
+      "venue_id": "kaGxUYUzelzvBubuMEUD",
+      "name": "Tuscany Chicken Salad",
+      "description": "Fresh mixed greens with planted.chicken, sun-dried tomatoes, mozzarella, and Italian herbs",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434665,
+        "_nanoseconds": 521000000
+      },
+      "updated_at": {
+        "_seconds": 1765488783,
+        "_nanoseconds": 870000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434665,
+        "_nanoseconds": 521000000
+      }
+    },
+    {
+      "id": "0uw6SggGTX8S32tkdUtt",
+      "venue_id": "s6KEybl2svcISD8n2LMP",
+      "name": "Kimchi Chicken Bowl",
+      "description": "Reis, Baby Leaf, Kimchi, Edamame, Kartoffeln, weißer Sesam, Austernpilze, Planted Chicken, Gochujang Dressing",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434642,
+        "_nanoseconds": 898000000
+      },
+      "updated_at": {
+        "_seconds": 1765488784,
+        "_nanoseconds": 598000000
+      },
+      "price": {
+        "amount": 16.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434642,
+        "_nanoseconds": 898000000
+      }
+    },
+    {
+      "id": "1SD872BfKwnh4wbX2mnh",
+      "venue_id": "raRQstsvHp0GJFQTuH2Z",
+      "name": "Planted.Chicken Burger",
+      "description": "Planted.Chicken Patty, Salat, Tomaten, Zwiebeln, Gurken, Birdie Sauce",
+      "category": "main",
+      "product_sku": "planted.chicken_burger",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434638,
+        "_nanoseconds": 357000000
+      },
+      "updated_at": {
+        "_seconds": 1765488785,
+        "_nanoseconds": 339000000
+      },
+      "price": {
+        "amount": 10.95,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken_burger"
+      ],
+      "last_verified": {
+        "_seconds": 1765434638,
+        "_nanoseconds": 357000000
+      }
+    },
+    {
+      "id": "1kC7GiMPwaptZLipV6Dk",
+      "venue_id": "nFTfk2is81KUSFjFeC9y",
+      "name": "Crema di Funghi with planted.chicken",
+      "description": "Planted.chicken, mushrooms, onions, cream & white wine",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434643,
+        "_nanoseconds": 105000000
+      },
+      "updated_at": {
+        "_seconds": 1765488786,
+        "_nanoseconds": 248000000
+      },
+      "price": {
+        "amount": 15.95,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434643,
+        "_nanoseconds": 105000000
+      }
+    },
+    {
+      "id": "2Brt4j5SlOiEw7TQ5YQH",
+      "venue_id": "7iGtwFeQA1XqolVwbLVa",
+      "name": "Pad See Ew Planted.Chicken",
+      "description": "con noodles di riso, uova, tofu, planted.chicken, broccoli e carote",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434649,
+        "_nanoseconds": 22000000
+      },
+      "updated_at": {
+        "_seconds": 1765488786,
+        "_nanoseconds": 962000000
+      },
+      "price": {
+        "amount": 24.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434649,
+        "_nanoseconds": 22000000
+      }
+    },
+    {
+      "id": "2jjUVB5MVk6H1ypKOyHQ",
+      "venue_id": "c74C0zDD27bzUmjB2R51",
+      "name": "Chicken Mango Salad",
+      "description": "Fresh mixed greens with planted.chicken, mango, avocado, carrots, coriander, mint, peanuts and lime-chili dressing",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434672,
+        "_nanoseconds": 756000000
+      },
+      "updated_at": {
+        "_seconds": 1765488787,
+        "_nanoseconds": 780000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434672,
+        "_nanoseconds": 756000000
+      }
+    },
+    {
+      "id": "2jqVsKEBxPVFxlF91I1v",
+      "venue_id": "xudtpHrBxABzLG7Ypghs",
+      "name": "Tuscany Chicken Salad",
+      "description": "Fresh mixed greens with planted.chicken, sun-dried tomatoes, mozzarella, and Italian herbs",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434664,
+        "_nanoseconds": 981000000
+      },
+      "updated_at": {
+        "_seconds": 1765488788,
+        "_nanoseconds": 713000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434664,
+        "_nanoseconds": 981000000
+      }
+    },
+    {
+      "id": "2upiPXVa7JfAOQ8m8nh2",
+      "venue_id": "1GtMItCFkE1CTJla3shX",
+      "name": "Curries",
+      "description": "Curries featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051027,
+        "_nanoseconds": 114000000
+      },
+      "created_at": {
+        "_seconds": 1765051027,
+        "_nanoseconds": 114000000
+      },
+      "last_verified": {
+        "_seconds": 1765051027,
+        "_nanoseconds": 114000000
+      }
+    },
+    {
+      "id": "3mVAU7LxG67a1Elsq6d3",
+      "venue_id": "zPQliUVLM8DEWJ3wFoQO",
+      "name": "Sesame Chicken Bowl",
+      "description": "Brown rice with planted.chicken, avocado, edamame, kimchi, sesame seeds, coriander and sesame-ginger dressing",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765441452,
+        "_nanoseconds": 362000000
+      },
+      "updated_at": {
+        "_seconds": 1765488789,
+        "_nanoseconds": 834000000
+      },
+      "price": {
+        "amount": 13.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765441452,
+        "_nanoseconds": 362000000
+      }
+    },
+    {
+      "id": "3zCrxZltXpl6hg1MgnNr",
+      "venue_id": "fl0y1lZRTMUAsq2RWXu8",
+      "name": "Caesar Salad",
+      "description": "Caesar Salad featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051022,
+        "_nanoseconds": 374000000
+      },
+      "created_at": {
+        "_seconds": 1765051022,
+        "_nanoseconds": 374000000
+      },
+      "last_verified": {
+        "_seconds": 1765051022,
+        "_nanoseconds": 374000000
+      }
+    },
+    {
+      "id": "4A6Co8CD5v5a9wPubsYN",
+      "venue_id": "qUDUtp08npUcBmku6BED",
+      "name": "Bowls",
+      "description": "Bowls featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051018,
+        "_nanoseconds": 338000000
+      },
+      "created_at": {
+        "_seconds": 1765051018,
+        "_nanoseconds": 338000000
+      },
+      "last_verified": {
+        "_seconds": 1765051018,
+        "_nanoseconds": 338000000
+      }
+    },
+    {
+      "id": "4E9a80AxdvK9gyj5pdtf",
+      "venue_id": "2nuxOlRZs9twSsalIMfU",
+      "name": "Planted Chicken Caesar Salad",
+      "description": "Planted.chicken, gem lettuce, croutons, parmesan, caesar dressing",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765442482,
+        "_nanoseconds": 548000000
+      },
+      "updated_at": {
+        "_seconds": 1765488791,
+        "_nanoseconds": 417000000
+      },
+      "price": {
+        "amount": 14,
+        "currency": "GBP"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765442482,
+        "_nanoseconds": 548000000
+      }
+    },
+    {
+      "id": "4InrwoKFXufsLfMWd482",
+      "venue_id": "4Eta9EFdiA4oH9qVFcDT",
+      "name": "Yasai Pad Thai",
+      "description": "Rice noodles with tofu, beansprouts, spring onion, and tamarind-lime dressing",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 12.5,
+        "currency": "GBP"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Asian Fusion",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "deliveroo",
+          "url": "https://deliveroo.co.uk/brands/wagamama"
+        },
+        {
+          "partner": "uber_eats",
+          "url": "https://www.ubereats.com/gb/brand/wagamama"
+        },
+        {
+          "partner": "just_eat",
+          "url": "https://www.just-eat.co.uk/takeaway/brands/wagamama"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032135,
+        "_nanoseconds": 493000000
+      },
+      "created_at": {
+        "_seconds": 1765032135,
+        "_nanoseconds": 493000000
+      },
+      "last_verified": {
+        "_seconds": 1765032135,
+        "_nanoseconds": 493000000
+      }
+    },
+    {
+      "id": "4QzRTuTKfD3sWx2sosCU",
+      "venue_id": "rP0yg5aP9d2qRHcAkBwg",
+      "name": "Chicken Mango Bowl",
+      "description": "Basmatireis mit planted.chicken, Mango, Avocado, Edamame, Karotten, Koriander, Minze, Sesam und Erdnuss-Limetten-Dressing",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765441452,
+        "_nanoseconds": 556000000
+      },
+      "updated_at": {
+        "_seconds": 1765488792,
+        "_nanoseconds": 876000000
+      },
+      "price": {
+        "amount": 13.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765441452,
+        "_nanoseconds": 556000000
+      }
+    },
+    {
+      "id": "4RREsDwp9qtYopmdwD15",
+      "venue_id": "cGxk7p4d9MA5BaJCNKUB",
+      "name": "Planted.Chicken Bowl",
+      "description": "mit Planted.Chicken, Reis, Bohnen, Mais, Salsa, Guacamole, Sour Cream, Käse",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434642,
+        "_nanoseconds": 351000000
+      },
+      "updated_at": {
+        "_seconds": 1765488793,
+        "_nanoseconds": 641000000
+      },
+      "price": {
+        "amount": 10.99,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434642,
+        "_nanoseconds": 351000000
+      }
+    },
+    {
+      "id": "4dzNBXETP3lYrbYRE2c4",
+      "venue_id": "1GtMItCFkE1CTJla3shX",
+      "name": "Red Thai Curry",
+      "description": "Red Thai Curry featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051027,
+        "_nanoseconds": 968000000
+      },
+      "created_at": {
+        "_seconds": 1765051027,
+        "_nanoseconds": 968000000
+      },
+      "last_verified": {
+        "_seconds": 1765051027,
+        "_nanoseconds": 968000000
+      }
+    },
+    {
+      "id": "54TgUUeUEPOt79VEOzGc",
+      "venue_id": "6cwnVfShQo30GJnQaBxO",
+      "name": "Chicken Avocado Salad",
+      "description": "Fresh mixed greens with planted.chicken, avocado, mango, cucumber, coriander, and lime-chili dressing",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434670,
+        "_nanoseconds": 936000000
+      },
+      "updated_at": {
+        "_seconds": 1765488794,
+        "_nanoseconds": 574000000
+      },
+      "price": {
+        "amount": 13.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434670,
+        "_nanoseconds": 936000000
+      }
+    },
+    {
+      "id": "57PXk7uQMbnQJsPR5z9L",
+      "venue_id": "bBgFnXWtFDCrVtCnYZYg",
+      "name": "Pad Thai Planted.Chicken",
+      "description": "Fried rice noodles with planted.chicken, egg, spring onions, peanuts, bean sprouts and tamarind sauce.",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434648,
+        "_nanoseconds": 449000000
+      },
+      "updated_at": {
+        "_seconds": 1765488795,
+        "_nanoseconds": 461000000
+      },
+      "price": {
+        "amount": 27.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434648,
+        "_nanoseconds": 449000000
+      }
+    },
+    {
+      "id": "5DCTcDXsOa31e8mnBYRV",
+      "venue_id": "raRQstsvHp0GJFQTuH2Z",
+      "name": "Planted.Chicken Strips",
+      "description": "6 Stück Planted.Chicken Strips",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434638,
+        "_nanoseconds": 357000000
+      },
+      "updated_at": {
+        "_seconds": 1765488796,
+        "_nanoseconds": 181000000
+      },
+      "price": {
+        "amount": 7.95,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434638,
+        "_nanoseconds": 357000000
+      }
+    },
+    {
+      "id": "5KlrKU2V26PBJe8lwPZ5",
+      "venue_id": "rP0yg5aP9d2qRHcAkBwg",
+      "name": "Tuscany Chicken Salad",
+      "description": "Frischer gemischter Salat mit planted.chicken, sonnengetrockneten Tomaten, Mozzarella und italienischen Kräutern",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765441452,
+        "_nanoseconds": 555000000
+      },
+      "updated_at": {
+        "_seconds": 1765488796,
+        "_nanoseconds": 916000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765441452,
+        "_nanoseconds": 555000000
+      }
+    },
+    {
+      "id": "5QL7tjDAHfPNs81hy94H",
+      "venue_id": "jqX9dqK4JqQl2QCgkHbo",
+      "name": "Curries",
+      "description": "Curries featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051029,
+        "_nanoseconds": 663000000
+      },
+      "created_at": {
+        "_seconds": 1765051029,
+        "_nanoseconds": 663000000
+      },
+      "last_verified": {
+        "_seconds": 1765051029,
+        "_nanoseconds": 663000000
+      }
+    },
+    {
+      "id": "5YhJmD5roFqtocylYP8j",
+      "venue_id": "73sORvRkTbrxPRx7R3VA",
+      "name": "Planted Chicken Kebab Bowl",
+      "description": "Jasmine rice, grilled planted chicken, cherry tomatoes, cucumber, red cabbage, mint dip, pomegranate seeds, harissa sesame",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 13.9,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Healthy Bowls & Salads",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "lieferando",
+          "url": "https://www.lieferando.de/en/menu/dean-david-muenchen-leopoldstrasse"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032130,
+        "_nanoseconds": 959000000
+      },
+      "created_at": {
+        "_seconds": 1765032130,
+        "_nanoseconds": 959000000
+      },
+      "last_verified": {
+        "_seconds": 1765032130,
+        "_nanoseconds": 959000000
+      }
+    },
+    {
+      "id": "5npiJMv2m1V3uAbR3vrU",
+      "venue_id": "xOd814Rdk3rn9QiovZj0",
+      "name": "Tuscany Chicken Salad",
+      "description": "Fresh mixed greens with planted.chicken, sun-dried tomatoes, mozzarella, and Italian herbs",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434671,
+        "_nanoseconds": 878000000
+      },
+      "updated_at": {
+        "_seconds": 1765488798,
+        "_nanoseconds": 841000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434671,
+        "_nanoseconds": 878000000
+      }
+    },
+    {
+      "id": "5zbYx97RwiRUBatGGndL",
+      "venue_id": "xKLPGvoIBZjfxmacIhoo",
+      "name": "Pad Thai (vegetarian)",
+      "description": "Stir-fried rice noodles with organic tofu, spring onions, free-range egg, peanuts, tamarind sauce, and bean sprouts",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434654,
+        "_nanoseconds": 245000000
+      },
+      "updated_at": {
+        "_seconds": 1765488799,
+        "_nanoseconds": 573000000
+      },
+      "price": {
+        "amount": 23.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434654,
+        "_nanoseconds": 245000000
+      }
+    },
+    {
+      "id": "6tFU5muS38IBtweLZ1qO",
+      "venue_id": "xUPYEVNG5gmeSBNX5U9B",
+      "name": "planted.chicken with homemade Mexican achiote marinade",
+      "description": "planted.chicken with homemade Mexican achiote marinade featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051038,
+        "_nanoseconds": 534000000
+      },
+      "created_at": {
+        "_seconds": 1765051038,
+        "_nanoseconds": 534000000
+      },
+      "last_verified": {
+        "_seconds": 1765051038,
+        "_nanoseconds": 534000000
+      }
+    },
+    {
+      "id": "850QyBB6ihOylrWgCUjN",
+      "venue_id": "zPQliUVLM8DEWJ3wFoQO",
+      "name": "Chicken Mango Salad",
+      "description": "Fresh mixed greens with planted.chicken, mango, avocado, carrots, coriander, sesame seeds and lime-chili dressing",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765441452,
+        "_nanoseconds": 361000000
+      },
+      "updated_at": {
+        "_seconds": 1765488800,
+        "_nanoseconds": 988000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765441452,
+        "_nanoseconds": 361000000
+      }
+    },
+    {
+      "id": "8gTjUFYnjQgyFgOpUPlo",
+      "venue_id": "2nuxOlRZs9twSsalIMfU",
+      "name": "Planted Chicken Bowl",
+      "description": "Planted.chicken, quinoa, avocado, broccoli, spinach, sweet potato, sesame dressing",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765442482,
+        "_nanoseconds": 548000000
+      },
+      "updated_at": {
+        "_seconds": 1765488801,
+        "_nanoseconds": 915000000
+      },
+      "price": {
+        "amount": 14,
+        "currency": "GBP"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765442482,
+        "_nanoseconds": 548000000
+      }
+    },
+    {
+      "id": "8hE6kKAqne5PDbqFE4i5",
+      "venue_id": "xOd814Rdk3rn9QiovZj0",
+      "name": "Chicken Avocado Salad",
+      "description": "Fresh mixed greens with planted.chicken, avocado, mango, cucumber, coriander, and lime-chili dressing",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434671,
+        "_nanoseconds": 878000000
+      },
+      "updated_at": {
+        "_seconds": 1765488802,
+        "_nanoseconds": 657000000
+      },
+      "price": {
+        "amount": 13.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434671,
+        "_nanoseconds": 878000000
+      }
+    },
+    {
+      "id": "8l3K3vBT5jJIri8vxbzw",
+      "venue_id": "nFTfk2is81KUSFjFeC9y",
+      "name": "Pesto Rosso with planted.chicken",
+      "description": "Planted.chicken, pesto rosso, cherry tomatoes, onions & cream",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434643,
+        "_nanoseconds": 105000000
+      },
+      "updated_at": {
+        "_seconds": 1765488803,
+        "_nanoseconds": 449000000
+      },
+      "price": {
+        "amount": 15.95,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434643,
+        "_nanoseconds": 105000000
+      }
+    },
+    {
+      "id": "9ndC5MTD495tysjTq2Y4",
+      "venue_id": "4Eta9EFdiA4oH9qVFcDT",
+      "name": "Vegan Katsu Curry",
+      "description": "Crispy plant-based katsu with sticky rice, pickled vegetables, and katsu curry sauce",
+      "planted_products": [
+        "planted.schnitzel"
+      ],
+      "price": {
+        "amount": 13.75,
+        "currency": "GBP"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Asian Fusion",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "deliveroo",
+          "url": "https://deliveroo.co.uk/brands/wagamama"
+        },
+        {
+          "partner": "uber_eats",
+          "url": "https://www.ubereats.com/gb/brand/wagamama"
+        },
+        {
+          "partner": "just_eat",
+          "url": "https://www.just-eat.co.uk/takeaway/brands/wagamama"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032135,
+        "_nanoseconds": 133000000
+      },
+      "created_at": {
+        "_seconds": 1765032135,
+        "_nanoseconds": 133000000
+      },
+      "last_verified": {
+        "_seconds": 1765032135,
+        "_nanoseconds": 133000000
+      }
+    },
+    {
+      "id": "9vWfnDw0IYoMuoaLewKa",
+      "venue_id": "kaGxUYUzelzvBubuMEUD",
+      "name": "California Chicken Salad",
+      "description": "Fresh mixed lettuce with planted.chicken, avocado, corn, carrots, and sprouts",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434665,
+        "_nanoseconds": 521000000
+      },
+      "updated_at": {
+        "_seconds": 1765488804,
+        "_nanoseconds": 421000000
+      },
+      "price": {
+        "amount": 13.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434665,
+        "_nanoseconds": 521000000
+      }
+    },
+    {
+      "id": "A1CjdK95YiKSW6a2cj0a",
+      "venue_id": "ArE1MGk6QKc0yPxwu1Y8",
+      "name": "The Better Bagel with Planted Pastrami",
+      "description": "100% vegan bagel filled with planted pastrami, pickles, mustard, fresh greens",
+      "planted_products": [
+        "planted.pulled"
+      ],
+      "price": {
+        "amount": 12.9,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Burgers",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "lieferando",
+          "url": "https://www.lieferando.de/en/hans-im-glueck-munich"
+        },
+        {
+          "partner": "uber_eats",
+          "url": "https://www.ubereats.com/de-en/store/hans-im-gluck-munchen-isartor/SfFAe9YwRUGI3I89RP--Aw"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032132,
+        "_nanoseconds": 557000000
+      },
+      "created_at": {
+        "_seconds": 1765032132,
+        "_nanoseconds": 557000000
+      },
+      "last_verified": {
+        "_seconds": 1765032132,
+        "_nanoseconds": 557000000
+      }
+    },
+    {
+      "id": "AIJF3KOPrQphqKi2OBN4",
+      "venue_id": "xOd814Rdk3rn9QiovZj0",
+      "name": "Teriyaki Chicken Bowl",
+      "description": "Brown rice with planted.chicken, edamame, avocado, mango, sesame seeds, and teriyaki sauce",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434671,
+        "_nanoseconds": 878000000
+      },
+      "updated_at": {
+        "_seconds": 1765488805,
+        "_nanoseconds": 904000000
+      },
+      "price": {
+        "amount": 13.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434671,
+        "_nanoseconds": 878000000
+      }
+    },
+    {
+      "id": "AZqmgmrgsbE6cKZzB7Hz",
+      "venue_id": "bBgFnXWtFDCrVtCnYZYg",
+      "name": "Gaeng Phed Planted.Chicken",
+      "description": "Red curry with planted.chicken, coconut milk, bamboo shoots, basil, bell peppers and aubergines.",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434648,
+        "_nanoseconds": 449000000
+      },
+      "updated_at": {
+        "_seconds": 1765488806,
+        "_nanoseconds": 716000000
+      },
+      "price": {
+        "amount": 28.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434648,
+        "_nanoseconds": 449000000
+      }
+    },
+    {
+      "id": "B7jdiwTPDsg9aDIb3Wzp",
+      "venue_id": "380f9K5Iq8LYtuSIz2ij",
+      "name": "Curries",
+      "description": "Curries featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051024,
+        "_nanoseconds": 523000000
+      },
+      "created_at": {
+        "_seconds": 1765051024,
+        "_nanoseconds": 523000000
+      },
+      "last_verified": {
+        "_seconds": 1765051024,
+        "_nanoseconds": 523000000
+      }
+    },
+    {
+      "id": "BjnyL2Fi3AuN4rKiK4vX",
+      "venue_id": "LTOvmC5gly8Zg97GvzOP",
+      "name": "Planted Kebab",
+      "description": "Planted Kebab mit Blattsalat, Tomaten, Zwiebeln und Joghurtsauce",
+      "category": "Kebab, Dürüm",
+      "product_sku": "",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765441451,
+        "_nanoseconds": 265000000
+      },
+      "updated_at": {
+        "_seconds": 1765488808,
+        "_nanoseconds": 56000000
+      },
+      "price": {
+        "amount": 22.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "last_verified": {
+        "_seconds": 1765441451,
+        "_nanoseconds": 265000000
+      }
+    },
+    {
+      "id": "Bosry5NGoynK7Py7qwI3",
+      "venue_id": "IFNtpbBlubgnUWeuz1IX",
+      "name": "Planted.Chicken Wrap",
+      "description": "Planted.Chicken, mixed salad, tomatoes, cucumber, onions, and dressing of your choice.",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434645,
+        "_nanoseconds": 163000000
+      },
+      "updated_at": {
+        "_seconds": 1765488808,
+        "_nanoseconds": 978000000
+      },
+      "price": {
+        "amount": 18,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434645,
+        "_nanoseconds": 163000000
+      }
+    },
+    {
+      "id": "BuX0hseFnU7sprMAuzOL",
+      "venue_id": "3TOE9FiWfUIubnPpL6Nm",
+      "name": "Crispy Chicken Bowl",
+      "description": "Quinoa, planted.chicken tenders, avocado, edamame, mango, cucumber, coriander, mint, lime, chili flakes & peanut dressing",
+      "category": "main",
+      "product_sku": "planted.chicken_tenders",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434658,
+        "_nanoseconds": 773000000
+      },
+      "updated_at": {
+        "_seconds": 1765488809,
+        "_nanoseconds": 899000000
+      },
+      "price": {
+        "amount": 14.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken_tenders"
+      ],
+      "last_verified": {
+        "_seconds": 1765434658,
+        "_nanoseconds": 773000000
+      }
+    },
+    {
+      "id": "CDf7t1jTVdeAlETTdAmP",
+      "venue_id": "xudtpHrBxABzLG7Ypghs",
+      "name": "California Chicken Bowl",
+      "description": "Quinoa with planted.chicken, avocado, mango, edamame, carrots, sesame seeds and coriander-lime dressing",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434664,
+        "_nanoseconds": 981000000
+      },
+      "updated_at": {
+        "_seconds": 1765488810,
+        "_nanoseconds": 622000000
+      },
+      "price": {
+        "amount": 13.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434664,
+        "_nanoseconds": 981000000
+      }
+    },
+    {
+      "id": "EM5FPplaReXy4xVdjakr",
+      "venue_id": "xudtpHrBxABzLG7Ypghs",
+      "name": "Chicken Teriyaki Bowl",
+      "description": "Rice with planted.chicken, broccoli, edamame, carrots, bell pepper, sesame and teriyaki sauce",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434664,
+        "_nanoseconds": 981000000
+      },
+      "updated_at": {
+        "_seconds": 1765488811,
+        "_nanoseconds": 349000000
+      },
+      "price": {
+        "amount": 13.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434664,
+        "_nanoseconds": 981000000
+      }
+    },
+    {
+      "id": "ENhMbCHygcJNhR2ySpj9",
+      "venue_id": "ulYTR1q7OxVptWDc03m6",
+      "name": "Chicken Teriyaki Bowl",
+      "description": "Basmatireis mit planted.chicken, Teriyakisauce, Edamame, Karotten, Gurke, Sesam und Frühlingszwiebeln",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434658,
+        "_nanoseconds": 210000000
+      },
+      "updated_at": {
+        "_seconds": 1765488812,
+        "_nanoseconds": 169000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434658,
+        "_nanoseconds": 210000000
+      }
+    },
+    {
+      "id": "G0PCOHhwtNBDqzMpVQGA",
+      "venue_id": "c74C0zDD27bzUmjB2R51",
+      "name": "Tuscany Chicken Salad",
+      "description": "Fresh mixed greens with planted.chicken, sun-dried tomatoes, mozzarella, and Italian herbs",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434672,
+        "_nanoseconds": 756000000
+      },
+      "updated_at": {
+        "_seconds": 1765488813,
+        "_nanoseconds": 161000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434672,
+        "_nanoseconds": 756000000
+      }
+    },
+    {
+      "id": "GoBEa7vOiCAUtTxKJN6C",
+      "venue_id": "raRQstsvHp0GJFQTuH2Z",
+      "name": "Planted.Chicken Wrap",
+      "description": "Planted.Chicken, Salat, Tomaten, Zwiebeln, Gurken, Birdie Sauce",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434638,
+        "_nanoseconds": 357000000
+      },
+      "updated_at": {
+        "_seconds": 1765488814,
+        "_nanoseconds": 202000000
+      },
+      "price": {
+        "amount": 9.95,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434638,
+        "_nanoseconds": 357000000
+      }
+    },
+    {
+      "id": "HSjEPlgf42AiOOM8Jzcz",
+      "venue_id": "EBHEAxvXczf2fC4TWJJo",
+      "name": "Gebratener Reis mit Planted Chicken",
+      "description": "Gebratener Reis mit Planted Chicken, Ei, Gemüse und Sojasauce",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434652,
+        "_nanoseconds": 757000000
+      },
+      "updated_at": {
+        "_seconds": 1765488815,
+        "_nanoseconds": 123000000
+      },
+      "price": {
+        "amount": 24.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434652,
+        "_nanoseconds": 757000000
+      }
+    },
+    {
+      "id": "IDrmiXHnoIr3hgh09lv4",
+      "venue_id": "fl0y1lZRTMUAsq2RWXu8",
+      "name": "Bowls",
+      "description": "Bowls featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051020,
+        "_nanoseconds": 875000000
+      },
+      "created_at": {
+        "_seconds": 1765051020,
+        "_nanoseconds": 875000000
+      },
+      "last_verified": {
+        "_seconds": 1765051020,
+        "_nanoseconds": 875000000
+      }
+    },
+    {
+      "id": "J4HrASyuMVnrCJ4fvb06",
+      "venue_id": "qF4Uz4r5GVPkdmUeNNlP",
+      "name": "Red Thai Curry",
+      "description": "Red Thai Curry featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051017,
+        "_nanoseconds": 459000000
+      },
+      "created_at": {
+        "_seconds": 1765051017,
+        "_nanoseconds": 459000000
+      },
+      "last_verified": {
+        "_seconds": 1765051017,
+        "_nanoseconds": 459000000
+      }
+    },
+    {
+      "id": "Jxwu4cU6JrnPt0wPPcoa",
+      "venue_id": "qUDUtp08npUcBmku6BED",
+      "name": "Red Thai Curry",
+      "description": "Red Thai Curry featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051020,
+        "_nanoseconds": 64000000
+      },
+      "created_at": {
+        "_seconds": 1765051020,
+        "_nanoseconds": 64000000
+      },
+      "last_verified": {
+        "_seconds": 1765051020,
+        "_nanoseconds": 64000000
+      }
+    },
+    {
+      "id": "KMbtOEsvIBmtPM4pcVaU",
+      "venue_id": "Ho8NNiXuVrZGvZm3Idcb",
+      "name": "Red Thai Curry",
+      "description": "Red Thai Curry featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051009,
+        "_nanoseconds": 684000000
+      },
+      "created_at": {
+        "_seconds": 1765051009,
+        "_nanoseconds": 684000000
+      },
+      "last_verified": {
+        "_seconds": 1765051009,
+        "_nanoseconds": 684000000
+      }
+    },
+    {
+      "id": "Kk5U7BRRIBH7bTtZPn6Y",
+      "venue_id": "xb0kmQ1JAVjCli0MYERm",
+      "name": "Pasta Planted Chicken Alfredo",
+      "description": "Creamy alfredo sauce with planted chicken, mushrooms, and parmesan",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 15.9,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Italian",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "wolt",
+          "url": "https://wolt.com/en/aut/vienna/restaurant/vapiano-shopping-city-sd-vsendorf"
+        },
+        {
+          "partner": "lieferando",
+          "url": "https://www.lieferando.at/en/menu/vapiano"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032127,
+        "_nanoseconds": 165000000
+      },
+      "created_at": {
+        "_seconds": 1765032127,
+        "_nanoseconds": 165000000
+      },
+      "last_verified": {
+        "_seconds": 1765032127,
+        "_nanoseconds": 165000000
+      }
+    },
+    {
+      "id": "Ko7nzhSMcKNHYjs6RwMc",
+      "venue_id": "IFNtpbBlubgnUWeuz1IX",
+      "name": "Planted.Chicken Nuggets",
+      "description": "Planted.Chicken Nuggets with a sauce of your choice.",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434645,
+        "_nanoseconds": 164000000
+      },
+      "updated_at": {
+        "_seconds": 1765488817,
+        "_nanoseconds": 709000000
+      },
+      "price": {
+        "amount": 14,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434645,
+        "_nanoseconds": 164000000
+      }
+    },
+    {
+      "id": "LXDP5ab5bWfl5B3ZXDhY",
+      "venue_id": "7eCTcsfKMXY3S935wzKT",
+      "name": "Bowls",
+      "description": "Bowls featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051013,
+        "_nanoseconds": 182000000
+      },
+      "created_at": {
+        "_seconds": 1765051013,
+        "_nanoseconds": 182000000
+      },
+      "last_verified": {
+        "_seconds": 1765051013,
+        "_nanoseconds": 182000000
+      }
+    },
+    {
+      "id": "LjQmBxza96AoKES44kpu",
+      "venue_id": "7eCTcsfKMXY3S935wzKT",
+      "name": "Curries",
+      "description": "Curries featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051013,
+        "_nanoseconds": 936000000
+      },
+      "created_at": {
+        "_seconds": 1765051013,
+        "_nanoseconds": 936000000
+      },
+      "last_verified": {
+        "_seconds": 1765051013,
+        "_nanoseconds": 936000000
+      }
+    },
+    {
+      "id": "M3jD3cpIZjgBFWuLlOrK",
+      "venue_id": "Ho8NNiXuVrZGvZm3Idcb",
+      "name": "Bowls",
+      "description": "Bowls featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051008,
+        "_nanoseconds": 10000000
+      },
+      "created_at": {
+        "_seconds": 1765051008,
+        "_nanoseconds": 10000000
+      },
+      "last_verified": {
+        "_seconds": 1765051008,
+        "_nanoseconds": 10000000
+      }
+    },
+    {
+      "id": "MIItSmyh7xC7Mvic7ZL0",
+      "venue_id": "bBgFnXWtFDCrVtCnYZYg",
+      "name": "Khao Pad Planted.Chicken",
+      "description": "Fried rice with planted.chicken, egg, onions, carrots, broccoli and spring onions.",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434648,
+        "_nanoseconds": 449000000
+      },
+      "updated_at": {
+        "_seconds": 1765488820,
+        "_nanoseconds": 41000000
+      },
+      "price": {
+        "amount": 27.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434648,
+        "_nanoseconds": 449000000
+      }
+    },
+    {
+      "id": "N1ot2WfST52IoiMNKndk",
+      "venue_id": "mxgNOLNCJCtawjYMiFgK",
+      "name": "Hiltl Burger with Planted Patty",
+      "description": "Plant-based patty on house brioche with caramelized onions, pickles, special sauce",
+      "planted_products": [
+        "planted.burger"
+      ],
+      "price": {
+        "amount": 22,
+        "currency": "CHF"
+      },
+      "dietary_tags": [
+        "plant-based"
+      ],
+      "cuisine_type": "Vegetarian / World Cuisine",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "uber_eats",
+          "url": "https://www.ubereats.com/ch-de/store/hiltl/1mD1LSc4WJKCJBQr5CoxCg"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032134,
+        "_nanoseconds": 335000000
+      },
+      "created_at": {
+        "_seconds": 1765032134,
+        "_nanoseconds": 335000000
+      },
+      "last_verified": {
+        "_seconds": 1765032134,
+        "_nanoseconds": 335000000
+      }
+    },
+    {
+      "id": "NWNZ3OBnQY6i3lSypFqf",
+      "venue_id": "jqX9dqK4JqQl2QCgkHbo",
+      "name": "Salads",
+      "description": "Salads featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051029,
+        "_nanoseconds": 438000000
+      },
+      "created_at": {
+        "_seconds": 1765051029,
+        "_nanoseconds": 438000000
+      },
+      "last_verified": {
+        "_seconds": 1765051029,
+        "_nanoseconds": 438000000
+      }
+    },
+    {
+      "id": "NrUmqigNkx5LvjNRIp9S",
+      "venue_id": "zjGeUObFsnmNCKVNtrwI",
+      "name": "Planted Kebab",
+      "description": "Planted Kebab featuring planted.kebab",
+      "planted_products": [
+        "planted.kebab"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051031,
+        "_nanoseconds": 586000000
+      },
+      "created_at": {
+        "_seconds": 1765051031,
+        "_nanoseconds": 586000000
+      },
+      "last_verified": {
+        "_seconds": 1765051031,
+        "_nanoseconds": 586000000
+      }
+    },
+    {
+      "id": "OBkO4rlBDKg7ZfSQM5KI",
+      "venue_id": "uuvbIK1Zt7139T3XhNY7",
+      "name": "Salads",
+      "description": "Salads featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051011,
+        "_nanoseconds": 86000000
+      },
+      "created_at": {
+        "_seconds": 1765051011,
+        "_nanoseconds": 86000000
+      },
+      "last_verified": {
+        "_seconds": 1765051011,
+        "_nanoseconds": 86000000
+      }
+    },
+    {
+      "id": "PPxuVtxHQSCNaNKlwZVW",
+      "venue_id": "nFTfk2is81KUSFjFeC9y",
+      "name": "Curry Coco with planted.chicken",
+      "description": "Planted.chicken, coconut milk, curry, mango, bell peppers, pak choi & spring onions",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434643,
+        "_nanoseconds": 105000000
+      },
+      "updated_at": {
+        "_seconds": 1765488822,
+        "_nanoseconds": 619000000
+      },
+      "price": {
+        "amount": 15.95,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434643,
+        "_nanoseconds": 105000000
+      }
+    },
+    {
+      "id": "QBtdjw2aXwd869kRQVlm",
+      "venue_id": "73sORvRkTbrxPRx7R3VA",
+      "name": "Watermelon Feta Bowl with Planted Chicken",
+      "description": "Planted chicken, feta, watermelon, cucumber, marinated onions, chickpeas, mint, lime dressing",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 14.9,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based"
+      ],
+      "cuisine_type": "Healthy Bowls & Salads",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "lieferando",
+          "url": "https://www.lieferando.de/en/menu/dean-david-muenchen-leopoldstrasse"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032131,
+        "_nanoseconds": 710000000
+      },
+      "created_at": {
+        "_seconds": 1765032131,
+        "_nanoseconds": 710000000
+      },
+      "last_verified": {
+        "_seconds": 1765032131,
+        "_nanoseconds": 710000000
+      }
+    },
+    {
+      "id": "QivH8Fuv7QrbchTlJFQe",
+      "venue_id": "Z36cwKZ7OdmwsoYM0ENf",
+      "name": "Planted Chicken Salat",
+      "description": "Planted Chicken, Salat, Tomaten, Gurken, Karotten, Rotkraut, Erdnüsse, Sesam, Teriyaki Sauce",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765442481,
+        "_nanoseconds": 987000000
+      },
+      "updated_at": {
+        "_seconds": 1765488823,
+        "_nanoseconds": 206000000
+      },
+      "price": {
+        "amount": 19.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765442481,
+        "_nanoseconds": 987000000
+      }
+    },
+    {
+      "id": "QsNmhfq1DeDmJQ1Lalge",
+      "venue_id": "ArE1MGk6QKc0yPxwu1Y8",
+      "name": "Planted Burger Deluxe",
+      "description": "Plant-based patty with cheese, tomato, lettuce, special sauce on pretzel bun",
+      "planted_products": [
+        "planted.burger"
+      ],
+      "price": {
+        "amount": 14.5,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based"
+      ],
+      "cuisine_type": "Burgers",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "lieferando",
+          "url": "https://www.lieferando.de/en/hans-im-glueck-munich"
+        },
+        {
+          "partner": "uber_eats",
+          "url": "https://www.ubereats.com/de-en/store/hans-im-gluck-munchen-isartor/SfFAe9YwRUGI3I89RP--Aw"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032132,
+        "_nanoseconds": 736000000
+      },
+      "created_at": {
+        "_seconds": 1765032132,
+        "_nanoseconds": 736000000
+      },
+      "last_verified": {
+        "_seconds": 1765032132,
+        "_nanoseconds": 736000000
+      }
+    },
+    {
+      "id": "RDZDd6Csl8TthYIKfOj6",
+      "venue_id": "Z36cwKZ7OdmwsoYM0ENf",
+      "name": "Planted Chicken Bowl",
+      "description": "Planted Chicken, Reis, Edamame, Avocado, Gurken, Karotten, Rotkraut, Erdnüsse, Sesam, Teriyaki Sauce",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765442481,
+        "_nanoseconds": 987000000
+      },
+      "updated_at": {
+        "_seconds": 1765488823,
+        "_nanoseconds": 746000000
+      },
+      "price": {
+        "amount": 21.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765442481,
+        "_nanoseconds": 987000000
+      }
+    },
+    {
+      "id": "RGoNjYdoTqzGyTLmIVfJ",
+      "venue_id": "EBHEAxvXczf2fC4TWJJo",
+      "name": "Gebratene Nudeln mit Planted Chicken",
+      "description": "Gebratene Nudeln mit Planted Chicken, Ei, Gemüse und Sojasauce",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434652,
+        "_nanoseconds": 757000000
+      },
+      "updated_at": {
+        "_seconds": 1765488824,
+        "_nanoseconds": 68000000
+      },
+      "price": {
+        "amount": 24.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434652,
+        "_nanoseconds": 757000000
+      }
+    },
+    {
+      "id": "RK2qRTH9sDfFUTngsIlM",
+      "venue_id": "mtCGkpGEHFDsL7eRrxsD",
+      "name": "Chicken Mango Salad",
+      "description": "Fresh mixed greens with planted.chicken, mango, avocado, carrots, coriander, mint, peanuts and lime-chili dressing",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434672,
+        "_nanoseconds": 145000000
+      },
+      "updated_at": {
+        "_seconds": 1765488824,
+        "_nanoseconds": 494000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434672,
+        "_nanoseconds": 145000000
+      }
+    },
+    {
+      "id": "Rnimog7JDWNhbe5fbEQC",
+      "venue_id": "oV7DKGXn6PW1TLhTDL9c",
+      "name": "Indian Chicken Bowl",
+      "description": "Brown rice with planted.chicken, mango, edamame, peanuts, coriander, mint, and peanut dressing",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434656,
+        "_nanoseconds": 700000000
+      },
+      "updated_at": {
+        "_seconds": 1765488824,
+        "_nanoseconds": 951000000
+      },
+      "price": {
+        "amount": 13.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434656,
+        "_nanoseconds": 700000000
+      }
+    },
+    {
+      "id": "S4K2ceVeJBussSqIrYj2",
+      "venue_id": "SqWnrP1q1KKExO3jZO4B",
+      "name": "Hummus Bowl with Planted Chicken",
+      "description": "Classic hummus, planted chicken, Jerusalem spice, amba, yellow pepper, tahina, warm pita",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 16.9,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Tel Aviv / Mediterranean",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "wolt",
+          "url": "https://wolt.com/en/aut/vienna/restaurant/neni-am-naschmarkt"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032128,
+        "_nanoseconds": 253000000
+      },
+      "created_at": {
+        "_seconds": 1765032128,
+        "_nanoseconds": 253000000
+      },
+      "last_verified": {
+        "_seconds": 1765032128,
+        "_nanoseconds": 253000000
+      }
+    },
+    {
+      "id": "SR9f0nBtqid1S82JxqsT",
+      "venue_id": "mxgNOLNCJCtawjYMiFgK",
+      "name": "Planted Protein Power Bowl",
+      "description": "Planted chicken with quinoa, avocado, edamame, roasted vegetables, and tahini dressing",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 24.5,
+        "currency": "CHF"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Vegetarian / World Cuisine",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "uber_eats",
+          "url": "https://www.ubereats.com/ch-de/store/hiltl/1mD1LSc4WJKCJBQr5CoxCg"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032134,
+        "_nanoseconds": 69000000
+      },
+      "created_at": {
+        "_seconds": 1765032134,
+        "_nanoseconds": 69000000
+      },
+      "last_verified": {
+        "_seconds": 1765032134,
+        "_nanoseconds": 69000000
+      }
+    },
+    {
+      "id": "SgLij8jXAAUfRDbMoVR7",
+      "venue_id": "6cwnVfShQo30GJnQaBxO",
+      "name": "Teriyaki Chicken Bowl",
+      "description": "Brown rice with planted.chicken, edamame, avocado, mango, sesame seeds, and teriyaki sauce",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434670,
+        "_nanoseconds": 936000000
+      },
+      "updated_at": {
+        "_seconds": 1765488825,
+        "_nanoseconds": 549000000
+      },
+      "price": {
+        "amount": 13.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434670,
+        "_nanoseconds": 936000000
+      }
+    },
+    {
+      "id": "SpKJMybCtnX7J0KlxkW1",
+      "venue_id": "fLSzNWIa0T0DKBQXbY3x",
+      "name": "Tuscany Chicken Salad",
+      "description": "Fresh mixed greens with planted.chicken, sun-dried tomatoes, mozzarella, and Italian herbs",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434658,
+        "_nanoseconds": 962000000
+      },
+      "updated_at": {
+        "_seconds": 1765488825,
+        "_nanoseconds": 863000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434658,
+        "_nanoseconds": 962000000
+      }
+    },
+    {
+      "id": "TE1KFZCMxznaa5n0veXx",
+      "venue_id": "1GtMItCFkE1CTJla3shX",
+      "name": "Bowls",
+      "description": "Bowls featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051026,
+        "_nanoseconds": 364000000
+      },
+      "created_at": {
+        "_seconds": 1765051026,
+        "_nanoseconds": 364000000
+      },
+      "last_verified": {
+        "_seconds": 1765051026,
+        "_nanoseconds": 364000000
+      }
+    },
+    {
+      "id": "ToDQawzBmGMwUS3YxtUI",
+      "venue_id": "fLSzNWIa0T0DKBQXbY3x",
+      "name": "Chicken Mango Bowl",
+      "description": "Rice, planted.chicken, avocado, mango, edamame, coriander, sesame seeds and lime-chili dressing",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434658,
+        "_nanoseconds": 962000000
+      },
+      "updated_at": {
+        "_seconds": 1765488826,
+        "_nanoseconds": 308000000
+      },
+      "price": {
+        "amount": 13.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434658,
+        "_nanoseconds": 962000000
+      }
+    },
+    {
+      "id": "UAxzGuqCOv1v8v6JiX5V",
+      "venue_id": "7iGtwFeQA1XqolVwbLVa",
+      "name": "Pad Thai Planted.Chicken",
+      "description": "con noodles di riso, uova, tofu, planted.chicken, arachidi, germogli di soia e cipollotti",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434649,
+        "_nanoseconds": 22000000
+      },
+      "updated_at": {
+        "_seconds": 1765488826,
+        "_nanoseconds": 612000000
+      },
+      "price": {
+        "amount": 24.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434649,
+        "_nanoseconds": 22000000
+      }
+    },
+    {
+      "id": "UhFhCZfy5DIEglli5JAF",
+      "venue_id": "raRQstsvHp0GJFQTuH2Z",
+      "name": "Planted.Chicken Bowl",
+      "description": "Planted.Chicken, Reis, Salat, Tomaten, Zwiebeln, Gurken, Birdie Sauce",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434638,
+        "_nanoseconds": 358000000
+      },
+      "updated_at": {
+        "_seconds": 1765488826,
+        "_nanoseconds": 928000000
+      },
+      "price": {
+        "amount": 11.95,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434638,
+        "_nanoseconds": 358000000
+      }
+    },
+    {
+      "id": "UvJyzQJwJPRLNYN88Bje",
+      "venue_id": "ulYTR1q7OxVptWDc03m6",
+      "name": "Chicken Mango Bowl",
+      "description": "Basmatireis mit planted.chicken, Mango, Avocado, Edamame, Karotten, Gurke, Koriander, Minze und Sesam",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434658,
+        "_nanoseconds": 210000000
+      },
+      "updated_at": {
+        "_seconds": 1765488827,
+        "_nanoseconds": 290000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434658,
+        "_nanoseconds": 210000000
+      }
+    },
+    {
+      "id": "W2SqquDrnCf5hQxfERer",
+      "venue_id": "jqX9dqK4JqQl2QCgkHbo",
+      "name": "Red Thai Curry",
+      "description": "Red Thai Curry featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051030,
+        "_nanoseconds": 672000000
+      },
+      "created_at": {
+        "_seconds": 1765051030,
+        "_nanoseconds": 672000000
+      },
+      "last_verified": {
+        "_seconds": 1765051030,
+        "_nanoseconds": 672000000
+      }
+    },
+    {
+      "id": "WR8l7ShZkfEEDaAThVAl",
+      "venue_id": "26YCzpHccB4uyy7HM41L",
+      "name": "Planted Chicken (27 CHF)",
+      "description": "Planted Chicken (27 CHF) featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "CHF"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051034,
+        "_nanoseconds": 361000000
+      },
+      "created_at": {
+        "_seconds": 1765051034,
+        "_nanoseconds": 361000000
+      },
+      "last_verified": {
+        "_seconds": 1765051034,
+        "_nanoseconds": 361000000
+      }
+    },
+    {
+      "id": "WStkuWWDHqew75jLz93d",
+      "venue_id": "zjGeUObFsnmNCKVNtrwI",
+      "name": "Vegan Turkish cuisine",
+      "description": "Vegan Turkish cuisine featuring planted.kebab",
+      "planted_products": [
+        "planted.kebab"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051031,
+        "_nanoseconds": 909000000
+      },
+      "created_at": {
+        "_seconds": 1765051031,
+        "_nanoseconds": 909000000
+      },
+      "last_verified": {
+        "_seconds": 1765051031,
+        "_nanoseconds": 909000000
+      }
+    },
+    {
+      "id": "WXDUWuRVSLdilOSOWmaw",
+      "venue_id": "IFNtpbBlubgnUWeuz1IX",
+      "name": "Planted.Chicken Salad",
+      "description": "Planted.Chicken, mixed salad, tomatoes, cucumber, onions, and dressing of your choice.",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434645,
+        "_nanoseconds": 164000000
+      },
+      "updated_at": {
+        "_seconds": 1765488828,
+        "_nanoseconds": 50000000
+      },
+      "price": {
+        "amount": 18,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434645,
+        "_nanoseconds": 164000000
+      }
+    },
+    {
+      "id": "XouGw65mSQzsS2W7tT5T",
+      "venue_id": "rjIPhRPYIrrnuWd39FNQ",
+      "name": "Planted Kebap Döner",
+      "description": "Vegan döner with planted kebab, fresh salad, red cabbage, tomatoes, cucumbers, grilled vegetables",
+      "planted_products": [
+        "planted.kebab"
+      ],
+      "price": {
+        "amount": 8.9,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Kebab / Vegan",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "wolt",
+          "url": "https://wolt.com/en/deu/stuttgart/restaurant/doen-doen-planted-kebap"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032129,
+        "_nanoseconds": 853000000
+      },
+      "created_at": {
+        "_seconds": 1765032129,
+        "_nanoseconds": 853000000
+      },
+      "last_verified": {
+        "_seconds": 1765032129,
+        "_nanoseconds": 853000000
+      }
+    },
+    {
+      "id": "YiCCG2YxwhHaGjFEZsaB",
+      "venue_id": "oV7DKGXn6PW1TLhTDL9c",
+      "name": "Tuscany Chicken Salad",
+      "description": "Fresh mixed greens with planted.chicken, sun-dried tomatoes, mozzarella, and Italian herbs",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434656,
+        "_nanoseconds": 700000000
+      },
+      "updated_at": {
+        "_seconds": 1765488828,
+        "_nanoseconds": 508000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434656,
+        "_nanoseconds": 700000000
+      }
+    },
+    {
+      "id": "Z2VsKLbBRuvpcD9R6nj5",
+      "venue_id": "VRbL4yw0pmovir5hsPHH",
+      "name": "Planted Chicken Salad",
+      "description": "Planted.Chicken, Salatmix, Edamame, Rotkohl, Gurke, Karotte, Avocado, Erdnüsse, Sesam, Teriyaki Sauce",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765442481,
+        "_nanoseconds": 11000000
+      },
+      "updated_at": {
+        "_seconds": 1765488828,
+        "_nanoseconds": 804000000
+      },
+      "price": {
+        "amount": 13.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765442481,
+        "_nanoseconds": 11000000
+      }
+    },
+    {
+      "id": "Zj8O091U4IJshcAI703a",
+      "venue_id": "4Eta9EFdiA4oH9qVFcDT",
+      "name": "Vegan Firecracker",
+      "description": "Spicy stir-fried noodles with plant-based chicken, chili, vegetables, and peanuts",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 12.95,
+        "currency": "GBP"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Asian Fusion",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "deliveroo",
+          "url": "https://deliveroo.co.uk/brands/wagamama"
+        },
+        {
+          "partner": "uber_eats",
+          "url": "https://www.ubereats.com/gb/brand/wagamama"
+        },
+        {
+          "partner": "just_eat",
+          "url": "https://www.just-eat.co.uk/takeaway/brands/wagamama"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032135,
+        "_nanoseconds": 320000000
+      },
+      "created_at": {
+        "_seconds": 1765032135,
+        "_nanoseconds": 320000000
+      },
+      "last_verified": {
+        "_seconds": 1765032135,
+        "_nanoseconds": 320000000
+      }
+    },
+    {
+      "id": "ZodR0U5kqQWrsppAYbzC",
+      "venue_id": "bBgFnXWtFDCrVtCnYZYg",
+      "name": "Pad See Ew Planted.Chicken",
+      "description": "Fried flat rice noodles with planted.chicken, egg, broccoli, carrots and soy sauce.",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434648,
+        "_nanoseconds": 449000000
+      },
+      "updated_at": {
+        "_seconds": 1765488829,
+        "_nanoseconds": 249000000
+      },
+      "price": {
+        "amount": 27.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434648,
+        "_nanoseconds": 449000000
+      }
+    },
+    {
+      "id": "a65JyZo4D4HJkqvfSZhx",
+      "venue_id": "uuvbIK1Zt7139T3XhNY7",
+      "name": "Curries",
+      "description": "Curries featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051011,
+        "_nanoseconds": 621000000
+      },
+      "created_at": {
+        "_seconds": 1765051011,
+        "_nanoseconds": 621000000
+      },
+      "last_verified": {
+        "_seconds": 1765051011,
+        "_nanoseconds": 621000000
+      }
+    },
+    {
+      "id": "aT2yERCIHQwiqEcCOFgZ",
+      "venue_id": "qUDUtp08npUcBmku6BED",
+      "name": "Salads",
+      "description": "Salads featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051018,
+        "_nanoseconds": 735000000
+      },
+      "created_at": {
+        "_seconds": 1765051018,
+        "_nanoseconds": 735000000
+      },
+      "last_verified": {
+        "_seconds": 1765051018,
+        "_nanoseconds": 735000000
+      }
+    },
+    {
+      "id": "abLWloVZUpo3sTXPDeKF",
+      "venue_id": "xsQwD5ACwQjlUo5dzl4z",
+      "name": "Red Thai Curry",
+      "description": "Red Thai Curry featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051007,
+        "_nanoseconds": 208000000
+      },
+      "created_at": {
+        "_seconds": 1765051007,
+        "_nanoseconds": 208000000
+      },
+      "last_verified": {
+        "_seconds": 1765051007,
+        "_nanoseconds": 208000000
+      }
+    },
+    {
+      "id": "abwj0GyvXTvrbgWAbp0R",
+      "venue_id": "8o1ECtPGofSFEXNd8E8w",
+      "name": "Caesar Salad with Planted.Chicken",
+      "description": "Romaine lettuce, croutons, Grana Padano, Caesar dressing & Planted.Chicken",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434643,
+        "_nanoseconds": 663000000
+      },
+      "updated_at": {
+        "_seconds": 1765488830,
+        "_nanoseconds": 179000000
+      },
+      "price": {
+        "amount": 14.95,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434643,
+        "_nanoseconds": 663000000
+      }
+    },
+    {
+      "id": "apKLG2UpABmkPeQjF2BR",
+      "venue_id": "7eCTcsfKMXY3S935wzKT",
+      "name": "Red Thai Curry",
+      "description": "Red Thai Curry featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051014,
+        "_nanoseconds": 735000000
+      },
+      "created_at": {
+        "_seconds": 1765051014,
+        "_nanoseconds": 735000000
+      },
+      "last_verified": {
+        "_seconds": 1765051014,
+        "_nanoseconds": 735000000
+      }
+    },
+    {
+      "id": "bBzUdgrokiOK2MPNAxiq",
+      "venue_id": "fl0y1lZRTMUAsq2RWXu8",
+      "name": "Curries",
+      "description": "Curries featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051021,
+        "_nanoseconds": 792000000
+      },
+      "created_at": {
+        "_seconds": 1765051021,
+        "_nanoseconds": 792000000
+      },
+      "last_verified": {
+        "_seconds": 1765051021,
+        "_nanoseconds": 792000000
+      }
+    },
+    {
+      "id": "bSyufhwCUOOLaZXXjpG5",
+      "venue_id": "7eCTcsfKMXY3S935wzKT",
+      "name": "Caesar Salad",
+      "description": "Caesar Salad featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051014,
+        "_nanoseconds": 447000000
+      },
+      "created_at": {
+        "_seconds": 1765051014,
+        "_nanoseconds": 447000000
+      },
+      "last_verified": {
+        "_seconds": 1765051014,
+        "_nanoseconds": 447000000
+      }
+    },
+    {
+      "id": "bce4QGjvAZLpxFKUo3QN",
+      "venue_id": "hr6gtJ9JuLBo1NyJJgRe",
+      "name": "California Chicken Salad",
+      "description": "Fresh mixed greens with planted.chicken, avocado, corn, carrots, and sprouts",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434662,
+        "_nanoseconds": 740000000
+      },
+      "updated_at": {
+        "_seconds": 1765488831,
+        "_nanoseconds": 405000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434662,
+        "_nanoseconds": 740000000
+      }
+    },
+    {
+      "id": "cReXGCUXewlBWUgCP1lO",
+      "venue_id": "Z36cwKZ7OdmwsoYM0ENf",
+      "name": "Planted Chicken Wrap",
+      "description": "Planted Chicken, Salat, Tomaten, Gurken, Rotkraut, Teriyaki Sauce",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765442481,
+        "_nanoseconds": 987000000
+      },
+      "updated_at": {
+        "_seconds": 1765488831,
+        "_nanoseconds": 766000000
+      },
+      "price": {
+        "amount": 18.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765442481,
+        "_nanoseconds": 987000000
+      }
+    },
+    {
+      "id": "cSHUF5AbeHqgi1RbSMLF",
+      "venue_id": "a9O0bIPkigODf1Qvudmk",
+      "name": "Vegan Turkish cuisine",
+      "description": "Vegan Turkish cuisine featuring planted.kebab",
+      "planted_products": [
+        "planted.kebab"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051033,
+        "_nanoseconds": 242000000
+      },
+      "created_at": {
+        "_seconds": 1765051033,
+        "_nanoseconds": 242000000
+      },
+      "last_verified": {
+        "_seconds": 1765051033,
+        "_nanoseconds": 242000000
+      }
+    },
+    {
+      "id": "cevWKB3o3b1KCn70P50l",
+      "venue_id": "a9O0bIPkigODf1Qvudmk",
+      "name": "Planted Kebab",
+      "description": "Planted Kebab featuring planted.kebab",
+      "planted_products": [
+        "planted.kebab"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051032,
+        "_nanoseconds": 688000000
+      },
+      "created_at": {
+        "_seconds": 1765051032,
+        "_nanoseconds": 688000000
+      },
+      "last_verified": {
+        "_seconds": 1765051032,
+        "_nanoseconds": 688000000
+      }
+    },
+    {
+      "id": "d5166Cnf2nSH5xsYzmQn",
+      "venue_id": "1ov1dO7EwX16vxvc9EzC",
+      "name": "Plant-based Chicken Teriyaki Sub",
+      "description": "Vegan soy strips in spicy teriyaki marinade with fresh vegetables on your choice of bread",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 7.49,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Sandwiches",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "lieferando",
+          "url": "https://www.lieferando.de/subway"
+        },
+        {
+          "partner": "uber_eats",
+          "url": "https://www.ubereats.com/de-en/brand-city/berlin-be/subway"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032133,
+        "_nanoseconds": 117000000
+      },
+      "created_at": {
+        "_seconds": 1765032133,
+        "_nanoseconds": 117000000
+      },
+      "last_verified": {
+        "_seconds": 1765032133,
+        "_nanoseconds": 117000000
+      }
+    },
+    {
+      "id": "dPPDxTG9dbCzsbMBwk4U",
+      "venue_id": "HvNXkczvOEgAWHfxK4YQ",
+      "name": "Bali Chicken Bowl",
+      "description": "Brown rice with planted.chicken, avocado, edamame, mango, peanuts, and Bali dressing",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434659,
+        "_nanoseconds": 533000000
+      },
+      "updated_at": {
+        "_seconds": 1765488832,
+        "_nanoseconds": 522000000
+      },
+      "price": {
+        "amount": 14.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434659,
+        "_nanoseconds": 533000000
+      }
+    },
+    {
+      "id": "dkoPCGCKrfQpKFilO1DV",
+      "venue_id": "oV7DKGXn6PW1TLhTDL9c",
+      "name": "Crispy Chicken Avocado Salad",
+      "description": "Fresh mixed greens with planted.chicken, avocado, cucumber, pomegranate seeds, and honey-mustard dressing",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434656,
+        "_nanoseconds": 700000000
+      },
+      "updated_at": {
+        "_seconds": 1765488832,
+        "_nanoseconds": 816000000
+      },
+      "price": {
+        "amount": 13.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434656,
+        "_nanoseconds": 700000000
+      }
+    },
+    {
+      "id": "doKgrmjoGXxX2EJZrEmW",
+      "venue_id": "jqX9dqK4JqQl2QCgkHbo",
+      "name": "Caesar Salad",
+      "description": "Caesar Salad featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051030,
+        "_nanoseconds": 183000000
+      },
+      "created_at": {
+        "_seconds": 1765051030,
+        "_nanoseconds": 183000000
+      },
+      "last_verified": {
+        "_seconds": 1765051030,
+        "_nanoseconds": 183000000
+      }
+    },
+    {
+      "id": "eJj6v557WiRi4Hv8Ws74",
+      "venue_id": "qF4Uz4r5GVPkdmUeNNlP",
+      "name": "Curries",
+      "description": "Curries featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051016,
+        "_nanoseconds": 535000000
+      },
+      "created_at": {
+        "_seconds": 1765051016,
+        "_nanoseconds": 535000000
+      },
+      "last_verified": {
+        "_seconds": 1765051016,
+        "_nanoseconds": 535000000
+      }
+    },
+    {
+      "id": "fwB1zSQUZdtBpWXY6njf",
+      "venue_id": "F16ojSPaTadYLwKg3ExV",
+      "name": "Planted Chicken Wrap",
+      "description": "mit planted.chicken, Salat, Tomaten, Gurken, Rotkohl, Karotten, Erdnüssen, Koriander und Teriyaki Sauce",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434638,
+        "_nanoseconds": 583000000
+      },
+      "updated_at": {
+        "_seconds": 1765488833,
+        "_nanoseconds": 415000000
+      },
+      "price": {
+        "amount": 11.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434638,
+        "_nanoseconds": 583000000
+      }
+    },
+    {
+      "id": "fwvBK7oXNRUV7ECzK4I1",
+      "venue_id": "rP0yg5aP9d2qRHcAkBwg",
+      "name": "Chicken Teriyaki Bowl",
+      "description": "Basmatireis mit planted.chicken, Broccoli, Edamame, Karotten, Frühlingszwiebeln, Sesam und Teriyaki-Soße",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765441452,
+        "_nanoseconds": 556000000
+      },
+      "updated_at": {
+        "_seconds": 1765488833,
+        "_nanoseconds": 704000000
+      },
+      "price": {
+        "amount": 13.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765441452,
+        "_nanoseconds": 556000000
+      }
+    },
+    {
+      "id": "gZKNyJIbpDD13I7pq8Eq",
+      "venue_id": "F16ojSPaTadYLwKg3ExV",
+      "name": "Planted Chicken Salad",
+      "description": "mit planted.chicken, gemischtem Salat, Edamame, Avocado, Gurke, Rotkohl, Karotten, Erdnüssen, Koriander und Teriyaki Sauce",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434638,
+        "_nanoseconds": 583000000
+      },
+      "updated_at": {
+        "_seconds": 1765488834,
+        "_nanoseconds": 20000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434638,
+        "_nanoseconds": 583000000
+      }
+    },
+    {
+      "id": "h0P33Wz49ke7SvwmYp8M",
+      "venue_id": "oqn37NHDfQTjdsV5742P",
+      "name": "Planted Kebap Döner",
+      "description": "Vegan döner with planted kebab, fresh salad, red cabbage, tomatoes, cucumbers, grilled vegetables, choice of sauces",
+      "planted_products": [
+        "planted.kebab"
+      ],
+      "price": {
+        "amount": 8.9,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Kebab / Vegan",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "wolt",
+          "url": "https://wolt.com/en/deu/berlin/restaurant/doen-doen-planted-kebap-berlin"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032128,
+        "_nanoseconds": 997000000
+      },
+      "created_at": {
+        "_seconds": 1765032128,
+        "_nanoseconds": 997000000
+      },
+      "last_verified": {
+        "_seconds": 1765032128,
+        "_nanoseconds": 997000000
+      }
+    },
+    {
+      "id": "hOLgQkx0Wncc8V957G2j",
+      "venue_id": "mxgNOLNCJCtawjYMiFgK",
+      "name": "Planted Chicken Tikka Masala",
+      "description": "Creamy tikka masala with planted chicken, basmati rice, and naan bread",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 25.5,
+        "currency": "CHF"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Vegetarian / World Cuisine",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "uber_eats",
+          "url": "https://www.ubereats.com/ch-de/store/hiltl/1mD1LSc4WJKCJBQr5CoxCg"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032134,
+        "_nanoseconds": 704000000
+      },
+      "created_at": {
+        "_seconds": 1765032134,
+        "_nanoseconds": 704000000
+      },
+      "last_verified": {
+        "_seconds": 1765032134,
+        "_nanoseconds": 704000000
+      }
+    },
+    {
+      "id": "hT9xplA7ivMfPMJ14bSB",
+      "venue_id": "oqn37NHDfQTjdsV5742P",
+      "name": "Planted Kebap Teller",
+      "description": "Plate with planted kebab, rice, salad, grilled vegetables, and all sauces",
+      "planted_products": [
+        "planted.kebab"
+      ],
+      "price": {
+        "amount": 12.9,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Kebab / Vegan",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "wolt",
+          "url": "https://wolt.com/en/deu/berlin/restaurant/doen-doen-planted-kebap-berlin"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032129,
+        "_nanoseconds": 489000000
+      },
+      "created_at": {
+        "_seconds": 1765032129,
+        "_nanoseconds": 489000000
+      },
+      "last_verified": {
+        "_seconds": 1765032129,
+        "_nanoseconds": 489000000
+      }
+    },
+    {
+      "id": "hUH7k2r3nf5ibWzSLFIK",
+      "venue_id": "c1KuepmcMazqJEMcUtW3",
+      "name": "Kebab Klaus Burger",
+      "description": "Planted kebab, microgreens, lemon thyme sauce, crispy onions on brioche bun",
+      "planted_products": [
+        "planted.kebab"
+      ],
+      "price": {
+        "amount": 14.9,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based"
+      ],
+      "cuisine_type": "Burgers",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "lieferando",
+          "url": "https://www.lieferando.de/en/peter-pane-berlin"
+        },
+        {
+          "partner": "uber_eats",
+          "url": "https://www.ubereats.com/de-en/store/peter-pane-burgergrill-&-bar-east-side/eZYUJfP-TsWYlwALitZ3eg"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032130,
+        "_nanoseconds": 411000000
+      },
+      "created_at": {
+        "_seconds": 1765032130,
+        "_nanoseconds": 411000000
+      },
+      "last_verified": {
+        "_seconds": 1765032130,
+        "_nanoseconds": 411000000
+      }
+    },
+    {
+      "id": "hqPKH4XP2Vm85J1GFEcm",
+      "venue_id": "Ho8NNiXuVrZGvZm3Idcb",
+      "name": "Salads",
+      "description": "Salads featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051008,
+        "_nanoseconds": 588000000
+      },
+      "created_at": {
+        "_seconds": 1765051008,
+        "_nanoseconds": 588000000
+      },
+      "last_verified": {
+        "_seconds": 1765051008,
+        "_nanoseconds": 588000000
+      }
+    },
+    {
+      "id": "iMlAU8qcRtD9B93tkvCQ",
+      "venue_id": "380f9K5Iq8LYtuSIz2ij",
+      "name": "Bowls",
+      "description": "Bowls featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051023,
+        "_nanoseconds": 534000000
+      },
+      "created_at": {
+        "_seconds": 1765051023,
+        "_nanoseconds": 534000000
+      },
+      "last_verified": {
+        "_seconds": 1765051023,
+        "_nanoseconds": 534000000
+      }
+    },
+    {
+      "id": "iPVJ97kE0WcZOOnsMJpw",
+      "venue_id": "kaGxUYUzelzvBubuMEUD",
+      "name": "Bali Chicken Bowl",
+      "description": "With planted.chicken, rice, edamame, mango, avocado, peanuts, coriander, and Bali dressing",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434665,
+        "_nanoseconds": 521000000
+      },
+      "updated_at": {
+        "_seconds": 1765488835,
+        "_nanoseconds": 742000000
+      },
+      "price": {
+        "amount": 14.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434665,
+        "_nanoseconds": 521000000
+      }
+    },
+    {
+      "id": "iZbusRD8LEAgY1xLdMKh",
+      "venue_id": "raRQstsvHp0GJFQTuH2Z",
+      "name": "Planted.Chicken Nuggets",
+      "description": "6 Stück Planted.Chicken Nuggets",
+      "category": "main",
+      "product_sku": "planted.chicken_tenders",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434638,
+        "_nanoseconds": 357000000
+      },
+      "updated_at": {
+        "_seconds": 1765488836,
+        "_nanoseconds": 114000000
+      },
+      "price": {
+        "amount": 7.95,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken_tenders"
+      ],
+      "last_verified": {
+        "_seconds": 1765434638,
+        "_nanoseconds": 357000000
+      }
+    },
+    {
+      "id": "iqHrfS7p18yIcrfzZxQr",
+      "venue_id": "F16ojSPaTadYLwKg3ExV",
+      "name": "Planted Chicken Bowl",
+      "description": "mit planted.chicken, Reis, Edamame, Avocado, Gurke, Rotkohl, Karotten, Erdnüssen, Koriander und Teriyaki Sauce",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434638,
+        "_nanoseconds": 583000000
+      },
+      "updated_at": {
+        "_seconds": 1765488836,
+        "_nanoseconds": 566000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434638,
+        "_nanoseconds": 583000000
+      }
+    },
+    {
+      "id": "j9rkOyZ6hvIsZA96AYXh",
+      "venue_id": "cGxk7p4d9MA5BaJCNKUB",
+      "name": "Planted.Chicken Burrito",
+      "description": "mit Planted.Chicken, Reis, Bohnen, Mais, Salsa, Guacamole, Sour Cream, Käse",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434642,
+        "_nanoseconds": 351000000
+      },
+      "updated_at": {
+        "_seconds": 1765488837,
+        "_nanoseconds": 25000000
+      },
+      "price": {
+        "amount": 10.99,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434642,
+        "_nanoseconds": 351000000
+      }
+    },
+    {
+      "id": "joKZYOyRwGBZjpzP3AYk",
+      "venue_id": "hr6gtJ9JuLBo1NyJJgRe",
+      "name": "Tuscany Chicken Salad",
+      "description": "Fresh mixed greens with planted.chicken, sun-dried tomatoes, mozzarella, and Italian herbs",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434662,
+        "_nanoseconds": 740000000
+      },
+      "updated_at": {
+        "_seconds": 1765488837,
+        "_nanoseconds": 485000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434662,
+        "_nanoseconds": 740000000
+      }
+    },
+    {
+      "id": "k2XsafxXUgdVCDOCBeul",
+      "venue_id": "qUDUtp08npUcBmku6BED",
+      "name": "Curries",
+      "description": "Curries featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051019,
+        "_nanoseconds": 311000000
+      },
+      "created_at": {
+        "_seconds": 1765051019,
+        "_nanoseconds": 311000000
+      },
+      "last_verified": {
+        "_seconds": 1765051019,
+        "_nanoseconds": 311000000
+      }
+    },
+    {
+      "id": "k5uv0GkWVnGZefEkDV25",
+      "venue_id": "1ov1dO7EwX16vxvc9EzC",
+      "name": "Plant-based Teriyaki Salad",
+      "description": "Teriyaki planted chicken on fresh salad greens with your choice of dressing",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 8.99,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Sandwiches",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "lieferando",
+          "url": "https://www.lieferando.de/subway"
+        },
+        {
+          "partner": "uber_eats",
+          "url": "https://www.ubereats.com/de-en/brand-city/berlin-be/subway"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032133,
+        "_nanoseconds": 586000000
+      },
+      "created_at": {
+        "_seconds": 1765032133,
+        "_nanoseconds": 586000000
+      },
+      "last_verified": {
+        "_seconds": 1765032133,
+        "_nanoseconds": 586000000
+      }
+    },
+    {
+      "id": "kSQLBfpyWqP8YZZpijAX",
+      "venue_id": "ALOwzoxSIFEpMmfzeCC1",
+      "name": "Chicken Avocado Salad",
+      "description": "Fresh mixed greens with planted.chicken, avocado, mango, cucumber, coriander, and lime-chili dressing",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765441452,
+        "_nanoseconds": 742000000
+      },
+      "updated_at": {
+        "_seconds": 1765488838,
+        "_nanoseconds": 451000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765441452,
+        "_nanoseconds": 742000000
+      }
+    },
+    {
+      "id": "kZjk0zZKlvJDVSTZbhIW",
+      "venue_id": "6cwnVfShQo30GJnQaBxO",
+      "name": "Tuscany Chicken Salad",
+      "description": "Fresh mixed greens with planted.chicken, sun-dried tomatoes, mozzarella, and Italian herbs",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434670,
+        "_nanoseconds": 936000000
+      },
+      "updated_at": {
+        "_seconds": 1765488838,
+        "_nanoseconds": 860000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434670,
+        "_nanoseconds": 936000000
+      }
+    },
+    {
+      "id": "kfRscOuAaBtgNnuRuHZv",
+      "venue_id": "380f9K5Iq8LYtuSIz2ij",
+      "name": "Caesar Salad",
+      "description": "Caesar Salad featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051024,
+        "_nanoseconds": 867000000
+      },
+      "created_at": {
+        "_seconds": 1765051024,
+        "_nanoseconds": 867000000
+      },
+      "last_verified": {
+        "_seconds": 1765051024,
+        "_nanoseconds": 867000000
+      }
+    },
+    {
+      "id": "koWbZGXWawVnxGXjdiVw",
+      "venue_id": "Ho8NNiXuVrZGvZm3Idcb",
+      "name": "Curries",
+      "description": "Curries featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051008,
+        "_nanoseconds": 896000000
+      },
+      "created_at": {
+        "_seconds": 1765051008,
+        "_nanoseconds": 896000000
+      },
+      "last_verified": {
+        "_seconds": 1765051008,
+        "_nanoseconds": 896000000
+      }
+    },
+    {
+      "id": "ktEO2YruJNxXczegEpWv",
+      "venue_id": "7eCTcsfKMXY3S935wzKT",
+      "name": "Salads",
+      "description": "Salads featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051013,
+        "_nanoseconds": 714000000
+      },
+      "created_at": {
+        "_seconds": 1765051013,
+        "_nanoseconds": 714000000
+      },
+      "last_verified": {
+        "_seconds": 1765051013,
+        "_nanoseconds": 714000000
+      }
+    },
+    {
+      "id": "ku1muxWIHCoNzoy6bEjd",
+      "venue_id": "raRQstsvHp0GJFQTuH2Z",
+      "name": "Planted.Chicken Salad",
+      "description": "Planted.Chicken, Salat, Tomaten, Zwiebeln, Gurken, Birdie Sauce",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434638,
+        "_nanoseconds": 357000000
+      },
+      "updated_at": {
+        "_seconds": 1765488839,
+        "_nanoseconds": 614000000
+      },
+      "price": {
+        "amount": 10.95,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434638,
+        "_nanoseconds": 357000000
+      }
+    },
+    {
+      "id": "l21jQjiKu5k3SYp9hYSz",
+      "venue_id": "zPQliUVLM8DEWJ3wFoQO",
+      "name": "Tuscany Chicken Salad",
+      "description": "Fresh mixed greens with planted.chicken, sun-dried tomatoes, mozzarella, and Italian herbs",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765441452,
+        "_nanoseconds": 361000000
+      },
+      "updated_at": {
+        "_seconds": 1765488839,
+        "_nanoseconds": 907000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765441452,
+        "_nanoseconds": 361000000
+      }
+    },
+    {
+      "id": "lA14FXyYm2WHvmuI57ET",
+      "venue_id": "Ho8NNiXuVrZGvZm3Idcb",
+      "name": "Caesar Salad",
+      "description": "Caesar Salad featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051009,
+        "_nanoseconds": 479000000
+      },
+      "created_at": {
+        "_seconds": 1765051009,
+        "_nanoseconds": 479000000
+      },
+      "last_verified": {
+        "_seconds": 1765051009,
+        "_nanoseconds": 479000000
+      }
+    },
+    {
+      "id": "lZO6ac0xexMBT8u8dBgp",
+      "venue_id": "jqX9dqK4JqQl2QCgkHbo",
+      "name": "Bowls",
+      "description": "Bowls featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051028,
+        "_nanoseconds": 863000000
+      },
+      "created_at": {
+        "_seconds": 1765051028,
+        "_nanoseconds": 863000000
+      },
+      "last_verified": {
+        "_seconds": 1765051028,
+        "_nanoseconds": 863000000
+      }
+    },
+    {
+      "id": "lv5r41108PClDdTgGV6i",
+      "venue_id": "HvNXkczvOEgAWHfxK4YQ",
+      "name": "Tuscany Chicken Salad",
+      "description": "Fresh mixed greens with planted.chicken, sun-dried tomatoes, mozzarella, and Italian herbs",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434659,
+        "_nanoseconds": 532000000
+      },
+      "updated_at": {
+        "_seconds": 1765488840,
+        "_nanoseconds": 505000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434659,
+        "_nanoseconds": 532000000
+      }
+    },
+    {
+      "id": "lzqvIjw9fsF4l1vn7Nr4",
+      "venue_id": "xsQwD5ACwQjlUo5dzl4z",
+      "name": "Salads",
+      "description": "Salads featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051006,
+        "_nanoseconds": 218000000
+      },
+      "created_at": {
+        "_seconds": 1765051006,
+        "_nanoseconds": 218000000
+      },
+      "last_verified": {
+        "_seconds": 1765051006,
+        "_nanoseconds": 218000000
+      }
+    },
+    {
+      "id": "m47X8OkJ0l6sh2kzTrrO",
+      "venue_id": "IFNtpbBlubgnUWeuz1IX",
+      "name": "Planted.Chicken Burger",
+      "description": "Planted.Chicken patty, cheddar, lettuce, tomato, onions, pickles, ketchup, mayo, mustard, and brioche bun.",
+      "category": "main",
+      "product_sku": "planted.chicken_burger",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434645,
+        "_nanoseconds": 163000000
+      },
+      "updated_at": {
+        "_seconds": 1765488841,
+        "_nanoseconds": 93000000
+      },
+      "price": {
+        "amount": 19,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken_burger"
+      ],
+      "last_verified": {
+        "_seconds": 1765434645,
+        "_nanoseconds": 163000000
+      }
+    },
+    {
+      "id": "nOmkMeLuyY2nWD94TGNU",
+      "venue_id": "380f9K5Iq8LYtuSIz2ij",
+      "name": "Red Thai Curry",
+      "description": "Red Thai Curry featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051025,
+        "_nanoseconds": 449000000
+      },
+      "created_at": {
+        "_seconds": 1765051025,
+        "_nanoseconds": 449000000
+      },
+      "last_verified": {
+        "_seconds": 1765051025,
+        "_nanoseconds": 449000000
+      }
+    },
+    {
+      "id": "nlY4KN4OiUWyRc1mFizH",
+      "venue_id": "uuvbIK1Zt7139T3XhNY7",
+      "name": "Red Thai Curry",
+      "description": "Red Thai Curry featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051012,
+        "_nanoseconds": 434000000
+      },
+      "created_at": {
+        "_seconds": 1765051012,
+        "_nanoseconds": 434000000
+      },
+      "last_verified": {
+        "_seconds": 1765051012,
+        "_nanoseconds": 434000000
+      }
+    },
+    {
+      "id": "noyCfeAHklUCDIdajfz3",
+      "venue_id": "c74C0zDD27bzUmjB2R51",
+      "name": "Chicken Teriyaki Bowl",
+      "description": "Brown rice with planted.chicken, edamame, avocado, mango, sesame, teriyaki sauce and sesame-ginger dressing",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434672,
+        "_nanoseconds": 756000000
+      },
+      "updated_at": {
+        "_seconds": 1765488841,
+        "_nanoseconds": 660000000
+      },
+      "price": {
+        "amount": 13.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434672,
+        "_nanoseconds": 756000000
+      }
+    },
+    {
+      "id": "nrMUflMt6ED9BLOI712k",
+      "venue_id": "mxgNOLNCJCtawjYMiFgK",
+      "name": "Green Thai Curry with Planted Chicken",
+      "description": "Aromatic Thai green curry with planted chicken, vegetables, and jasmine rice",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 26,
+        "currency": "CHF"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Vegetarian / World Cuisine",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "uber_eats",
+          "url": "https://www.ubereats.com/ch-de/store/hiltl/1mD1LSc4WJKCJBQr5CoxCg"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032134,
+        "_nanoseconds": 527000000
+      },
+      "created_at": {
+        "_seconds": 1765032134,
+        "_nanoseconds": 527000000
+      },
+      "last_verified": {
+        "_seconds": 1765032134,
+        "_nanoseconds": 527000000
+      }
+    },
+    {
+      "id": "ntDbjEbNHIsQqce3uePE",
+      "venue_id": "qUDUtp08npUcBmku6BED",
+      "name": "Caesar Salad",
+      "description": "Caesar Salad featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051019,
+        "_nanoseconds": 540000000
+      },
+      "created_at": {
+        "_seconds": 1765051019,
+        "_nanoseconds": 540000000
+      },
+      "last_verified": {
+        "_seconds": 1765051019,
+        "_nanoseconds": 540000000
+      }
+    },
+    {
+      "id": "nvl4jZ7AsR6SWZ5UuMgQ",
+      "venue_id": "mtCGkpGEHFDsL7eRrxsD",
+      "name": "Tuscany Chicken Salad",
+      "description": "Fresh mixed greens with planted.chicken, sun-dried tomatoes, mozzarella, and Italian herbs",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434672,
+        "_nanoseconds": 145000000
+      },
+      "updated_at": {
+        "_seconds": 1765488842,
+        "_nanoseconds": 213000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434672,
+        "_nanoseconds": 145000000
+      }
+    },
+    {
+      "id": "o4lzlgzvYQNHcllJbTPA",
+      "venue_id": "VRbL4yw0pmovir5hsPHH",
+      "name": "Planted Chicken Bowl",
+      "description": "Planted.Chicken, Reis, Edamame, Rotkohl, Gurke, Karotte, Avocado, Erdnüsse, Sesam, Teriyaki Sauce",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765442481,
+        "_nanoseconds": 11000000
+      },
+      "updated_at": {
+        "_seconds": 1765488842,
+        "_nanoseconds": 522000000
+      },
+      "price": {
+        "amount": 13.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765442481,
+        "_nanoseconds": 11000000
+      }
+    },
+    {
+      "id": "oASIov4htBgFFSBeAvAd",
+      "venue_id": "1GtMItCFkE1CTJla3shX",
+      "name": "Salads",
+      "description": "Salads featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051026,
+        "_nanoseconds": 541000000
+      },
+      "created_at": {
+        "_seconds": 1765051026,
+        "_nanoseconds": 541000000
+      },
+      "last_verified": {
+        "_seconds": 1765051026,
+        "_nanoseconds": 541000000
+      }
+    },
+    {
+      "id": "oDRXyETij1bJFG0d5asx",
+      "venue_id": "uuvbIK1Zt7139T3XhNY7",
+      "name": "Caesar Salad",
+      "description": "Caesar Salad featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051011,
+        "_nanoseconds": 858000000
+      },
+      "created_at": {
+        "_seconds": 1765051011,
+        "_nanoseconds": 858000000
+      },
+      "last_verified": {
+        "_seconds": 1765051011,
+        "_nanoseconds": 858000000
+      }
+    },
+    {
+      "id": "onPydVT7FldEjL8bxqtv",
+      "venue_id": "ALOwzoxSIFEpMmfzeCC1",
+      "name": "Indian Chicken Bowl",
+      "description": "Brown rice with planted.chicken, mango, edamame, peanuts, coriander, mint, and curry-mango sauce",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765441452,
+        "_nanoseconds": 742000000
+      },
+      "updated_at": {
+        "_seconds": 1765488843,
+        "_nanoseconds": 109000000
+      },
+      "price": {
+        "amount": 13.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765441452,
+        "_nanoseconds": 742000000
+      }
+    },
+    {
+      "id": "orDuavNGBKVEfWZ2iBeT",
+      "venue_id": "qF4Uz4r5GVPkdmUeNNlP",
+      "name": "Bowls",
+      "description": "Bowls featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051015,
+        "_nanoseconds": 615000000
+      },
+      "created_at": {
+        "_seconds": 1765051015,
+        "_nanoseconds": 615000000
+      },
+      "last_verified": {
+        "_seconds": 1765051015,
+        "_nanoseconds": 615000000
+      }
+    },
+    {
+      "id": "osVusGliwt5Of7dPGQY9",
+      "venue_id": "fl0y1lZRTMUAsq2RWXu8",
+      "name": "Salads",
+      "description": "Salads featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051021,
+        "_nanoseconds": 453000000
+      },
+      "created_at": {
+        "_seconds": 1765051021,
+        "_nanoseconds": 453000000
+      },
+      "last_verified": {
+        "_seconds": 1765051021,
+        "_nanoseconds": 453000000
+      }
+    },
+    {
+      "id": "pEgHXyk78JaJGacmEnJJ",
+      "venue_id": "mtCGkpGEHFDsL7eRrxsD",
+      "name": "Chicken Teriyaki Bowl",
+      "description": "Brown rice with planted.chicken, edamame, avocado, mango, sesame, teriyaki sauce and sesame-ginger dressing",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434672,
+        "_nanoseconds": 145000000
+      },
+      "updated_at": {
+        "_seconds": 1765488843,
+        "_nanoseconds": 794000000
+      },
+      "price": {
+        "amount": 13.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434672,
+        "_nanoseconds": 145000000
+      }
+    },
+    {
+      "id": "pSKl8yfCViCCZlp5UQ1E",
+      "venue_id": "xsQwD5ACwQjlUo5dzl4z",
+      "name": "Bowls",
+      "description": "Bowls featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051005,
+        "_nanoseconds": 657000000
+      },
+      "created_at": {
+        "_seconds": 1765051005,
+        "_nanoseconds": 657000000
+      },
+      "last_verified": {
+        "_seconds": 1765051005,
+        "_nanoseconds": 657000000
+      }
+    },
+    {
+      "id": "pZXdiezyqefHojboYYeL",
+      "venue_id": "VWcg6JMsxeXkMrdlJtjW",
+      "name": "Vegan Chicken Supreme with grilled vegetables, rosemary potatoes, chimichurri",
+      "description": "Vegan Chicken Supreme with grilled vegetables, rosemary potatoes, chimichurri featuring Vegan Chicken Supreme",
+      "planted_products": [
+        "Vegan Chicken Supreme"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051040,
+        "_nanoseconds": 837000000
+      },
+      "created_at": {
+        "_seconds": 1765051040,
+        "_nanoseconds": 837000000
+      },
+      "last_verified": {
+        "_seconds": 1765051040,
+        "_nanoseconds": 837000000
+      }
+    },
+    {
+      "id": "pnRWPlKkl2pyBn9lo1q2",
+      "venue_id": "oqn37NHDfQTjdsV5742P",
+      "name": "Planted Kebap Dürüm",
+      "description": "Wrap with planted kebab, salad mix, grilled vegetables, herb-yogurt and hot sauce",
+      "planted_products": [
+        "planted.kebab"
+      ],
+      "price": {
+        "amount": 9.5,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Kebab / Vegan",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "wolt",
+          "url": "https://wolt.com/en/deu/berlin/restaurant/doen-doen-planted-kebap-berlin"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032129,
+        "_nanoseconds": 315000000
+      },
+      "created_at": {
+        "_seconds": 1765032129,
+        "_nanoseconds": 315000000
+      },
+      "last_verified": {
+        "_seconds": 1765032129,
+        "_nanoseconds": 315000000
+      }
+    },
+    {
+      "id": "qYfNXiopIjPXSf0skjvU",
+      "venue_id": "xb0kmQ1JAVjCli0MYERm",
+      "name": "Pasta Planted Chicken Orange-Chili",
+      "description": "Planted chicken with spicy orange-chili sauce, pak choi, and bell peppers",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 15.9,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Italian",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "wolt",
+          "url": "https://wolt.com/en/aut/vienna/restaurant/vapiano-shopping-city-sd-vsendorf"
+        },
+        {
+          "partner": "lieferando",
+          "url": "https://www.lieferando.at/en/menu/vapiano"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032127,
+        "_nanoseconds": 440000000
+      },
+      "created_at": {
+        "_seconds": 1765032127,
+        "_nanoseconds": 440000000
+      },
+      "last_verified": {
+        "_seconds": 1765032127,
+        "_nanoseconds": 440000000
+      }
+    },
+    {
+      "id": "qf5FRAQXsYT8NyGtAh3I",
+      "venue_id": "qF4Uz4r5GVPkdmUeNNlP",
+      "name": "Caesar Salad",
+      "description": "Caesar Salad featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051016,
+        "_nanoseconds": 883000000
+      },
+      "created_at": {
+        "_seconds": 1765051016,
+        "_nanoseconds": 883000000
+      },
+      "last_verified": {
+        "_seconds": 1765051016,
+        "_nanoseconds": 883000000
+      }
+    },
+    {
+      "id": "rBgT9XBs2r2ggC3ElCsP",
+      "venue_id": "fLSzNWIa0T0DKBQXbY3x",
+      "name": "Crispy Chicken Bowl",
+      "description": "Rice, planted.chicken tenders, avocado, edamame, mango, cucumber, coriander, sesame seeds and crispy onions with sriracha mayo",
+      "category": "main",
+      "product_sku": "planted.chicken_tenders",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434658,
+        "_nanoseconds": 962000000
+      },
+      "updated_at": {
+        "_seconds": 1765488844,
+        "_nanoseconds": 928000000
+      },
+      "price": {
+        "amount": 14.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken_tenders"
+      ],
+      "last_verified": {
+        "_seconds": 1765434658,
+        "_nanoseconds": 962000000
+      }
+    },
+    {
+      "id": "rFtFt6HxP9lQ8879HLu3",
+      "venue_id": "3TOE9FiWfUIubnPpL6Nm",
+      "name": "Tuscany Chicken Salad",
+      "description": "Fresh mixed greens with planted.chicken, sun-dried tomatoes, mozzarella, and Italian herbs",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434658,
+        "_nanoseconds": 773000000
+      },
+      "updated_at": {
+        "_seconds": 1765488845,
+        "_nanoseconds": 228000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434658,
+        "_nanoseconds": 773000000
+      }
+    },
+    {
+      "id": "ss5NkDJbDAq88TJwPzd9",
+      "venue_id": "xKLPGvoIBZjfxmacIhoo",
+      "name": "Pad Thai (vegetarian)",
+      "description": "Stir-fried rice noodles with organic tofu, spring onions, free-range egg, peanuts, tamarind sauce, and bean sprouts",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434654,
+        "_nanoseconds": 245000000
+      },
+      "updated_at": {
+        "_seconds": 1765488845,
+        "_nanoseconds": 538000000
+      },
+      "price": {
+        "amount": 22.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434654,
+        "_nanoseconds": 245000000
+      }
+    },
+    {
+      "id": "sxN93btDRgKmGDnc5bNr",
+      "venue_id": "F16ojSPaTadYLwKg3ExV",
+      "name": "Planted Chicken Burger",
+      "description": "mit planted.chicken Burger Patty, Salat, Tomaten, Gurken, Zwiebeln, Pickles und Burgersauce",
+      "category": "main",
+      "product_sku": "planted.chicken_burger",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434638,
+        "_nanoseconds": 583000000
+      },
+      "updated_at": {
+        "_seconds": 1765488845,
+        "_nanoseconds": 834000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken_burger"
+      ],
+      "last_verified": {
+        "_seconds": 1765434638,
+        "_nanoseconds": 583000000
+      }
+    },
+    {
+      "id": "tXLS2LFZezgYqeSdSMzp",
+      "venue_id": "SqWnrP1q1KKExO3jZO4B",
+      "name": "Planted Chicken Shawarma Plate",
+      "description": "Spiced planted chicken with pickled vegetables, herb yogurt, and flatbread",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 18.5,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Tel Aviv / Mediterranean",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "wolt",
+          "url": "https://wolt.com/en/aut/vienna/restaurant/neni-am-naschmarkt"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032128,
+        "_nanoseconds": 460000000
+      },
+      "created_at": {
+        "_seconds": 1765032128,
+        "_nanoseconds": 460000000
+      },
+      "last_verified": {
+        "_seconds": 1765032128,
+        "_nanoseconds": 460000000
+      }
+    },
+    {
+      "id": "td9g64HZpOUp06HH3S6C",
+      "venue_id": "c1KuepmcMazqJEMcUtW3",
+      "name": "Meatless Monday Special",
+      "description": "All vegan burgers including planted options for only €9.90 every Monday",
+      "planted_products": [
+        "planted.kebab"
+      ],
+      "price": {
+        "amount": 9.9,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Burgers",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "lieferando",
+          "url": "https://www.lieferando.de/en/peter-pane-berlin"
+        },
+        {
+          "partner": "uber_eats",
+          "url": "https://www.ubereats.com/de-en/store/peter-pane-burgergrill-&-bar-east-side/eZYUJfP-TsWYlwALitZ3eg"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032130,
+        "_nanoseconds": 596000000
+      },
+      "created_at": {
+        "_seconds": 1765032130,
+        "_nanoseconds": 596000000
+      },
+      "last_verified": {
+        "_seconds": 1765032130,
+        "_nanoseconds": 596000000
+      }
+    },
+    {
+      "id": "u70ddQj8g8R3dy1FsH01",
+      "venue_id": "rjIPhRPYIrrnuWd39FNQ",
+      "name": "Planted Kebap Box",
+      "description": "Planted kebab with fries, salad, and signature sauces",
+      "planted_products": [
+        "planted.kebab"
+      ],
+      "price": {
+        "amount": 11.9,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Kebab / Vegan",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "wolt",
+          "url": "https://wolt.com/en/deu/stuttgart/restaurant/doen-doen-planted-kebap"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032130,
+        "_nanoseconds": 51000000
+      },
+      "created_at": {
+        "_seconds": 1765032130,
+        "_nanoseconds": 51000000
+      },
+      "last_verified": {
+        "_seconds": 1765032130,
+        "_nanoseconds": 51000000
+      }
+    },
+    {
+      "id": "ufSL7Jc45HgcsccSEpN5",
+      "venue_id": "fl0y1lZRTMUAsq2RWXu8",
+      "name": "Red Thai Curry",
+      "description": "Red Thai Curry featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051022,
+        "_nanoseconds": 691000000
+      },
+      "created_at": {
+        "_seconds": 1765051022,
+        "_nanoseconds": 691000000
+      },
+      "last_verified": {
+        "_seconds": 1765051022,
+        "_nanoseconds": 691000000
+      }
+    },
+    {
+      "id": "usRCje61F2sg5ROGjcsm",
+      "venue_id": "hr6gtJ9JuLBo1NyJJgRe",
+      "name": "Bali Chicken Bowl",
+      "description": "Rice with planted.chicken, pineapple, mango, edamame, peanuts, and coriander",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434662,
+        "_nanoseconds": 740000000
+      },
+      "updated_at": {
+        "_seconds": 1765488847,
+        "_nanoseconds": 45000000
+      },
+      "price": {
+        "amount": 13.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434662,
+        "_nanoseconds": 740000000
+      }
+    },
+    {
+      "id": "uwIiFRRDfNoIui9hazeF",
+      "venue_id": "8o1ECtPGofSFEXNd8E8w",
+      "name": "Insalata Mista with Planted.Chicken",
+      "description": "Mixed leaves, cherry tomatoes, carrots, cucumber, red onion, spring onion, Grana Padano, balsamic dressing & Planted.Chicken",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434643,
+        "_nanoseconds": 663000000
+      },
+      "updated_at": {
+        "_seconds": 1765488847,
+        "_nanoseconds": 587000000
+      },
+      "price": {
+        "amount": 13.95,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434643,
+        "_nanoseconds": 663000000
+      }
+    },
+    {
+      "id": "vRzrCA4cexZqSrOxqkXf",
+      "venue_id": "EBHEAxvXczf2fC4TWJJo",
+      "name": "Gaeng Phed Ped Yang mit Planted Duck",
+      "description": "Rotes Curry mit Planted Duck, Kokosmilch, Ananas, Tomaten, Litschi, Peperoni und Basilikum",
+      "category": "main",
+      "product_sku": "planted.duck",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434652,
+        "_nanoseconds": 757000000
+      },
+      "updated_at": {
+        "_seconds": 1765488847,
+        "_nanoseconds": 996000000
+      },
+      "price": {
+        "amount": 29.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.duck"
+      ],
+      "last_verified": {
+        "_seconds": 1765434652,
+        "_nanoseconds": 757000000
+      }
+    },
+    {
+      "id": "vVHCvMGANHhvzUWvgN88",
+      "venue_id": "uuvbIK1Zt7139T3XhNY7",
+      "name": "Bowls",
+      "description": "Bowls featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051010,
+        "_nanoseconds": 644000000
+      },
+      "created_at": {
+        "_seconds": 1765051010,
+        "_nanoseconds": 644000000
+      },
+      "last_verified": {
+        "_seconds": 1765051010,
+        "_nanoseconds": 644000000
+      }
+    },
+    {
+      "id": "vdQGSudw9x5VamIVZTkA",
+      "venue_id": "cGxk7p4d9MA5BaJCNKUB",
+      "name": "Planted.Chicken Quesadilla",
+      "description": "mit Planted.Chicken, Käse, Salsa",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434642,
+        "_nanoseconds": 352000000
+      },
+      "updated_at": {
+        "_seconds": 1765488849,
+        "_nanoseconds": 224000000
+      },
+      "price": {
+        "amount": 8.19,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434642,
+        "_nanoseconds": 352000000
+      }
+    },
+    {
+      "id": "vdVtwgDNf7gukNdmLA3D",
+      "venue_id": "380f9K5Iq8LYtuSIz2ij",
+      "name": "Salads",
+      "description": "Salads featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051023,
+        "_nanoseconds": 943000000
+      },
+      "created_at": {
+        "_seconds": 1765051023,
+        "_nanoseconds": 943000000
+      },
+      "last_verified": {
+        "_seconds": 1765051023,
+        "_nanoseconds": 943000000
+      }
+    },
+    {
+      "id": "wG4JN742EBrnAizL9YdW",
+      "venue_id": "ulYTR1q7OxVptWDc03m6",
+      "name": "Tuscany Chicken Salad",
+      "description": "Frischer gemischter Salat mit planted.chicken, sonnengetrockneten Tomaten, Mozzarella und italienischen Kräutern",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434658,
+        "_nanoseconds": 210000000
+      },
+      "updated_at": {
+        "_seconds": 1765488850,
+        "_nanoseconds": 184000000
+      },
+      "price": {
+        "amount": 11.5,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434658,
+        "_nanoseconds": 210000000
+      }
+    },
+    {
+      "id": "wVJxB5BbggY4kXSbHoU1",
+      "venue_id": "xb0kmQ1JAVjCli0MYERm",
+      "name": "Planted Chicken Salad Bowl",
+      "description": "Fresh salad with grilled planted chicken, cherry tomatoes, and balsamic",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 14.5,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Italian",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "wolt",
+          "url": "https://wolt.com/en/aut/vienna/restaurant/vapiano-shopping-city-sd-vsendorf"
+        },
+        {
+          "partner": "lieferando",
+          "url": "https://www.lieferando.at/en/menu/vapiano"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032127,
+        "_nanoseconds": 735000000
+      },
+      "created_at": {
+        "_seconds": 1765032127,
+        "_nanoseconds": 735000000
+      },
+      "last_verified": {
+        "_seconds": 1765032127,
+        "_nanoseconds": 735000000
+      }
+    },
+    {
+      "id": "wwO9ALxzKaVKx2CjfGmj",
+      "venue_id": "ALOwzoxSIFEpMmfzeCC1",
+      "name": "Tuscany Chicken Salad",
+      "description": "Fresh mixed greens with planted.chicken, sun-dried tomatoes, mozzarella, and Italian herbs",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765441452,
+        "_nanoseconds": 742000000
+      },
+      "updated_at": {
+        "_seconds": 1765488851,
+        "_nanoseconds": 645000000
+      },
+      "price": {
+        "amount": 12.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765441452,
+        "_nanoseconds": 742000000
+      }
+    },
+    {
+      "id": "xgP27LyKOvHXOQNkIDlB",
+      "venue_id": "xsQwD5ACwQjlUo5dzl4z",
+      "name": "Caesar Salad",
+      "description": "Caesar Salad featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051006,
+        "_nanoseconds": 994000000
+      },
+      "created_at": {
+        "_seconds": 1765051006,
+        "_nanoseconds": 994000000
+      },
+      "last_verified": {
+        "_seconds": 1765051006,
+        "_nanoseconds": 994000000
+      }
+    },
+    {
+      "id": "xnayx4p59lAgEGMzLKLk",
+      "venue_id": "HvNXkczvOEgAWHfxK4YQ",
+      "name": "California Chicken Salad",
+      "description": "Fresh mixed greens with planted.chicken, avocado, cucumber, carrots, sprouts, and sesame dressing",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434659,
+        "_nanoseconds": 532000000
+      },
+      "updated_at": {
+        "_seconds": 1765488852,
+        "_nanoseconds": 767000000
+      },
+      "price": {
+        "amount": 13.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434659,
+        "_nanoseconds": 532000000
+      }
+    },
+    {
+      "id": "yA9WJdkIQXh4miTtAZVP",
+      "venue_id": "xsQwD5ACwQjlUo5dzl4z",
+      "name": "Curries",
+      "description": "Curries featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051006,
+        "_nanoseconds": 424000000
+      },
+      "created_at": {
+        "_seconds": 1765051006,
+        "_nanoseconds": 424000000
+      },
+      "last_verified": {
+        "_seconds": 1765051006,
+        "_nanoseconds": 424000000
+      }
+    },
+    {
+      "id": "yZBc53iBjfL7PKH5Mpy4",
+      "venue_id": "73sORvRkTbrxPRx7R3VA",
+      "name": "Planted Chicken Caesar Salad",
+      "description": "Grilled planted chicken, romaine, sun-ripened tomatoes, Italian hard cheese, roasted croutons, Caesar dressing",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 12.9,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based"
+      ],
+      "cuisine_type": "Healthy Bowls & Salads",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "lieferando",
+          "url": "https://www.lieferando.de/en/menu/dean-david-muenchen-leopoldstrasse"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032131,
+        "_nanoseconds": 533000000
+      },
+      "created_at": {
+        "_seconds": 1765032131,
+        "_nanoseconds": 533000000
+      },
+      "last_verified": {
+        "_seconds": 1765032131,
+        "_nanoseconds": 533000000
+      }
+    },
+    {
+      "id": "zGFOqBSMxMGiIHTZ4opx",
+      "venue_id": "73sORvRkTbrxPRx7R3VA",
+      "name": "Golden Curry Bowl with Planted Chicken",
+      "description": "Jasmine rice, planted chicken, red cabbage, pomegranate, chickpeas with cinnamon, creamy korma sauce",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 14.5,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "vegan",
+        "plant-based"
+      ],
+      "cuisine_type": "Healthy Bowls & Salads",
+      "availability": {
+        "type": "permanent"
+      },
+      "delivery_partners": [
+        {
+          "partner": "lieferando",
+          "url": "https://www.lieferando.de/en/menu/dean-david-muenchen-leopoldstrasse"
+        }
+      ],
+      "source": {
+        "type": "manual"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765032131,
+        "_nanoseconds": 257000000
+      },
+      "created_at": {
+        "_seconds": 1765032131,
+        "_nanoseconds": 257000000
+      },
+      "last_verified": {
+        "_seconds": 1765032131,
+        "_nanoseconds": 257000000
+      }
+    },
+    {
+      "id": "zk9v7ihQWJ1Hi7rVZT7u",
+      "venue_id": "3TOE9FiWfUIubnPpL6Nm",
+      "name": "Chicken Teriyaki Bowl",
+      "description": "Quinoa, planted.chicken, avocado, edamame, mango, cucumber, sesame seeds & teriyaki sauce",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": false,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434658,
+        "_nanoseconds": 773000000
+      },
+      "updated_at": {
+        "_seconds": 1765488855,
+        "_nanoseconds": 228000000
+      },
+      "price": {
+        "amount": 13.9,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434658,
+        "_nanoseconds": 773000000
+      }
+    },
+    {
+      "id": "zpELSmPiDvjXnZvQdL9J",
+      "venue_id": "IFNtpbBlubgnUWeuz1IX",
+      "name": "Planted.Chicken",
+      "description": "",
+      "category": "main",
+      "product_sku": "planted.chicken",
+      "is_vegan": true,
+      "dietary_tags": [],
+      "image_url": "",
+      "source": {
+        "type": "discovered",
+        "partner_id": "smart-discovery-agent"
+      },
+      "status": "active",
+      "created_at": {
+        "_seconds": 1765434645,
+        "_nanoseconds": 164000000
+      },
+      "updated_at": {
+        "_seconds": 1765488856,
+        "_nanoseconds": 0
+      },
+      "price": {
+        "amount": 6,
+        "currency": "CHF"
+      },
+      "availability": {
+        "type": "permanent"
+      },
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "last_verified": {
+        "_seconds": 1765434645,
+        "_nanoseconds": 164000000
+      }
+    },
+    {
+      "id": "zzNQKEC3HuHeMLmPaSaa",
+      "venue_id": "1GtMItCFkE1CTJla3shX",
+      "name": "Caesar Salad",
+      "description": "Caesar Salad featuring planted.chicken",
+      "planted_products": [
+        "planted.chicken"
+      ],
+      "price": {
+        "amount": 0,
+        "currency": "EUR"
+      },
+      "dietary_tags": [
+        "plant-based",
+        "vegan"
+      ],
+      "availability": {
+        "type": "permanent"
+      },
+      "source": {
+        "type": "manual",
+        "scraper_id": "websearch-discovery"
+      },
+      "status": "active",
+      "updated_at": {
+        "_seconds": 1765051027,
+        "_nanoseconds": 593000000
+      },
+      "created_at": {
+        "_seconds": 1765051027,
+        "_nanoseconds": 593000000
+      },
+      "last_verified": {
+        "_seconds": 1765051027,
+        "_nanoseconds": 593000000
+      }
+    }
+  ]
+}

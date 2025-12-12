@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import { getCollection, getEntry } from 'astro:content';
 import { allLocales, locales, type LocaleCode, type CountryCode, getLocalizedProductName, getAmbassadorForLocale } from '../../i18n/config';
 import { getTranslations } from '../../i18n/index';
-import StoreLocator from '../../components/StoreLocator.astro';
+import LocatorV2 from '../../components/locator/LocatorV2.astro';
 import NewsletterSignup from '../../components/NewsletterSignup.astro';
 import MeatLoverTicker from '../../components/MeatLoverTicker.astro';
 
@@ -386,31 +386,10 @@ const ambassadorQuote = ambassador ? (localeData.language === 'en' ? ambassador.
         </div>
     </section>
 
-    <!-- Store Locator (with Stores, Restaurants, and Delivery tabs) -->
-    <StoreLocator
-        title={t.storeLocator.title}
-        subtitle={t.storeLocator.subtitle}
+    <!-- Store Locator V2 (Apple-style split view with animations) -->
+    <LocatorV2
         locale={locale}
-        translations={{
-            detecting: t.storeLocator.detecting,
-            showingResults: t.storeLocator.showingResults,
-            change: t.storeLocator.change,
-            stores: t.storeLocator.tabs.stores,
-            restaurants: t.storeLocator.tabs.restaurants,
-            delivery: t.home.delivery?.title?.split(' ').pop() || 'Delivery',
-            noRetail: t.storeLocator.noResults.retail,
-            noFoodservice: t.storeLocator.noResults.foodservice,
-            noDelivery: t.home.delivery?.noResults || 'No delivery partners in your area yet.',
-            foodserviceIntro: t.storeLocator.foodserviceIntro,
-            deliveryIntro: t.home.delivery?.subtitle || 'Order planted dishes directly to your door from these partner restaurants.',
-            availableProducts: t.storeLocator.availableProducts,
-            orderNow: t.home.delivery?.orderNow || 'Order now',
-            viewMenu: t.home.delivery?.viewMenu || 'View menu',
-            vegan: t.common?.new === 'Nuevo' ? 'Vegano' : (t.common?.new === 'Neu' ? 'Vegan' : 'Vegan'),
-            cantFind: t.storeLocator.online.badge,
-            orderOnline: t.storeLocator.online.text,
-            shopOnline: t.storeLocator.online.button,
-        }}
+        translations={t.home.locatorV2 || {}}
     />
 
     <!-- Newsletter Signup -->

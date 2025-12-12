@@ -230,7 +230,7 @@ export type DiscoveredVenueStatus =
   | 'promoted'      // Moved to production venues collection
   | 'stale';        // Needs re-verification
 
-export type VenueFlagType = 'dish_extraction' | 're_verification';
+export type VenueFlagType = 'dish_extraction' | 're_verification' | 'manual_review';
 export type VenueFlagPriority = 'urgent' | 'high' | 'normal';
 
 // Aligned with production Address type (venue.ts)

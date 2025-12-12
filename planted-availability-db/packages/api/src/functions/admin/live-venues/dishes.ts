@@ -39,17 +39,25 @@ interface VenueDishesResponse {
   total: number;
 }
 
-export const adminVenueDishesHandler = createAdminHandler<VenueDishesResponse>({
-  methods: ['GET'],
-  handler: async (req) => {
+export const adminVenueDishesHandler = createAdminHandler(
+  async (req, res) => {
     // Parse and validate query params
-    const { venueId } = querySchema.parse(req.query);
+    const validation = querySchema.safeParse(req.query);
+    if (!validation.success) {
+      res.status(400).json({
+        error: 'Invalid query parameters',
+        details: validation.error.errors,
+      });
+      return;
+    }
+
+    const { venueId } = validation.data;
 
     // Fetch all dishes for this venue (including inactive for admin view)
     const venueDishes = await dishes.getByVenue(venueId, false);
 
     // Transform to response format
-    return {
+    const response: VenueDishesResponse = {
       venueId,
       dishes: venueDishes.map((dish) => ({
         id: dish.id,
@@ -65,5 +73,8 @@ export const adminVenueDishesHandler = createAdminHandler<VenueDishesResponse>({
       })),
       total: venueDishes.length,
     };
+
+    res.json(response);
   },
-});
+  { allowedMethods: ['GET'] }
+);

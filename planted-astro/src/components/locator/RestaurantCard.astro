@@ -1,0 +1,129 @@
+---
+interface Dish {
+  name: string;
+  description?: string;
+  price?: string;
+  isVegan?: boolean;
+  isNew?: boolean;
+}
+
+interface OrderLink {
+  platform: 'lieferando' | 'ubereats' | 'wolt' | 'justeat' | 'website';
+  url: string;
+  label?: string;
+}
+
+interface Props {
+  name: string;
+  rating?: number;
+  reviewCount?: number;
+  location: string;
+  category?: string;
+  distance: string;
+  dishes?: Dish[];
+  products?: string[];
+  orderLinks?: OrderLink[];
+  imageUrl?: string;
+  translations: {
+    vegan: string;
+    newLabel?: string;
+  };
+}
+
+const {
+  name,
+  rating,
+  reviewCount,
+  location,
+  category,
+  distance,
+  dishes = [],
+  products = [],
+  orderLinks = [],
+  imageUrl,
+  translations
+} = Astro.props;
+
+// Platform display names
+const platformNames: Record<string, string> = {
+  lieferando: 'Lieferando',
+  ubereats: 'Uber Eats',
+  wolt: 'Wolt',
+  justeat: 'Just Eat',
+  website: 'Website'
+};
+---
+
+<article class="card" role="article">
+  <div class="card-header">
+    <div>
+      <h3 class="card-name">
+        {name}
+        {rating && (
+          <span class="card-rating">
+            <span class="star">★</span> {rating.toFixed(1)}
+            {reviewCount && <span class="review-count">({reviewCount})</span>}
+          </span>
+        )}
+      </h3>
+      <div class="card-meta">
+        <span>📍 {location}</span>
+        {category && <span class="card-category">{category}</span>}
+      </div>
+    </div>
+    <span class="card-distance">{distance}</span>
+  </div>
+
+  {dishes.length > 0 && (
+    <div class="card-dishes">
+      {dishes.slice(0, 3).map((dish) => (
+        <div class="dish">
+          <div class="dish-info">
+            <div class="dish-name">
+              {dish.name}
+              {dish.isVegan && <span class="dish-badge">{translations.vegan}</span>}
+              {dish.isNew && <span class="dish-badge new">{translations.newLabel || 'New'}</span>}
+            </div>
+            {dish.description && <div class="dish-desc">{dish.description}</div>}
+          </div>
+          {dish.price && <div class="dish-price">{dish.price}</div>}
+        </div>
+      ))}
+    </div>
+  )}
+
+  {products.length > 0 && (
+    <div class="card-products">
+      {products.map((product) => (
+        <span class="product-tag">{product}</span>
+      ))}
+    </div>
+  )}
+
+  {orderLinks.length > 0 && (
+    <div class="card-actions">
+      {orderLinks.map((link) => (
+        <a
+          href={link.url}
+          class={`order-btn ${link.platform}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {link.label || platformNames[link.platform] || link.platform} ↗
+        </a>
+      ))}
+    </div>
+  )}
+</article>
+
+<style>
+  .review-count {
+    font-size: 0.75rem;
+    opacity: 0.7;
+    margin-left: 0.25rem;
+  }
+
+  .dish-badge.new {
+    background: var(--locator-pink, #E91E8C);
+  }
+</style>

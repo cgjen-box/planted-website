@@ -1,0 +1,212 @@
+---
+import IconRestaurant from './IconRestaurant.astro';
+import IconRetail from './IconRetail.astro';
+
+interface Props {
+  translations: {
+    whereAreYou: string;
+    restaurantZipSubtitle: string;
+    retailZipSubtitle: string;
+    enterZip: string;
+    or: string;
+    useLocation: string;
+    detecting: string;
+  };
+  zipPlaceholders?: Record<string, string>;
+}
+
+const { translations, zipPlaceholders = {
+  'Switzerland': '8001',
+  'Germany': '10115',
+  'Austria': '1010',
+  'Luxembourg': '1111',
+  'Italy': '20121',
+  'France': '75001',
+  'Netherlands': '1011',
+  'United Kingdom': 'SW1A',
+  'Spain': '28001',
+}} = Astro.props;
+---
+
+<div class="zip-overlay" id="zipView" aria-hidden="true">
+  <div class="zip-bg"></div>
+  <button
+    class="zip-back"
+    id="zipBack"
+    type="button"
+    aria-label="Go back"
+  >←</button>
+  <div class="zip-content">
+    <div class="zip-icon-container">
+      <div class="zip-icon-glow"></div>
+      <!-- Restaurant icon (shown when path is restaurant) -->
+      <div class="zip-icon-wrapper" id="zipIconRestaurant" style="display: none;">
+        <IconRestaurant class="zip-icon" />
+      </div>
+      <!-- Retail icon (shown when path is retail) -->
+      <div class="zip-icon-wrapper" id="zipIconRetail" style="display: none;">
+        <IconRetail class="zip-icon" />
+      </div>
+    </div>
+    <h2 class="zip-title">{translations.whereAreYou}</h2>
+    <p class="zip-subtitle" id="zipSubtitle">{translations.restaurantZipSubtitle}</p>
+
+    <div class="zip-input-group">
+      <input
+        type="text"
+        class="zip-input"
+        id="zipInput"
+        placeholder={zipPlaceholders['Germany'] || '10115'}
+        maxlength="8"
+        inputmode="text"
+        autocomplete="postal-code"
+        aria-label={translations.enterZip}
+        data-placeholders={JSON.stringify(zipPlaceholders)}
+      />
+      <button
+        class="zip-submit"
+        id="zipSubmit"
+        type="button"
+        aria-label="Submit ZIP code"
+      >→</button>
+    </div>
+
+    <p class="zip-or">{translations.or}</p>
+    <button class="zip-detect" id="zipDetect" type="button" data-detecting={translations.detecting}>
+      <span>📍</span>
+      <span class="zip-detect-text">{translations.useLocation}</span>
+    </button>
+  </div>
+</div>
+
+<script is:inline>
+(function() {
+  'use strict';
+
+  // ZIP overlay functionality
+  function initZipOverlay() {
+    var zipView = document.getElementById('zipView');
+    var zipInput = document.getElementById('zipInput');
+    var zipSubmit = document.getElementById('zipSubmit');
+    var zipBack = document.getElementById('zipBack');
+    var zipDetect = document.getElementById('zipDetect');
+    var zipDetectText = zipDetect ? zipDetect.querySelector('.zip-detect-text') : null;
+
+    if (!zipView || !zipInput || !zipSubmit || !zipBack || !zipDetect) return;
+
+    // Get detecting text from data attribute
+    var detectingText = zipDetect.dataset.detecting || 'Detecting...';
+
+    // ZIP validation (4+ characters for most European postal codes)
+    function validateZip(value) {
+      var trimmed = value.trim();
+      // Allow 4-5 digits for DE/AT/CH or alphanumeric for UK
+      return trimmed.length >= 4;
+    }
+
+    // Submit handler
+    function handleSubmit() {
+      var value = zipInput.value;
+      if (validateZip(value)) {
+        // Dispatch custom event for parent to handle
+        zipView.dispatchEvent(new CustomEvent('zip-submit', {
+          detail: { zip: value.trim() },
+          bubbles: true
+        }));
+      } else {
+        // Shake animation for invalid input
+        zipInput.classList.add('shake');
+        setTimeout(function() { zipInput.classList.remove('shake'); }, 500);
+        zipInput.focus();
+      }
+    }
+
+    // Event listeners
+    zipSubmit.addEventListener('click', handleSubmit);
+
+    zipInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleSubmit();
+      }
+    });
+
+    // Back button
+    zipBack.addEventListener('click', function() {
+      zipView.dispatchEvent(new CustomEvent('zip-back', { bubbles: true }));
+    });
+
+    // Escape key to go back
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && zipView.classList.contains('active')) {
+        zipView.dispatchEvent(new CustomEvent('zip-back', { bubbles: true }));
+      }
+    });
+
+    // Geolocation
+    zipDetect.addEventListener('click', function() {
+      if (!navigator.geolocation) {
+        alert('Geolocation is not supported by your browser');
+        return;
+      }
+
+      // Show loading state
+      var originalText = zipDetectText ? zipDetectText.textContent : '';
+      if (zipDetectText) {
+        zipDetectText.innerHTML = '<span class="spinner"></span> ' + detectingText;
+      }
+      zipDetect.setAttribute('disabled', 'true');
+
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          // Success - dispatch event with coordinates
+          zipView.dispatchEvent(new CustomEvent('zip-geolocation', {
+            detail: {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            },
+            bubbles: true
+          }));
+
+          // Reset button
+          if (zipDetectText) zipDetectText.textContent = originalText;
+          zipDetect.removeAttribute('disabled');
+        },
+        function(error) {
+          // Error handling
+          console.error('Geolocation error:', error);
+
+          // Reset button
+          if (zipDetectText) zipDetectText.textContent = originalText;
+          zipDetect.removeAttribute('disabled');
+
+          // Show error message
+          var message = 'Unable to get your location.';
+          if (error.code === error.PERMISSION_DENIED) {
+            message = 'Location access was denied. Please enter your ZIP code manually.';
+          } else if (error.code === error.POSITION_UNAVAILABLE) {
+            message = 'Location information is unavailable.';
+          } else if (error.code === error.TIMEOUT) {
+            message = 'Location request timed out.';
+          }
+          alert(message);
+        },
+        {
+          enableHighAccuracy: false,
+          timeout: 10000,
+          maximumAge: 300000 // 5 minutes
+        }
+      );
+    });
+  }
+
+  // Initialize
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initZipOverlay);
+  } else {
+    initZipOverlay();
+  }
+
+  document.addEventListener('astro:page-load', initZipOverlay);
+})();
+</script>

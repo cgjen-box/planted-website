@@ -35,7 +35,8 @@ describe('MainLayout', () => {
       );
 
       expect(screen.getByRole('link', { name: /approve queue/i })).toBeInTheDocument();
-      expect(screen.getByRole('link', { name: /live website/i })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: /live venues/i })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: /sync/i })).toBeInTheDocument();
       expect(screen.getByRole('link', { name: /stats/i })).toBeInTheDocument();
     });
 
@@ -63,7 +64,7 @@ describe('MainLayout', () => {
       expect(approveTab).toHaveClass('text-primary-foreground');
     });
 
-    it('highlights live website tab when active', () => {
+    it('highlights sync tab when active', () => {
       render(
         <MainLayout>
           <div>Content</div>
@@ -71,8 +72,8 @@ describe('MainLayout', () => {
         { route: '/live' }
       );
 
-      const liveTab = screen.getByRole('link', { name: /live website/i });
-      expect(liveTab).toHaveClass('bg-primary');
+      const syncTab = screen.getByRole('link', { name: /sync/i });
+      expect(syncTab).toHaveClass('bg-primary');
     });
 
     it('highlights stats tab when active', () => {
@@ -95,8 +96,8 @@ describe('MainLayout', () => {
         { route: '/' }
       );
 
-      const liveTab = screen.getByRole('link', { name: /live website/i });
-      expect(liveTab).toHaveClass('text-muted-foreground');
+      const syncTab = screen.getByRole('link', { name: /sync/i });
+      expect(syncTab).toHaveClass('text-muted-foreground');
     });
 
     it('tabs have correct href attributes', () => {
@@ -110,7 +111,11 @@ describe('MainLayout', () => {
         'href',
         '/'
       );
-      expect(screen.getByRole('link', { name: /live website/i })).toHaveAttribute(
+      expect(screen.getByRole('link', { name: /live venues/i })).toHaveAttribute(
+        'href',
+        '/live-venues'
+      );
+      expect(screen.getByRole('link', { name: /sync/i })).toHaveAttribute(
         'href',
         '/live'
       );
@@ -134,15 +139,15 @@ describe('MainLayout', () => {
       expect(icon).toBeInTheDocument();
     });
 
-    it('live website tab has Globe icon', () => {
-      const { container } = render(
+    it('sync tab has Globe icon', () => {
+      render(
         <MainLayout>
           <div>Content</div>
         </MainLayout>
       );
 
-      const liveTab = screen.getByRole('link', { name: /live website/i });
-      const icon = liveTab.querySelector('svg');
+      const syncTab = screen.getByRole('link', { name: /sync/i });
+      const icon = syncTab.querySelector('svg');
       expect(icon).toBeInTheDocument();
     });
 
@@ -313,9 +318,9 @@ describe('MainLayout', () => {
         { route: '/' }
       );
 
-      const liveTab = screen.getByRole('link', { name: /live website/i });
-      expect(liveTab).toHaveClass('hover:bg-muted');
-      expect(liveTab).toHaveClass('hover:text-foreground');
+      const syncTab = screen.getByRole('link', { name: /sync/i });
+      expect(syncTab).toHaveClass('hover:bg-muted');
+      expect(syncTab).toHaveClass('hover:text-foreground');
     });
   });
 

@@ -1,0 +1,33 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<svg
+  class={className}
+  viewBox="0 0 100 100"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+>
+  <!-- Bag body -->
+  <path
+    d="M25 35 L28 82 Q30 88, 50 88 Q70 88, 72 82 L75 35"
+    stroke="white" stroke-width="2.5"
+    fill="none" stroke-linejoin="round" opacity="0.9"
+  />
+  <!-- Handle -->
+  <path
+    d="M35 35 L35 25 Q35 15, 50 15 Q65 15, 65 25 L65 35"
+    stroke="white" stroke-width="2.5"
+    fill="none" stroke-linecap="round"
+  />
+  <!-- Purple packages inside -->
+  <rect x="33" y="45" width="15" height="30" rx="3" fill="#61269E"/>
+  <rect x="52" y="42" width="15" height="33" rx="3" fill="#7B3DB0"/>
+  <!-- Leaf on top -->
+  <ellipse cx="50" cy="22" rx="12" ry="6" fill="white" opacity="0.9" transform="rotate(-10 50 22)"/>
+</svg>

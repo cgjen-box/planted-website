@@ -125,6 +125,32 @@ This document outlines a comprehensive testing protocol for the Admin Dashboard 
 - [ ] Selection state management
 - [ ] Diff display logic
 
+### 3.5 Live Venues Feature (`src/features/live-venues/`)
+**Files to verify:**
+- [ ] `types.ts` - LiveVenue, HierarchyNode, LiveVenuesStats, LiveVenuesFilters types
+- [ ] `api/liveVenuesApi.ts` - API functions (fetchLiveVenues, updateVenueStatus)
+- [ ] `hooks/useLiveVenues.ts` - Data fetching hook with React Query
+- [ ] `hooks/useLiveVenueActions.ts` - Mutation hooks (markStale, archive, markActive)
+- [ ] `components/LiveVenueTree.tsx` - Hierarchical tree with keyboard navigation
+- [ ] `components/LiveVenueFilters.tsx` - Filter bar (country, status, type, search)
+- [ ] `components/LiveVenueStats.tsx` - Stats display bar
+- [ ] `components/LiveVenueDetail.tsx` - Detail panel for selected venue
+- [ ] `components/LiveVenueActions.tsx` - Action buttons with confirmation dialogs
+- [ ] `components/index.ts` - Component exports
+
+**Functionality checks:**
+- [ ] Hierarchical tree navigation (Country → VenueType → Chain → Venue)
+- [ ] Keyboard navigation (↑/↓/←/→/Enter)
+- [ ] Filter state management and URL sync
+- [ ] Search debouncing
+- [ ] Optimistic updates on status changes
+- [ ] Confirmation dialogs for destructive actions
+- [ ] Stats calculation (active/stale/archived counts)
+
+**Test files to verify:**
+- [ ] `__tests__/useLiveVenues.test.ts` - Hook unit tests
+- [ ] `__tests__/LiveVenuesPage.test.tsx` - Page integration tests
+
 ---
 
 ## Phase 4: Page Integration Tests
@@ -238,12 +264,16 @@ This document outlines a comprehensive testing protocol for the Admin Dashboard 
 - [ ] `execute.ts` - POST /admin/sync/execute
 - [ ] `history.ts` - GET /admin/sync/history
 
-### 8.5 Analytics Endpoints (packages/api/src/functions/admin/analytics/)
+### 8.5 Live Venues Endpoints (packages/api/src/functions/admin/live-venues/)
+- [ ] `list.ts` - GET /adminLiveVenues (hierarchical venue browser)
+- [ ] `updateStatus.ts` - POST /adminUpdateVenueStatus (mark active/stale/archived)
+
+### 8.6 Analytics Endpoints (packages/api/src/functions/admin/analytics/)
 - [ ] `kpis.ts` - GET /admin/analytics/kpis
 - [ ] `costs.ts` - GET /admin/analytics/costs
 - [ ] `rejections.ts` - GET /admin/analytics/rejections
 
-### 8.6 Feedback Endpoints (packages/api/src/functions/admin/feedback/)
+### 8.7 Feedback Endpoints (packages/api/src/functions/admin/feedback/)
 - [ ] `submit.ts` - POST /admin/feedback/submit
 - [ ] `process.ts` - Learning trigger logic
 

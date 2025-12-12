@@ -85,6 +85,7 @@ export interface DishExtractionRunConfig {
   platforms?: DeliveryPlatform[];
   countries?: SupportedCountry[];
   max_venues?: number;
+  process_flagged?: boolean; // Process venues flagged for dish_extraction
 }
 
 export interface DishExtractionRunStats {

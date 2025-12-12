@@ -126,6 +126,64 @@ The dashboard is organized into workflow sections:
 | `p` | Partial approve |
 | `?` | Show help |
 
+### Live Venues Browser
+
+The Live Venues Browser (`/live-venues`) allows you to browse and manage all venues that are currently published on the production website.
+
+#### Navigation
+
+1. Click "Live Venues" in the top navigation bar
+2. The page displays a split-panel view:
+   - **Left panel**: Hierarchical tree (Country → Venue Type → Chain → Venue)
+   - **Right panel**: Details of the selected venue
+
+#### Filtering Venues
+
+Use the filter bar at the top to narrow down venues:
+
+| Filter | Options | Description |
+|--------|---------|-------------|
+| Country | CH, DE, AT | Filter by country |
+| Status | Active, Stale, Archived | Filter by venue status |
+| Type | Restaurant, Retail, Delivery Kitchen | Filter by venue type |
+| Search | Free text | Search by venue name or city |
+
+#### Understanding Venue Status
+
+| Status | Meaning | Action |
+|--------|---------|--------|
+| **Active** | Venue is confirmed and up-to-date | No action needed |
+| **Stale** | Venue needs re-verification | Menu may have changed, needs review |
+| **Archived** | Venue is no longer active | Closed or removed Planted from menu |
+
+#### Stats Bar
+
+The stats bar at the top shows:
+- **Total venues** count
+- **Active** venues count
+- **Stale** venues count
+- **Archived** venues count
+- **Average days since verification**
+
+#### Managing Venues
+
+Select a venue from the tree to see its details. Available actions:
+
+| Action | Description |
+|--------|-------------|
+| **Mark as Stale** | Flag venue for re-verification |
+| **Archive** | Mark venue as no longer active |
+| **Mark as Active** | Confirm venue is up-to-date (resets lastVerified) |
+
+Each action requires confirmation before execution.
+
+#### Keyboard Shortcuts (Live Venues)
+
+| Key | Action |
+|-----|--------|
+| `↑` / `↓` | Navigate tree up/down |
+| `←` / `→` | Collapse/expand tree nodes |
+| `Enter` | Select venue |
 
 ---
 

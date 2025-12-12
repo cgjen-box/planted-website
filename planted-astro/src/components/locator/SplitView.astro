@@ -1,0 +1,78 @@
+---
+import IconRestaurant from './IconRestaurant.astro';
+import IconRetail from './IconRetail.astro';
+
+interface Props {
+  translations: {
+    letItCook: string;
+    doItYourself: string;
+    restaurantSubtitle: string;
+    retailSubtitle: string;
+    findRestaurants: string;
+    findStores: string;
+  };
+}
+
+const { translations } = Astro.props;
+---
+
+<div class="split-view" id="splitView">
+  <!-- Restaurant Panel -->
+  <div
+    class="panel panel-restaurant"
+    id="panelRestaurant"
+    role="button"
+    tabindex="0"
+    aria-label={translations.findRestaurants}
+  >
+    <div class="panel-bg"></div>
+    <div class="panel-content">
+      <div class="icon-container">
+        <div class="icon-glow-1"></div>
+        <div class="icon-glow-2"></div>
+        <!-- Blur shadow copy for animation -->
+        <svg class="icon-blur-shadow" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+          <ellipse cx="50" cy="72" rx="38" ry="10" stroke="white" stroke-width="2.5" fill="none"/>
+          <ellipse cx="50" cy="55" rx="25" ry="12" fill="white"/>
+        </svg>
+        <IconRestaurant class="icon-main" />
+      </div>
+      <h2 class="panel-title">{translations.letItCook}</h2>
+      <p class="panel-subtitle">{translations.restaurantSubtitle}</p>
+      <button class="panel-cta" type="button">
+        {translations.findRestaurants}
+        <span class="arrow">→</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Retail Panel -->
+  <div
+    class="panel panel-retail"
+    id="panelRetail"
+    role="button"
+    tabindex="0"
+    aria-label={translations.findStores}
+  >
+    <div class="panel-bg"></div>
+    <div class="panel-content">
+      <div class="icon-container">
+        <div class="icon-glow-1"></div>
+        <div class="icon-glow-2"></div>
+        <!-- Blur shadow copy for animation -->
+        <svg class="icon-blur-shadow" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+          <path d="M25 35 L28 82 Q30 88, 50 88 Q70 88, 72 82 L75 35" stroke="white" stroke-width="2.5" fill="none"/>
+        </svg>
+        <IconRetail class="icon-main" />
+      </div>
+      <h2 class="panel-title">{translations.doItYourself}</h2>
+      <p class="panel-subtitle">{translations.retailSubtitle}</p>
+      <button class="panel-cta" type="button">
+        {translations.findStores}
+        <span class="arrow">→</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Script moved to LocatorV2.astro to ensure GSAP is loaded first -->
