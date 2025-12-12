@@ -104,11 +104,12 @@ export class LieferandoAdapter extends BasePlatformAdapter {
         const nextData = JSON.parse(nextDataMatch[1]);
         const pageProps = nextData.props?.pageProps;
 
+        // Method 1: Legacy format - pageProps.restaurant.address
         if (pageProps?.restaurant) {
           const restaurant = pageProps.restaurant;
           data.name = restaurant.name;
 
-          if (restaurant.address) {
+          if (restaurant.address?.street) {
             data.address = {
               street: restaurant.address.street,
               city: restaurant.address.city,
@@ -117,7 +118,7 @@ export class LieferandoAdapter extends BasePlatformAdapter {
             };
           }
 
-          if (restaurant.location) {
+          if (restaurant.location?.lat && restaurant.location?.lng) {
             data.coordinates = {
               latitude: restaurant.location.lat,
               longitude: restaurant.location.lng,
@@ -142,6 +143,45 @@ export class LieferandoAdapter extends BasePlatformAdapter {
                   category: category.name,
                 });
               }
+            }
+          }
+        }
+
+        // Method 2: New format - colophon.data (contains restaurant business info)
+        if (!data.address?.street) {
+          const colophonData = this.findNestedProperty(nextData, 'colophon')?.data;
+          if (colophonData?.streetName) {
+            data.address = {
+              street: colophonData.streetName,
+              city: colophonData.city || data.address?.city || '',
+              postal_code: colophonData.postalCode || data.address?.postal_code || '',
+              country: this.getCountryFromUrl(html) || 'DE',
+            };
+            if (colophonData.restaurantName && !data.name) {
+              data.name = colophonData.restaurantName;
+            }
+          }
+        }
+
+        // Method 3: location object (contains address + coordinates)
+        if (!data.address?.street || !data.coordinates) {
+          // Look for location objects with actual address data
+          const locationData = this.findLocationWithAddress(nextData);
+          if (locationData) {
+            if (!data.address?.street && locationData.street) {
+              data.address = {
+                street: locationData.street || locationData.streetAddress || '',
+                city: locationData.city || data.address?.city || '',
+                postal_code: locationData.postalCode || data.address?.postal_code || '',
+                country: locationData.countryCode || locationData.country || this.getCountryFromUrl(html) || 'DE',
+              };
+            }
+            if (!data.coordinates && locationData.lat && locationData.lng) {
+              data.coordinates = {
+                latitude: locationData.lat,
+                longitude: locationData.lng,
+                accuracy: 'exact',
+              };
             }
           }
         }
@@ -222,5 +262,67 @@ export class LieferandoAdapter extends BasePlatformAdapter {
     }
 
     return items;
+  }
+
+  /**
+   * Recursively search for a property in a nested object
+   */
+  private findNestedProperty(obj: unknown, propertyName: string): unknown {
+    if (!obj || typeof obj !== 'object') return null;
+
+    const objRecord = obj as Record<string, unknown>;
+    if (propertyName in objRecord) {
+      return objRecord[propertyName];
+    }
+
+    for (const key of Object.keys(objRecord)) {
+      const result = this.findNestedProperty(objRecord[key], propertyName);
+      if (result) return result;
+    }
+
+    return null;
+  }
+
+  /**
+   * Find a location object that has actual address data (not empty)
+   */
+  private findLocationWithAddress(obj: unknown): {
+    street?: string;
+    streetAddress?: string;
+    city?: string;
+    postalCode?: string;
+    country?: string;
+    countryCode?: string;
+    lat?: number;
+    lng?: number;
+  } | null {
+    if (!obj || typeof obj !== 'object') return null;
+
+    const objRecord = obj as Record<string, unknown>;
+
+    // Check if this is a location object with actual address data
+    if ('street' in objRecord || 'streetAddress' in objRecord) {
+      const street = (objRecord.street || objRecord.streetAddress) as string | undefined;
+      if (street && street.trim() !== '') {
+        return {
+          street: objRecord.street as string | undefined,
+          streetAddress: objRecord.streetAddress as string | undefined,
+          city: objRecord.city as string | undefined,
+          postalCode: objRecord.postalCode as string | undefined,
+          country: objRecord.country as string | undefined,
+          countryCode: objRecord.countryCode as string | undefined,
+          lat: typeof objRecord.lat === 'number' ? objRecord.lat : undefined,
+          lng: typeof objRecord.lng === 'number' ? objRecord.lng : undefined,
+        };
+      }
+    }
+
+    // Recursively search in child objects
+    for (const key of Object.keys(objRecord)) {
+      const result = this.findLocationWithAddress(objRecord[key]);
+      if (result && result.street) return result;
+    }
+
+    return null;
   }
 }

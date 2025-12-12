@@ -112,79 +112,127 @@ export class WoltAdapter extends BasePlatformAdapter {
       rawHtml: html,
     };
 
-    // Wolt uses React with hydration data
-    // Look for __NEXT_DATA__ or window.__PRELOADED_STATE__
-    const statePatterns = [
-      /<script[^>]*id="__NEXT_DATA__"[^>]*>([\\s\\S]*?)<\/script>/,
-      /window\.__PRELOADED_STATE__\s*=\s*({[\\s\\S]+?});?\s*<\/script>/,
-      /"venue"\s*:\s*({[\\s\\S]+?})(?=,"\w+":|\s*})/,
-    ];
-
-    for (const pattern of statePatterns) {
-      const match = html.match(pattern);
-      if (match) {
+    // Method 1: Try JSON-LD schema.org data (most reliable for Wolt)
+    const jsonLdMatch = html.match(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi);
+    if (jsonLdMatch) {
+      for (const match of jsonLdMatch) {
         try {
-          const jsonStr = match[1]
-            .replace(/undefined/g, 'null')
-            .replace(/\\x([0-9A-Fa-f]{2})/g, (_, hex) =>
-              String.fromCharCode(parseInt(hex, 16))
-            );
-          const parsed = JSON.parse(jsonStr);
+          const jsonContent = match.replace(/<script[^>]*>/, '').replace(/<\/script>/, '');
+          const parsed = JSON.parse(jsonContent);
 
-          // Navigate to venue data
-          const venue =
-            parsed.props?.pageProps?.venue ||
-            parsed.venue ||
-            parsed;
+          // Handle array of JSON-LD objects
+          const ldObjects = Array.isArray(parsed) ? parsed : [parsed];
 
-          if (venue.name) {
-            data.name = venue.name;
-          }
+          for (const obj of ldObjects) {
+            // Look for Restaurant schema with address
+            if (obj['@type'] === 'Restaurant' || obj['@type'] === 'LocalBusiness') {
+              if (obj.name && !data.name) {
+                data.name = obj.name;
+              }
 
-          if (venue.address) {
-            data.address = {
-              street: venue.address.street || venue.address.line1,
-              city: venue.address.city,
-              postal_code: venue.address.postalCode || venue.address.zip,
-              country: this.getCountryFromUrl(html) || 'DE',
-            };
-          }
+              if (obj.address && obj.address['@type'] === 'PostalAddress') {
+                data.address = {
+                  street: obj.address.streetAddress,
+                  city: obj.address.addressLocality,
+                  postal_code: obj.address.postalCode,
+                  country: obj.address.addressCountry || this.getCountryFromUrl(html) || 'DE',
+                };
+              }
 
-          if (venue.location) {
-            data.coordinates = {
-              latitude: venue.location.coordinates?.[1] || venue.location.lat,
-              longitude: venue.location.coordinates?.[0] || venue.location.lng,
-              accuracy: 'exact',
-            };
-          }
+              if (obj.geo && obj.geo['@type'] === 'GeoCoordinates') {
+                data.coordinates = {
+                  latitude: parseFloat(obj.geo.latitude),
+                  longitude: parseFloat(obj.geo.longitude),
+                  accuracy: 'exact',
+                };
+              }
 
-          if (venue.rating) {
-            data.rating = venue.rating.score || venue.rating;
-            data.reviewCount = venue.rating.count;
-          }
-
-          // Extract menu from venue data
-          const menu = parsed.props?.pageProps?.menu || venue.menu;
-          if (menu?.categories) {
-            for (const category of menu.categories) {
-              for (const item of category.items || []) {
-                data.menuItems.push({
-                  name: item.name,
-                  description: item.description,
-                  price: item.baseprice
-                    ? (item.baseprice / 100).toFixed(2)
-                    : item.price?.toString(),
-                  currency: 'EUR',
-                  category: category.name,
-                  imageUrl: item.image?.url,
-                });
+              if (obj.aggregateRating) {
+                data.rating = parseFloat(obj.aggregateRating.ratingValue);
+                data.reviewCount = parseInt(obj.aggregateRating.reviewCount);
               }
             }
           }
-
-          break;
         } catch {
-          // Continue to next pattern
+          // Continue to next JSON-LD block
+        }
+      }
+    }
+
+    // Method 2: Try __NEXT_DATA__ or window.__PRELOADED_STATE__ (fallback)
+    if (!data.address?.street) {
+      const statePatterns = [
+        /<script[^>]*id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/,
+        /window\.__PRELOADED_STATE__\s*=\s*({[\s\S]+?});?\s*<\/script>/,
+        /"venue"\s*:\s*({[\s\S]+?})(?=,"\w+":|\s*})/,
+      ];
+
+      for (const pattern of statePatterns) {
+        const match = html.match(pattern);
+        if (match) {
+          try {
+            const jsonStr = match[1]
+              .replace(/undefined/g, 'null')
+              .replace(/\\x([0-9A-Fa-f]{2})/g, (_, hex) =>
+                String.fromCharCode(parseInt(hex, 16))
+              );
+            const parsed = JSON.parse(jsonStr);
+
+            // Navigate to venue data
+            const venue =
+              parsed.props?.pageProps?.venue ||
+              parsed.venue ||
+              parsed;
+
+            if (venue.name && !data.name) {
+              data.name = venue.name;
+            }
+
+            if (venue.address && !data.address?.street) {
+              data.address = {
+                street: venue.address.street || venue.address.line1,
+                city: venue.address.city,
+                postal_code: venue.address.postalCode || venue.address.zip,
+                country: this.getCountryFromUrl(html) || 'DE',
+              };
+            }
+
+            if (venue.location && !data.coordinates) {
+              data.coordinates = {
+                latitude: venue.location.coordinates?.[1] || venue.location.lat,
+                longitude: venue.location.coordinates?.[0] || venue.location.lng,
+                accuracy: 'exact',
+              };
+            }
+
+            if (venue.rating && !data.rating) {
+              data.rating = venue.rating.score || venue.rating;
+              data.reviewCount = venue.rating.count;
+            }
+
+            // Extract menu from venue data
+            const menu = parsed.props?.pageProps?.menu || venue.menu;
+            if (menu?.categories) {
+              for (const category of menu.categories) {
+                for (const item of category.items || []) {
+                  data.menuItems.push({
+                    name: item.name,
+                    description: item.description,
+                    price: item.baseprice
+                      ? (item.baseprice / 100).toFixed(2)
+                      : item.price?.toString(),
+                    currency: 'EUR',
+                    category: category.name,
+                    imageUrl: item.image?.url,
+                  });
+                }
+              }
+            }
+
+            break;
+          } catch {
+            // Continue to next pattern
+          }
         }
       }
     }

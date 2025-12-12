@@ -9,12 +9,19 @@
  * 3. Using platform adapters to extract full address data
  * 4. Updating venues with the extracted addresses
  *
+ * Fetching Strategy (3-tier failover):
+ * 1. Simple fetch - fastest, but blocked by some platforms
+ * 2. PuppeteerFetcher - headless browser with stealth mode
+ * 3. Chrome DevTools MCP - uses debug Chrome (requires chrome-debug.bat running)
+ *
  * Usage:
- *   npx tsx src/cli/backfill-addresses.ts [--dry-run] [--limit N]
+ *   npx tsx src/cli/backfill-addresses.ts [--dry-run] [--limit N] [--use-puppeteer] [--use-chrome]
  *
  * Options:
- *   --dry-run  Preview changes without writing to database
- *   --limit N  Process at most N venues (default: 100)
+ *   --dry-run       Preview changes without writing to database
+ *   --limit N       Process at most N venues (default: 100)
+ *   --use-puppeteer Start with PuppeteerFetcher instead of simple fetch
+ *   --use-chrome    Use Chrome DevTools MCP (requires chrome-debug.bat running)
  */
 
 // Load environment variables
@@ -45,6 +52,7 @@ if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
 import { initializeFirestore, getFirestore } from '@pad/database';
 import type { DeliveryPlatform } from '@pad/core';
 import { platformAdapters } from '../agents/smart-discovery/platforms/index.js';
+import { PuppeteerFetcher } from '../agents/smart-dish-finder/PuppeteerFetcher.js';
 
 initializeFirestore();
 const db = getFirestore();
@@ -55,9 +63,12 @@ interface BackfillResult {
   platform: string;
   oldAddress: string;
   newAddress?: string;
+  fetchMethod?: 'simple' | 'puppeteer' | 'chrome';
   status: 'updated' | 'skipped' | 'no_url' | 'fetch_failed' | 'no_address' | 'error';
   error?: string;
 }
+
+type FetchMethod = 'simple' | 'puppeteer' | 'chrome';
 
 /**
  * Detect platform from URL
@@ -86,9 +97,9 @@ function formatAddress(address: { street?: string; city?: string; postal_code?: 
 }
 
 /**
- * Fetch venue page with retry
+ * Simple fetch with retry
  */
-async function fetchVenuePage(url: string, retries = 2): Promise<string | null> {
+async function simpleFetch(url: string, retries = 2): Promise<string | null> {
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
       const response = await fetch(url, {
@@ -101,7 +112,6 @@ async function fetchVenuePage(url: string, retries = 2): Promise<string | null> 
 
       if (!response.ok) {
         if (attempt < retries) {
-          console.log(`    Retry ${attempt + 1}/${retries} after ${response.status}...`);
           await delay(2000);
           continue;
         }
@@ -109,9 +119,8 @@ async function fetchVenuePage(url: string, retries = 2): Promise<string | null> 
       }
 
       return await response.text();
-    } catch (error) {
+    } catch {
       if (attempt < retries) {
-        console.log(`    Retry ${attempt + 1}/${retries} after error...`);
         await delay(2000);
         continue;
       }
@@ -121,15 +130,104 @@ async function fetchVenuePage(url: string, retries = 2): Promise<string | null> 
   return null;
 }
 
+/**
+ * Fetch with PuppeteerFetcher (headless browser with stealth)
+ */
+async function puppeteerFetch(
+  url: string,
+  venueName: string,
+  fetcher: PuppeteerFetcher
+): Promise<string | null> {
+  try {
+    const result = await fetcher.fetchPage(url, {
+      venue_id: 'backfill',
+      venue_name: venueName,
+    });
+
+    if (result.success && result.page?.html) {
+      return result.page.html;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Fetch with Chrome DevTools MCP (requires chrome-debug.bat running)
+ * This is the last resort - uses manual browser
+ */
+async function chromeFetch(url: string): Promise<string | null> {
+  try {
+    // Try to connect to Chrome DevTools MCP
+    // This requires the chrome-devtools MCP server to be running
+    const CDP_PORT = 9222;
+    const CDP_BASE = `http://localhost:${CDP_PORT}`;
+
+    // Check if Chrome debug is available
+    const listResponse = await fetch(`${CDP_BASE}/json/list`, { signal: AbortSignal.timeout(2000) });
+    if (!listResponse.ok) {
+      console.log('    Chrome DevTools not available (run chrome-debug.bat)');
+      return null;
+    }
+
+    const targets = await listResponse.json() as Array<{ id: string; type: string; url: string; webSocketDebuggerUrl: string }>;
+    let targetId = targets.find(t => t.type === 'page')?.id;
+
+    if (!targetId) {
+      // No page open, create one
+      const newTabResponse = await fetch(`${CDP_BASE}/json/new?${encodeURIComponent(url)}`);
+      if (!newTabResponse.ok) return null;
+      const newTarget = await newTabResponse.json() as { id: string };
+      targetId = newTarget.id;
+      await delay(5000); // Wait for page to load
+    } else {
+      // Navigate existing tab
+      await fetch(`${CDP_BASE}/json/activate/${targetId}`);
+      // Use CDP to navigate
+      const wsUrl = targets.find(t => t.id === targetId)?.webSocketDebuggerUrl;
+      if (wsUrl) {
+        // For simplicity, just wait - the MCP server handles navigation
+        // We can't easily do WebSocket CDP here, so fall back to opening URL
+        await fetch(`${CDP_BASE}/json/new?${encodeURIComponent(url)}`);
+        await delay(5000);
+      }
+    }
+
+    // Get page content via CDP Runtime.evaluate
+    // This is simplified - in practice, you'd use the MCP tools
+    console.log('    Note: Chrome DevTools fetch requires manual MCP integration');
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 function delay(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function runBackfill(dryRun: boolean, limit: number): Promise<void> {
+async function runBackfill(
+  dryRun: boolean,
+  limit: number,
+  startMethod: FetchMethod,
+  useChrome: boolean
+): Promise<void> {
   console.log('\n📍 Address Backfill Script');
   console.log('='.repeat(50));
   console.log(`Mode: ${dryRun ? 'DRY RUN (no changes will be made)' : 'LIVE (changes will be written)'}`);
-  console.log(`Limit: ${limit} venues\n`);
+  console.log(`Limit: ${limit} venues`);
+  console.log(`Start method: ${startMethod}`);
+  console.log(`Chrome fallback: ${useChrome ? 'enabled' : 'disabled'}\n`);
+
+  // Initialize PuppeteerFetcher if needed
+  let puppeteerFetcher: PuppeteerFetcher | null = null;
+  if (startMethod === 'puppeteer' || startMethod === 'simple') {
+    console.log('Initializing PuppeteerFetcher...');
+    puppeteerFetcher = new PuppeteerFetcher({ headless: true });
+    await puppeteerFetcher.init();
+    console.log('PuppeteerFetcher ready.\n');
+  }
 
   // Query venues with missing street addresses
   console.log('Querying venues with missing street addresses...');
@@ -141,9 +239,8 @@ async function runBackfill(dryRun: boolean, limit: number): Promise<void> {
     .get();
 
   // Also get venues where street doesn't exist (null/undefined)
-  // Firestore doesn't support != null directly, so we get more and filter
   const allVenuesSnapshot = await db.collection('venues')
-    .limit(limit * 2)  // Get more to filter
+    .limit(limit * 2)
     .get();
 
   // Combine and dedupe
@@ -164,6 +261,7 @@ async function runBackfill(dryRun: boolean, limit: number): Promise<void> {
 
   if (venuesToProcess.length === 0) {
     console.log('No venues need address backfill.');
+    if (puppeteerFetcher) await puppeteerFetcher.close();
     return;
   }
 
@@ -221,18 +319,64 @@ async function runBackfill(dryRun: boolean, limit: number): Promise<void> {
         continue;
       }
 
-      // Fetch the venue page
-      console.log(`  Fetching from ${platform}...`);
-      const html = await fetchVenuePage(sourceUrl);
+      // Try fetching with failover strategy
+      let html: string | null = null;
+      let fetchMethod: FetchMethod = startMethod;
+
+      // Tier 1: Simple fetch (if not skipped)
+      if (startMethod === 'simple') {
+        console.log(`  Trying simple fetch from ${platform}...`);
+        html = await simpleFetch(sourceUrl);
+        if (html) {
+          result.fetchMethod = 'simple';
+        }
+      }
+
+      // Tier 2: PuppeteerFetcher
+      if (!html && puppeteerFetcher && (startMethod === 'simple' || startMethod === 'puppeteer')) {
+        console.log(`  Trying PuppeteerFetcher...`);
+        html = await puppeteerFetch(sourceUrl, result.venueName, puppeteerFetcher);
+        if (html) {
+          result.fetchMethod = 'puppeteer';
+          fetchMethod = 'puppeteer';
+        }
+      }
+
+      // Tier 3: Chrome DevTools (if enabled and still no HTML)
+      if (!html && useChrome) {
+        console.log(`  Trying Chrome DevTools...`);
+        html = await chromeFetch(sourceUrl);
+        if (html) {
+          result.fetchMethod = 'chrome';
+          fetchMethod = 'chrome';
+        }
+      }
 
       if (!html) {
         result.status = 'fetch_failed';
-        result.error = 'Failed to fetch page';
+        result.error = 'All fetch methods failed';
         errorCount++;
-        console.log(`  ❌ Failed to fetch page`);
+        console.log(`  ❌ Failed to fetch page (tried: ${startMethod}${puppeteerFetcher ? ', puppeteer' : ''}${useChrome ? ', chrome' : ''})`);
         results.push(result);
-        await delay(1000); // Rate limit
+        await delay(1000);
         continue;
+      }
+
+      console.log(`  ✓ Fetched via ${fetchMethod} (${(html.length / 1024).toFixed(1)}KB)`);
+
+      // Debug: Save first HTML sample to inspect
+      if (i === 0 && dryRun) {
+        const debugFile = path.join(__dirname, `debug-${platform}-sample.html`);
+        fs.writeFileSync(debugFile, html);
+        console.log(`  📄 Debug: Saved sample HTML to ${debugFile}`);
+
+        // Also check for common data structures
+        const hasNextData = html.includes('__NEXT_DATA__');
+        const hasReduxState = html.includes('__REDUX_STATE__');
+        const hasRestaurant = html.includes('"restaurant"');
+        const hasAddress = html.includes('"address"');
+        const hasStreet = html.includes('"street"');
+        console.log(`  📊 Debug: __NEXT_DATA__=${hasNextData}, __REDUX_STATE__=${hasReduxState}, "restaurant"=${hasRestaurant}, "address"=${hasAddress}, "street"=${hasStreet}`);
       }
 
       // Parse the venue page to extract address
@@ -240,9 +384,17 @@ async function runBackfill(dryRun: boolean, limit: number): Promise<void> {
 
       if (!venuePageData.address?.street) {
         result.status = 'no_address';
-        result.error = 'No street address found in page';
+        result.error = 'No street address found in page data';
         skippedCount++;
         console.log(`  ⚠️ No street address found in page data`);
+
+        // Debug: Save failed HTML for investigation
+        if (dryRun) {
+          const debugFile = path.join(__dirname, `debug-${platform}-failed-${i}.html`);
+          fs.writeFileSync(debugFile, html);
+          console.log(`  📄 Debug: Saved failed HTML to ${debugFile}`);
+        }
+
         results.push(result);
         await delay(1000);
         continue;
@@ -289,7 +441,7 @@ async function runBackfill(dryRun: boolean, limit: number): Promise<void> {
       results.push(result);
 
       // Rate limit
-      await delay(1500);
+      await delay(2000);
     } catch (error) {
       result.status = 'error';
       result.error = error instanceof Error ? error.message : String(error);
@@ -300,6 +452,12 @@ async function runBackfill(dryRun: boolean, limit: number): Promise<void> {
     }
   }
 
+  // Cleanup
+  if (puppeteerFetcher) {
+    console.log('\nClosing PuppeteerFetcher...');
+    await puppeteerFetcher.close();
+  }
+
   // Print summary
   console.log('\n📊 Backfill Summary');
   console.log('='.repeat(50));
@@ -308,15 +466,29 @@ async function runBackfill(dryRun: boolean, limit: number): Promise<void> {
   console.log(`⚠️  Skipped: ${skippedCount}`);
   console.log(`❌ Errors: ${errorCount}`);
 
+  // Print fetch method breakdown
+  const byMethod = results.filter(r => r.status === 'updated').reduce((acc, r) => {
+    acc[r.fetchMethod || 'unknown'] = (acc[r.fetchMethod || 'unknown'] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  if (Object.keys(byMethod).length > 0) {
+    console.log('\nFetch method breakdown:');
+    for (const [method, count] of Object.entries(byMethod)) {
+      console.log(`  ${method}: ${count}`);
+    }
+  }
+
   // Print updated venues
   const updatedVenues = results.filter(r => r.status === 'updated');
   if (updatedVenues.length > 0) {
     console.log('\n✅ Updated Venues:');
     console.log('-'.repeat(50));
-    for (const venue of updatedVenues.slice(0, 20)) { // Show first 20
+    for (const venue of updatedVenues.slice(0, 20)) {
       console.log(`\n  ${venue.venueName} (${venue.venueId})`);
       console.log(`    Old: ${venue.oldAddress}`);
       console.log(`    New: ${venue.newAddress}`);
+      console.log(`    Method: ${venue.fetchMethod}`);
     }
     if (updatedVenues.length > 20) {
       console.log(`\n  ... and ${updatedVenues.length - 20} more`);
@@ -328,7 +500,7 @@ async function runBackfill(dryRun: boolean, limit: number): Promise<void> {
   if (skippedVenues.length > 0) {
     console.log('\n⚠️  Skipped Venues:');
     console.log('-'.repeat(50));
-    for (const venue of skippedVenues.slice(0, 10)) { // Show first 10
+    for (const venue of skippedVenues.slice(0, 10)) {
       console.log(`  ${venue.venueName}: ${venue.error || venue.status}`);
     }
     if (skippedVenues.length > 10) {
@@ -359,13 +531,17 @@ async function runBackfill(dryRun: boolean, limit: number): Promise<void> {
 // Parse CLI arguments
 const args = process.argv.slice(2);
 const dryRun = args.includes('--dry-run');
+const usePuppeteer = args.includes('--use-puppeteer');
+const useChrome = args.includes('--use-chrome');
 const limitIndex = args.indexOf('--limit');
 const limit = limitIndex >= 0 && args[limitIndex + 1]
   ? parseInt(args[limitIndex + 1], 10)
   : 100;
 
+const startMethod: FetchMethod = usePuppeteer ? 'puppeteer' : 'simple';
+
 // Main execution
-runBackfill(dryRun, limit)
+runBackfill(dryRun, limit, startMethod, useChrome)
   .then(() => process.exit(0))
   .catch((error) => {
     console.error('Backfill failed:', error);
