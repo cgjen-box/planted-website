@@ -103,8 +103,12 @@ const defaultPlaceholder = zipPlaceholders[country] || '10115';
 (function() {
   'use strict';
 
+  var initialized = false;
+
   // ZIP overlay functionality
   function initZipOverlay() {
+    if (initialized) return;
+
     var zipView = document.getElementById('zipView');
     var zipInput = document.getElementById('zipInput');
     var zipSubmit = document.getElementById('zipSubmit');
@@ -113,6 +117,8 @@ const defaultPlaceholder = zipPlaceholders[country] || '10115';
     var zipDetectText = zipDetect ? zipDetect.querySelector('.zip-detect-text') : null;
 
     if (!zipView || !zipInput || !zipSubmit || !zipBack || !zipDetect) return;
+
+    initialized = true;
 
     // Get detecting text from data attribute
     var detectingText = zipDetect.dataset.detecting || 'Detecting...';

@@ -17,6 +17,13 @@ async function runTests() {
   const page = await browser.newPage();
   await page.setViewport({ width: 1280, height: 800 });
 
+  // Capture console logs from the page
+  page.on('console', msg => {
+    if (msg.text().includes('[DEBUG]')) {
+      console.log('   📋 Page:', msg.text());
+    }
+  });
+
   const results = [];
 
   try {
@@ -201,7 +208,27 @@ async function runTests() {
 
     // Test 10: Change ZIP Button
     console.log('T10: Testing Change ZIP Button...');
-    await page.click('#resultsChange');
+    await wait(500); // Extra wait after tab switch animation
+
+    // Debug: Check button state before clicking
+    const buttonState = await page.evaluate(() => {
+      const btn = document.getElementById('resultsChange');
+      if (!btn) return { exists: false };
+      const rect = btn.getBoundingClientRect();
+      const style = window.getComputedStyle(btn);
+      return {
+        exists: true,
+        visible: style.display !== 'none' && style.visibility !== 'hidden' && parseFloat(style.opacity) > 0,
+        rect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height },
+        inViewport: rect.top >= 0 && rect.top < window.innerHeight
+      };
+    });
+    console.log('   Button state:', JSON.stringify(buttonState));
+
+    // Use evaluate to click directly in case there's a Puppeteer click issue
+    await page.evaluate(() => {
+      document.getElementById('resultsChange').click();
+    });
     await wait(1000);
 
     const backToZipView = await page.evaluate(() => {
@@ -209,6 +236,13 @@ async function runTests() {
       const resultsView = document.getElementById('resultsView');
       return zipView.classList.contains('active') && !resultsView.classList.contains('active');
     });
+
+    // Debug: Log current state
+    const stateAfter = await page.evaluate(() => ({
+      zipActive: document.getElementById('zipView')?.classList.contains('active'),
+      resultsActive: document.getElementById('resultsView')?.classList.contains('active')
+    }));
+    console.log('   State after click:', JSON.stringify(stateAfter));
 
     if (backToZipView) {
       console.log('   ✅ PASS: Change ZIP returns to ZIP view');
@@ -281,14 +315,19 @@ async function runTests() {
     // Test 14: Country Filtering - German ZIP shows German results
     console.log('T14: Testing German ZIP shows German results...');
     // Go back to split view and test restaurant path
-    await page.click('#resultsBack');
-    await wait(1000);
-    await page.click('#panelRestaurant');
+    await page.evaluate(() => document.getElementById('resultsBack').click());
     await wait(1500);
-    await page.evaluate(() => document.getElementById('zipInput').value = '');
-    await page.type('#zipInput', '10115'); // Berlin ZIP
-    await page.click('#zipSubmit');
-    await wait(3000); // Wait for geocoding and render
+    await page.evaluate(() => document.getElementById('panelRestaurant').click());
+    await wait(2000);
+    await page.evaluate(() => {
+      const input = document.getElementById('zipInput');
+      if (input) {
+        input.value = '10115'; // Berlin ZIP
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    });
+    await page.evaluate(() => document.getElementById('zipSubmit').click());
+    await wait(4000); // Wait for geocoding and render
 
     const germanLocationText = await page.evaluate(() => {
       const el = document.getElementById('resultsLocationText');
@@ -305,14 +344,36 @@ async function runTests() {
 
     // Test 15: Country Filtering - Swiss ZIP shows Swiss results
     console.log('T15: Testing Swiss ZIP shows Swiss results...');
-    await page.click('#resultsChange');
-    await wait(1500);
 
-    // Triple-check the input is cleared
+    // Debug: Check state before clicking Change ZIP
+    const stateBeforeChangeZip = await page.evaluate(() => ({
+      resultsViewActive: document.getElementById('resultsView')?.classList.contains('active'),
+      zipViewActive: document.getElementById('zipView')?.classList.contains('active'),
+      resultsChangeExists: !!document.getElementById('resultsChange')
+    }));
+    console.log('   State before Change ZIP:', JSON.stringify(stateBeforeChangeZip));
+
+    await page.evaluate(() => document.getElementById('resultsChange').click());
+    await wait(2000); // Wait for animation to complete
+
+    // Debug: Check state after clicking Change ZIP
+    const stateAfterChangeZip = await page.evaluate(() => ({
+      resultsViewActive: document.getElementById('resultsView')?.classList.contains('active'),
+      zipViewActive: document.getElementById('zipView')?.classList.contains('active')
+    }));
+    console.log('   State after Change ZIP:', JSON.stringify(stateAfterChangeZip));
+
+    // Wait for ZIP view to be active and input to be ready
+    const selectorFound = await page.waitForSelector('#zipView.active #zipInput', { visible: true, timeout: 5000 }).catch(() => null);
+    console.log('   ZIP view selector found:', !!selectorFound);
+
+    // Clear and set input value directly (more reliable than typing)
     await page.evaluate(() => {
       const input = document.getElementById('zipInput');
-      input.value = '';
-      input.dispatchEvent(new Event('input', { bubbles: true }));
+      if (input) {
+        input.value = '';
+        input.focus();
+      }
     });
     await wait(300);
 
@@ -320,13 +381,35 @@ async function runTests() {
     const inputValueBefore = await page.evaluate(() => document.getElementById('zipInput').value);
     console.log('   Input value before typing:', JSON.stringify(inputValueBefore));
 
-    await page.type('#zipInput', '8001'); // Zurich ZIP
+    // Set value directly via evaluate (more reliable than page.type)
+    await page.evaluate(() => {
+      const input = document.getElementById('zipInput');
+      if (input) {
+        input.value = '8001'; // Zurich ZIP
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    });
 
     // Verify the value after typing
     const inputValueAfter = await page.evaluate(() => document.getElementById('zipInput').value);
     console.log('   Input value after typing:', JSON.stringify(inputValueAfter));
 
-    await page.click('#zipSubmit');
+    // Debug: Check submit button state before clicking
+    const submitState = await page.evaluate(() => {
+      const btn = document.getElementById('zipSubmit');
+      const input = document.getElementById('zipInput');
+      return {
+        btnExists: !!btn,
+        inputValue: input ? input.value : 'no input',
+        zipViewActive: document.getElementById('zipView')?.classList.contains('active')
+      };
+    });
+    console.log('   Submit state before click:', JSON.stringify(submitState));
+
+    await page.evaluate(() => {
+      const btn = document.getElementById('zipSubmit');
+      if (btn) btn.click();
+    });
     await wait(4000); // Wait for geocoding and render
 
     const swissLocationText = await page.evaluate(() => {

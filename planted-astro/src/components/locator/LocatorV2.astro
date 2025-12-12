@@ -864,8 +864,6 @@ const translationsJson = JSON.stringify(t);
       var mapWrapper = document.getElementById('mapViewWrapper');
       var carouselWrapper = document.getElementById('carouselViewWrapper');
 
-      console.log('[DEBUG] Applying adaptive strategy for', totalCount, 'venues');
-
       // Hide all optional components first
       if (filterWrapper) filterWrapper.style.display = 'none';
       if (mapWrapper) mapWrapper.style.display = 'none';
@@ -873,11 +871,9 @@ const translationsJson = JSON.stringify(t);
 
       if (totalCount <= 6) {
         // Strategy 1: Simple grid (1-6 venues)
-        console.log('[DEBUG] Strategy 1: Simple grid');
         renderRestaurantCards(filteredLocations, totalCount);
       } else if (totalCount <= 15) {
         // Strategy 2: Grid + filters + "Show more" (7-15 venues)
-        console.log('[DEBUG] Strategy 2: Grid + filters');
         if (filterWrapper) filterWrapper.style.display = 'block';
 
         // Initialize filters
@@ -890,7 +886,6 @@ const translationsJson = JSON.stringify(t);
         renderRestaurantCards(filteredLocations.slice(0, state.visibleCount), totalCount);
       } else if (totalCount <= 30) {
         // Strategy 3: Grid + filters + map toggle (16-30 venues)
-        console.log('[DEBUG] Strategy 3: Grid + filters + map toggle');
         if (filterWrapper) filterWrapper.style.display = 'block';
         if (mapWrapper) mapWrapper.style.display = 'block';
 
@@ -910,7 +905,6 @@ const translationsJson = JSON.stringify(t);
         renderRestaurantCards(filteredLocations.slice(0, state.visibleCount), totalCount);
       } else {
         // Strategy 4: Map-first + carousel + filters (31+ venues)
-        console.log('[DEBUG] Strategy 4: Map-first + carousel + filters');
         if (filterWrapper) filterWrapper.style.display = 'block';
         if (mapWrapper) mapWrapper.style.display = 'block';
         if (carouselWrapper) carouselWrapper.style.display = 'block';

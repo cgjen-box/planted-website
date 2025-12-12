@@ -177,7 +177,6 @@ const defaultFilterTranslations = {
 
     // Change ZIP button
     resultsChange.addEventListener('click', function() {
-      console.log('[DEBUG] resultsChange clicked');
       resultsView.dispatchEvent(new CustomEvent('results-change-zip', { bubbles: true }));
     });
 
