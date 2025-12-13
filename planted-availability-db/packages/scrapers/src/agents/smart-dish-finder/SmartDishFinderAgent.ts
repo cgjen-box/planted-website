@@ -433,13 +433,14 @@ export class SmartDishFinderAgent {
       return venues;
     }
 
-    // Default: get verified venues without dishes
+    // Default: get verified and promoted venues without dishes
     const verifiedVenues = await discoveredVenues.getByStatus('verified');
+    const promotedVenues = await discoveredVenues.getByStatus('promoted');
+    const allVenues = [...verifiedVenues, ...promotedVenues];
 
-    for (const venue of verifiedVenues) {
-      // Check if venue already has dishes
-      const existingDishes = await discoveredDishes.getByVenue(venue.id);
-      if (existingDishes.length > 0) continue;
+    for (const venue of allVenues) {
+      // Check if venue already has embedded dishes
+      if (venue.dishes && venue.dishes.length > 0) continue;
 
       // Filter by config
       const relevantPlatforms = venue.delivery_platforms
