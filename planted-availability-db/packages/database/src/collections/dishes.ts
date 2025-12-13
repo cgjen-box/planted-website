@@ -15,12 +15,18 @@ export class DishesCollection extends BaseCollection<Dish> {
   protected collectionName = 'dishes';
 
   /**
-   * Parse price from various formats (legacy string or object)
+   * Parse price from various formats (legacy string, object, or raw number)
    */
-  private parsePrice(price: unknown): { amount: number; currency: string } {
+  private parsePrice(price: unknown, currency?: unknown): { amount: number; currency: string } {
     // Already an object with correct shape
     if (price && typeof price === 'object' && 'amount' in price && 'currency' in price) {
       return price as { amount: number; currency: string };
+    }
+
+    // Raw number with separate currency field (from manual fix scripts)
+    if (typeof price === 'number') {
+      const currencyStr = typeof currency === 'string' ? currency : 'CHF';
+      return { amount: isNaN(price) ? 0 : price, currency: currencyStr };
     }
 
     // Legacy string format: "CHF 18.90" or "18.90"
@@ -28,12 +34,12 @@ export class DishesCollection extends BaseCollection<Dish> {
       const match = price.match(/([A-Z]{3}|[€$£])?\s*(\d+(?:[.,]\d+)?)/);
       if (match) {
         const amount = parseFloat(match[2].replace(',', '.'));
-        let currency = 'CHF';
+        let curr = 'CHF';
         if (match[1]) {
           const symbolMap: Record<string, string> = { '€': 'EUR', '$': 'USD', '£': 'GBP' };
-          currency = symbolMap[match[1]] || match[1];
+          curr = symbolMap[match[1]] || match[1];
         }
-        return { amount: isNaN(amount) ? 0 : amount, currency };
+        return { amount: isNaN(amount) ? 0 : amount, currency: curr };
       }
     }
 
@@ -77,7 +83,7 @@ export class DishesCollection extends BaseCollection<Dish> {
       description: data.description || '',
       description_localized: data.description_localized,
       planted_products: plantedProducts,
-      price: this.parsePrice(data.price),
+      price: this.parsePrice(data.price, data.currency),
       image_url: data.image_url,
       image_source: data.image_source,
       dietary_tags: data.dietary_tags || [],
