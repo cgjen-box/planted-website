@@ -479,12 +479,12 @@ export class SmartDishFinderAgent {
         // Get strategy for this platform
         const strategy = await dishExtractionStrategies.getStrategy(platform, venue.chain_id);
 
-        // Fetch the page
+        // Fetch the page - scroll to bottom to trigger lazy-loaded images
         const result = await this.fetcher.fetchPage(url, {
           venue_id: venue.id,
           venue_name: venue.name,
           chain_id: venue.chain_id,
-        });
+        }, { scrollToBottom: true });
 
         if (!result.success || !result.page) {
           this.log(`Failed to fetch ${url}: ${result.error}`);

@@ -447,19 +447,31 @@ export class PuppeteerFetcher {
         await new Promise((r) => setTimeout(r, 3000));
       }
 
-      // Scroll to load lazy content if requested
+      // Scroll to load lazy content if requested (triggers lazy-loaded images)
       if (options?.scrollToBottom) {
         await this.scrollToBottom(page);
+        // Extra wait for images to load after scroll
+        await new Promise((r) => setTimeout(r, 2000));
       }
 
       // Get page content
       const html = await page.content();
+
+      // Extract image URLs from the loaded page (helps with lazy-loaded images)
+      const extractedImages = await this.extractImageUrls(page);
 
       // Try to extract JSON data if requested
       let jsonData: unknown = undefined;
       if (options?.extractJson !== false) {
         jsonData = await this.extractJsonData(page, platform);
       }
+
+      // Combine JSON data with extracted images for AI to use
+      const enrichedJsonData = {
+        ...(jsonData && typeof jsonData === 'object' ? jsonData : {}),
+        _extracted_images: extractedImages,
+        _image_count: extractedImages.length,
+      };
 
       return {
         success: true,
@@ -471,7 +483,7 @@ export class PuppeteerFetcher {
           venue_id: venueInfo.venue_id,
           chain_id: venueInfo.chain_id,
           html,
-          json_data: jsonData,
+          json_data: enrichedJsonData,
         },
       };
     } catch (error) {
@@ -506,6 +518,65 @@ export class PuppeteerFetcher {
           // Ignore page close errors - page might already be closed
         }
       }
+    }
+  }
+
+  /**
+   * Extract all visible image URLs from the page
+   * This helps capture lazy-loaded images that may not be in the initial HTML
+   */
+  private async extractImageUrls(page: Page): Promise<string[]> {
+    try {
+      const images = await page.evaluate(() => {
+        const urls: string[] = [];
+        const seenUrls = new Set<string>();
+
+        // Get all img elements
+        document.querySelectorAll('img').forEach((img) => {
+          // Check src attribute
+          const src = img.getAttribute('src');
+          if (src && src.startsWith('http') && !seenUrls.has(src)) {
+            seenUrls.add(src);
+            urls.push(src);
+          }
+
+          // Check srcset attribute
+          const srcset = img.getAttribute('srcset');
+          if (srcset) {
+            srcset.split(',').forEach((entry) => {
+              const url = entry.trim().split(' ')[0];
+              if (url && url.startsWith('http') && !seenUrls.has(url)) {
+                seenUrls.add(url);
+                urls.push(url);
+              }
+            });
+          }
+
+          // Check data-src (common lazy-loading pattern)
+          const dataSrc = img.getAttribute('data-src');
+          if (dataSrc && dataSrc.startsWith('http') && !seenUrls.has(dataSrc)) {
+            seenUrls.add(dataSrc);
+            urls.push(dataSrc);
+          }
+        });
+
+        // Check for background images in style attributes
+        document.querySelectorAll('[style*="background"]').forEach((el) => {
+          const style = el.getAttribute('style') || '';
+          const match = style.match(/url\(['"]?(https?:\/\/[^'")\s]+)['"]?\)/);
+          if (match && match[1] && !seenUrls.has(match[1])) {
+            seenUrls.add(match[1]);
+            urls.push(match[1]);
+          }
+        });
+
+        return urls;
+      });
+
+      return images;
+    } catch (error) {
+      console.warn(`Failed to extract images: ${error}`);
+      return [];
     }
   }
 

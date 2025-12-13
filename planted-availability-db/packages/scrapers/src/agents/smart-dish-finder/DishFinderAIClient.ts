@@ -43,6 +43,58 @@ const VERIFIED_CHAIN_PRODUCTS: Record<string, string[]> = {
   'rabowls': ['planted.chicken'],
 };
 
+// Currency symbols to code mapping
+const CURRENCY_SYMBOLS: Record<string, string> = {
+  '€': 'EUR',
+  '$': 'USD',
+  '£': 'GBP',
+  'Fr.': 'CHF',
+  'CHF': 'CHF',
+  'EUR': 'EUR',
+};
+
+/**
+ * Normalize price string from various formats returned by Gemini
+ * Handles: "€12.90", "CHF 33.40", "12,90", "12.90 EUR", etc.
+ * Returns: { price: "12.90", currency: "EUR" }
+ */
+function normalizePrice(
+  rawPrice: unknown,
+  rawCurrency?: unknown,
+  defaultCurrency: string = 'EUR'
+): { price: string; currency: string } {
+  const priceStr = String(rawPrice || '0').trim();
+  let currency = String(rawCurrency || '').trim().toUpperCase();
+
+  // If currency is empty or invalid, try to extract from price string
+  if (!currency || !['CHF', 'EUR', 'USD', 'GBP'].includes(currency)) {
+    // Check for currency symbols/codes in price string
+    for (const [symbol, code] of Object.entries(CURRENCY_SYMBOLS)) {
+      if (priceStr.includes(symbol)) {
+        currency = code;
+        break;
+      }
+    }
+    // Still no currency? Use default
+    if (!currency || !['CHF', 'EUR', 'USD', 'GBP'].includes(currency)) {
+      currency = defaultCurrency;
+    }
+  }
+
+  // Extract numeric value from price string
+  // Match patterns like: 12.90, 12,90, €12.90, CHF 33.40, 12.90 EUR
+  const numericMatch = priceStr.match(/(\d+)[.,]?(\d*)/);
+  if (!numericMatch) {
+    return { price: '0', currency };
+  }
+
+  const wholePart = numericMatch[1];
+  const decimalPart = numericMatch[2] || '00';
+  const normalizedPrice = `${wholePart}.${decimalPart.padEnd(2, '0').slice(0, 2)}`;
+
+  return { price: normalizedPrice, currency };
+}
+
 /**
  * AI client for dish extraction operations using Gemini
  */
@@ -491,17 +543,22 @@ export class DishFinderAIClient {
 
   /**
    * Normalize dish data from various formats
+   * Applies price normalization to handle inconsistent Gemini output formats
    */
   private normalizeDishes(dishes: unknown[]): ExtractedDishFromPage[] {
     return dishes.map((d: unknown) => {
       const dish = d as Record<string, unknown>;
+
+      // Normalize price - handles "€12.90", "CHF 33.40", "12,90", etc.
+      const { price, currency } = normalizePrice(dish.price, dish.currency, 'EUR');
+
       return {
         name: (dish.name || dish.dish_name || '') as string,
         description: (dish.description || '') as string,
         category: (dish.category || '') as string,
         image_url: (dish.image_url || dish.imageUrl || '') as string,
-        price: String(dish.price || '0'),
-        currency: (dish.currency || 'EUR') as string,
+        price,
+        currency,
         planted_product_guess: (dish.planted_product_guess || dish.planted_product || 'planted.chicken') as string,
         product_confidence: Number(dish.product_confidence || dish.confidence || 80),
         is_vegan: Boolean(dish.is_vegan ?? true),

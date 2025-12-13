@@ -66,7 +66,13 @@ Instructions:
 CRITICAL RULES:
 - Only include dishes where "Planted" or "planted" (the brand) explicitly appears
 - Do NOT include dishes that say "plant-based", "vegan chicken", "Beyond" etc. without mentioning Planted
-- Extract prices EXACTLY as shown (e.g., "€12.90" → price: "12.90", currency: "EUR")
+- PRICE FORMAT IS STRICT:
+  * "price" must be a NUMBER STRING without currency symbols (e.g., "12.90", "33.40")
+  * "currency" must be a 3-letter code (CHF, EUR, USD, GBP)
+  * Examples: "€12.90" → price: "12.90", currency: "EUR"
+  * Examples: "CHF 33.40" → price: "33.40", currency: "CHF"
+  * Examples: "12,90 €" → price: "12.90", currency: "EUR"
+  * NEVER put symbols in price field: WRONG: "€12.90", CORRECT: "12.90"
 - If a dish has multiple sizes, extract the base/regular price
 
 Return JSON:
