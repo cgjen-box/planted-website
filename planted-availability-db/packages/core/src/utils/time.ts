@@ -52,9 +52,14 @@ export function isTimeInRange(time: string, range: TimeRange): boolean {
  * Check if a venue is currently open based on opening hours
  */
 export function isVenueOpen(
-  openingHours: OpeningHours,
+  openingHours: OpeningHours | undefined | null,
   timezone?: string
 ): boolean {
+  // Handle undefined or null opening hours
+  if (!openingHours || !openingHours.regular) {
+    return false;
+  }
+
   const now = timezone
     ? new Date(new Date().toLocaleString('en-US', { timeZone: timezone }))
     : new Date();
@@ -82,9 +87,14 @@ export function isVenueOpen(
  * Get the next opening time for a venue
  */
 export function getNextOpeningTime(
-  openingHours: OpeningHours,
+  openingHours: OpeningHours | undefined | null,
   timezone?: string
 ): Date | null {
+  // Handle undefined or null opening hours
+  if (!openingHours || !openingHours.regular) {
+    return null;
+  }
+
   const now = timezone
     ? new Date(new Date().toLocaleString('en-US', { timeZone: timezone }))
     : new Date();
@@ -130,9 +140,14 @@ export function getNextOpeningTime(
  * Get today's opening hours as a formatted string
  */
 export function getTodayHoursString(
-  openingHours: OpeningHours,
+  openingHours: OpeningHours | undefined | null,
   timezone?: string
 ): string {
+  // Handle undefined or null opening hours
+  if (!openingHours || !openingHours.regular) {
+    return 'Hours not available';
+  }
+
   const now = timezone
     ? new Date(new Date().toLocaleString('en-US', { timeZone: timezone }))
     : new Date();
