@@ -1,5 +1,76 @@
 # Attack Zero Progress Log
 
+---
+
+## Current State
+
+| Metric | Count | Target | Progress |
+|--------|-------|--------|----------|
+| Total production venues | 2246 | - | - |
+| Venues with dishes | 216 | 2000 (90%) | 10.8% |
+| Venues with 0 dishes | 2030 | 0 | - |
+| Duplicates fixed | 12 | All | - |
+| Duplicates pending | ~45 | 0 | - |
+| Country code errors | 9 | 0 | - |
+
+---
+
+## Task Queue
+
+| ID | Type | Target | Agent | Priority | Status |
+|----|------|--------|-------|----------|--------|
+| T001 | duplicate | Vapiano UK (8 venues) | VENUE-AGENT | HIGH | PENDING |
+| T002 | duplicate | Rice Up! Bern (8 venues) | VENUE-AGENT | HIGH | PENDING |
+| T003 | country-fix | 9 FR->DE/AT venues | VENUE-AGENT | MEDIUM | PENDING |
+| T004 | extract | dean&david DE (0-dish) | DISH-AGENT | HIGH | PENDING |
+| T005 | extract | CH promoted venues | DISH-AGENT | HIGH | PENDING |
+| T006 | verify-venue | Random spot-check | QA-AGENT | LOW | PENDING |
+
+---
+
+## What Worked
+
+- Duplicate detection by matching name+city effective
+- `sync-dishes-to-production.cjs` correctly preserves embedded dishes
+- `fix-duplicates.cjs` with dry-run prevents data loss
+- Uber Eats extraction works reliably
+- Country grouping identifies patterns quickly
+
+## What Didn't Work
+
+- Enumerate mode queries return 0 results (scraper bug #1)
+- Just Eat extraction often finds no planted content
+- Deliveroo returns 403 on all UK/Italy URLs (platform blocking)
+- Wolt rate limiting causes intermittent failures (~50 req/min)
+- Some venues are retail stores (INTERSPAR) - no dishes expected
+
+---
+
+## CHECKPOINT: 2025-12-14T00:00:00Z
+Last completed: Session 2025-12-13
+Tasks completed: 2 (dish sync, duplicate delete)
+Next priority: T001 (Vapiano UK duplicates)
+Architecture: Upgraded to v2 (Master + Sub-Agent)
+
+---
+
+## Session: 2025-12-14
+
+### 00:00 | MASTER-AGENT | Architecture Upgrade
+- Upgraded to Attack Zero v2 (Master + Sub-Agent architecture)
+- Created 6 slash commands:
+  - `/attack-zero` (main router)
+  - `/attack-zero venue` (VENUE-AGENT)
+  - `/attack-zero dish` (DISH-AGENT)
+  - `/attack-zero scraper` (SCRAPER-AGENT)
+  - `/attack-zero qa` (QA-AGENT)
+  - `/attack-zero monitor` (MONITOR-AGENT)
+- Added Task Queue section
+- Added "What Worked" / "What Didn't Work" sections
+- Result: PASS
+
+---
+
 ## Session: 2025-12-13
 
 ---
