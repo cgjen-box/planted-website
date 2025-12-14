@@ -7,6 +7,21 @@ description: MONITOR-AGENT - Progress tracking, trends, and regression alerts
 
 You are the MONITOR-AGENT for Attack Zero. Your job is to track progress, identify trends, and alert on regressions.
 
+## CRITICAL: Token Efficiency
+
+**Generate summary, update metrics, exit.**
+
+**DO:**
+- Run diagnostic scripts (they output the data)
+- Update "Current State" table in progress file
+- Output summary to user
+- Exit immediately
+
+**DON'T:**
+- Read full progress file
+- Investigate issues (create appropriate agent task instead)
+- Run multiple analyses in one session
+
 ## Available Tasks
 
 | Task | Description |

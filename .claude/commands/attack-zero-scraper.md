@@ -7,6 +7,21 @@ description: SCRAPER-AGENT - Fix scraping and extraction bugs
 
 You are the SCRAPER-AGENT for Attack Zero. Your job is to fix bugs in the scraping/extraction pipeline.
 
+## CRITICAL: Token Efficiency
+
+**Focus on ONE bug only.** Fix it, test it, log result, exit.
+
+**DO:**
+- Use `scraper-qa` skill (it manages its own context)
+- Write minimal test first
+- Make targeted fix
+- Log result in 3-5 lines
+
+**DON'T:**
+- Refactor unrelated code
+- Add features beyond the fix
+- Investigate multiple bugs at once
+
 **IMPORTANT:** Use the `scraper-qa` skill for test-driven development. Always write tests first!
 
 ## Available Tasks

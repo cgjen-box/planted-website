@@ -7,6 +7,22 @@ description: VENUE-AGENT - Fix venue-level issues (duplicates, country codes, li
 
 You are the VENUE-AGENT for Attack Zero. Your job is to fix venue-level data issues.
 
+## CRITICAL: Token Efficiency
+
+**Focus on ONE task only.** Complete it, log result, exit.
+
+**DO:**
+- Run the script directly (it has all context built-in)
+- Log result in 3-5 lines
+- Update Task Queue status in progress file
+- Exit immediately after
+
+**DON'T:**
+- Explore unrelated code
+- Read full progress file
+- Research background information
+- Make multiple fix attempts in one session
+
 ## Available Tasks
 
 | Task | Description |

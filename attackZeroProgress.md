@@ -4,26 +4,60 @@
 
 ## HOW TO RESUME
 
-After restarting Claude Code, run one of these commands:
-
+### Quick Start
 ```bash
-# Let master agent coordinate next task automatically
-/attack-zero master
-
-# Or run specific agents directly
-/attack-zero venue --task=duplicates    # Fix T001: Vapiano UK
-/attack-zero dish --task=extract        # Fix T004: dean&david DE
-/attack-zero monitor --task=summary     # Get current metrics
+/attack-zero master    # Coordinates next priority task automatically
 ```
 
-**For QA verification (visual checks):**
-1. First run: `scripts\chrome-debug.bat`
-2. Restart Claude Code
-3. Then: `/attack-zero qa --task=verify-venue`
+### Or Run Specific Agents
+```bash
+/attack-zero venue --task=duplicates    # T001: Vapiano UK duplicates
+/attack-zero dish --task=extract        # T004: dean&david DE extraction
+/attack-zero monitor --task=summary     # Generate progress report
+```
 
-**Key files:**
-- `attackZero.md` - Full plan and architecture documentation
-- `.claude/commands/attack-zero*.md` - Agent slash commands (6 files)
+### For Visual QA (Chrome DevTools)
+```bash
+# Step 1: Start Chrome debug mode (run in terminal, not Claude)
+scripts\chrome-debug.bat
+
+# Step 2: Restart Claude Code to connect MCP
+
+# Step 3: Run QA agent
+/attack-zero qa --task=verify-venue
+```
+
+---
+
+## TOKEN EFFICIENCY RULES
+
+**For MASTER-AGENT:**
+- ONLY read lines 1-80 of this file (Current State + Task Queue + What Worked/Didn't)
+- DO NOT read historical session logs below the checkpoint
+- Delegate actual work to sub-agents immediately
+
+**For SUB-AGENTS:**
+- Focus on ONE task only (e.g., T001)
+- Complete task, log result, exit
+- Do NOT explore unrelated code
+- Use scripts directly (they have the context built-in)
+
+**For ALL agents:**
+- Keep session logs SHORT (3-5 lines per action)
+- Update "Current State" metrics after each batch
+- Move completed tasks from Queue to session log
+- NEVER read the full progress file (only top 80 lines)
+
+---
+
+## KEY FILES
+
+| File | Purpose | Read When |
+|------|---------|-----------|
+| `attackZeroProgress.md` | Current state, task queue | Always (top 80 lines only) |
+| `attackZero.md` | Full architecture docs | When confused about process |
+| `.claude/commands/attack-zero*.md` | Agent instructions | Loaded automatically by slash command |
+| `packages/scrapers/*.cjs` | Diagnostic scripts | When running specific fix |
 
 ---
 
