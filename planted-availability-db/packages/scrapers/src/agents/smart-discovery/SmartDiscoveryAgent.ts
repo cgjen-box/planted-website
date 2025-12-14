@@ -835,6 +835,7 @@ export class SmartDiscoveryAgent {
 
   /**
    * Record search feedback for learning
+   * Auto-reviews based on outcome to enable autonomous learning loop
    */
   private async recordFeedback(
     query: string,
@@ -845,12 +846,22 @@ export class SmartDiscoveryAgent {
   ): Promise<void> {
     if (this.config.dryRun) return;
 
+    // Auto-review: true_positive = useful, everything else = not useful
+    const wasUseful = resultType === 'true_positive';
+
     await searchFeedback.recordSearch({
       query,
       platform,
       country,
       strategy_id: strategyId || 'claude-generated',
       result_type: resultType,
+      // Auto-review to enable learning loop without human intervention
+      feedback: {
+        was_useful: wasUseful,
+        notes: 'Auto-reviewed based on outcome',
+      },
+      reviewed_by: 'auto-review-system',
+      reviewed_at: new Date(),
     });
   }
 

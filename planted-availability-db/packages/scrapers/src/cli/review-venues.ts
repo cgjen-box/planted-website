@@ -268,7 +268,7 @@ async function updateStrategyFeedback(
     }
   }
 
-  // Record search feedback
+  // Record search feedback with auto-review for learning loop
   try {
     await searchFeedback.recordSearch({
       query,
@@ -277,6 +277,13 @@ async function updateStrategyFeedback(
       strategy_id: strategyId || 'claude-generated',
       result_type: wasCorrect ? 'true_positive' : 'false_positive',
       discovered_venue_id: venueId,
+      // Include review data to enable learning
+      feedback: {
+        was_useful: wasCorrect,
+        notes: 'Reviewed via CLI tool',
+      },
+      reviewed_by: 'cli-review',
+      reviewed_at: new Date(),
     });
     console.log(`  ✓ Recorded search feedback`);
   } catch (error) {
