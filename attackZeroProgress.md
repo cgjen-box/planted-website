@@ -66,8 +66,10 @@ scripts\chrome-debug.bat
 | Metric | Count | Target | Progress |
 |--------|-------|--------|----------|
 | Total production venues | 1922 | - | - |
-| Venues with dishes | 216 | 2000 (90%) | 10.8% |
-| Venues with 0 dishes | 2030 | 0 | - |
+| Venues with dishes | 216 | 2000 (90%) | 11.2% |
+| Venues with 0 dishes | 1706 | 0 | - |
+| - Retail (no dishes expected) | ~1250 | - | BILLA/INTERSPAR/Cadoro |
+| - Restaurants (need extraction) | ~456 | 0 | Priority target |
 | Duplicates fixed | 336 | All | 100% |
 | Duplicates pending | 0 | 0 | DONE |
 | Country code errors | 0 | 0 | DONE (18 fixed) |
@@ -88,6 +90,14 @@ scripts\chrome-debug.bat
 ---
 
 ## Session Log
+
+### 15:00 | MASTER-AGENT | Session Summary (pre-compact)
+- **DONE:** T001+T002 (duplicates) - 324 deleted, 0 data loss
+- **DONE:** T003 (country codes) - 18 fixed
+- **Total venues reduced:** 2246 → 1922 (-324)
+- **Scripts created:** fix-duplicates.cjs, fix-country-codes.cjs (both generic)
+- **Committed:** 825e123b
+- **Next:** Verify changes in dashboard, then dish extraction for restaurants
 
 ### 14:50 | VENUE-AGENT | T003
 - Task: country-fix (all misclassified venues)
@@ -119,6 +129,9 @@ scripts\chrome-debug.bat
 
 ## What Worked
 
+- **Dynamic duplicate fix** (no hardcoded IDs) - scales to any new duplicates
+- **Street-level matching for retail** - avoids false positives for BILLA/REWE
+- **City→country lookup** - catches misclassifications across all countries
 - Duplicate detection by matching name+city effective
 - `sync-dishes-to-production.cjs` correctly preserves embedded dishes
 - `fix-duplicates.cjs` with dry-run prevents data loss
