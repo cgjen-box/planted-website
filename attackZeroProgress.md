@@ -2,6 +2,31 @@
 
 ---
 
+## HOW TO RESUME
+
+After restarting Claude Code, run one of these commands:
+
+```bash
+# Let master agent coordinate next task automatically
+/attack-zero master
+
+# Or run specific agents directly
+/attack-zero venue --task=duplicates    # Fix T001: Vapiano UK
+/attack-zero dish --task=extract        # Fix T004: dean&david DE
+/attack-zero monitor --task=summary     # Get current metrics
+```
+
+**For QA verification (visual checks):**
+1. First run: `scripts\chrome-debug.bat`
+2. Restart Claude Code
+3. Then: `/attack-zero qa --task=verify-venue`
+
+**Key files:**
+- `attackZero.md` - Full plan and architecture documentation
+- `.claude/commands/attack-zero*.md` - Agent slash commands (6 files)
+
+---
+
 ## Current State
 
 | Metric | Count | Target | Progress |
