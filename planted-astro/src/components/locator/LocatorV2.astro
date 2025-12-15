@@ -124,6 +124,8 @@ const translationsJson = JSON.stringify(t);
   data-delivery-data={deliveryDataJson}
   data-translations={translationsJson}
   data-price-country={priceCountry}
+  data-base-url={import.meta.env.BASE_URL}
+  data-locale={locale}
 >
   <SplitView translations={{
     letItCook: t.letItCook,
@@ -187,6 +189,8 @@ const translationsJson = JSON.stringify(t);
     var deliveryRestaurantsData = JSON.parse(locator.dataset.deliveryData || '[]');
     var translations = JSON.parse(locator.dataset.translations || '{}');
     var priceCountry = locator.dataset.priceCountry || 'de';
+    var baseUrl = locator.dataset.baseUrl || '';
+    var localeFromData = locator.dataset.locale || 'ch-de';
 
     // State
     var state = {
@@ -654,9 +658,8 @@ const translationsJson = JSON.stringify(t);
       // For restaurant searches, redirect to V3 results page
       var isRestaurant = state.path === 'restaurant';
       if (isRestaurant) {
-        // Get locale from URL path (e.g., /planted-website/ch-de/ -> ch-de)
-        var pathParts = window.location.pathname.split('/').filter(Boolean);
-        var locale = pathParts[1] || 'ch-de'; // Index 1 after base path
+        // Use locale from data attribute
+        var locale = localeFromData;
 
         // Detect country from ZIP
         var countryInfo = state.detectedCountry
@@ -672,9 +675,9 @@ const translationsJson = JSON.stringify(t);
           params.set('lng', String(state.coordinates.lng));
         }
 
-        // Redirect to V3 results page
-        var basePath = '/planted-website'; // GitHub Pages base
-        var v3Url = basePath + '/' + locale + '/locator-v3?' + params.toString();
+        // Redirect to V3 results page using Astro BASE_URL
+        var v3Url = baseUrl + locale + '/locator-v3?' + params.toString();
+        console.log('[LocatorV2] Redirecting to V3:', v3Url);
         window.location.href = v3Url;
         return;
       }
