@@ -34,6 +34,10 @@ const CHAIN_PATTERNS = [
   'barburrito',
   'vapiano',
   'neni',
+  'beets & roots',
+  'yuícery',
+  'stadtsalat',
+  'cotidiano',
 ];
 
 function parseArgs() {
