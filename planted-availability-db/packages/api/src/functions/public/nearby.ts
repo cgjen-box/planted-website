@@ -63,7 +63,11 @@ export const nearbyHandler = onRequest(functionOptions, publicRateLimit(async (r
       limit: params.limit + 10, // Fetch extra for filtering
     });
 
-    // Get dishes for each venue
+    // Batch fetch dishes for all venues (much more efficient than N+1 queries)
+    const venueIds = nearbyVenues.map(v => v.id);
+    const dishesMap = await dishes.getByVenues(venueIds);
+
+    // Build results
     const results: NearbyResult[] = [];
 
     for (const venue of nearbyVenues) {
@@ -74,8 +78,8 @@ export const nearbyHandler = onRequest(functionOptions, publicRateLimit(async (r
         continue;
       }
 
-      // Get dishes for this venue
-      let venueDishes = await dishes.getByVenue(venue.id);
+      // Get dishes for this venue from the batch result
+      let venueDishes = dishesMap.get(venue.id) || [];
 
       // Filter by product SKU if specified
       if (params.product_sku) {

@@ -189,6 +189,52 @@ export class DishesCollection extends BaseCollection<Dish> {
   }
 
   /**
+   * Get dishes for multiple venues in batch
+   * Significantly more efficient than calling getByVenue() in a loop
+   * Firestore 'in' operator supports up to 30 venue IDs per query
+   */
+  async getByVenues(venueIds: string[], activeOnly: boolean = true): Promise<Map<string, Dish[]>> {
+    if (venueIds.length === 0) {
+      return new Map();
+    }
+
+    const resultMap = new Map<string, Dish[]>();
+
+    // Initialize empty arrays for all venue IDs
+    venueIds.forEach(id => resultMap.set(id, []));
+
+    // Batch queries in chunks of 30 (Firestore 'in' limit)
+    const chunks = [];
+    for (let i = 0; i < venueIds.length; i += 30) {
+      chunks.push(venueIds.slice(i, i + 30));
+    }
+
+    // Execute all chunks in parallel
+    const results = await Promise.all(
+      chunks.map(async (chunk) => {
+        let query = this.collection.where('venue_id', 'in', chunk);
+
+        if (activeOnly) {
+          query = query.where('status', '==', 'active');
+        }
+
+        const snapshot = await query.get();
+        return snapshot.docs.map((doc) => this.fromFirestore(doc));
+      })
+    );
+
+    // Group dishes by venue_id
+    results.flat().forEach((dish) => {
+      const venueId = dish.venue_id;
+      if (resultMap.has(venueId)) {
+        resultMap.get(venueId)!.push(dish);
+      }
+    });
+
+    return resultMap;
+  }
+
+  /**
    * Get dishes by planted product SKU
    */
   async getByProduct(productSku: string, limit: number = 50): Promise<Dish[]> {
