@@ -128,10 +128,44 @@ scripts\chrome-debug.bat
 | T012 | admin-verify | Admin dashboard venue display | QA-AGENT | HIGH | DONE | MEDIUM |
 | T013 | dish-quality | Dish-by-dish data verification | QA-AGENT | MEDIUM | DONE | MEDIUM |
 | T014 | api-fix | /nearby API timestamp error + locator-v3 geocode | QA-AGENT | CRITICAL | DONE | MEDIUM |
+| T015 | redirect-fix | 404 on homepage search (slash normalization) | QA-AGENT | HIGH | DONE | LOW |
+| T016 | platform-links | Missing delivery platform links in venue cards | QA-AGENT | MEDIUM | DONE | MEDIUM |
+| T017 | performance | Locator-v3 slow load time optimization | QA-AGENT | HIGH | DONE | MEDIUM |
 
 ---
 
 ## Session Log
+
+### 2025-12-15T19:40 | QA-AGENT | T015-T017 Bug Fixes COMPLETE
+**T015: Homepage Search 404 Fix**
+- **ISSUE:** Clicking search from https://cgjen-box.github.io/planted-website/ch-de/ resulted in 404
+- **ROOT CAUSE:** Double/missing slash in V3 redirect URL (baseUrl + locale concatenation)
+- **FIX:** Normalized base URL slash before concatenation in `LocatorV2.astro` line 684-687
+- **COMMIT:** `ea100099`
+
+**T016: Delivery Platform Links Missing**
+- **ISSUE:** Venues showed "Direkt im Restaurant verfügbar" instead of Uber Eats, Wolt, etc.
+- **ROOT CAUSE:** `delivery_platforms` field not mapped in venues.ts `fromFirestore()`
+- **FIX 1:** Added `delivery_platforms: data.delivery_platforms` to venues.ts line 39
+- **FIX 2:** Updated API interface to use `platform` field (not `partner`)
+- **COMMIT:** `491589c8`
+
+**T017: Load Time Performance**
+- **ISSUE:** Locator-v3 took 3-5 seconds to load venues
+- **ROOT CAUSE:**
+  1. Backend: Querying 500 venues, then N+1 dish queries (20+ sequential)
+  2. Frontend: Requesting 50 venues, no loading feedback
+- **FIXES:**
+  1. Reduced venue query limit from 500 → 100 (-80% Firestore reads)
+  2. Added batch dish fetching - 20+ queries → 1-2 queries (-90%)
+  3. Reduced frontend limit from 50 → 20 venues
+  4. Added skeleton loading UI (visible in <50ms)
+- **EXPECTED IMPROVEMENT:** 3-5s → 800ms-1s
+- **COMMITS:** `d350efe1`, `30311c31`
+
+**DEPLOYMENTS:**
+- GitHub Pages: Auto-deployed via Actions ✅
+- Firebase API: `firebase deploy --only functions:api:nearby` ✅
 
 ### 2025-12-15T18:50 | QA-AGENT | T014 API Timestamp Fix + Locator Geocode COMPLETE
 - **ISSUE 1:** /nearby API returning "timestamp.toDate is not a function" error
