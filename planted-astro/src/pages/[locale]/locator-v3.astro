@@ -142,6 +142,74 @@ const initialVenues: VenueV3[] = [];
     font-size: 3rem;
     margin-bottom: 1rem;
   }
+
+  /* Skeleton loading styles */
+  .v3-skeleton-card {
+    pointer-events: none;
+  }
+
+  .v3-skeleton-text,
+  .v3-skeleton-icon,
+  .v3-skeleton-tag {
+    background: linear-gradient(90deg, #E8E0D5 25%, #F0EBE3 50%, #E8E0D5 75%);
+    background-size: 200% 100%;
+    animation: v3SkeletonPulse 1.5s ease-in-out infinite;
+    border-radius: 4px;
+  }
+
+  .v3-skeleton-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+  }
+
+  .v3-skeleton-title {
+    height: 20px;
+    width: 60%;
+    margin-bottom: 8px;
+  }
+
+  .v3-skeleton-meta {
+    height: 16px;
+    width: 40%;
+  }
+
+  .v3-skeleton-distance {
+    height: 16px;
+    width: 50px;
+  }
+
+  .v3-skeleton-tag {
+    display: inline-block;
+    height: 24px;
+    width: 80px;
+    margin-right: 8px;
+  }
+
+  .v3-skeleton-dish {
+    height: 16px;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .v3-skeleton-button {
+    height: 20px;
+    width: 120px;
+  }
+
+  .v3-skeleton-count {
+    height: 16px;
+    width: 60px;
+  }
+
+  @keyframes v3SkeletonPulse {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
 </style>
 
 <script define:vars={{ API_BASE_URL, v3Translations }}>
@@ -429,6 +497,61 @@ const initialVenues: VenueV3[] = [];
     }
   }
 
+  // Show skeleton loading immediately
+  function showSkeletonLoading() {
+    const cardGrid = document.getElementById('v3CardGrid');
+    const mainContent = document.querySelector('.v3-main-content');
+
+    if (!mainContent || !cardGrid) return;
+
+    // Hide existing grid
+    cardGrid.style.display = 'none';
+
+    // Create skeleton cards
+    const skeletonHtml = `
+      <div class="v3-card-grid v3-skeleton-grid" id="v3SkeletonGrid">
+        ${Array.from({ length: 3 }).map(() => `
+          <div class="v3-venue-card v3-skeleton-card">
+            <div class="v3-card-header">
+              <div class="v3-venue-icon v3-skeleton-icon"></div>
+              <div class="v3-venue-info" style="flex: 1;">
+                <div class="v3-skeleton-text v3-skeleton-title"></div>
+                <div class="v3-skeleton-text v3-skeleton-meta"></div>
+              </div>
+              <div class="v3-skeleton-text v3-skeleton-distance"></div>
+            </div>
+            <div class="v3-product-tags">
+              <span class="v3-skeleton-tag"></span>
+              <span class="v3-skeleton-tag"></span>
+            </div>
+            <div class="v3-dishes-list">
+              <div class="v3-skeleton-text v3-skeleton-dish"></div>
+              <div class="v3-skeleton-text v3-skeleton-dish"></div>
+            </div>
+            <div class="v3-card-footer">
+              <div class="v3-skeleton-text v3-skeleton-button"></div>
+              <div class="v3-skeleton-text v3-skeleton-count"></div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    // Insert skeleton before the actual grid
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = skeletonHtml;
+    mainContent.insertBefore(tempDiv.firstElementChild!, cardGrid);
+  }
+
+  // Remove skeleton loading
+  function removeSkeletonLoading() {
+    const skeletonGrid = document.getElementById('v3SkeletonGrid');
+    if (skeletonGrid) skeletonGrid.remove();
+
+    const cardGrid = document.getElementById('v3CardGrid');
+    if (cardGrid) cardGrid.style.display = '';
+  }
+
   // Main loader function
   async function loadVenues() {
     const config = (window as any).__v3Config;
@@ -441,23 +564,8 @@ const initialVenues: VenueV3[] = [];
     const loadMoreContainer = document.getElementById('v3LoadMore');
     const loadMoreCount = document.getElementById('v3LoadMoreCount');
 
-    // Show loading state
-    if (mainContent) {
-      const existingGrid = cardGrid;
-      const loadingEl = document.createElement('div');
-      loadingEl.className = 'v3-loading';
-      loadingEl.id = 'v3Loading';
-      loadingEl.innerHTML = `
-        <div class="v3-loading-spinner"></div>
-        <p>${config.translations.loading}</p>
-      `;
-
-      // Insert loading before grid
-      if (existingGrid) {
-        existingGrid.style.display = 'none';
-      }
-      mainContent.insertBefore(loadingEl, mainContent.firstChild?.nextSibling || null);
-    }
+    // Show skeleton loading immediately
+    showSkeletonLoading();
 
     try {
       // Build API URL - geocode ZIP if coordinates missing
@@ -478,7 +586,7 @@ const initialVenues: VenueV3[] = [];
         throw new Error('Missing coordinates - could not geocode ZIP');
       }
 
-      const apiUrl = `${apiBaseUrl}/nearby?lat=${lat}&lng=${lng}&radius_km=10&type=restaurant&limit=50`;
+      const apiUrl = `${apiBaseUrl}/nearby?lat=${lat}&lng=${lng}&radius_km=10&type=restaurant&limit=20`;
       console.log('[V3] Fetching venues from:', apiUrl);
 
       const response = await fetch(apiUrl);
@@ -497,9 +605,8 @@ const initialVenues: VenueV3[] = [];
       filteredVenues = [...venues];
       (window as any).__v3Venues = venues;
 
-      // Remove loading state
-      const loadingEl = document.getElementById('v3Loading');
-      if (loadingEl) loadingEl.remove();
+      // Remove skeleton loading
+      removeSkeletonLoading();
 
       // Update header
       if (headerTitle) {
@@ -518,15 +625,19 @@ const initialVenues: VenueV3[] = [];
     } catch (error) {
       console.error('[V3] Error loading venues:', error);
 
-      // Remove loading, show error
-      const loadingEl = document.getElementById('v3Loading');
-      if (loadingEl) {
-        loadingEl.className = 'v3-error';
-        loadingEl.innerHTML = `
+      // Remove skeleton, show error
+      removeSkeletonLoading();
+
+      const mainContent = document.querySelector('.v3-main-content');
+      if (mainContent) {
+        const errorEl = document.createElement('div');
+        errorEl.className = 'v3-error';
+        errorEl.innerHTML = `
           <div class="v3-error-icon">⚠️</div>
           <p>${config.translations.errorLoading}</p>
           <p style="font-size: 0.875rem; color: #999; margin-top: 0.5rem;">${(error as Error).message}</p>
         `;
+        mainContent.insertBefore(errorEl, mainContent.firstChild?.nextSibling || null);
       }
     }
   }

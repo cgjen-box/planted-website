@@ -121,7 +121,7 @@ export class VenuesCollection extends BaseCollection<Venue> {
     }
 
     // Limit to a reasonable number to prevent excessive reads
-    const snapshot = await query.limit(500).get();
+    const snapshot = await query.limit(100).get();
     const venues = snapshot.docs.map((doc) => this.fromFirestore(doc));
 
     // Calculate bounding box for quick pre-filtering
