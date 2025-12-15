@@ -652,7 +652,7 @@ const translationsJson = JSON.stringify(t);
       }, 0.45);
     }
 
-    function transitionToResults() {
+    async function transitionToResults() {
       if (!zipView || !resultsView) return;
 
       // For restaurant searches, redirect to V3 results page
@@ -665,6 +665,12 @@ const translationsJson = JSON.stringify(t);
         var countryInfo = state.detectedCountry
           ? { code: state.detectedCountry }
           : detectCountryFromZip(state.zip);
+
+        // IMPORTANT: Geocode ZIP to get coordinates if not already set
+        // V3 requires coordinates for the API call
+        if (!state.coordinates && state.zip) {
+          state.coordinates = await geocodeZip(state.zip, countryInfo.code);
+        }
 
         // Build V3 URL with query parameters
         var params = new URLSearchParams();
@@ -1400,7 +1406,7 @@ const translationsJson = JSON.stringify(t);
     }
 
     // ZIP events
-    document.addEventListener('zip-submit', function(e) {
+    document.addEventListener('zip-submit', async function(e) {
       state.zip = e.detail.zip;
       // Reset detected country so ZIP-based detection is used
       state.detectedCountry = null;
@@ -1415,7 +1421,7 @@ const translationsJson = JSON.stringify(t);
           btn.setAttribute('aria-selected', isRestaurants ? 'true' : 'false');
         });
       }
-      transitionToResults();
+      await transitionToResults();
     });
 
     document.addEventListener('zip-back', function() {
@@ -1439,7 +1445,7 @@ const translationsJson = JSON.stringify(t);
         if (zipInput) zipInput.value = state.zip;
       }
 
-      transitionToResults();
+      await transitionToResults();
     });
 
     // Results events
