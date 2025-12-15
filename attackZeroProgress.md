@@ -66,35 +66,35 @@ scripts\chrome-debug.bat
 | Metric | Count | Target | Progress |
 |--------|-------|--------|----------|
 | Total production venues | 1922 | - | - |
-| Venues with dishes | 268 | 458 | 58.5% |
-| Venues with 0 dishes | 1654 | 0 | - |
+| Venues with dishes | 344 | 458 | 75.1% |
+| Venues with 0 dishes | 1578 | 0 | - |
 | - Retail (no dishes expected) | 1395 | - | BILLA/INTERSPAR/Coop/REWE (4 chains) |
-| - Restaurants (need extraction) | 259 | 0 | 61 chains + ~198 indie |
+| - Restaurants (need extraction) | 183 | 0 | 5 chains + ~178 indie |
 | Duplicates fixed | 336 | All | 100% |
 | Duplicates pending | 0 | 0 | DONE |
 | Country code errors | 0 | 0 | DONE (18 fixed) |
-| Chain dishes copied | 443 | - | +72 venues (27 chains complete) |
-| Total chains analyzed | 38 | - | 23 complete, 7 need discovery |
+| Chain dishes copied | 508 | - | +131 venues (32 chains complete) |
+| Total chains analyzed | 38 | - | 32 complete, 3 need discovery |
 
-### Chains Needing Discovery (7 chains, 61 venues - No Platform URLs)
+### Chains Needing Discovery (3 chains, 3 venues - No Platform URLs)
 | Chain | Venues | Status | Notes |
 |-------|--------|--------|-------|
-| Brezelkönig Basel | 50 | CRITICAL | Largest chain without dishes, no URLs |
-| NENI Restaurants | 4 | INVESTIGATE | Data discrepancy - may already have dishes |
-| 60 Seconds to napoli | 3 | PENDING | No platform URLs |
 | Chupenga | 1 | PENDING | No platform URLs |
-| Mit&Ohne - HB Zürich | 1 | PENDING | No platform URLs |
 | Tibits Zürich | 1 | PENDING | No platform URLs |
-| Max & Benito | 1 | PENDING | No platform URLs |
+| immergrün | 1 | PENDING | No platform URLs |
 
-### Chains Completed (27 chains, all venues have dishes)
+### Chains Completed (32 chains, all venues have dishes)
+- **Brezelkönig**: 49 venues (1 dish each - Baguette Planted Chicken)
 - **dean&david**: 52 venues (41+11 chain IDs - needs merge)
+- **60 Seconds to napoli**: 4 venues (1 dish - copied 2024-12-15)
+- **FAT MONK Wien**: 9 venues (6 dishes - copied 2024-12-15)
 - **Birdie Birdie**: 41 venues
 - **Beets & Roots**: 21 venues (4 dishes, +1 venue copied today)
 - **Green Club München**: 9 venues
 - **Rice Up!**: 7 venues (3 dishes)
 - **doen doen planted kebap**: 5 venues (3 dishes)
 - **chidoba MEXICAN GRILL**: 5 venues (5 dishes)
+- **NENI**: 5 venues (1 dish each - Jerusalem Plate with planted.chicken)
 - **FAT MONK Wien**: 4 venues
 - **Nooch Asian Kitchen**: 4 venues
 - **Yuícery**: 4 venues (3 dishes)
@@ -105,7 +105,8 @@ scripts\chrome-debug.bat
 - **Pit's Burger**: 2 venues
 - **Råbowls**: 2 venues
 - **KEBHOUZE**: 2 venues (8 dishes)
-- Plus 10 single-venue chains (Alpoke, Subway, KAIMUG, Hiltl, Swing Kitchen, etc.)
+- **Yardbird**: 1 venue (2 dishes - Fried Planted Chicken, Wings)
+- Plus 10 other single-venue chains (Alpoke, Subway, KAIMUG, Hiltl, Swing Kitchen, etc.)
 
 ---
 
@@ -117,7 +118,7 @@ scripts\chrome-debug.bat
 | T002 | duplicate | Rice Up! Bern (8 venues) | VENUE-AGENT | HIGH | DONE (merged into T001) | MEDIUM |
 | T003 | country-fix | 18 venues (FR/ES/UK misclassified) | VENUE-AGENT | MEDIUM | DONE | MEDIUM |
 | T004 | extract | dean&david DE (0-dish) | DISH-AGENT | HIGH | DONE (already complete) | MEDIUM |
-| T005 | extract | CH promoted venues | DISH-AGENT | HIGH | PENDING | MEDIUM |
+| T005 | extract | CH promoted venues | DISH-AGENT | HIGH | DONE (55 venues updated) | MEDIUM |
 | T006 | verify-website | /nearby API data flow | QA-AGENT | CRITICAL | DONE | HIGH |
 | T007 | discover | Chain venues analysis | DISH-AGENT | HIGH | PARTIAL (4 chains copied, 7 need discovery) | HIGH |
 | T008 | discover | 118 indie venues (explore mode) | DISH-AGENT | MEDIUM | PENDING | HIGH |
