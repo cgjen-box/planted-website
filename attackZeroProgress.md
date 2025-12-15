@@ -81,7 +81,7 @@ scripts\chrome-debug.bat
 | CAP | 44 | SKIPPED (retail, no restaurant menu) |
 
 ### Chains Completed (Dishes Copied)
-- dean&david: 16 venues, 13 dishes each
+- dean&david: 63 venues (50 DE, 9 AT, 4 CH), 2-13 dishes each
 - birdie birdie: 12 venues, 7 dishes each
 - rice up: 4 venues, 3 dishes each
 - doen doen: 5 venues, 3 dishes each
