@@ -1050,3 +1050,34 @@ Architecture: Upgraded to v2 (Master + Sub-Agent)
 - **STATUS:** T011 DONE - Fix applied, awaiting deployment and testing
 - **FILES MODIFIED:**
   - planted-astro/src/components/locator/LocatorV2.astro (3 sections updated)
+
+
+### 2025-12-16T01:00 | DISH-AGENT | T025 City-by-City Dish Image Expansion COMPLETE
+- **TASK:** Systematic expansion of dish image coverage to cities with 0% or low coverage
+- **ANALYSIS CREATED:**
+  - `analyze-city-dish-images.cjs` - Comprehensive city-by-city dish image coverage analysis
+  - `analyze-city-expansion.cjs` - City expansion prioritization (venue-level analysis)
+  - Priority scoring: Country (CH=100/DE=80/AT=60) + DishesNeeding + Venues*2 + Chains*5 + LowCoverage(30)
+- **TOP 3 PRIORITY CITIES IDENTIFIED:**
+  1. Berlin, DE - 114 dishes need images (42.4% coverage, 26 venues)
+  2. Hamburg, DE - 109 dishes need images (0% coverage, 24 venues)
+  3. München, DE - 75 dishes need images (41.4% coverage, 17 venues)
+- **HAMBURG EXTRACTION COMPLETED:**
+  - Created `fetch-hamburg-dish-images.cjs` (Hamburg-specific extraction script)
+  - Geo-filtering: lat[53.4, 54.8], lng[9.3, 10.3]
+  - **RESULT:** 28 dishes successfully extracted from 7 venues
+  - Venues processed: beets&roots Gänsemarkt, råbowls rathaus, dean&david Stadthöfe, Birdie Birdie Altona, etc.
+  - Platforms used: Uber Eats (majority), Wolt (Birdie Birdie Altona)
+  - 21 dishes failed (5 venues had only Lieferando URLs - JS-rendered, not scrapable)
+- **COVERAGE IMPROVEMENT:**
+  - Hamburg: 0% → 25.7% (28/109 dishes now have images)
+  - Total database: 1310 dishes, 225→253 with images (17.2% → 19.3%)
+- **SCRIPTS CREATED:**
+  - `packages/scrapers/analyze-city-dish-images.cjs` - Primary analysis tool
+  - `packages/scrapers/analyze-city-expansion.cjs` - Venue-level expansion analysis
+  - `packages/scrapers/fetch-hamburg-dish-images.cjs` - Hamburg extraction (EXECUTED)
+- **NEXT STEPS:**
+  1. Run Berlin extraction script (existing `fetch-berlin-dish-images.cjs` needs update for new Firebase SDK)
+  2. Run Munich extraction script (existing `fetch-munich-dish-images.cjs` needs update)
+  3. Continue with next priority cities: Basel, Köln, Bern, Frankfurt, Wien
+- **STATUS:** T025 PARTIAL - Hamburg complete (28 dishes), Berlin/Munich pending
