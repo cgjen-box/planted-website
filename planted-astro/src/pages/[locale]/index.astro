@@ -796,45 +796,47 @@ const ambassadorQuote = ambassador ? (localeData.language === 'en' ? ambassador.
         letter-spacing: 0.15em;
     }
 
-    /* The Annotation Card */
+    /* The Annotation Card - Speech Bubble floating right of tablet */
     .tv-annotation {
         position: absolute;
-        top: -24px;
-        right: -28px;
+        top: 15%;
+        right: -20px;
+        transform: translateX(100%);
         z-index: 20;
-        animation: annotationFloat 4s ease-in-out infinite, fadeInDown 0.6s ease 0.8s forwards;
+        animation: annotationFloat 4s ease-in-out infinite, fadeInRight 0.6s ease 0.8s forwards;
         opacity: 0;
     }
 
-    @keyframes fadeInDown {
-        from { opacity: 0; transform: translateY(-10px) rotate(3deg); }
-        to { opacity: 1; transform: translateY(0) rotate(3deg); }
+    @keyframes fadeInRight {
+        from { opacity: 0; transform: translateX(calc(100% + 20px)); }
+        to { opacity: 1; transform: translateX(100%); }
     }
 
     @keyframes annotationFloat {
-        0%, 100% { transform: translateY(0) rotate(3deg); }
-        50% { transform: translateY(-5px) rotate(4deg); }
+        0%, 100% { transform: translateX(100%) translateY(0); }
+        50% { transform: translateX(100%) translateY(-8px); }
     }
 
     .annotation-card {
         position: relative;
         background: white;
         padding: 20px 24px;
-        border-radius: 4px 20px 20px 20px;
+        border-radius: 20px;
         box-shadow: 0 8px 30px rgba(97, 38, 158, 0.15), 0 2px 8px rgba(0,0,0,0.08);
-        max-width: 260px;
-        transform: rotate(3deg);
+        max-width: 240px;
     }
 
+    /* Speech bubble notch pointing left toward tablet */
     .annotation-card::before {
         content: '';
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 24px;
-        height: 24px;
-        background: linear-gradient(135deg, var(--planted-purple) 50%, transparent 50%);
-        border-radius: 4px 0 0 0;
+        left: -10px;
+        top: 24px;
+        width: 20px;
+        height: 20px;
+        background: white;
+        transform: rotate(45deg);
+        box-shadow: -2px 2px 4px rgba(0,0,0,0.05);
     }
 
     .annotation-card::after {
@@ -1017,9 +1019,43 @@ const ambassadorQuote = ambassador ? (localeData.language === 'en' ? ambassador.
         .hero-actions { justify-content: center; }
         .hero-proof { justify-content: center; }
         .hero-visual { order: 1; max-width: 550px; margin: 0 auto; }
-        .tv-annotation { right: -12px; top: -16px; }
-        .annotation-card { max-width: 220px; padding: 16px 20px; }
-        .annotation-text { font-size: 0.9rem; }
+        /* Speech bubble repositioned for tablet */
+        .tv-annotation {
+            right: -15px;
+            top: 10%;
+            transform: translateX(90%);
+        }
+        @keyframes annotationFloat {
+            0%, 100% { transform: translateX(90%) translateY(0); }
+            50% { transform: translateX(90%) translateY(-8px); }
+        }
+        .annotation-card { max-width: 200px; padding: 16px 18px; }
+        .annotation-text { font-size: 0.85rem; }
+    }
+
+    @media (max-width: 768px) {
+        /* Speech bubble below tablet on smaller tablets */
+        .tv-annotation {
+            position: relative;
+            top: auto;
+            right: auto;
+            transform: none;
+            margin-top: 1.5rem;
+            animation: fadeInUp 0.6s ease 0.8s forwards;
+            opacity: 0;
+        }
+        @keyframes annotationFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        .annotation-card {
+            max-width: 100%;
+            border-radius: 16px;
+        }
+        .annotation-card::before {
+            /* Hide the left-pointing notch */
+            display: none;
+        }
     }
 
     @media (max-width: 640px) {
@@ -1028,14 +1064,17 @@ const ambassadorQuote = ambassador ? (localeData.language === 'en' ? ambassador.
             position: relative;
             top: auto;
             right: auto;
+            transform: none;
             margin-top: 1rem;
             animation: none;
             opacity: 1;
         }
         .annotation-card {
-            transform: none;
             max-width: 100%;
             border-radius: 16px;
+        }
+        .annotation-card::before {
+            display: none;
         }
         .approved-badge {
             position: relative;
