@@ -136,10 +136,38 @@ scripts\chrome-debug.bat
 | T018 | coord-fix | 27 CH venues with dishes but 0,0 coordinates | VENUE-AGENT | HIGH | DONE (27 fixed) | MEDIUM |
 | T019 | chain-dedupe | Chain deduplication in /nearby API | QA-AGENT | HIGH | DONE | MEDIUM |
 | T020 | dish-images | Fetch dish images for Zurich restaurants | DISH-AGENT | MEDIUM | DONE (34 images) | MEDIUM |
+| T021 | dish-images | Fetch dish images for Berlin restaurants | DISH-AGENT | MEDIUM | DONE (84 images) | MEDIUM |
 
 ---
 
 ## Session Log
+
+### 2025-12-16T01:30 | DISH-AGENT | T021 Berlin Dish Images COMPLETE
+
+**T021: Berlin Dish Images**
+- **ISSUE:** 100% of Berlin dishes (107/107) missing images
+- **APPROACH:** Scrape image URLs from Uber Eats, Wolt, and Just Eat pages
+- **FIX:** Created `fetch-berlin-dish-images.cjs` based on Zurich version
+- **IMAGES UPDATED:** 84 dishes from 17 venues with successful scraping:
+  - dean&david (2 venues) - 26 dishes (Wolt)
+  - Birdie Birdie Chicken (6 venues) - 31 dishes (Uber Eats, Wolt)
+  - beets&roots (4 venues) - 12 dishes (Uber Eats, Wolt)
+  - Doen Doen Planted Kebap (1 venue) - 3 dishes (Uber Eats)
+  - chidoba MEXICAN GRILL (1 venue) - 5 dishes (Uber Eats)
+  - TACO & GRINGO (1 venue) - 4 dishes (Uber Eats)
+  - GOOD BANK (1 venue) - 3 dishes (Uber Eats)
+- **IMPACT:** Berlin dish images: 0% → 79% (84/107 dishes)
+- **REMAINING:** 23 dishes from 5 venues (scraper could not extract images):
+  - Birdie Birdie Chicken Friedrichshain (lost) - 7 dishes (Uber Eats page format issue)
+  - Råbowls - 5 dishes (Uber Eats page format issue)
+  - Beets & Roots Ostbahnhof/Berlin - 8 dishes (Just Eat requires JS rendering)
+  - Doen Doen Planted Kebap - 3 dishes (Uber Eats page format issue)
+- **SCRIPTS CREATED:**
+  - `analyze-berlin-dish-images.cjs` - Analyze Berlin venues/dishes needing images
+  - `fetch-berlin-dish-images.cjs` - Fetch images from delivery platforms
+- **STATUS:** T021 DONE (79% coverage achieved, remaining require manual fixes or JS rendering)
+
+---
 
 ### 2025-12-16T00:15 | DISH-AGENT | T020 Dish Images PARTIAL
 
