@@ -69,16 +69,9 @@ const PLATFORM_UPDATES = [
     venueName: 'Tibits Zürich',
     country: 'CH',
     city: 'Zürich',
-    comment: 'Already has Just Eat, could add Uber Eats as well',
-    platformsToAdd: [
-      {
-        platform: 'uber-eats',
-        url: 'https://www.ubereats.com/ch/city/zürich-zh',
-        active: true,
-        note: 'Generic Zurich page - need specific Tibits URL if available'
-      }
-    ],
-    action: 'add'
+    comment: 'Already has Just Eat - no specific Uber Eats URL found',
+    expectedUrl: 'https://www.just-eat.ch/en/menu/tibits-zurich',
+    action: 'verify'
   }
 ];
 

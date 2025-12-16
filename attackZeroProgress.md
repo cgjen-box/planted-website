@@ -83,7 +83,7 @@ scripts\chrome-debug.bat
 |-------|--------|--------|-------|
 | immergrün | 1 | PENDING | No platform URLs |
 
-**Note:** T024 research found that Chupenga and Tibits already have platform URLs. Mit&Ohne and Max & Benito URLs found, ready to add.
+**Note:** T024 complete - All 4 target venues now have platform URLs (2 verified existing, 2 added via fix-t024-platform-urls.cjs).
 
 ### Chains Completed (32 chains, all venues have dishes)
 - **Brezelkönig**: 49 venues (1 dish each - Baguette Planted Chicken)
@@ -175,7 +175,11 @@ scripts\chrome-debug.bat
   2. Scrape menus from delivery platforms for dish details
   3. Add 7+ planted dishes across 3 venues
   4. Consider "buffet" flag for venues like Tibits
-- **STATUS:** T024 DONE (research complete, ready for execution)
+- **STATUS:** T024 DONE (research + execution complete)
+- **EXECUTION:** Platform URLs added to 2 venues:
+  - Max & Benito (Vienna, AT) - Added Lieferando URL
+  - Mit&Ohne HB (Zürich, CH) - Added Uber Eats URL
+- **VERIFIED:** 2 venues already had URLs (Chupenga has Wolt, Tibits has Just Eat)
 - **WEB SOURCES:**
   - Chupenga: wolt.com/de/deu/berlin, chupenga.de
   - Max & Benito: lieferando.at, planted-foods partnership page
