@@ -78,12 +78,12 @@ scripts\chrome-debug.bat
 | **CH Locator-ready** | 104 | - | 77→104 (+35%, T018) |
 | Chain deduplication | ✅ | - | API dedupes by chain_id (T019) |
 
-### Chains Needing Discovery (3 chains, 3 venues - No Platform URLs)
+### Chains Needing Discovery (1 chain, 1 venue - No Platform URLs)
 | Chain | Venues | Status | Notes |
 |-------|--------|--------|-------|
-| Chupenga | 1 | PENDING | No platform URLs |
-| Tibits Zürich | 1 | PENDING | No platform URLs |
 | immergrün | 1 | PENDING | No platform URLs |
+
+**Note:** T024 research found that Chupenga and Tibits already have platform URLs. Mit&Ohne and Max & Benito URLs found, ready to add.
 
 ### Chains Completed (32 chains, all venues have dishes)
 - **Brezelkönig**: 49 venues (1 dish each - Baguette Planted Chicken)
@@ -137,10 +137,103 @@ scripts\chrome-debug.bat
 | T019 | chain-dedupe | Chain deduplication in /nearby API | QA-AGENT | HIGH | DONE | MEDIUM |
 | T020 | dish-images | Fetch dish images for Zurich restaurants | DISH-AGENT | MEDIUM | DONE (34 images) | MEDIUM |
 | T021 | dish-images | Fetch dish images for Berlin restaurants | DISH-AGENT | MEDIUM | DONE (84 images) | MEDIUM |
+| T022 | dish-images | Fetch dish images for Vienna restaurants | DISH-AGENT | MEDIUM | DONE (8 images) | MEDIUM |
+| T023 | dish-images | Fetch dish images for Munich restaurants | DISH-AGENT | MEDIUM | DONE (66 images) | MEDIUM |
+| T024 | platform-urls | 4 CH/DE/AT chains without platform URLs | DISH-AGENT | MEDIUM | DONE (research) | LOW |
 
 ---
 
 ## Session Log
+
+### 2025-12-16T10:00 | DISH-AGENT | T024 Platform URLs Research COMPLETE
+
+**T024: Manual Fix for 4 Chains Without Platform URLs**
+- **ISSUE:** 4 chains identified as having 0 platform URLs (Chupenga, Max & Benito, Mit&Ohne HB, Tibits)
+- **APPROACH:** Web research to find delivery platform URLs and planted dish information
+- **FINDINGS:**
+  - **Data Quality Issue:** 3 of 4 venues already had platform URLs in database
+  - Only 1 venue (Max & Benito) truly had 0 delivery platform URLs
+  - All 4 venues offer planted dishes that need extraction
+- **PLATFORM URLs FOUND:**
+  1. **Chupenga** (Berlin, DE) - Already has Wolt URL ✅
+  2. **Max & Benito** (Vienna, AT) - Found Lieferando URL (needs adding)
+  3. **Mit&Ohne HB** (Zurich, CH) - Found Uber Eats URL (currently has HappyCow, not a delivery platform)
+  4. **Tibits** (Zurich, CH) - Already has Just Eat URL ✅
+- **PLANTED DISHES DISCOVERED:**
+  1. **Chupenga**: Bowl with Planted Chicken (CHF unknown, 68g protein, 28g fiber, 752 kcal)
+  2. **Max & Benito**: Planted chicken burritos/bowls (partnership confirmed, €10-20 range)
+  3. **Mit&Ohne HB**: Planted Kebap (CHF 23.50), Linsen Falafel (CHF 21.90), Vegiboss Kebab (CHF 23.50)
+  4. **Tibits**: Buffet restaurant (40+ dishes, no specific planted items found)
+- **SCRIPTS CREATED:**
+  - `fix-t024-platform-urls.cjs` - Add missing platform URLs (Max & Benito, Mit&Ohne)
+  - `query-t024-venues.cjs` - Query specific venues by name
+  - `get-t024-details.cjs` - Get detailed venue information
+  - `T024-FINDINGS.md` - Comprehensive research documentation
+- **IMPACT:** 2 venues need platform URLs added, 3 venues need dish extraction
+- **NEXT STEPS:**
+  1. Execute platform URL fix script (adds 2 URLs)
+  2. Scrape menus from delivery platforms for dish details
+  3. Add 7+ planted dishes across 3 venues
+  4. Consider "buffet" flag for venues like Tibits
+- **STATUS:** T024 DONE (research complete, ready for execution)
+- **WEB SOURCES:**
+  - Chupenga: wolt.com/de/deu/berlin, chupenga.de
+  - Max & Benito: lieferando.at, planted-foods partnership page
+  - Mit&Ohne: ubereats.com/ch-de/store/mit&ohne-hb
+  - Tibits: tibits.ch, just-eat.ch
+
+---
+
+### 2025-12-16T03:15 | DISH-AGENT | T023 Munich Dish Images COMPLETE
+
+**T023: Munich Dish Images**
+- **ISSUE:** 100% of Munich dishes (76/76) missing images across 21 venues
+- **APPROACH:** Scrape image URLs from Uber Eats, Wolt, and Just Eat pages
+- **FIX:** Created `analyze-munich-dish-images.cjs` and `fetch-munich-dish-images.cjs` (adapted from Berlin scripts)
+- **IMAGES UPDATED:** 66 dishes from 19 venues with successful scraping:
+  - dean&david (10 venues) - 39 dishes (Uber Eats, Wolt)
+  - Green Club (2 venues) - 7 dishes (Uber Eats, Wolt)
+  - Emmis (2 venues) - 9 dishes (Uber Eats)
+  - Birdie Birdie Chicken (2 venues) - 7 dishes (Uber Eats, Wolt)
+  - FAT MONK (1 venue) - 4 dishes (Wolt)
+  - Katzentempel München (1 venue) - 3 dishes (Wolt)
+- **IMPACT:** Munich dish images: 0% → 87% (66/76 dishes)
+- **REMAINING:** 10 dishes from 2 venues (scraper could not extract images):
+  - dean&david München (Pasing) - 5 dishes (Just Eat/Lieferando requires JS rendering)
+  - dean&david München Werksviertel - 5 dishes (Just Eat URL mislabeled as just-eat but is Uber Eats)
+- **SCRIPTS CREATED:**
+  - `analyze-munich-dish-images.cjs` - Analyze Munich venues/dishes needing images
+  - `fetch-munich-dish-images.cjs` - Fetch images from delivery platforms
+- **STATUS:** T023 DONE (87% coverage achieved, remaining require manual fixes or JS rendering)
+
+---
+
+### 2025-12-16T02:45 | DISH-AGENT | T022 Vienna Dish Images COMPLETE
+
+**T022: Vienna Dish Images**
+- **ISSUE:** 100% of Vienna dishes (12/12) missing images across 3 venues
+- **APPROACH:** Scrape image URLs from Wolt and Lieferando delivery platform pages
+- **FIX:** Created Vienna-specific scripts adapted from Berlin versions
+- **IMAGES UPDATED:** 8 dishes from 2 venues with successful scraping:
+  - Superfood Deli 1090 (Wolt) - 5 dishes:
+    - Planted Chicken Salad
+    - Chicken Caesar Salad
+    - Tuscany Chicken Salad
+    - Planted Chicken Bowl
+    - Planted Chicken Wrap
+  - dean&david Burggasse (Wolt) - 3 dishes:
+    - planted.chicken Bowl
+    - planted.chicken Wrap
+    - planted.chicken Salad
+- **IMPACT:** Vienna dish images: 0% → 67% (8/12 dishes)
+- **REMAINING:** 4 dishes from 1 venue (scraper could not extract images):
+  - FAT MONK Wien Schottengasse - 4 dishes (Lieferando requires JS rendering)
+- **SCRIPTS CREATED:**
+  - `analyze-vienna-dish-images.cjs` - Analyze Vienna venues/dishes needing images
+  - `fetch-vienna-dish-images.cjs` - Fetch images from delivery platforms
+- **STATUS:** T022 DONE (67% coverage achieved, Wolt extraction successful)
+
+---
 
 ### 2025-12-16T01:30 | DISH-AGENT | T021 Berlin Dish Images COMPLETE
 
