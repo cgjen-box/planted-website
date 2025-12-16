@@ -7,8 +7,14 @@ import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-// Register GSAP plugins
+// CRITICAL: Register GSAP plugins immediately at module load
+// This must happen BEFORE any ScrollTrigger instances are created
 gsap.registerPlugin(ScrollTrigger);
+
+// Verify plugin registration
+if (!gsap.registerEffect || !ScrollTrigger) {
+  console.error('GSAP ScrollTrigger plugin failed to register');
+}
 
 // Lenis instance (exported for use in other modules)
 let lenis: Lenis | null = null;

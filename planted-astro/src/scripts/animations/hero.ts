@@ -25,19 +25,20 @@ export function initHeroAnimations(): void {
   if (prefersReducedMotion) return;
 
   // Scroll-fade effect on hero content
-  // Only start fading after user scrolls down (10% of hero height)
+  // IMPORTANT: Ensure hero content starts at full opacity
+  // Only start fading after user scrolls down (20% of hero height to prevent immediate fade)
   if (heroContent) {
-    gsap.fromTo(heroContent, {
-      opacity: 1,
-      yPercent: 0,
-    }, {
+    // Force initial state to be visible
+    gsap.set(heroContent, { opacity: 1, yPercent: 0 });
+
+    gsap.to(heroContent, {
       opacity: 0,
       yPercent: -10,
       ease: 'none',
       scrollTrigger: {
         trigger: hero,
-        start: '10% top',
-        end: '50% top',
+        start: '20% top', // Changed from 10% to 20% to prevent immediate fade
+        end: '60% top',   // Changed from 50% to 60% for smoother transition
         scrub: true,
       },
     });

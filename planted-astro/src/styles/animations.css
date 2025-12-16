@@ -15,6 +15,47 @@
   opacity: 0;
 }
 
+/* Reveal animation classes (used with IntersectionObserver) */
+.reveal,
+.reveal-scale,
+.reveal-left,
+.reveal-right,
+.stagger-item {
+  opacity: 0;
+  transition: opacity 0.8s var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1)),
+              transform 0.8s var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.reveal {
+  transform: translateY(30px);
+}
+
+.reveal-scale {
+  transform: scale(0.95);
+}
+
+.reveal-left {
+  transform: translateX(-30px);
+}
+
+.reveal-right {
+  transform: translateX(30px);
+}
+
+.stagger-item {
+  transform: translateY(20px);
+}
+
+/* Active state */
+.reveal.active,
+.reveal-scale.active,
+.reveal-left.active,
+.reveal-right.active,
+.stagger-item.active {
+  opacity: 1;
+  transform: none;
+}
+
 /* Fade up animation (default) */
 [data-animate="fade-up"] {
   transform: translateY(40px);
@@ -195,6 +236,16 @@
   }
 
   [data-parallax] {
+    transform: none !important;
+  }
+
+  /* Reveal classes should be immediately visible */
+  .reveal,
+  .reveal-scale,
+  .reveal-left,
+  .reveal-right,
+  .stagger-item {
+    opacity: 1 !important;
     transform: none !important;
   }
 
