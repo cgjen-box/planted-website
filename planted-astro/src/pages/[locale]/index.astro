@@ -47,45 +47,7 @@ const ambassadorQuote = ambassador ? (localeData.language === 'en' ? ambassador.
     <section class="hero">
         <div class="hero-container">
             <div class="hero-grid">
-                <!-- Left Column: TV Set with parallax -->
-                <div class="hero-visual" data-parallax data-speed="0.3">
-                    <!-- TV Frame -->
-                    <div class="tv-frame">
-                        <div class="tv-screen">
-                            <video autoplay muted loop playsinline>
-                                <source src={`${base}/video/hero.mp4`} type="video/mp4">
-                            </video>
-                        </div>
-                        <div class="tv-controls">
-                            <div class="tv-dial"></div>
-                            <div class="tv-brand">PLANTED</div>
-                            <div class="tv-dial"></div>
-                        </div>
-                    </div>
-
-                    <!-- Evidence Link - below video with up arrow -->
-                    <a href="#video-proof" class="evidence-link">
-                        <span class="evidence-arrow">↑</span>
-                        <span class="evidence-text">{t.home.hero.evidenceLabel || 'Beweisstück A'}</span>
-                    </a>
-
-                    <!-- Floating annotation card -->
-                    <div class="tv-annotation">
-                        <div class="annotation-card">
-                            <div class="annotation-text">
-                                {t.home.hero.annotationText || 'Ja, wir zeigen dir ein Video von brutzelndem Essen. Das ist quasi Manipulation. Aber es ist auch einfach die Wahrheit.'}
-                            </div>
-                            <div class="annotation-signature">{t.home.hero.annotationSignature || 'Das Marketing-Team'}</div>
-                        </div>
-                    </div>
-
-                    <!-- Approved badge -->
-                    <div class="approved-badge">
-                        <img src={`${base}/images/approvedclaim.svg`} alt="Approved by Meat Lovers" />
-                    </div>
-                </div>
-
-                <!-- Right Column: Text Content -->
+                <!-- Left Column: Text Content -->
                 <div class="hero-text">
                     <!-- Badge - Green checkmark style -->
                     <div class="hero-badge hero-badge--green">
@@ -121,6 +83,44 @@ const ambassadorQuote = ambassador ? (localeData.language === 'en' ? ambassador.
                         </a>
                     </div>
 
+                </div>
+
+                <!-- Right Column: TV Set with parallax -->
+                <div class="hero-visual" data-parallax data-speed="0.3">
+                    <!-- TV Frame -->
+                    <div class="tv-frame">
+                        <div class="tv-screen">
+                            <video autoplay muted loop playsinline>
+                                <source src={`${base}/video/hero.mp4`} type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="tv-controls">
+                            <div class="tv-dial"></div>
+                            <div class="tv-brand">PLANTED</div>
+                            <div class="tv-dial"></div>
+                        </div>
+                    </div>
+
+                    <!-- Evidence Link - below video with up arrow -->
+                    <a href="#video-proof" class="evidence-link">
+                        <span class="evidence-arrow">↑</span>
+                        <span class="evidence-text">{t.home.hero.evidenceLabel || 'Beweisstück A'}</span>
+                    </a>
+
+                    <!-- Floating annotation card -->
+                    <div class="tv-annotation">
+                        <div class="annotation-card">
+                            <div class="annotation-text">
+                                {t.home.hero.annotationText || 'Ja, wir zeigen dir ein Video von brutzelndem Essen. Das ist quasi Manipulation. Aber es ist auch einfach die Wahrheit.'}
+                            </div>
+                            <div class="annotation-signature">{t.home.hero.annotationSignature || 'Das Marketing-Team'}</div>
+                        </div>
+                    </div>
+
+                    <!-- Approved badge -->
+                    <div class="approved-badge">
+                        <img src={`${base}/images/approvedclaim.svg`} alt="Approved by Meat Lovers" />
+                    </div>
                 </div>
             </div>
 
@@ -495,7 +495,7 @@ const ambassadorQuote = ambassador ? (localeData.language === 'en' ? ambassador.
         position: relative;
         z-index: 1;
         display: grid;
-        grid-template-columns: 1.15fr 1fr;
+        grid-template-columns: 1fr 1.15fr;
         gap: 3rem;
         align-items: center;
     }
@@ -800,7 +800,7 @@ const ambassadorQuote = ambassador ? (localeData.language === 'en' ? ambassador.
     .tv-annotation {
         position: absolute;
         top: -24px;
-        left: -28px;
+        right: -28px;
         z-index: 20;
         animation: annotationFloat 4s ease-in-out infinite, fadeInDown 0.6s ease 0.8s forwards;
         opacity: 0;
@@ -1017,7 +1017,7 @@ const ambassadorQuote = ambassador ? (localeData.language === 'en' ? ambassador.
         .hero-actions { justify-content: center; }
         .hero-proof { justify-content: center; }
         .hero-visual { order: 1; max-width: 550px; margin: 0 auto; }
-        .tv-annotation { left: -12px; top: -16px; }
+        .tv-annotation { right: -12px; top: -16px; }
         .annotation-card { max-width: 220px; padding: 16px 20px; }
         .annotation-text { font-size: 0.9rem; }
     }
