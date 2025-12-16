@@ -135,10 +135,32 @@ scripts\chrome-debug.bat
 | T017 | performance | Locator-v3 slow load time optimization | QA-AGENT | HIGH | DONE | MEDIUM |
 | T018 | coord-fix | 27 CH venues with dishes but 0,0 coordinates | VENUE-AGENT | HIGH | DONE (27 fixed) | MEDIUM |
 | T019 | chain-dedupe | Chain deduplication in /nearby API | QA-AGENT | HIGH | DONE | MEDIUM |
+| T020 | dish-images | Fetch dish images for Zurich restaurants | DISH-AGENT | MEDIUM | DONE (34 images) | MEDIUM |
 
 ---
 
 ## Session Log
+
+### 2025-12-16T00:15 | DISH-AGENT | T020 Dish Images PARTIAL
+
+**T020: Zurich Dish Images**
+- **ISSUE:** 82% of Zurich dishes (60/73) missing images
+- **APPROACH:** Scrape image URLs from Uber Eats pages
+- **FIX:** Created `fetch-dish-images.cjs` to extract images from delivery platform pages
+- **IMAGES UPDATED:** 34 dishes from Uber Eats venues:
+  - kaisin. (3 venues) - 9 dishes
+  - Rice Up! (5 venues) - 15 dishes
+  - Veganitas - 6 dishes
+  - The BAB - 2 dishes
+  - Zekis World - 5 dishes
+- **IMPACT:** Zurich dish images: 18% → 64% (+256%)
+- **REMAINING:** 26 dishes on Just Eat venues (require JS rendering):
+  - Hiltl - 12 dishes
+  - mit&ohne kebab - 6 dishes
+  - MADOS, Nama, KAIMUG - 8 dishes
+- **STATUS:** T020 PARTIAL (Uber Eats complete, Just Eat pending)
+
+---
 
 ### 2025-12-15T21:30 | VENUE-AGENT & QA-AGENT | T018-T019 Locator Improvements COMPLETE
 
