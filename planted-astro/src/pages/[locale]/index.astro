@@ -415,7 +415,7 @@ const ambassadorQuote = ambassador ? (localeData.language === 'en' ? ambassador.
 
     <!-- Business Section -->
     <section class="business" id="business">
-        <div class="business-card">
+        <div class="business-card" data-hover-lift="8">
             <div class="business-content">
                 <span class="business-label">{t.home.business.badge}</span>
                 <h2>{t.gastronomy.hero.title}</h2>
@@ -430,7 +430,7 @@ const ambassadorQuote = ambassador ? (localeData.language === 'en' ? ambassador.
                         <div class="business-stat-label">{t.gastronomy.stats.countriesLabel}</div>
                     </div>
                 </div>
-                <a href={`${base}/${locale}/gastronomy`} class="btn btn-green">
+                <a href={`${base}/${locale}/gastronomy`} class="btn btn-green" data-magnetic data-magnetic-strength="0.12">
                     {t.gastronomy.cta.samples}
                 </a>
             </div>
