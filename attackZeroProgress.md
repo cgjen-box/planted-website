@@ -142,6 +142,7 @@ scripts\chrome-debug.bat
 | T024 | platform-urls | 4 CH/DE/AT chains without platform URLs | DISH-AGENT | MEDIUM | DONE (research) | LOW |
 | T025 | dish-images-http | HTTP-based dish image scraping (all cities) | DISH-AGENT | MEDIUM | DONE (192 images) | MEDIUM |
 | T026 | dish-images-puppeteer | Puppeteer scraping for JS-rendered pages | DISH-AGENT | MEDIUM | DONE (0 images) | HIGH |
+| T027 | dish-name-fuzzy | Smart fuzzy matching for dish names | DISH-AGENT | MEDIUM | DONE (203 dishes) | MEDIUM |
 
 ---
 
@@ -1158,6 +1159,51 @@ Architecture: Upgraded to v2 (Master + Sub-Agent)
   3. Continue with next priority cities: Basel, Köln, Bern, Frankfurt, Wien
 - **STATUS:** T025 COMPLETE - Hamburg (28 dishes), Berlin/Munich HTTP scraping complete from T021/T023
 
+
+### 2025-12-16T16:45 | DISH-AGENT | T027 Smart Dish Scraper with Fuzzy Matching COMPLETE
+
+**T027: Platform-First Dish Names with Fuzzy Matching**
+- **ISSUE:** Dish names in DB don't match platform menu names (e.g., DB: "California Chicken Salad" vs Platform: "Planted.Chicken Monk (big)")
+- **ROOT CAUSE:** DB dish names were entered manually/generically, not from actual platform menus
+- **APPROACH:** Built smart scraper with Levenshtein distance fuzzy matching + platform name updates
+- **ALGORITHM:**
+  - Levenshtein distance for string similarity (0-1 score)
+  - Keyword overlap scoring
+  - Planted-boost: +25% when both dish and menu item contain "planted"
+  - Threshold: 0.45 (45% similarity required)
+- **SCRIPTS CREATED:**
+  - `smart-dish-scraper.cjs` - Production scraper (~620 lines)
+  - `analyze-dish-name-mismatch.cjs` - Naming pattern analysis
+  - `compare-db-vs-platform.cjs` - DB vs platform comparison
+- **CLI FLAGS:** `--execute`, `--venue=<id>`, `--platform=<name>`, `--country=<code>`, `--city=<name>`, `--limit=<n>`, `--threshold=<n>`, `--planted-only`, `--strict`
+- **EXECUTION RESULTS:**
+  - **Venues processed:** 75
+  - **Dishes matched:** 203 ✓
+  - **Dishes unmatched:** 252
+  - **Platform fetch failures:** 88
+  - **Match rate:** 45% (203/455 dishes)
+- **HIGHLIGHTS:**
+  - Italian venues: 125% exact matches (Burritoso, The Burger Wraps, Stay Salad - perfect DB naming)
+  - dean&david Basel: 12/13 dishes matched (92%)
+  - Fat Monk venues: 92-100% planted matches
+  - beets&roots: 87-90% planted matches
+  - SUBWAY Lausanne: 4/4 planted dishes matched (100%)
+- **PLATFORM BREAKDOWN:**
+  - Lieferando: Successful (JS rendering via HTTP for some venues)
+  - Just Eat (CH): Successful (SSR pages)
+  - Just Eat (IT): Successful (SSR pages)
+  - Wolt: 0 menu items (SSR not working, needs Puppeteer)
+  - Uber Eats: 0 menu items (needs Puppeteer)
+- **IMPACT:**
+  - 203 dishes now have updated names matching actual platform menus
+  - This enables future image extraction (correct name → correct match → image URL)
+  - Establishes fuzzy matching infrastructure for ongoing dish updates
+- **UNMATCHED DISHES:** 252 dishes need manual review or don't exist on platforms with planted keywords
+  - Many are generic names like "Tuscany Chicken Salad", "California Chicken Salad"
+  - These don't contain "planted" keyword, so --planted-only mode skipped them
+- **STATUS:** T027 DONE (fuzzy matching complete, 203 dishes updated)
+
+---
 
 ### 2025-12-16T10:30 | DISH-AGENT | T025 Berlin/Munich HTTP Scraping Analysis
 - **TASK:** Attempt HTTP-based scraping for remaining Berlin and Munich dishes
